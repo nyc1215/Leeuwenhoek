@@ -20,18 +20,5 @@ namespace MyWeb
         {
 
         }
-
-        public bool ParseData<T>(ref T target)
-        {
-            if (Data.TryGetValue(target.ToString(), out object result))
-            {
-                if (result is T targetClass)
-                {
-                    target = targetClass;
-                    return true;
-                }
-            }
-            return false;
-        }
     }
 }

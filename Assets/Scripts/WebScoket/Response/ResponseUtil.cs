@@ -40,5 +40,22 @@ namespace MyWeb
             Data = a_Response.Data;
         }
 
+        /// <summary>
+        /// 响应体解析Data中包含的数据
+        /// </summary>
+        /// <param = "target">解析后需要被赋值的对象</param>
+        /// <param = "T">解析对象的类型</param>
+        public bool ParseData<T>(ref T target)
+        {
+            if (Data.TryGetValue(target.ToString(), out object result))
+            {
+                if (result is T targetOBJ)
+                {
+                    target = targetOBJ;
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }
