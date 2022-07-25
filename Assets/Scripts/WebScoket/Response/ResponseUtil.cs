@@ -24,16 +24,20 @@ namespace MyWeb
     /// <param = "Data">具体数据内容</param>
     public class ResponseUtil
     {
-        public ResponseType responseType;
-        public string requestID;
-        public Dictionary<string, string> data;
+        private ResponseType _responseType;
+        private string _requestID;
+        private Dictionary<string, object> _data;
 
-        public void FromJson(string json)
+        public virtual ResponseType NowResponseType { get { return _responseType; } set { _responseType = value; } }
+        public virtual string RequestID { get { return _requestID; } set { _requestID = value; } }
+        public virtual Dictionary<string, object> Data { get { return _data; } set { _data = value; } }
+
+        protected ResponseUtil(string json)
         {
             var a_Response = JsonConvert.DeserializeObject<ResponseUtil>(json);
-            responseType = a_Response.responseType;
-            requestID = a_Response.requestID;
-            data = a_Response.data;
+            NowResponseType = a_Response.NowResponseType;
+            RequestID = a_Response.RequestID;
+            Data = a_Response.Data;
         }
 
     }

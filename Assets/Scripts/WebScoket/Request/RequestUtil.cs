@@ -37,14 +37,18 @@ namespace MyWeb
     /// <param = "Data">具体数据内容</param>
     public class RequestUtil
     {
-        public string requestType;
-        public string requestID;
-        public Dictionary<string, string> data;
+        private string _requestType;
+        private string _requestID;
+        private Dictionary<string, string> _data;
+
+        public virtual string NowRequestType { get { return _requestType; } set { _requestType = value; } }
+        public string RequestID { get { return _requestID; } set { _requestID = value; } }
+        public virtual Dictionary<string, string> Data { get { return _data; } set { _data = value; } }
 
         protected RequestUtil(RequestType type)
         {
-            requestType = type.ToString();
-            requestID = Guid.NewGuid().ToString("N");
+            NowRequestType = type.ToString();
+            RequestID = Guid.NewGuid().ToString("N");
         }
 
         public string ToJson()
