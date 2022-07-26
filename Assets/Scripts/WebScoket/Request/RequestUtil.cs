@@ -26,7 +26,9 @@ namespace MyWeb
         /*结算统计*/
         Settlement,
         /*提交剧本,选完剧本后提交*/
-        SubmitScript
+        SubmitScript,
+        /*发消息，讨论的消息*/
+        SendMessage,
     }
 
     /// <summary>
