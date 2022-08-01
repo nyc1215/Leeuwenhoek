@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<packageDescription id="z7qisvfx">
+  <resources>
+    <image id="e0xw2" name="按钮基础图片.png" path="/Button/" exported="true"/>
+    <component id="e0xw3" name="ButtonCom.xml" path="/Button/" exported="true"/>
+  </resources>
+  <publish name=""/>
+</packageDescription>

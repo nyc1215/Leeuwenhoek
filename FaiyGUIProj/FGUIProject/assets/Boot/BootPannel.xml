@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="1920,1080">
+  <displayList>
+    <graph id="n1_e0xw" name="bg" xy="0,0" size="1920,1080" type="rect" fillColor="#ff999999"/>
+    <text id="n0_e0xw" name="title" xy="960,150" pivot="0.5,0.5" anchor="true" size="244,79" fontSize="60" align="center" vAlign="middle" text="游戏标题">
+      <relation target="" sidePair="center-center"/>
+    </text>
+    <component id="n2_e0xw" name="Button_Quit" src="e0xw3" fileName="Button/ButtonCom.xml" pkg="z7qisvfx" xy="960,816" pivot="0.5,0.5" anchor="true" size="150,90">
+      <relation target="" sidePair="center-center,middle-middle"/>
+      <Button title="退出"/>
+    </component>
+    <component id="n3_e0xw" name="Button_Start" src="e0xw3" fileName="Button/ButtonCom.xml" pkg="z7qisvfx" xy="960,595" pivot="0.5,0.5" anchor="true" size="150,90">
+      <Button title="开始"/>
+    </component>
+  </displayList>
+</component>
