@@ -1,19 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
+using MyWebSocket.Request;
 using UnityEngine;
-using MyWeb;
-public class Test : MonoBehaviour
+
+namespace Test
 {
-    // Start is called before the first frame update
-    void Start()
+    public class Test : MonoBehaviour
     {
-        RequestRegister requestRegister = new("nyc","1234");
-        Debug.Log(requestRegister.ToJson(true));
+        // Start is called before the first frame update
+        void Start()
+        {
+            RequestRegister requestRegister = new("nyc","1234");
+            Debug.Log(requestRegister.ToJson(true));
 
-        RequestLogin requestLogin = new("nyc", "114514");
-        Debug.Log(requestLogin.ToJson(true));
+            RequestLogin requestLogin = new("nyc", "114514");
+            Debug.Log(requestLogin.ToJson(true));
 
-        RequestMessage requestMessage = new("senderId", "reveiverId", "Hello", MessageType.txt);
-        Debug.Log(requestMessage.ToJson(true));
+            RequestMessage requestMessage = new("senderId", "reveiverId", "Hello", MessageType.txt);
+            Debug.Log(requestMessage.ToJson(true));
+        }
     }
 }

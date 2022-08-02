@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-namespace MyWeb
+﻿namespace MyWebSocket.Response
 {
     /// <summary>
     /// 请求数据响应

@@ -1,11 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using FairyGUI;
+using UI.Util;
 using UnityEngine;
-using FairyGUI;
 using UnityEngine.Assertions;
-using UnityEngine.SceneManagement;
 
-namespace MyUI
+namespace UI.Boot
 {
     /// <summary>
     /// 启动界面UI
@@ -14,28 +12,28 @@ namespace MyUI
     {
         public string startBtnToScene;
 
-        private UIPanel _Panel;
-        private GComponent _UIroot;
+        private UIPanel _panel;
+        private GComponent _uiRoot;
 
-        private GButton _QuitButton;
-        private GButton _StartButton;
+        private GButton _quitButton;
+        private GButton _startButton;
 
         private void Awake()
         {
-            _Panel = GetComponent<UIPanel>();
-            _UIroot = _Panel.ui;
+            _panel = GetComponent<UIPanel>();
+            _uiRoot = _panel.ui;
 
-            Assert.IsNotNull(_Panel);
-            Assert.IsNotNull(_UIroot);
+            Assert.IsNotNull(_panel);
+            Assert.IsNotNull(_uiRoot);
         }
 
         private void Start()
         {
-            _QuitButton = _UIroot?.GetChild("Button_Quit").asButton;
-            _StartButton = _UIroot?.GetChild("Button_Start").asButton;
+            _quitButton = _uiRoot?.GetChild("Button_Quit").asButton;
+            _startButton = _uiRoot?.GetChild("Button_Start").asButton;
 
-            _QuitButton?.onClick.Add(() => { UIOperationUtil.QuitGame(); });
-            _StartButton?.onClick.Add(() =>
+            _quitButton?.onClick.Add(UIOperationUtil.QuitGame);
+            _startButton?.onClick.Add(() =>
             {
                 UIOperationUtil.GoToScene(startBtnToScene);
             });

@@ -1,11 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using UnityEditor;
 using UnityEngine;
-using UnityEditor;
 using UnityEngine.SceneManagement;
-using FairyGUI;
 
-namespace MyUI
+namespace UI.Util
 {
     /// <summary>
     /// UI操作基础类

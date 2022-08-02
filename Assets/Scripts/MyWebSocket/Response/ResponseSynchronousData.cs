@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Newtonsoft.Json;
 using UnityEngine;
-using Newtonsoft.Json;
-namespace MyWeb
+
+namespace MyWebSocket.Response
 {
     /// <summary>
     /// 同步数据响应

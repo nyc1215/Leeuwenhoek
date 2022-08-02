@@ -1,11 +1,8 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
-/// <summary>
-/// 请求类型
-/// </summary>
-namespace MyWeb
+using Newtonsoft.Json;
+
+namespace MyWebSocket.Request
 {
     public enum RequestType
     {

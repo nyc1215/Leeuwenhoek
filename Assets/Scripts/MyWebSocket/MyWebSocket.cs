@@ -1,9 +1,8 @@
-﻿using UnityEngine;
+﻿using System;
 using BestHTTP.WebSocket;
-using System;
-using System.Text;
+using UnityEngine;
 
-namespace MyWeb
+namespace MyWebSocket
 {
     public class MyWebSocket : MonoBehaviour
     {

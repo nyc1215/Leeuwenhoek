@@ -1,15 +1,13 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
 using Newtonsoft.Json;
-using System;
 
-namespace MyWeb
+namespace MyWebSocket.Request
 {
     /// <summary>
     /// 注册请求
     /// </summary>
-    public class RequestRegister : RequestUtil
+    public sealed class RequestRegister : RequestUtil
     {
         private string _uid;
         private string _username;

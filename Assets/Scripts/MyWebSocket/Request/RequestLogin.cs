@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Collections.Generic;
 using Newtonsoft.Json;
-namespace MyWeb
+
+namespace MyWebSocket.Request
 {
     /// <summary>
     /// 登录请求

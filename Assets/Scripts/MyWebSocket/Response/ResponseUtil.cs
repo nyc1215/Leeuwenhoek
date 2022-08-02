@@ -1,7 +1,7 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
-using UnityEngine;
-namespace MyWeb
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
+
+namespace MyWebSocket.Response
 {
     /// <summary>
     /// 响应类型
