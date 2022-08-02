@@ -8,7 +8,7 @@ namespace UI.Boot
     /// <summary>
     /// 启动界面UI
     /// </summary>
-    public class BootUIPannel : MonoBehaviour
+    public class BootUIPannel : UIPannelUtil
     {
         public string startBtnToScene;
 
@@ -33,10 +33,7 @@ namespace UI.Boot
             _startButton = _uiRoot?.GetChild("Button_Start").asButton;
 
             _quitButton?.onClick.Add(UIOperationUtil.QuitGame);
-            _startButton?.onClick.Add(() =>
-            {
-                UIOperationUtil.GoToScene(startBtnToScene);
-            });
+            _startButton?.onClick.Add(() => { UIOperationUtil.GoToScene(startBtnToScene); });
         }
     }
 }
