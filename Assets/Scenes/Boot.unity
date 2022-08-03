@@ -217,6 +217,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcda6a92964061e4b9f357982775fe6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ButtonNames: []
+  startBtnToScene: Assets/Scenes/New Scene.unity
 --- !u!1 &1317449407
 GameObject:
   m_ObjectHideFlags: 0

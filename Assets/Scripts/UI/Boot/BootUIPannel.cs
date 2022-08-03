@@ -1,4 +1,5 @@
 ﻿using FairyGUI;
+using Mirror;
 using UI.Util;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -10,7 +11,7 @@ namespace UI.Boot
     /// </summary>
     public class BootUIPannel : UIPannelUtil
     {
-        public string startBtnToScene;
+        [Scene]public string startBtnToScene;
 
         private UIPanel _panel;
         private GComponent _uiRoot;
