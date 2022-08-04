@@ -5,8 +5,7 @@ namespace Test
 {
     public class Test : MonoBehaviour
     {
-        // Start is called before the first frame update
-        void Start()
+        private void Start()
         {
             RequestRegister requestRegister = new("nyc","1234");
             Debug.Log(requestRegister.ToJson(true));

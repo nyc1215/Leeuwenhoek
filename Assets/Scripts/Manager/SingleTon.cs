@@ -8,6 +8,7 @@ namespace Manager
     /// <summary>
     /// 单例模板类
     /// 参照Mirror.NetworkManager的单例设计
+    /// <see cref="Mirror.NetworkManager"/>
     /// </summary>
     public class SingleTon<T> : MonoBehaviour where T : class
     {
