@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89450d99335a80b42809e859c7161b44, type: 3}
   m_Name: My UI Jump Data
   m_EditorClassIdentifier: 
-  startMenu: Assets/Scenes/Boot.unity
-  roomMenu: Assets/Scenes/New Scene.unity
+  bootMenu: Assets/Scenes/Boot.unity
+  loadMenu: Assets/Scenes/Load.unity
+  roomMenu: Assets/Scenes/Room.unity

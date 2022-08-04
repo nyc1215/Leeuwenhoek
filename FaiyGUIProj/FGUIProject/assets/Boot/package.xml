@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <packageDescription id="zjgkafkh">
   <resources>
-    <component id="e0xw0" name="BootPannel.xml" path="/" exported="true"/>
+    <component id="e0xw0" name="BootPanel.xml" path="/" exported="true"/>
   </resources>
   <publish name=""/>
 </packageDescription>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="1920,1080">
+  <displayList>
+    <graph id="n0_skyj" name="bg" xy="0,0" size="1920,1080" type="rect" fillColor="#ff999999"/>
+    <text id="n2_skyj" name="title" xy="960,150" pivot="0.5,0.5" anchor="true" size="258,79" fontSize="60" align="center" vAlign="middle" text=" 加载界面">
+      <relation target="" sidePair="center-center"/>
+    </text>
+    <component id="n4_skyj" name="ProcessBar_Load" src="skyj1" fileName="ProgressBar.xml" xy="960,975" pivot="0.5,0.5" anchor="true" size="1700,100">
+      <ProgressBar max="100"/>
+    </component>
+    <text id="n5_skyj" name="Text_ClickToContinue" xy="960,830" pivot="0.5,0.5" anchor="true" size="304,79" visible="false" fontSize="60" align="center" vAlign="middle" text="点击以继续">
+      <relation target="" sidePair="center-center"/>
+    </text>
+  </displayList>
+</component>

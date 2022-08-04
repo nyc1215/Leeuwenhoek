@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using FairyGUI;
 using UnityEngine.Assertions;
+using UnityEngine.Serialization;
 
 namespace UI.Util
 {
@@ -17,7 +18,7 @@ namespace UI.Util
         protected UIPanel Panel;
         protected GComponent UIRoot;
 
-        protected void Awake()
+        protected virtual void Awake()
         {
             Panel = GetComponent<UIPanel>();
             UIRoot = Panel.ui;
@@ -32,7 +33,7 @@ namespace UI.Util
         {
             if (buttonNames.Count == 0)
             {
-                Debug.LogWarning("Panel's buttonNames is empty!!!");
+                Debug.LogWarning($"{GetType().Name}'s buttonNames is empty!!!");
                 return;
             }
 
@@ -47,7 +48,7 @@ namespace UI.Util
         {
             if (ButtonList.Count == 0)
             {
-                Debug.LogWarning("Panel's buttonList is empty!!!");
+                Debug.LogWarning($"{GetType().Name}'s buttonList is empty!!!");
                 return null;
             }
 

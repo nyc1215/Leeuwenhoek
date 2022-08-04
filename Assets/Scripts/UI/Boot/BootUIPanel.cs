@@ -1,4 +1,5 @@
 ﻿using FairyGUI;
+using Manager;
 using Mirror;
 using UI.Util;
 using UnityEngine;
@@ -20,7 +21,7 @@ namespace UI.Boot
             _startButton = GetButton("Button_Start");
 
             _quitButton?.onClick.Add(UIOperationUtil.QuitGame);
-            _startButton?.onClick.Add(() => { UIOperationUtil.GoToScene(UIJumpData.instance.startMenu); });
+            _startButton?.onClick.Add(() => { UIOperationUtil.GoToSceneAsync(MyGameManager.Instance.uiJumpData.roomMenu); });
         }
     }
 }

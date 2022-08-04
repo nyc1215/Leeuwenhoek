@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<packageDescription id="nx0u5x2r">
+  <resources>
+    <component id="skyj0" name="LoadPanel.xml" path="/" exported="true"/>
+    <component id="skyj1" name="ProgressBar.xml" path="/" exported="true"/>
+  </resources>
+  <publish name=""/>
+</packageDescription>

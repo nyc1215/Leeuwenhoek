@@ -3,7 +3,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using System;
+using FairyGUI;
 using Manager;
+using UnityEngine.Assertions;
 
 namespace UI.Util
 {
@@ -21,74 +23,29 @@ namespace UI.Util
 #endif
         }
 
-        public static void GoToScene(string scene)
+        public static void GoToScene(string sceneName)
         {
-            if (!string.IsNullOrEmpty(scene))
+            if (!string.IsNullOrEmpty(sceneName))
             {
-                SceneManager.LoadScene(scene);
+                SceneManager.LoadScene(sceneName);
             }
             else
             {
-                Debug.LogWarning($"{scene} is null or empty!!!");
+                Debug.LogWarning($"{sceneName} is null or empty!!!");
             }
         }
 
-        public static void GoToSceneAsync(string scene)
+        public static void GoToSceneAsync(string sceneName)
         {
-            if (!string.IsNullOrEmpty(scene))
+            if (!string.IsNullOrEmpty(sceneName))
             {
-                MyGameManager.Instance.StartCoroutine(IE_LoadSceneAsync(scene));
+                MyGameManager.Instance.nextSceneToLoadAsync = sceneName;
+                GoToScene(MyGameManager.Instance.uiJumpData.loadMenu);
             }
             else
             {
-                Debug.LogWarning($"{scene} is null or empty!!!");
+                Debug.LogWarning($"{sceneName} is null or empty!!!");
             }
-        }
-
-        private static IEnumerator IE_LoadSceneAsync(string sceneName)
-        {
-            var asyncOperation = SceneManager.LoadSceneAsync(sceneName);
-            asyncOperation.allowSceneActivation = false;
-
-            while (!asyncOperation.isDone)
-            {
-                var progress = Mathf.Clamp01(asyncOperation.progress / 0.9f);
-                Debug.Log($"Loading {sceneName} progress:" + (progress * 100) + "%");
-            }
-
-            if (Mathf.Approximately(asyncOperation.progress, 0.9f))
-            {
-                Debug.Log($"Scene {sceneName} Almost loaded!");
-                asyncOperation.allowSceneActivation = true;
-            }
-
-            yield return null;
-        }
-
-        /// <summary>
-        /// 异步加载场景，并且显示加载进度场景
-        /// </summary>
-        /// <param name="sceneName">要加载的目标场景</param>
-        /// <param name="loadSceneName">加载进度场景</param>
-        /// <param name="clickToJump">是否需要点击后再跳转</param>
-        private static IEnumerator IE_LoadSceneAsync(string sceneName, string loadSceneName, bool clickToJump)
-        {
-            var asyncOperation = SceneManager.LoadSceneAsync(sceneName);
-            asyncOperation.allowSceneActivation = false;
-
-            while (!asyncOperation.isDone)
-            {
-                var progress = Mathf.Clamp01(asyncOperation.progress / 0.9f);
-                Debug.Log($"Loading {sceneName} progress:" + (progress * 100) + "%");
-            }
-
-            if (Mathf.Approximately(asyncOperation.progress, 0.9f))
-            {
-                Debug.Log($"Scene {sceneName} Almost loaded!");
-                asyncOperation.allowSceneActivation = true;
-            }
-
-            yield return null;
         }
     }
 }
