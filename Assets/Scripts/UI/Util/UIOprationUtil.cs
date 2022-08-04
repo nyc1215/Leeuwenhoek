@@ -1,6 +1,9 @@
 ﻿using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections;
+using System;
+using Manager;
 
 namespace UI.Util
 {
@@ -28,6 +31,38 @@ namespace UI.Util
             {
                 Debug.LogWarning($"{scene} is null or empty!!!");
             }
+        }
+
+        public static void GoToSceneAsync(string scene)
+        {
+            if (!string.IsNullOrEmpty(scene))
+            {
+                MyGameManager.Instance.StartCoroutine(IE_LoadSceneAsync(scene));
+            }
+            else
+            {
+                Debug.LogWarning($"{scene} is null or empty!!!");
+            }
+        }
+
+        private static IEnumerator IE_LoadSceneAsync(string sceneName)
+        {
+            var asyncOperation = SceneManager.LoadSceneAsync(sceneName);
+            asyncOperation.allowSceneActivation = false;
+
+            while (!asyncOperation.isDone)
+            {
+                var progress = Mathf.Clamp01(asyncOperation.progress / 0.9f);
+                Debug.Log($"Loading {sceneName} progress:" + (progress * 100) + "%");
+            }
+
+            if (Mathf.Approximately(asyncOperation.progress, 0.9f))
+            {
+                Debug.Log($"Scene {sceneName} Almost loaded!");
+                asyncOperation.allowSceneActivation = true;
+            }
+
+            yield return null;
         }
     }
 }
