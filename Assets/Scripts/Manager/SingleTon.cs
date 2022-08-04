@@ -11,12 +11,13 @@ namespace Manager
     /// </summary>
     public class SingleTon<T> : MonoBehaviour where T : class
     {
+        [Tooltip("切换场景时是否销毁该单例对象")]
         public bool dontDestroyOnLoad = true;
-        public static T Instance { get; internal set; }
+        public static T Instance { get; private set; }
 
         private void Awake()
         {
-            if (Instance != null && Instance == this as T)
+            if (Instance != null && ReferenceEquals(Instance, this))
             {
                 return;
             }
