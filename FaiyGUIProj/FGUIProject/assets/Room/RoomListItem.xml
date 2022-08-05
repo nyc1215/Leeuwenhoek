@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="400,200">
+  <displayList>
+    <graph id="n0_lxz0" name="bg" xy="0,0" size="400,200" type="rect" lineSize="0" fillColor="#b2ffffff"/>
+    <text id="n1_lxz0" name="Text_IP" xy="15,19" size="372,56" fontSize="20" vAlign="middle" vars="true" autoSize="height" text="地址:  {ip=107.0.0.1}&#xA;人数:  {playerNum=0}/6"/>
+  </displayList>
+</component>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="1920,1080">
+  <displayList>
+    <graph id="n1_lxz0" name="bg" xy="0,0" size="1920,1080" type="rect" fillColor="#ff999999"/>
+    <text id="n2_lxz0" name="title" xy="960,100" pivot="0.5,0.5" anchor="true" size="244,79" fontSize="60" align="center" vAlign="middle" text="房间列表">
+      <relation target="" sidePair="center-center"/>
+    </text>
+    <list id="n3_lxz0" name="List_Rooms" xy="960,601" pivot="0.5,0.5" anchor="true" size="1708,729" layout="flow_hz" overflow="scroll" margin="30,30,30,30" lineGap="30" colGap="30" lineItemCount="4">
+      <item url="ui://o5dbpgr6lxz01" title="房间1" name="房间1"/>
+    </list>
+    <component id="n4_lxz0" name="Button_Refresh" src="e0xw3" fileName="Button/ButtonCom.xml" pkg="z7qisvfx" xy="1519,81" size="120,50">
+      <Button title="刷新" titleFontSize="30"/>
+    </component>
+    <component id="n5_lxz0" name="Button_Back" src="e0xw3" fileName="Button/ButtonCom.xml" pkg="z7qisvfx" xy="1723,81" size="120,50">
+      <Button title="返回" titleFontSize="30"/>
+    </component>
+    <component id="n6_lxz0" name="Button_AddRoom" src="e0xw3" fileName="Button/ButtonCom.xml" pkg="z7qisvfx" xy="1305,81" size="120,50">
+      <Button title="创建房间" titleFontSize="30"/>
+    </component>
+  </displayList>
+</component>
