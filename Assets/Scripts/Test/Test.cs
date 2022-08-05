@@ -13,7 +13,7 @@ namespace Test
             RequestLogin requestLogin = new("nyc", "114514");
             Debug.Log(requestLogin.ToJson(true));
 
-            RequestMessage requestMessage = new("senderId", "reveiverId", "Hello", MessageType.txt);
+            RequestMessage requestMessage = new("senderId", "reveiverId", "Hello", MessageType.Txt);
             Debug.Log(requestMessage.ToJson(true));
         }
     }
