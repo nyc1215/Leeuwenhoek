@@ -1,38 +1,25 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
+using UnityEngine;
 
 namespace MyWebSocket.Request
 {
-    public enum MessageType
-    {
-        Txt,
-        Voice
-    }
-
+    /// <summary>
+    /// 发消息请求
+    /// </summary>
     public sealed class RequestMessage : RequestUtil
     {
-        [JsonIgnore] private string SenderID { get; set; }
+        [JsonProperty("data")] private RequestSendMessageData _data;
 
-        [JsonIgnore] private string ReceiverId { get; set; }
-
-        [JsonIgnore] private string Message { get; set; }
-
-        [JsonIgnore] private string Type { get; set; }
-
-
-        public RequestMessage(string senderID, string receiverId, string message, MessageType type) : base(RequestType.SendMessage)
+        public RequestMessage(string sendAccount, SendType sendType, string receiveAccount, MessageType type, string content) : base(RequestType.SendMessage)
         {
-            SenderID = senderID;
-            ReceiverId = receiverId;
-            Message = message;
-            Type = type.ToString();
-            Data = new Dictionary<string, string>()
-            {
-                {"sender_id",SenderID },
-                {"receiver_id",ReceiverId },
-                {"content",Message},
-                {"type",Type }
-            };
+            _data.SendAccount = sendAccount;
+            _data.SendType = (int)sendType;
+            _data.ReceiverAccount = receiveAccount;
+            _data.Type = (int)type;
+            _data.Content = System.Text.Encoding.UTF8.GetBytes(content);
+            _data.SendTime = DateTime.Now.ToString("f");
         }
     }
 }

@@ -8,19 +8,18 @@ namespace MyWebSocket.Request
     /// </summary>
     public sealed class RequestLogin : RequestUtil
     {
-        [JsonIgnore] private string Username { get; set; }
-        [JsonIgnore] private string Password { get; set; }
 
-        public RequestLogin(string username, string password) : base(RequestType.Login)
+
+        [JsonProperty("Data")] private RequestLoginData _data;
+
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="account">账号</param>
+        public RequestLogin(string account) : base(RequestType.Login)
         {
-            Username = username;
-            Password = password;
-            Data = new Dictionary<string, string>()
-            {
-                {"username", Username},
-                {"password", Password}
-            };
+            _data.Account = account;
         }
-
     }
 }

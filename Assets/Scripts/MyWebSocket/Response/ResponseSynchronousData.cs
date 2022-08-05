@@ -8,13 +8,13 @@ namespace MyWebSocket.Response
     /// </summary>
     public class ResponseSynchronousData : ResponseUtil
     {
-        [JsonIgnore] protected override string RequestID { get => base.RequestID; set => base.RequestID = value; }
+        [JsonIgnore]
+        protected override string RequestID => null;
 
         public Vector3 PlayerPosition { get; set; }
 
         public ResponseSynchronousData(string json) : base(json)
         {
-
         }
     }
 }

@@ -9,23 +9,18 @@ namespace MyWebSocket.Request
     /// </summary>
     public sealed class RequestRegister : RequestUtil
     {
-        [JsonIgnore] private string Uid { get; set; }
 
-        [JsonIgnore] private string Username { get; set; }
+        [JsonProperty("Data")] private RequestRegisterData _data;
 
-        [JsonIgnore] private string PlayId { get; set; }
-
-        public RequestRegister(string username, string playID) : base(RequestType.Register)
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="account">账号</param>
+        /// <param name="accountName">呢称，注册时要写</param>
+        public RequestRegister(string account, string accountName) : base(RequestType.Register)
         {
-            Uid = Guid.NewGuid().ToString("N");
-            Username = username;
-            PlayId = playID;
-            Data = new Dictionary<string, string>()
-            {
-                {"uid" , Uid},
-                {"accout_name" , Username},
-                {"play_id" , PlayId}
-            };
+            _data.Account = account;
+            _data.AccountName = accountName;
         }
     }
 }

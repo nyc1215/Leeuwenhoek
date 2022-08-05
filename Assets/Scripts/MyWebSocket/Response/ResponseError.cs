@@ -5,9 +5,8 @@
     /// </summary>
     public class ResponseError : ResponseUtil
     {
-        public ResponseError(string json) : base (json)
+        public ResponseError(string json) : base(json)
         {
-
         }
     }
 }
