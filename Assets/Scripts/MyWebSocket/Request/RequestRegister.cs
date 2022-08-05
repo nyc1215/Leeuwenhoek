@@ -9,13 +9,11 @@ namespace MyWebSocket.Request
     /// </summary>
     public sealed class RequestRegister : RequestUtil
     {
-        private string _uid;
-        private string _username;
-        private string _playId;
+        [JsonIgnore] private string Uid { get; set; }
 
-        [JsonIgnore] public string Uid { get { return _uid; } set { _uid = value; } }
-        [JsonIgnore] public string Username { get { return _username; } set { _username = value; } }
-        [JsonIgnore] public string PlayId { get { return _playId; } set { _playId = value; } }
+        [JsonIgnore] private string Username { get; set; }
+
+        [JsonIgnore] private string PlayId { get; set; }
 
         public RequestRegister(string username, string playID) : base(RequestType.Register)
         {

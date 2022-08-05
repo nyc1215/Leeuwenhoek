@@ -5,21 +5,19 @@ namespace MyWebSocket.Request
 {
     public enum MessageType
     {
-        txt,
-        voice
+        Txt,
+        Voice
     }
 
-    public class RequestMessage : RequestUtil
+    public sealed class RequestMessage : RequestUtil
     {
-        private string _senderID;
-        private string _receiverId;
-        private string _message;
-        private string _type;
+        [JsonIgnore] private string SenderID { get; set; }
 
-        [JsonIgnore] public string SenderID { get => _senderID; set => _senderID = value; }
-        [JsonIgnore] public string ReceiverId { get => _receiverId; set => _receiverId = value; }
-        [JsonIgnore] public string Message { get => _message; set => _message = value; }
-        [JsonIgnore] public string Type { get => _type; set => _type = value; }
+        [JsonIgnore] private string ReceiverId { get; set; }
+
+        [JsonIgnore] private string Message { get; set; }
+
+        [JsonIgnore] private string Type { get; set; }
 
 
         public RequestMessage(string senderID, string receiverId, string message, MessageType type) : base(RequestType.SendMessage)

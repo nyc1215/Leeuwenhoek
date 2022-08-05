@@ -42,36 +42,20 @@ namespace MyWebSocket.Request
     /// </summary>
     public class RequestUtil
     {
-        private string _requestType;
-        private string _requestID;
-        private Dictionary<string, string> _data;
-
         /// <summary>
         /// 请求体类型
         /// </summary>
-        public virtual string NowRequestType
-        {
-            get { return _requestType; }
-            set { _requestType = value; }
-        }
-        
+        private string NowRequestType { get; set; }
+
         /// <summary>
         /// 唯一的请求标记，前端生成，后端保存
         /// </summary>
-        public string RequestID
-        {
-            get { return _requestID; }
-            set { _requestID = value; }
-        }
+        private string RequestID { get; set; }
 
         /// <summary>
         /// 具体数据内容
         /// </summary>
-        public virtual Dictionary<string, string> Data
-        {
-            get { return _data; }
-            set { _data = value; }
-        }
+        protected Dictionary<string, string> Data { get; set; }
 
         protected RequestUtil(RequestType type)
         {

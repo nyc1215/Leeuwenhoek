@@ -66,7 +66,7 @@ namespace MyWebSocket
         /// 在与服务器建立连接时调用
         /// 在此事件之后，WebSocket 的 IsOpen 属性将为 True
         /// </summary>
-        private void OnOpen(WebSocket webSocket)
+        private static void OnOpen(WebSocket webSocket)
         {
             Debug.Log("connected");
         }
@@ -74,7 +74,7 @@ namespace MyWebSocket
         /// <summary>
         /// 在从服务器收到文本消息时调用
         /// </summary>
-        private void OnMessageReceived(WebSocket webSocket, string message)
+        private static void OnMessageReceived(WebSocket webSocket, string message)
         {
             Debug.Log(message);
         }
@@ -82,7 +82,7 @@ namespace MyWebSocket
         /// <summary>
         /// 在从服务器二进制消息时调用
         /// </summary>
-        private void OnBinaryMessageReceived(WebSocket webSocket, byte[] message)
+        private static void OnBinaryMessageReceived(WebSocket webSocket, byte[] message)
         {
             Debug.Log("Binary Message received from server. Length: " + message.Length);
         }

@@ -6,13 +6,10 @@ namespace MyWebSocket.Request
     /// <summary>
     /// 登录请求
     /// </summary>
-    public class RequestLogin : RequestUtil
+    public sealed class RequestLogin : RequestUtil
     {
-        private string _username;
-        private string _password;
-
-        [JsonIgnore] public string Username { get { return _username; } set { _username = value; } }
-        [JsonIgnore] public string Password { get { return _password; } set { _password = value; } }
+        [JsonIgnore] private string Username { get; set; }
+        [JsonIgnore] private string Password { get; set; }
 
         public RequestLogin(string username, string password) : base(RequestType.Login)
         {
