@@ -8,13 +8,17 @@ namespace MyWebSocket.Response
     /// </summary>
     public class ResponseSynchronousData : ResponseUtil
     {
-        [JsonIgnore]
-        protected override string RequestID => null;
+        [JsonIgnore] public override string RequestID => null;
 
-        public Vector3 PlayerPosition { get; set; }
+        public Transform playerTransform { get; set; }
 
         public ResponseSynchronousData(string json) : base(json)
         {
+        }
+
+        public T GetData<T>() where T : struct
+        {
+            return default;
         }
     }
 }

@@ -7,7 +7,7 @@ namespace MyWebSocket.Request
     /// <summary>
     /// 请求体抽象基类
     /// </summary>
-    public abstract class RequestUtil
+    public class RequestUtil
     {
         /// <summary>
         /// 请求体类型
@@ -19,7 +19,7 @@ namespace MyWebSocket.Request
         /// 唯一的请求标记，前端生成，后端保存
         /// </summary>
         [JsonProperty]
-        private string RequestID { get; set; }
+        public string RequestID { get; set; }
 
         protected RequestUtil(RequestType type)
         {

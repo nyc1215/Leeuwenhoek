@@ -8,5 +8,10 @@
         public ResponseError(string json) : base(json)
         {
         }
+
+        public string GetData()
+        {
+            return (string)Data;
+        }
     }
 }

@@ -1,14 +1,19 @@
 ﻿using System;
 using BestHTTP.WebSocket;
+using Manager;
+using MyWebSocket.Response;
+using Player;
 using UnityEngine;
 
 namespace MyWebSocket
 {
-    public class MyWebSocket : MonoBehaviour
+    public class MyWebSocket : SingleTon<MyWebSocket>
     {
-        public string url = "webSocket://localhost:8080/web1/webSocket";
+        public string uri = "webSocket://localhost:8080/web1/webSocket";
 
         private WebSocket _webSocket;
+
+        public bool IsOpen => _webSocket.IsOpen;
 
         private void Start()
         {
@@ -17,7 +22,7 @@ namespace MyWebSocket
 
         private void Init()
         {
-            _webSocket = new WebSocket(new Uri(url));
+            _webSocket = new WebSocket(new Uri(uri));
             _webSocket.OnOpen += OnOpen;
             _webSocket.OnMessage += OnMessageReceived;
             _webSocket.OnError += OnError;
@@ -76,7 +81,10 @@ namespace MyWebSocket
         /// </summary>
         private static void OnMessageReceived(WebSocket webSocket, string message)
         {
-            Debug.Log(message);
+            foreach (var player in MyGameManager.Instance.AllPlayers)
+            {
+                player.GetResponse(message);
+            }
         }
 
         /// <summary>
@@ -107,7 +115,8 @@ namespace MyWebSocket
 #if !UNITY_WEBGL || UNITY_EDITOR
             if (webSocket.InternalRequest.Response != null)
             {
-                errorMsg = $"Status Code from Server: {webSocket.InternalRequest.Response.StatusCode} and Message: {webSocket.InternalRequest.Response.Message}";
+                errorMsg =
+                    $"Status Code from Server: {webSocket.InternalRequest.Response.StatusCode} and Message: {webSocket.InternalRequest.Response.Message}";
             }
 #endif
             Debug.Log(errorMsg);

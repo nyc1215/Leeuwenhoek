@@ -25,16 +25,16 @@ namespace MyWebSocket.Response
     /// "RequestId"对应的值是客户端向服务器发起请求时携带的RequestId（不是所有返回体都有这个）
     /// "Data"具体数据内容
     /// </summary>
-    public abstract class ResponseUtil
+    public class ResponseUtil
     {
         [JsonConverter(typeof(StringEnumConverter))]
-        protected ResponseType NowResponseType { get; set; }
+        public ResponseType NowResponseType { get; set; }
 
-        protected virtual string RequestID { get; set; }
+        public virtual string RequestID { get; set; }
 
         protected object Data { get; set; }
 
-        protected ResponseUtil(string json)
+        public ResponseUtil(string json)
         {
             var aResponse = JsonConvert.DeserializeObject<ResponseUtil>(json);
             NowResponseType = aResponse.NowResponseType;

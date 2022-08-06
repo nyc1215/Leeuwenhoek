@@ -1,4 +1,6 @@
-﻿namespace MyWebSocket.Response
+﻿using MyWebSocket.Request;
+
+namespace MyWebSocket.Response
 {
     /// <summary>
     /// 请求数据响应
@@ -7,7 +9,6 @@
     {
         public Response(string json) : base(json)
         {
-
         }
     }
 }
