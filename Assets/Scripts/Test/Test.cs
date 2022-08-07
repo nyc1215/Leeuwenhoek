@@ -10,14 +10,13 @@ namespace Test
     {
         private void Start()
         {
-            RequestRegister requestRegister = new("nyc", "1234");
-            Debug.Log(requestRegister.ToJson(true));
-
-            RequestLogin requestLogin = new("nyc");
-            Debug.Log(requestLogin.ToJson(true));
-
-            RequestMessage requestMessage = new("sender", SendType.IndividualSending, "receiver", MessageType.Txt, "hello");
-            Debug.Log(requestMessage.ToJson(true));
+            Debug.Log(new RequestLogin("nyc").ToJson(true));
+            Debug.Log(new RequestRegister("nyc", "1234").ToJson(true));
+            Debug.Log(new RequestCreateRoom("nyc").ToJson(true));
+            Debug.Log(new RequestInvite("nyc", "一超", "12345", "538097635077128192").ToJson(true));
+            Debug.Log(new RequestAddRoom("nyc", "一超", "538097635077128192").ToJson(true));
+            Debug.Log(new RequestMessage("sender", SendType.IndividualSending, "receiver", MessageType.Txt, "hello")
+                .ToJson(true));
         }
     }
 }
