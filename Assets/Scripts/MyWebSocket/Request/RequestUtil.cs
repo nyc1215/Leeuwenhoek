@@ -14,7 +14,8 @@ namespace MyWebSocket.Request
         /// 请求体类型
         /// </summary>
         [JsonProperty("requestType", Required = Required.Always, Order = -3)]
-        private string NowRequestType { get; set; }
+        [JsonConverter(typeof(RequestType))]
+        private RequestType NowRequestType { get; set; }
 
         /// <summary>
         /// 唯一的请求标记，前端生成，后端保存
@@ -24,7 +25,7 @@ namespace MyWebSocket.Request
 
         protected RequestUtil(RequestType type)
         {
-            NowRequestType = type.ToString();
+            NowRequestType = type;
             RequestID = Guid.NewGuid().ToString("N");
         }
 

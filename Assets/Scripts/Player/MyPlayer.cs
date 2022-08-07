@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Manager;
@@ -34,7 +35,14 @@ namespace Player
         public void GetResponse(string json)
         {
             ResponseUtil responseUtil = new(json);
-            switch (responseUtil.NowResponseType)
+
+            if (!Enum.TryParse(responseUtil.NowResponseType, out ResponseType nowTypeOfResponse))
+            {
+                Debug.Log("string to ResponseType failed");
+                return;
+            }
+
+            switch (nowTypeOfResponse)
             {
                 case ResponseType.Error:
                     ResponseErrorWork((ResponseError)responseUtil);
@@ -60,7 +68,7 @@ namespace Player
             {
                 return;
             }
-            
+
             _requestPool.Remove(responseError.RequestID);
         }
 
@@ -70,7 +78,7 @@ namespace Player
             {
                 return;
             }
-            
+
             _requestPool.Remove(response.RequestID);
         }
     }

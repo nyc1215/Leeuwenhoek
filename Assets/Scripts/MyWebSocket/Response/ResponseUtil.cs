@@ -27,13 +27,13 @@ namespace MyWebSocket.Response
     /// </summary>
     public class ResponseUtil
     {
-        [JsonConverter(typeof(StringEnumConverter))]
-        public ResponseType NowResponseType { get; set; }
+        [JsonProperty("responseType")] public string NowResponseType { get; set; }
 
-        public virtual string RequestID { get; set; }
+        [JsonProperty("requestId")] public virtual string RequestID { get; set; }
 
-        protected object Data { get; set; }
+        [JsonProperty("data")] protected object Data { get; set; }
 
+        [JsonConstructor]
         public ResponseUtil(string json)
         {
             var aResponse = JsonConvert.DeserializeObject<ResponseUtil>(json);
