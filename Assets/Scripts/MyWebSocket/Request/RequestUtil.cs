@@ -7,18 +7,19 @@ namespace MyWebSocket.Request
     /// <summary>
     /// 请求体抽象基类
     /// </summary>
+    [JsonObject(MemberSerialization.OptIn)]
     public class RequestUtil
     {
         /// <summary>
         /// 请求体类型
         /// </summary>
-        [JsonProperty]
+        [JsonProperty("requestType", Required = Required.Always, Order = -3)]
         private string NowRequestType { get; set; }
 
         /// <summary>
         /// 唯一的请求标记，前端生成，后端保存
         /// </summary>
-        [JsonProperty]
+        [JsonProperty("requestId", Required = Required.Always, Order = -2)]
         public string RequestID { get; set; }
 
         protected RequestUtil(RequestType type)

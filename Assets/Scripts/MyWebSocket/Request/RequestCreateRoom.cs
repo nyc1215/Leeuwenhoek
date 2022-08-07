@@ -8,9 +8,11 @@ namespace MyWebSocket.Request
     /// <summary>
     /// 申请创建房间请求
     /// </summary>
+    [JsonObject(MemberSerialization.OptIn)]
     public sealed class RequestCreateRoom : RequestUtil
     {
-        [JsonProperty("Data")] private RequestCreateRoomData _data;
+        [JsonProperty("data", Required = Required.Always)]
+        private RequestCreateRoomData _data;
 
         /// <summary>
         /// 构造函数

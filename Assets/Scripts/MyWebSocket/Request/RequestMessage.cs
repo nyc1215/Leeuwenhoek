@@ -8,11 +8,14 @@ namespace MyWebSocket.Request
     /// <summary>
     /// 发消息请求
     /// </summary>
+    [JsonObject(MemberSerialization.OptIn)]
     public sealed class RequestMessage : RequestUtil
     {
-        [JsonProperty("data")] private RequestSendMessageData _data;
+        [JsonProperty("data", Required = Required.Always)]
+        private RequestSendMessageData _data;
 
-        public RequestMessage(string sendAccount, SendType sendType, string receiveAccount, MessageType type, string content) : base(RequestType.SendMessage)
+        public RequestMessage(string sendAccount, SendType sendType, string receiveAccount, MessageType type,
+            string content) : base(RequestType.SendMessage)
         {
             _data.SendAccount = sendAccount;
             _data.SendType = (int)sendType;

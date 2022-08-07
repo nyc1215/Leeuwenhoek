@@ -6,12 +6,11 @@ namespace MyWebSocket.Request
     /// <summary>
     /// 登录请求
     /// </summary>
+    [JsonObject(MemberSerialization.OptIn)]
     public sealed class RequestLogin : RequestUtil
     {
-
-
-        [JsonProperty("Data")] private RequestLoginData _data;
-
+        [JsonProperty("data", Required = Required.Always)]
+        private RequestLoginData _data;
 
         /// <summary>
         /// 构造函数

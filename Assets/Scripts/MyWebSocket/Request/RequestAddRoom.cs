@@ -5,9 +5,14 @@ using UnityEngine;
 
 namespace MyWebSocket.Request
 {
+    /// <summary>
+    /// 加入房间请求
+    /// </summary>
+    [JsonObject(MemberSerialization.OptIn)]
     public class RequestAddRoom : RequestUtil
     {
-        [JsonProperty("Data")] private RequestAddRoomData _data;
+        [JsonProperty("data", Required = Required.Always)]
+        private RequestAddRoomData _data;
 
         public RequestAddRoom(string account, string accountName, string groupId) : base(RequestType.AddRoom)
         {

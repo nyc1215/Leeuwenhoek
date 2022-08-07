@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using FairyGUI;
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace MyWebSocket.Request
@@ -43,43 +44,43 @@ namespace MyWebSocket.Request
 
     public struct RequestLoginData
     {
-        public string Account;
+        [JsonProperty("account")] public string Account;
     };
 
     public struct RequestRegisterData
     {
-        public string Account;
-        public string AccountName;
+        [JsonProperty("account")] public string Account;
+        [JsonProperty("accountName")] public string AccountName;
     }
 
     public struct RequestCreateRoomData
     {
-        public string Account;
+        [JsonProperty("account")] public string Account;
     }
 
     public struct RequestInviteData
     {
-        public string Account;
-        public string AccountName;
-        public string TargetAccount;
-        public string GroupId;
+        [JsonProperty("account")] public string Account;
+        [JsonProperty("accountName")] public string AccountName;
+        [JsonProperty("targetAccount")] public string TargetAccount;
+        [JsonProperty("groupId")] public string GroupId;
     }
 
     public struct RequestAddRoomData
     {
-        public string Account;
-        public string AccountName;
-        public string GroupId;
+        [JsonProperty("account")] public string Account;
+        [JsonProperty("accountName")] public string AccountName;
+        [JsonProperty("groupId")] public string GroupId;
     }
 
     public struct RequestSendMessageData
     {
-        public string SendAccount;
-        public int SendType;
-        public string ReceiverAccount;
-        public int Type;
-        public string SendTime;
-        public byte[] Content;
+        [JsonProperty("sendAccount")] public string SendAccount;
+        [JsonProperty("sendType")] public int SendType;
+        [JsonProperty("receiverAccount")] public string ReceiverAccount;
+        [JsonProperty("type")] public int Type;
+        [JsonProperty("sendTime")] public string SendTime;
+        [JsonProperty("content")] public byte[] Content;
     }
 
     /// <summary>

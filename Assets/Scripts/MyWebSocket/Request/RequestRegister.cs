@@ -7,10 +7,11 @@ namespace MyWebSocket.Request
     /// <summary>
     /// 注册请求
     /// </summary>
+    [JsonObject(MemberSerialization.OptIn)]
     public sealed class RequestRegister : RequestUtil
     {
-
-        [JsonProperty("Data")] private RequestRegisterData _data;
+        [JsonProperty("data", Required = Required.Always)]
+        private RequestRegisterData _data;
 
         /// <summary>
         /// 构造函数
