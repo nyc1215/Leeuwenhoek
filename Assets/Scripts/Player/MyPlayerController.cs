@@ -11,6 +11,8 @@ namespace Player
     {
         private Rigidbody _playerRigidbody;
         private Transform _playerTransform;
+        private Animator _animator;
+        private static readonly int AnimatorParamSpeed = Animator.StringToHash("speed");
 
         public InputAction inputWasd;
 
@@ -21,6 +23,7 @@ namespace Player
         {
             _playerRigidbody = GetComponent<Rigidbody>();
             _playerTransform = transform.GetChild(0);
+            _animator = GetComponent<Animator>();
         }
 
         private void Update()
@@ -30,6 +33,8 @@ namespace Player
             {
                 _playerTransform.localScale = new Vector2(Mathf.Sign(_moveInput.x), 1);
             }
+
+            _animator.SetFloat(AnimatorParamSpeed, _moveInput.magnitude);
         }
 
         private void FixedUpdate()
