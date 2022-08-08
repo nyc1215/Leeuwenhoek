@@ -180,6 +180,7 @@ GameObject:
   - component: {fileID: 8749746188917088028}
   - component: {fileID: 8749746188917088030}
   - component: {fileID: 8749746188917088029}
+  - component: {fileID: 1054903117492154245}
   - component: {fileID: 2474581315932141323}
   - component: {fileID: 2869995694214112691}
   m_Layer: 0
@@ -235,6 +236,19 @@ CapsuleCollider:
   m_Height: 1.0266656
   m_Direction: 1
   m_Center: {x: 0.023934454, y: -0.07180339, z: 0}
+--- !u!135 &1054903117492154245
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8749746188917088025}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.7769172
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &2474581315932141323
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -247,6 +261,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f5bc231be4f79243a2cb3b513e5a94c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isImposter: 0
   inputWasd:
     m_Name: Input Wasd
     m_Type: 0
@@ -296,7 +311,26 @@ MonoBehaviour:
       m_Action: Input Wasd
       m_Flags: 8
     m_Flags: 0
+  inputKill:
+    m_Name: Input Kill
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 0a6a5f73-cf9b-4aec-bf6e-08571de52e19
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: f11dae76-b7ee-40ea-a408-d8fb4b42fc55
+      m_Path: <Keyboard>/k
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Input Kill
+      m_Flags: 0
+    m_Flags: 0
   moveSpeed: 5
+  hasControl: 1
+  isDead: 0
 --- !u!95 &2869995694214112691
 Animator:
   serializedVersion: 4

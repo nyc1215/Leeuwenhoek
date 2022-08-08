@@ -81,7 +81,7 @@ namespace MyWebSocket
         /// </summary>
         private static void OnMessageReceived(WebSocket webSocket, string message)
         {
-            foreach (var player in MyGameManager.Instance.AllPlayers)
+            foreach (var player in MyGameManager.Instance.allPlayers)
             {
                 player.GetResponse(message);
             }

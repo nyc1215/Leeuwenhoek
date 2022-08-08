@@ -5,6 +5,7 @@ using Player;
 using UI.Util;
 using Unity.Collections;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Manager
 {
@@ -18,6 +19,8 @@ namespace Manager
 
         [Header("UI跳转信息存储")] public UIJumpData uiJumpData;
 
-        public List<MyPlayer> AllPlayers = new();
+        public List<MyPlayer> allPlayers = new();
+
+        public MyPlayerController LocalPlayerController;
     }
 }
