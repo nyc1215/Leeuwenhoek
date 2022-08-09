@@ -27,6 +27,14 @@ namespace Player
 
         [Tooltip("是否允许操控")] public bool hasControl;
         [Tooltip("是否死亡")] public bool isDead;
+        [Tooltip("角色尸体预制体")] public GameObject bodyPrefab;
+
+        #endregion
+
+        #region 角色显示相关
+
+        [Space(10)] [Header("角色显示相关")] [Tooltip("角色精灵渲染器")]
+        public SpriteRenderer PlayerSpriteRenderer;
 
         #endregion
 
@@ -39,7 +47,7 @@ namespace Player
         private static readonly int AnimatorParamSpeed = Animator.StringToHash("speed");
         private static readonly int AnimatorParamIsDead = Animator.StringToHash("isDead");
 
-        private MyPlayerController _target;
+        private List<MyPlayerController> _targets;
         private Vector2 _moveInput;
 
 
@@ -49,7 +57,7 @@ namespace Player
             _playerTransform = transform.GetChild(0);
             _animator = GetComponent<Animator>();
             _collider = GetComponent<Collider>();
-            _target = null;
+            _targets = new List<MyPlayerController>();
 
             inputKill.performed += KillTarget;
         }
@@ -105,17 +113,27 @@ namespace Player
             if (other.CompareTag("Player"))
             {
                 var targetPlayer = other.GetComponent<MyPlayerController>();
-                if (!isImposter)
+                if (isImposter)
                 {
-                    return;
-                }
+                    if (targetPlayer.isImposter)
+                    {
+                        return;
+                    }
 
-                if (targetPlayer.isImposter)
+                    _targets.Add(targetPlayer);
+                }
+            }
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            if (other.CompareTag("Player"))
+            {
+                var targetPlayer = other.GetComponent<MyPlayerController>();
+                if (_targets.Contains(targetPlayer))
                 {
-                    return;
+                    _targets.Remove(targetPlayer);
                 }
-
-                _target = targetPlayer;
             }
         }
 
@@ -123,18 +141,19 @@ namespace Player
         {
             if (callbackContext.phase == InputActionPhase.Performed)
             {
-                if (_target == null)
+                if (_targets.Count == 0)
                 {
                     return;
                 }
 
-                if (_target.isDead)
+                if (_targets[^1].isDead)
                 {
                     return;
                 }
 
-                _target.Die();
-                _target = null;
+                transform.position = _targets[^1].transform.position;
+                _targets[^1].Die();
+                _targets.RemoveAt(_targets.Count - 1);
             }
         }
 
@@ -143,6 +162,10 @@ namespace Player
             isDead = true;
             _animator.SetBool(AnimatorParamIsDead, true);
             _collider.enabled = false;
+
+            var temPlayerBody = Instantiate(bodyPrefab, transform.position, transform.rotation)
+                .GetComponent<MyPlayerBody>();
+            temPlayerBody.SetColor(PlayerSpriteRenderer.color);
         }
     }
 }
