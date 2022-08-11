@@ -1084,6 +1084,14 @@ PrefabInstance:
       propertyPath: inputKill.m_Id
       value: b0bc9504-7286-46f0-9ee2-dac4607b275a
       objectReference: {fileID: 0}
+    - target: {fileID: 2474581315932141323, guid: 1ccc213092c088144b7d30451e834425, type: 3}
+      propertyPath: inputReport.m_Id
+      value: 9b2df3ed-280d-4e9d-bf1d-bd89c62bf8d4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2474581315932141323, guid: 1ccc213092c088144b7d30451e834425, type: 3}
+      propertyPath: inputReport.m_Name
+      value: Input Report
+      objectReference: {fileID: 0}
     - target: {fileID: 2501275236445590738, guid: 1ccc213092c088144b7d30451e834425, type: 3}
       propertyPath: m_Layer
       value: 0

@@ -328,6 +328,26 @@ MonoBehaviour:
       m_Action: Input Kill
       m_Flags: 0
     m_Flags: 0
+  inputReport:
+    m_Name: Input Report
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 5907f1e6-6b0a-4cf5-b656-928b12c6cd08
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 2f8bed36-a096-4e0e-b6b7-8c4c151feecf
+      m_Path: <Keyboard>/r
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Input Report
+      m_Flags: 0
+    m_Flags: 0
+  ignoreForBody:
+    serializedVersion: 2
+    m_Bits: 256
   moveSpeed: 5
   hasControl: 1
   isDead: 0
