@@ -18,6 +18,10 @@ namespace Player
 
         [Tooltip("击杀")] public InputAction inputKill;
 
+        [Tooltip("报告")] public InputAction inputReport;
+        public static List<Transform> AllBodies;
+        [Tooltip("寻找尸体的时候忽略的层")] public LayerMask ignoreForBody;
+
         #endregion
 
         #region 角色状态
@@ -50,6 +54,7 @@ namespace Player
         private List<MyPlayerController> _targets;
         private Vector2 _moveInput;
 
+        private List<Transform> _bodiesFound;
 
         private void Awake()
         {
@@ -58,8 +63,11 @@ namespace Player
             _animator = GetComponent<Animator>();
             _collider = GetComponent<Collider>();
             _targets = new List<MyPlayerController>();
+            AllBodies = new List<Transform>();
+            _bodiesFound = new List<Transform>();
 
             inputKill.performed += KillTarget;
+            inputReport.performed += Report;
         }
 
         private void Start()
@@ -83,12 +91,46 @@ namespace Player
             }
 
             _moveInput = inputWasd.ReadValue<Vector2>();
+            _animator.SetFloat(AnimatorParamSpeed, _moveInput.magnitude);
             if (_moveInput.x != 0)
             {
                 _playerTransform.localScale = new Vector2(Mathf.Sign(_moveInput.x), 1);
             }
 
-            _animator.SetFloat(AnimatorParamSpeed, _moveInput.magnitude);
+            if (AllBodies.Count > 0)
+            {
+                BodySearch();
+            }
+        }
+
+        private void BodySearch()
+        {
+            foreach (var body in AllBodies)
+            {
+                var playerPos = transform.position;
+                var bodyPos = body.position;
+                var ray = new Ray(playerPos, bodyPos - playerPos);
+                Debug.DrawLine(playerPos, bodyPos - playerPos, Color.cyan);
+
+                if (Physics.Raycast(ray, out var hit, 1000f, ~ignoreForBody))
+                {
+                    if (hit.transform == body)
+                    {
+                        Debug.Log(hit.transform.name);
+                        Debug.Log(_bodiesFound.Count);
+                        if (_bodiesFound.Contains(body.transform))
+                        {
+                            return;
+                        }
+
+                        _bodiesFound.Add(body.transform);
+                    }
+                    else
+                    {
+                        _bodiesFound.Remove(body.transform);
+                    }
+                }
+            }
         }
 
         private void FixedUpdate()
@@ -100,12 +142,14 @@ namespace Player
         {
             inputWasd.Enable();
             inputKill.Enable();
+            inputReport.Enable();
         }
 
         private void OnDisable()
         {
             inputWasd.Disable();
             inputKill.Disable();
+            inputReport.Disable();
         }
 
         private void OnTriggerEnter(Collider other)
@@ -166,6 +210,27 @@ namespace Player
             var temPlayerBody = Instantiate(bodyPrefab, transform.position, transform.rotation)
                 .GetComponent<MyPlayerBody>();
             temPlayerBody.SetColor(PlayerSpriteRenderer.color);
+        }
+
+        private void Report(InputAction.CallbackContext callbackContext)
+        {
+            if (callbackContext.phase == InputActionPhase.Performed)
+            {
+                if (_bodiesFound == null)
+                {
+                    return;
+                }
+
+                if (_bodiesFound.Count == 0)
+                {
+                    return;
+                }
+
+                var tempBody = _bodiesFound[^1];
+                AllBodies.Remove(tempBody);
+                _bodiesFound.Remove(tempBody);
+                tempBody.GetComponent<MyPlayerBody>().Report();
+            }
         }
     }
 }
