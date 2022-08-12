@@ -123,9 +123,12 @@ namespace Player
                 BodySearch();
             }
 
-            if (MyGameManager.Instance.allPlayers?.Count > 0)
+            if (MyGameManager.Instance != null)
             {
-                HideOtherPlayers();
+                if (MyGameManager.Instance.allPlayers?.Count > 0)
+                {
+                    HideOtherPlayers();
+                }
             }
         }
 
@@ -266,7 +269,7 @@ namespace Player
                 var ray = new Ray(myPlayerPos, otherPlayerPos - myPlayerPos);
                 Debug.DrawLine(myPlayerPos, otherPlayerPos, Color.green);
 
-                if (Physics.Raycast(ray, out var hit, 1000f, LayerMask.NameToLayer("Wall")))
+                if (Physics.Raycast(ray, out var hit, 1000f, ~ignoreForBody))
                 {
                     if (hit.transform == otherPlayerController.transform)
                     {
@@ -371,7 +374,7 @@ namespace Player
             }
         }
 
-        public void HideOrShowPlayerSelf()
+        private void HideOrShowPlayerSelf()
         {
             playerSpriteRenderer.enabled = isHide;
             playerPartSpriteRenderer.enabled = isHide;
