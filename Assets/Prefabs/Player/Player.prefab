@@ -347,12 +347,14 @@ MonoBehaviour:
     m_Flags: 0
   ignoreForBody:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 768
   moveSpeed: 5
   hasControl: 1
   isDead: 0
   bodyPrefab: {fileID: 6540672241139089927, guid: 2401f236d44709f469ffbe2326ad9f3e, type: 3}
-  PlayerSpriteRenderer: {fileID: 1142689203342683541}
+  isHide: 0
+  playerSpriteRenderer: {fileID: 1142689203342683541}
+  playerPartSpriteRenderer: {fileID: 1372084542301323607}
 --- !u!95 &2869995694214112691
 Animator:
   serializedVersion: 4

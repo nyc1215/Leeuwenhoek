@@ -1,6 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Manager;
+using MyWebSocket.Request;
+using MyWebSocket.Response;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
@@ -9,7 +12,7 @@ namespace Player
 {
     public class MyPlayerController : MonoBehaviour
     {
-        #region 游戏规则相关
+        #region 游戏规则相关变量
 
         [Header("游戏规则相关")] [Tooltip("是否是狼人")] public bool isImposter;
 
@@ -24,7 +27,7 @@ namespace Player
 
         #endregion
 
-        #region 角色状态
+        #region 角色状态变量
 
         [Space(10)] [Header("角色状态")] [Tooltip("移动速度")]
         public float moveSpeed;
@@ -32,17 +35,31 @@ namespace Player
         [Tooltip("是否允许操控")] public bool hasControl;
         [Tooltip("是否死亡")] public bool isDead;
         [Tooltip("角色尸体预制体")] public GameObject bodyPrefab;
+        [Tooltip("是否隐藏")] public bool isHide;
 
         #endregion
 
-        #region 角色显示相关
+        #region 角色显示相关变量
 
-        [Space(10)] [Header("角色显示相关")] [Tooltip("角色精灵渲染器")]
-        public SpriteRenderer PlayerSpriteRenderer;
+        [Space(10)] [Header("角色显示相关")] [Tooltip("角色身体精灵渲染器")]
+        public SpriteRenderer playerSpriteRenderer;
+
+        [Tooltip("角色其他部分精灵渲染器")] public SpriteRenderer playerPartSpriteRenderer;
 
         #endregion
+
+        #region 游戏管理系统相关变量
+
+        [Space(10)] [Header("游戏管理系统")] [Tooltip("是否是本地玩家")]
+        public bool isLocalClient;
 
         public static MyPlayerController LocalPlayerController;
+
+        #endregion
+
+        #region 私有变量
+
+        private readonly Hashtable _requestPool = new();
 
         private Rigidbody _playerRigidbody;
         private Transform _playerTransform;
@@ -55,6 +72,10 @@ namespace Player
         private Vector2 _moveInput;
 
         private List<Transform> _bodiesFound;
+
+        #endregion
+
+        #region MonoBehaviour
 
         private void Awake()
         {
@@ -101,35 +122,10 @@ namespace Player
             {
                 BodySearch();
             }
-        }
 
-        private void BodySearch()
-        {
-            foreach (var body in AllBodies)
+            if (MyGameManager.Instance.allPlayers?.Count > 0)
             {
-                var playerPos = transform.position;
-                var bodyPos = body.position;
-                var ray = new Ray(playerPos, bodyPos - playerPos);
-                Debug.DrawLine(playerPos, bodyPos - playerPos, Color.cyan);
-
-                if (Physics.Raycast(ray, out var hit, 1000f, ~ignoreForBody))
-                {
-                    if (hit.transform == body)
-                    {
-                        Debug.Log(hit.transform.name);
-                        Debug.Log(_bodiesFound.Count);
-                        if (_bodiesFound.Contains(body.transform))
-                        {
-                            return;
-                        }
-
-                        _bodiesFound.Add(body.transform);
-                    }
-                    else
-                    {
-                        _bodiesFound.Remove(body.transform);
-                    }
-                }
+                HideOtherPlayers();
             }
         }
 
@@ -181,6 +177,145 @@ namespace Player
             }
         }
 
+        #endregion
+
+        #region 服务器通信
+
+        public void SendRequest<T>(T request) where T : RequestUtil
+        {
+            var t = typeof(T);
+            if (MyWebSocket.MyWebSocket.Instance.IsOpen)
+            {
+                MyWebSocket.MyWebSocket.Instance.Send(request.ToJson());
+                if (t == typeof(RequestInvite) || t == typeof(RequestAddRoom))
+                {
+                    return;
+                }
+
+                _requestPool.Add(request.RequestID, request);
+            }
+            else
+            {
+                Debug.LogWarning("Sever is not connected!!!");
+            }
+        }
+
+        public void GetResponse(string json)
+        {
+            ResponseUtil responseUtil = new(json);
+
+            if (!Enum.TryParse(responseUtil.NowResponseType, out ResponseType nowTypeOfResponse))
+            {
+                Debug.Log("string to ResponseType failed");
+                return;
+            }
+
+            switch (nowTypeOfResponse)
+            {
+                case ResponseType.Error:
+                    ResponseErrorWork((ResponseError)responseUtil);
+                    break;
+                case ResponseType.Response:
+                    ResponseWork((Response)responseUtil);
+                    break;
+                case ResponseType.SynchronousData:
+                    SynchronousData((ResponseSynchronousData)responseUtil);
+                    break;
+                default:
+                    throw new System.InvalidCastException();
+            }
+        }
+
+        private void SynchronousData(ResponseSynchronousData responseSynchronousData)
+        {
+        }
+
+        private void ResponseErrorWork(ResponseError responseError)
+        {
+            if (!_requestPool.ContainsKey(responseError.RequestID))
+            {
+                return;
+            }
+
+            _requestPool.Remove(responseError.RequestID);
+        }
+
+        private void ResponseWork(Response response)
+        {
+            if (!_requestPool.ContainsKey(response.RequestID))
+            {
+                return;
+            }
+
+            _requestPool.Remove(response.RequestID);
+        }
+
+        #endregion
+
+        private void HideOtherPlayers()
+        {
+            foreach (var otherPlayerController in MyGameManager.Instance.allPlayers)
+            {
+                if (otherPlayerController.isLocalClient)
+                {
+                    return;
+                }
+
+                var myPlayerPos = transform.position;
+                var otherPlayerPos = otherPlayerController.transform.position;
+                var ray = new Ray(myPlayerPos, otherPlayerPos - myPlayerPos);
+                Debug.DrawLine(myPlayerPos, otherPlayerPos, Color.green);
+
+                if (Physics.Raycast(ray, out var hit, 1000f, LayerMask.NameToLayer("Wall")))
+                {
+                    if (hit.transform == otherPlayerController.transform)
+                    {
+                        //Debug.Log(hit.transform.name);
+                        //Debug.Log($"_bodiesFound :{_bodiesFound.Count}");
+                        otherPlayerController.isHide = false;
+                        otherPlayerController.HideOrShowPlayerSelf();
+                    }
+                    else
+                    {
+                        otherPlayerController.isHide = true;
+                        otherPlayerController.HideOrShowPlayerSelf();
+                    }
+                }
+            }
+        }
+
+        private void BodySearch()
+        {
+            //Debug.Log($"AllBodies :{AllBodies.Count}");
+            foreach (var body in AllBodies)
+            {
+                var playerPos = transform.position;
+                var bodyPos = body.position;
+                var ray = new Ray(playerPos, bodyPos - playerPos);
+                Debug.DrawLine(playerPos, bodyPos, Color.cyan);
+
+                if (Physics.Raycast(ray, out var hit, 1000f, ~ignoreForBody))
+                {
+                    if (hit.transform == body)
+                    {
+                        //Debug.Log(hit.transform.name);
+                        //Debug.Log($"_bodiesFound :{_bodiesFound.Count}");
+                        if (_bodiesFound.Contains(body.transform))
+                        {
+                            return;
+                        }
+
+                        _bodiesFound.Add(body.transform);
+                    }
+                    else
+                    {
+                        _bodiesFound.Remove(body.transform);
+                    }
+                }
+            }
+        }
+
+
         private void KillTarget(InputAction.CallbackContext callbackContext)
         {
             if (callbackContext.phase == InputActionPhase.Performed)
@@ -207,9 +342,12 @@ namespace Player
             _animator.SetBool(AnimatorParamIsDead, true);
             _collider.enabled = false;
 
-            var temPlayerBody = Instantiate(bodyPrefab, transform.position, transform.rotation)
+            gameObject.layer = LayerMask.NameToLayer("Ghost") == -1 ? 9 : LayerMask.NameToLayer("Ghost");
+
+            var trans = transform;
+            var temPlayerBody = Instantiate(bodyPrefab, trans.position, trans.rotation)
                 .GetComponent<MyPlayerBody>();
-            temPlayerBody.SetColor(PlayerSpriteRenderer.color);
+            temPlayerBody.SetColor(playerSpriteRenderer.color);
         }
 
         private void Report(InputAction.CallbackContext callbackContext)
@@ -231,6 +369,12 @@ namespace Player
                 _bodiesFound.Remove(tempBody);
                 tempBody.GetComponent<MyPlayerBody>().Report();
             }
+        }
+
+        public void HideOrShowPlayerSelf()
+        {
+            playerSpriteRenderer.enabled = isHide;
+            playerPartSpriteRenderer.enabled = isHide;
         }
     }
 }

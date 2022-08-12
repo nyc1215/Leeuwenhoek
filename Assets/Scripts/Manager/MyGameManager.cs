@@ -19,8 +19,14 @@ namespace Manager
 
         [Header("UI跳转信息存储")] public UIJumpData uiJumpData;
 
-        public List<MyPlayer> allPlayers = new();
+        public List<MyPlayerController> allPlayers = new();
 
-        public MyPlayerController LocalPlayerController;
+        [Header("玩家预制体")] public GameObject playerPrefab;
+
+        public void AddPlayer()
+        {
+            var player = Instantiate(playerPrefab, gameObject.transform).GetComponent<MyPlayerController>();
+            allPlayers.Add(player);
+        }
     }
 }
