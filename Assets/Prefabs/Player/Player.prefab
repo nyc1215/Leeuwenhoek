@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 201599901}
   - component: {fileID: 201599900}
   - component: {fileID: 201599903}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -492,7 +492,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f5bc231be4f79243a2cb3b513e5a94c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isImposter: 1
+  isImposter: 0
   inputWasd:
     m_Name: Input Wasd
     m_Type: 0
@@ -541,6 +541,14 @@ MonoBehaviour:
       m_Groups: 
       m_Action: Input Wasd
       m_Flags: 8
+    - m_Name: 
+      m_Id: 85021c61-7acd-430c-b0a0-60df598bf438
+      m_Path: <Gamepad>/leftStick
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Input Wasd
+      m_Flags: 0
     m_Flags: 0
   inputKill:
     m_Name: Input Kill
