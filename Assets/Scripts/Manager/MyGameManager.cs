@@ -28,5 +28,10 @@ namespace Manager
             var player = Instantiate(playerPrefab, gameObject.transform).GetComponent<MyPlayerController>();
             allPlayers.Add(player);
         }
+        
+        public void OnApplicationQuit()
+        {
+            MyWebSocket.MyWebSocket.Instance.Close();
+        }
     }
 }

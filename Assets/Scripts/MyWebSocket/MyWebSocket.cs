@@ -1,4 +1,5 @@
 ﻿using System;
+using BestHTTP;
 using BestHTTP.WebSocket;
 using Manager;
 using MyWebSocket.Response;
@@ -15,34 +16,18 @@ namespace MyWebSocket
 
         public bool IsOpen => _webSocket.IsOpen;
 
-        private void Start()
-        {
-            Init();
-        }
-
-        private void Init()
+        public void Connect()
         {
             _webSocket = new WebSocket(new Uri(uri));
+
             _webSocket.OnOpen += OnOpen;
             _webSocket.OnMessage += OnMessageReceived;
             _webSocket.OnError += OnError;
             _webSocket.OnClosed += OnClosed;
             _webSocket.OnBinary += OnBinaryMessageReceived;
-        }
 
-        private void AntiInit()
-        {
-            _webSocket.OnOpen = null;
-            _webSocket.OnMessage = null;
-            _webSocket.OnError = null;
-            _webSocket.OnClosed = null;
-            _webSocket.OnBinary = null;
-            _webSocket = null;
-        }
-
-        public void Connect()
-        {
             _webSocket.Open();
+            Debug.Log("webSocket connecting...");
         }
 
         public void Send(string str)
@@ -52,17 +37,21 @@ namespace MyWebSocket
 
         public void Close()
         {
-            _webSocket.Close();
+            _webSocket.Close(1000, "Bye!");
         }
+
+        #region MonoBehaviour
 
         private void OnDestroy()
         {
-            if (_webSocket is { IsOpen: true })
+            if (_webSocket != null)
             {
                 _webSocket.Close();
-                AntiInit();
+                _webSocket = null;
             }
         }
+
+        #endregion
 
 
         #region WebSocket事件回调
@@ -73,7 +62,7 @@ namespace MyWebSocket
         /// </summary>
         private static void OnOpen(WebSocket webSocket)
         {
-            Debug.Log("connected");
+            Debug.Log("WebSocket Open!");
         }
 
         /// <summary>
@@ -100,9 +89,7 @@ namespace MyWebSocket
         /// </summary>
         private void OnClosed(WebSocket webSocket, ushort code, string message)
         {
-            Debug.Log(message);
-            AntiInit();
-            Init();
+            _webSocket = null;
         }
 
 
@@ -111,17 +98,8 @@ namespace MyWebSocket
         /// </summary>
         private void OnError(WebSocket webSocket, string error)
         {
-            var errorMsg = string.Empty;
-#if !UNITY_WEBGL || UNITY_EDITOR
-            if (webSocket.InternalRequest.Response != null)
-            {
-                errorMsg =
-                    $"Status Code from Server: {webSocket.InternalRequest.Response.StatusCode} and Message: {webSocket.InternalRequest.Response.Message}";
-            }
-#endif
-            Debug.Log(errorMsg);
-            AntiInit();
-            Init();
+            Debug.Log($"An error occured: <color=red>{error}</color>");
+            _webSocket = null;
         }
 
         #endregion

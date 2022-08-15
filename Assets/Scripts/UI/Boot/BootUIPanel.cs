@@ -24,7 +24,7 @@ namespace UI.Boot
             _startButton?.onClick.Add(() =>
             {
                 MyWebSocket.MyWebSocket.Instance.Connect();
-                UIOperationUtil.GoToSceneAsync(MyGameManager.Instance.uiJumpData.roomMenu);
+                UIOperationUtil.GoToScene(MyGameManager.Instance.uiJumpData.roomMenu);
             });
         }
     }
