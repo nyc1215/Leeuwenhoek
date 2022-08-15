@@ -289,6 +289,8 @@ MonoBehaviour:
   dontDestroyOnLoad: 1
   nextSceneToLoadAsync: 
   uiJumpData: {fileID: 11400000, guid: 67ce7ebaf0df9e345a85cfeabe105f64, type: 2}
+  allPlayers: []
+  playerPrefab: {fileID: 0}
 --- !u!1 &1317449407
 GameObject:
   m_ObjectHideFlags: 0
@@ -417,7 +419,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dontDestroyOnLoad: 1
-  url: 127.0.0.1
+  uri: webSocket://localhost:8899
 --- !u!4 &1360432570
 Transform:
   m_ObjectHideFlags: 0

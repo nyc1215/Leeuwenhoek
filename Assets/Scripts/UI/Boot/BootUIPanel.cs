@@ -21,7 +21,11 @@ namespace UI.Boot
             _startButton = GetButton("Button_Start");
 
             _quitButton?.onClick.Add(UIOperationUtil.QuitGame);
-            _startButton?.onClick.Add(() => { UIOperationUtil.GoToSceneAsync(MyGameManager.Instance.uiJumpData.roomMenu); });
+            _startButton?.onClick.Add(() =>
+            {
+                MyWebSocket.MyWebSocket.Instance.Connect();
+                UIOperationUtil.GoToSceneAsync(MyGameManager.Instance.uiJumpData.roomMenu);
+            });
         }
     }
 }
