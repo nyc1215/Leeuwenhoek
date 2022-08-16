@@ -11,8 +11,8 @@ namespace MyWebSocket.Request
     [JsonObject(MemberSerialization.OptIn)]
     public sealed class RequestCreateRoom : RequestUtil
     {
-        [JsonProperty("data", Required = Required.Always)]
-        private RequestCreateRoomData _data;
+        [JsonProperty("data")]
+        private RequestCreateRoomData _data = new();
 
         /// <summary>
         /// 构造函数

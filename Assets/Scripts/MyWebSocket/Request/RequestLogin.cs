@@ -9,8 +9,7 @@ namespace MyWebSocket.Request
     [JsonObject(MemberSerialization.OptIn)]
     public sealed class RequestLogin : RequestUtil
     {
-        [JsonProperty("data", Required = Required.Always)]
-        private RequestLoginData _data;
+        [JsonProperty("data")] private RequestLoginData _data = new();
 
         /// <summary>
         /// 构造函数

@@ -14,16 +14,16 @@ namespace UI.Util
     public class UIPanelUtil : MonoBehaviour
     {
         public List<string> buttonNames = new();
-        protected Dictionary<string, GButton> ButtonList = new();
-        protected UIPanel Panel;
+        private readonly Dictionary<string, GButton> _buttonList = new();
+        private UIPanel _panel;
         protected GComponent UIRoot;
 
         protected virtual void Awake()
         {
-            Panel = GetComponent<UIPanel>();
-            UIRoot = Panel.ui;
+            _panel = GetComponent<UIPanel>();
+            UIRoot = _panel.ui;
 
-            Assert.IsNotNull(Panel);
+            Assert.IsNotNull(_panel);
             Assert.IsNotNull(UIRoot);
 
             GetAllButtons();
@@ -40,25 +40,25 @@ namespace UI.Util
             foreach (var btnName in buttonNames)
             {
                 var aButton = UIRoot?.GetChild(btnName).asButton;
-                ButtonList.Add(btnName, aButton);
+                _buttonList.Add(btnName, aButton);
             }
         }
 
         protected GButton GetButton(string buttonName)
         {
-            if (ButtonList.Count == 0)
+            if (_buttonList.Count == 0)
             {
                 Debug.LogWarning($"{GetType().Name}'s buttonList is empty!!!");
                 return null;
             }
 
-            if (!ButtonList.ContainsKey(buttonName))
+            if (!_buttonList.ContainsKey(buttonName))
             {
                 Debug.LogWarning($"{buttonName} is not found in panel");
                 return null;
             }
 
-            return ButtonList[buttonName];
+            return _buttonList[buttonName];
         }
     }
 }

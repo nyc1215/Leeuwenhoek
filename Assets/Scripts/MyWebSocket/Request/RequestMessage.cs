@@ -11,8 +11,8 @@ namespace MyWebSocket.Request
     [JsonObject(MemberSerialization.OptIn)]
     public sealed class RequestMessage : RequestUtil
     {
-        [JsonProperty("data", Required = Required.Always)]
-        private RequestSendMessageData _data;
+        [JsonProperty("data")]
+        private RequestSendMessageData _data = new();
 
         public RequestMessage(string sendAccount, SendType sendType, string receiveAccount, MessageType type,
             string content) : base(RequestType.SendMessage)

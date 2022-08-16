@@ -187,7 +187,7 @@ namespace Player
         public void SendRequest<T>(T request) where T : RequestUtil
         {
             var t = typeof(T);
-            if (MyWebSocket.MyWebSocket.Instance.IsOpen)
+            if (MyWebSocket.MyWebSocket.Instance.WebSocket.IsOpen)
             {
                 MyWebSocket.MyWebSocket.Instance.Send(request.ToJson());
                 if (t == typeof(RequestInvite) || t == typeof(RequestAddRoom))

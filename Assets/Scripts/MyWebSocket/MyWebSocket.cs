@@ -12,42 +12,73 @@ namespace MyWebSocket
     {
         public string uri = "webSocket://localhost:8080/web1/webSocket";
 
-        private WebSocket _webSocket;
+        public WebSocket WebSocket;
 
-        public bool IsOpen => _webSocket.IsOpen;
+        private void Init()
+        {
+            WebSocket = new WebSocket(new Uri(uri));
+#if !UNITY_WEBGL || UNITY_EDITOR
+            //WebSocket.StartPingThread = true;
+
+#if !BESTHTTP_DISABLE_PROXY
+            if (HTTPManager.Proxy != null)
+            {
+                WebSocket.OnInternalRequestCreated = (ws, internalRequest) => internalRequest.Proxy = new HTTPProxy(HTTPManager.Proxy.Address, HTTPManager.Proxy.Credentials, false);
+            }
+#endif
+#endif
+
+            WebSocket.OnOpen += OnOpen;
+            WebSocket.OnMessage += OnMessageReceived;
+            WebSocket.OnError += OnError;
+            WebSocket.OnClosed += OnClosed;
+            WebSocket.OnBinary += OnBinaryMessageReceived;
+        }
 
         public void Connect()
         {
-            _webSocket = new WebSocket(new Uri(uri));
-
-            _webSocket.OnOpen += OnOpen;
-            _webSocket.OnMessage += OnMessageReceived;
-            _webSocket.OnError += OnError;
-            _webSocket.OnClosed += OnClosed;
-            _webSocket.OnBinary += OnBinaryMessageReceived;
-
-            _webSocket.Open();
+            if (WebSocket == null)
+            {
+                Init();
+            }
+            
+            if (WebSocket is { IsOpen: true })
+            {
+                Debug.Log("webSocket already connected");
+                return;
+            }
+            
+            WebSocket.Open();
+            
             Debug.Log("webSocket connecting...");
         }
 
         public void Send(string str)
         {
-            _webSocket.Send(str);
+            WebSocket.Send(str);
         }
 
         public void Close()
         {
-            _webSocket.Close(1000, "Bye!");
+            WebSocket.Close();
         }
 
         #region MonoBehaviour
 
+        protected override void Awake()
+        {
+            base.Awake();
+
+            //HTTPManager.Logger.Level = BestHTTP.Logger.Loglevels.All;
+            Init();
+        }
+
         private void OnDestroy()
         {
-            if (_webSocket != null)
+            if (WebSocket != null)
             {
-                _webSocket.Close();
-                _webSocket = null;
+                WebSocket.Close();
+                WebSocket = null;
             }
         }
 
@@ -60,7 +91,7 @@ namespace MyWebSocket
         /// 在与服务器建立连接时调用
         /// 在此事件之后，WebSocket 的 IsOpen 属性将为 True
         /// </summary>
-        private static void OnOpen(WebSocket webSocket)
+        private static void OnOpen(WebSocket ws)
         {
             Debug.Log("WebSocket Open!");
         }
@@ -68,18 +99,19 @@ namespace MyWebSocket
         /// <summary>
         /// 在从服务器收到文本消息时调用
         /// </summary>
-        private static void OnMessageReceived(WebSocket webSocket, string message)
+        private static void OnMessageReceived(WebSocket ws, string message)
         {
-            foreach (var player in MyGameManager.Instance.allPlayers)
-            {
-                player.GetResponse(message);
-            }
+            // foreach (var player in MyGameManager.Instance.allPlayers)
+            // {
+            //     player.GetResponse(message);
+            // }
+            Debug.Log(message);
         }
 
         /// <summary>
         /// 在从服务器二进制消息时调用
         /// </summary>
-        private static void OnBinaryMessageReceived(WebSocket webSocket, byte[] message)
+        private static void OnBinaryMessageReceived(WebSocket ws, byte[] message)
         {
             Debug.Log("Binary Message received from server. Length: " + message.Length);
         }
@@ -87,19 +119,18 @@ namespace MyWebSocket
         /// <summary>
         /// 在与服务器关闭连接时调用
         /// </summary>
-        private void OnClosed(WebSocket webSocket, ushort code, string message)
+        private static void OnClosed(WebSocket ws, ushort code, string message)
         {
-            _webSocket = null;
+            Debug.Log("WebSocket Closed!");
         }
 
 
         /// <summary>
         /// 在无法连接到服务器、发生内部错误或连接丢失时调用
         /// </summary>
-        private void OnError(WebSocket webSocket, string error)
+        private void OnError(WebSocket ws, string error)
         {
             Debug.Log($"An error occured: <color=red>{error}</color>");
-            _webSocket = null;
         }
 
         #endregion

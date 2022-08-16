@@ -16,7 +16,7 @@ namespace Manager
         public bool dontDestroyOnLoad = true;
         public static T Instance { get; private set; }
 
-        private void Awake()
+        protected virtual void Awake()
         {
             if (Instance != null && ReferenceEquals(Instance, this))
             {

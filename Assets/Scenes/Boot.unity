@@ -221,7 +221,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buttonNames:
   - Button_Quit
-  - Button_Start
+  - Button_Regist
+  - Button_Login
 --- !u!114 &1132100456
 MonoBehaviour:
   m_ObjectHideFlags: 0

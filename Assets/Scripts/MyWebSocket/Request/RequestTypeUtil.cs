@@ -42,23 +42,23 @@ namespace MyWebSocket.Request
         SendMessage,
     }
 
-    public struct RequestLoginData
+    public class RequestLoginData
     {
         [JsonProperty("account")] public string Account;
     };
 
-    public struct RequestRegisterData
+    public class RequestRegisterData
     {
         [JsonProperty("account")] public string Account;
         [JsonProperty("accountName")] public string AccountName;
     }
 
-    public struct RequestCreateRoomData
+    public class RequestCreateRoomData
     {
         [JsonProperty("account")] public string Account;
     }
 
-    public struct RequestInviteData
+    public class RequestInviteData
     {
         [JsonProperty("account")] public string Account;
         [JsonProperty("accountName")] public string AccountName;
@@ -66,14 +66,14 @@ namespace MyWebSocket.Request
         [JsonProperty("groupId")] public string GroupId;
     }
 
-    public struct RequestAddRoomData
+    public class RequestAddRoomData
     {
         [JsonProperty("account")] public string Account;
         [JsonProperty("accountName")] public string AccountName;
         [JsonProperty("groupId")] public string GroupId;
     }
 
-    public struct RequestSendMessageData
+    public class RequestSendMessageData
     {
         [JsonProperty("sendAccount")] public string SendAccount;
         [JsonProperty("sendType")] public int SendType;

@@ -3,14 +3,22 @@
   <displayList>
     <graph id="n1_e0xw" name="bg" xy="0,0" size="1920,1080" type="rect" fillColor="#ff999999"/>
     <text id="n0_e0xw" name="title" xy="960,150" pivot="0.5,0.5" anchor="true" size="244,79" fontSize="60" align="center" vAlign="middle" text="游戏标题">
-      <relation target="" sidePair="center-center"/>
+      <relation target="" sidePair="center-center,middle-middle"/>
     </text>
-    <component id="n2_e0xw" name="Button_Quit" src="e0xw3" fileName="Button/ButtonCom.xml" pkg="z7qisvfx" xy="960,816" pivot="0.5,0.5" anchor="true" size="150,90">
+    <component id="n2_e0xw" name="Button_Quit" src="e0xw3" fileName="Button/ButtonCom.xml" pkg="z7qisvfx" xy="960,940" pivot="0.5,0.5" anchor="true" size="180,80" aspect="true">
       <relation target="" sidePair="center-center,middle-middle"/>
       <Button title="退出"/>
     </component>
-    <component id="n3_e0xw" name="Button_Start" src="e0xw3" fileName="Button/ButtonCom.xml" pkg="z7qisvfx" xy="960,595" pivot="0.5,0.5" anchor="true" size="150,90">
-      <Button title="开始"/>
+    <component id="n3_e0xw" name="Button_Login" src="e0xw3" fileName="Button/ButtonCom.xml" pkg="z7qisvfx" xy="960,540" pivot="0.5,0.5" anchor="true" size="180,80" aspect="true">
+      <relation target="" sidePair="center-center,middle-middle"/>
+      <Button title="登录"/>
     </component>
+    <component id="n4_9v6e" name="Button_Regist" src="e0xw3" fileName="Button/ButtonCom.xml" pkg="z7qisvfx" xy="960,740" pivot="0.5,0.5" anchor="true" size="180,80" aspect="true">
+      <relation target="" sidePair="center-center,middle-middle"/>
+      <Button title="注册"/>
+    </component>
+    <text id="n5_9v6e" name="connect" xy="1626,37" size="221,43" fontSize="31" vars="true" text="服务器：{isConnect=未连接}">
+      <relation target="" sidePair="right-right,top-top"/>
+    </text>
   </displayList>
 </component>

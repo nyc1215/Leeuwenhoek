@@ -11,8 +11,8 @@ namespace MyWebSocket.Request
     [JsonObject(MemberSerialization.OptIn)]
     public class RequestInvite : RequestUtil
     {
-        [JsonProperty("data", Required = Required.Always)]
-        private RequestInviteData _data;
+        [JsonProperty("data")]
+        private RequestInviteData _data = new();
 
         public RequestInvite(string account, string accountName, string targetAccount, string groupId) : base(
             RequestType.Invite)

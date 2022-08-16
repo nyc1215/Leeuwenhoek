@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="1920,1080" pivot="0.5,0.5" anchor="true">
+  <displayList>
+    <graph id="n0_9v6e" name="bg" xy="960,540" pivot="0.5,0.5" anchor="true" size="800,600" type="rect" lineSize="0" fillColor="#ffcccccc"/>
+    <component id="n2_9v6e" name="Button_Back" src="e0xw3" fileName="Button/ButtonCom.xml" pkg="z7qisvfx" xy="960,729" pivot="0.5,0.5" anchor="true" size="180,80" aspect="true">
+      <Button title="返回" titleFontSize="40"/>
+    </component>
+    <text id="n4_9v6e" name="name" xy="960,368" pivot="0.5,0.5" anchor="true" size="382,70" fontSize="53" align="center" vAlign="middle" autoSize="none" text="请输入昵称" input="true"/>
+    <component id="n5_9v6e" name="Button_Login" src="e0xw3" fileName="Button/ButtonCom.xml" pkg="z7qisvfx" xy="960,573" pivot="0.5,0.5" anchor="true" size="180,80" aspect="true">
+      <Button title="登录" titleFontSize="40"/>
+    </component>
+  </displayList>
+</component>

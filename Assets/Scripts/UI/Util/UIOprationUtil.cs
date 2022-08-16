@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using System;
+using BestHTTP.WebSocket;
 using FairyGUI;
 using Manager;
 using UnityEngine.Assertions;
