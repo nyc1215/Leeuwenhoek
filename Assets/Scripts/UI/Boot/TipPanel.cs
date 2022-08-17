@@ -67,8 +67,8 @@ namespace UI.Boot
             if (!string.IsNullOrEmpty(tips))
             {
                 _tipUIText.text = tips;
-                _window.BringToFront();
                 _window.Show();
+                _window.BringToFront();
             }
         }
 

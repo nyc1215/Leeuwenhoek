@@ -476,7 +476,9 @@ namespace FairyGUI
         public Camera GetRenderCamera()
         {
             if (renderMode == RenderMode.ScreenSpaceOverlay)
+            {
                 return StageCamera.main;
+            }
             else
             {
                 Camera cam = this.renderCamera;

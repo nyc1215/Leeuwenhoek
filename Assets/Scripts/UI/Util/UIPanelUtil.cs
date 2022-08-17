@@ -15,15 +15,12 @@ namespace UI.Util
     {
         public List<string> buttonNames = new();
         private readonly Dictionary<string, GButton> _buttonList = new();
-        private UIPanel _panel;
         protected GComponent UIRoot;
 
         protected virtual void Awake()
         {
-            _panel = GetComponent<UIPanel>();
-            UIRoot = _panel.ui;
+            UIRoot = GetComponent<UIPanel>().ui;
 
-            Assert.IsNotNull(_panel);
             Assert.IsNotNull(UIRoot);
 
             GetAllButtons();

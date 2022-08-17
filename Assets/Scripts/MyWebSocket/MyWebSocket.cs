@@ -56,7 +56,7 @@ namespace MyWebSocket
             if (!_opened)
             {
                 _opened = true;
-                WebSocket.Open();
+                WebSocket?.Open();
                 Debug.Log("webSocket connecting...");
             }
             else

@@ -138,7 +138,7 @@ GameObject:
   - component: {fileID: 1132100455}
   m_Layer: 5
   m_Name: UIPanel
-  m_TagString: Untagged
+  m_TagString: UI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -160,8 +160,8 @@ MonoBehaviour:
   fitScreen: 0
   sortingOrder: 0
   packagePath: FairyGUIOutPut/Boot
-  renderMode: 0
-  renderCamera: {fileID: 0}
+  renderMode: 1
+  renderCamera: {fileID: 1317449409}
   position: {x: 0, y: 0, z: 0}
   scale: {x: 1, y: 1, z: 1}
   rotation: {x: 0, y: 0, z: 0}
@@ -204,9 +204,50 @@ MonoBehaviour:
     f: 0
     b: 0
     c: {r: 0, g: 0, b: 0, a: 1}
+  - valid: 0
+    s: 
+    i: 0
+    f: 0
+    b: 0
+    c: {r: 0, g: 0, b: 0, a: 0}
+  - valid: 0
+    s: 
+    i: 0
+    f: 0
+    b: 0
+    c: {r: 0, g: 0, b: 0, a: 0}
+  - valid: 0
+    s: 
+    i: 0
+    f: 0
+    b: 0
+    c: {r: 0, g: 0, b: 0, a: 0}
+  - valid: 0
+    s: 
+    i: 0
+    f: 0
+    b: 0
+    c: {r: 0, g: 0, b: 0, a: 0}
+  - valid: 0
+    s: 
+    i: 0
+    f: 0
+    b: 0
+    c: {r: 0, g: 0, b: 0, a: 0}
+  - valid: 0
+    s: 
+    i: 0
+    f: 0
+    b: 0
+    c: {r: 0, g: 0, b: 0, a: 0}
+  - valid: 0
+    s: 
+    i: 0
+    f: 0
+    b: 1
+    c: {r: 0, g: 0, b: 0, a: 1}
   PreloadPackages:
   - FairyGUIOutPut/Public
-  - FairyGUIOutPut/Boot
 --- !u!114 &1132100455
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -290,6 +331,7 @@ MonoBehaviour:
   dontDestroyOnLoad: 1
   nextSceneToLoadAsync: 
   uiJumpData: {fileID: 11400000, guid: 67ce7ebaf0df9e345a85cfeabe105f64, type: 2}
+  account: 
   allPlayers: []
   playerPrefab: {fileID: 0}
 --- !u!1 &1317449407
@@ -301,8 +343,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1317449410}
-  - component: {fileID: 1317449409}
   - component: {fileID: 1317449408}
+  - component: {fileID: 1317449409}
   - component: {fileID: 1317449412}
   - component: {fileID: 1317449413}
   m_Layer: 0

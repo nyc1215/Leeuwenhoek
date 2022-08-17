@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using Manager;
 using Newtonsoft.Json;
+using UnityEngine;
 
 namespace MyWebSocket.Request
 {

@@ -14,7 +14,7 @@ namespace MyWebSocket.Request
         /// 请求体类型
         /// </summary>
         [JsonProperty("requestType", Required = Required.Always, Order = -3)]
-        protected string NowRequestType { get; set; }
+        public string NowRequestType { get; set; }
 
         /// <summary>
         /// 唯一的请求标记，前端生成，后端保存
@@ -48,5 +48,29 @@ namespace MyWebSocket.Request
             };
             return JsonConvert.SerializeObject(this, setting);
         }
+
+        /// <summary>
+        /// 判断请求对应的响应是否成功
+        /// 然后根据成功与否执行对应的委托
+        /// </summary>
+        public virtual void CheckWorkDelegate(object data) { }
+
+        protected void CleanWorkDelegate()
+        {
+            RequestSuccess = null;
+            RequestFail = null;
+        }
+        
+        public delegate void Work();
+
+        /// <summary>
+        /// 请求成功收到响应后执行的委托
+        /// </summary>
+        public Work RequestSuccess;
+
+        /// <summary>
+        /// 请求受到失败响应后执行的委托
+        /// </summary>
+        public Work RequestFail;
     }
 }

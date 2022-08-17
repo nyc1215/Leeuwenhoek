@@ -11,6 +11,7 @@ using UI.Util;
 using Unity.Collections;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Object = UnityEngine.Object;
 
 namespace Manager
 {
@@ -29,6 +30,8 @@ namespace Manager
         #endregion
 
         #region 玩家相关变量
+
+        public string account = "";
 
         public List<MyPlayerController> allPlayers = new();
 
@@ -54,13 +57,13 @@ namespace Manager
 
         #region 服务器通信
 
-        public void SendRequest<T>(T request) where T : RequestUtil
+        public void SendRequest(RequestUtil request)
         {
-            var t = typeof(T);
             if (MyWebSocket.MyWebSocket.Instance.WebSocket.IsOpen)
             {
                 MyWebSocket.MyWebSocket.Instance.Send(request.ToJson());
-                if (t == typeof(RequestInvite) || t == typeof(RequestAddRoom))
+                if (request.NowRequestType == RequestType.Invite.ToString() ||
+                    request.NowRequestType == RequestType.AddRoom.ToString())
                 {
                     return;
                 }
@@ -127,6 +130,18 @@ namespace Manager
             }
 
             Debug.Log($"{response.Data}");
+
+            var request = (RequestUtil)_requestPool[response.RequestID];
+            if (Enum.TryParse(request.NowRequestType, out RequestType nowTypeOfRequest))
+            {
+                switch (nowTypeOfRequest)
+                {
+                    case RequestType.Register:
+                        var register = request as RequestRegister;
+                        register?.CheckWorkDelegate(response.Data);
+                        break;
+                }
+            }
 
             _requestPool.Remove(response.RequestID);
         }

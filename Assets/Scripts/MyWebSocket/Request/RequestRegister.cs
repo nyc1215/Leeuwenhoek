@@ -23,5 +23,17 @@ namespace MyWebSocket.Request
             _data.Account = account;
             _data.AccountName = accountName;
         }
+
+        public override void CheckWorkDelegate(object data)
+        {
+            if ((string)data == "OK")
+            {
+                RequestSuccess();
+            }
+            else
+            {
+                RequestFail();
+            }
+        }
     }
 }

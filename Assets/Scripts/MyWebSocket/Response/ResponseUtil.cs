@@ -32,7 +32,7 @@ namespace MyWebSocket.Response
         [JsonProperty("requestId")] public virtual string RequestID { get; set; }
 
         [JsonProperty("data")] public object Data { get; set; }
-
+        
         public ResponseUtil(string json)
         {
             if (string.IsNullOrEmpty(json))

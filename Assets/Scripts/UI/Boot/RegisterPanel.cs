@@ -65,7 +65,11 @@ namespace UI.Boot
                 return;
             }
 
-            MyGameManager.Instance.SendRequest(new RequestRegister(SystemInfo.deviceUniqueIdentifier, _registerUITextInput.text));
+            var requestRegister = new RequestRegister(SystemInfo.deviceUniqueIdentifier, _registerUITextInput.text);
+            requestRegister.RequestSuccess += () => { tipPanel.Show("注册成功"); };
+            requestRegister.RequestFail += () => { tipPanel.Show("注册失败"); };
+
+            MyGameManager.Instance.SendRequest(requestRegister);
         }
     }
 }

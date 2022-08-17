@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Body
   - "\u53EF\u4EA4\u4E92\u7269\u4F53"
+  - UI
   layers:
   - Default
   - TransparentFX
