@@ -13,7 +13,7 @@
       <relation target="" sidePair="center-center,middle-middle"/>
       <Button title="登录"/>
     </component>
-    <component id="n4_9v6e" name="Button_Regist" src="e0xw3" fileName="Button/ButtonCom.xml" pkg="z7qisvfx" xy="960,740" pivot="0.5,0.5" anchor="true" size="180,80" aspect="true">
+    <component id="n4_9v6e" name="Button_Register" src="e0xw3" fileName="Button/ButtonCom.xml" pkg="z7qisvfx" xy="960,740" pivot="0.5,0.5" anchor="true" size="180,80" aspect="true">
       <relation target="" sidePair="center-center,middle-middle"/>
       <Button title="注册"/>
     </component>

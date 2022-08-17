@@ -4,7 +4,7 @@
     <component id="e0xw0" name="BootPanel.xml" path="/" exported="true"/>
     <component id="9v6e1" name="Tip.xml" path="/" exported="true"/>
     <component id="9v6e2" name="Login.xml" path="/" exported="true"/>
-    <component id="9v6e3" name="Regist.xml" path="/" exported="true"/>
+    <component id="9v6e3" name="Register.xml" path="/" exported="true"/>
   </resources>
   <publish name=""/>
 </packageDescription>

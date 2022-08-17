@@ -9,9 +9,9 @@
     <text id="n4_9v6e" name="name" xy="400,120" pivot="0.5,0.5" anchor="true" size="382,70" fontSize="53" align="center" vAlign="middle" autoSize="none" text="请输入昵称" input="true">
       <relation target="" sidePair="center-center,top-top"/>
     </text>
-    <component id="n5_9v6e" name="Button_Login" src="e0xw3" fileName="Button/ButtonCom.xml" pkg="z7qisvfx" xy="400,340" pivot="0.5,0.5" anchor="true" size="180,80" aspect="true">
+    <component id="n5_9v6e" name="Button_Register" src="e0xw3" fileName="Button/ButtonCom.xml" pkg="z7qisvfx" xy="400,340" pivot="0.5,0.5" anchor="true" size="180,80" aspect="true">
       <relation target="" sidePair="center-center,bottom-bottom"/>
-      <Button title="登录" titleFontSize="40"/>
+      <Button title="注册" titleFontSize="40"/>
     </component>
   </displayList>
 </component>

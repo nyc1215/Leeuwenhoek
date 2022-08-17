@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using BestHTTP.WebSocket;
 using FairyGUI;
 using MyWebSocket.Request;
@@ -9,17 +10,18 @@ using UnityEngine.Assertions;
 
 namespace UI.Boot
 {
-    public static class LoginPanel
+    public class LoginPanel
     {
-        private static GComponent _loginUIComponent;
-        private static GButton _loginUIBackButton;
-        private static GButton _loginButton;
-        private static GTextInput _loginUITextInput;
+        private readonly Window _window;
+        private readonly GComponent _loginUIComponent;
+        private readonly GButton _loginUIBackButton;
+        private readonly GButton _loginButton;
+        private readonly GTextInput _loginUITextInput;
 
         /// <summary>
         /// 提示UI的初始化
         /// </summary>
-        public static void LoginPanelInit(GComponent uiRoot)
+        public LoginPanel([NotNull] TipPanel tipPanel)
         {
             _loginUIComponent = UIPackage.CreateObject("Boot", "Login").asCom;
             _loginUIComponent.Center();
@@ -32,31 +34,33 @@ namespace UI.Boot
             Assert.IsNotNull(_loginUIBackButton);
             Assert.IsNotNull(_loginButton);
             Assert.IsNotNull(_loginUITextInput);
-
-            _loginUIComponent.visible = false;
-            _loginUIBackButton.onClick.Add((() => { _loginUIComponent.visible = false; }));
-            _loginButton.onClick.Add(Login);
-
-            GRoot.inst.AddChild(_loginUIComponent);
+            
+            _window = new Window()
+            {
+                contentPane = _loginUIComponent,
+                closeButton = _loginUIBackButton,
+                modal = true
+            };
+            _loginButton.onClick.Add((() => { Login(tipPanel); }));
         }
 
-        public static void Show()
+        public void Show()
         {
-            _loginUIComponent.visible = true;
+            _window.Show();
             MyWebSocket.MyWebSocket.Instance.Connect();
         }
 
-        private static void Login()
+        private void Login(TipPanel tipPanel)
         {
             if (_loginUITextInput.text.Equals(string.Empty))
             {
-                TipPanel.Show("请输入昵称");
+                tipPanel.Show("请输入昵称");
                 return;
             }
 
             if (MyWebSocket.MyWebSocket.Instance.WebSocket.State != WebSocketStates.Open)
             {
-                TipPanel.ShowNetWorkError();
+                tipPanel.ShowNetWorkError();
                 return;
             }
 

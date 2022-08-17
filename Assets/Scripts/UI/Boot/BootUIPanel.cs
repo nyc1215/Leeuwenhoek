@@ -17,30 +17,32 @@ namespace UI.Boot
     public class BootUIPanel : UIPanelUtil
     {
         private GButton _quitButton;
-        private GButton _registButton;
+        private GButton _registerButton;
         private GButton _loginButton;
         private GTextField _severState;
+
+        private RegisterPanel _registerPanel;
+        private LoginPanel _loginPanel;
+        private TipPanel _tipPanel;
+
+        protected override void Awake()
+        {
+            base.Awake();
+            _tipPanel = new TipPanel();
+            _loginPanel = new LoginPanel(_tipPanel);
+            _registerPanel = new RegisterPanel(_tipPanel);
+        }
 
         private void Start()
         {
             _quitButton = GetButton("Button_Quit");
-            _registButton = GetButton("Button_Regist");
+            _registerButton = GetButton("Button_Register");
             _loginButton = GetButton("Button_Login");
             _severState = UIRoot.GetChild("connect").asTextField;
 
             _quitButton?.onClick.Add((() => { StartCoroutine(QuitGame()); }));
-            _registButton?.onClick.Add(() =>
-            {
-                RegistPanel.RegistPanelInit(UIRoot);
-                RegistPanel.Show();
-            });
-            _loginButton?.onClick.Add((() =>
-            {
-                LoginPanel.LoginPanelInit(UIRoot);
-                LoginPanel.Show();
-            }));
-            
-            TipPanel.TipPanelInit(UIRoot);
+            _registerButton?.onClick.Add(() => { _registerPanel.Show(); });
+            _loginButton?.onClick.Add((() => { _loginPanel.Show(); }));
         }
 
         private static IEnumerator QuitGame()
@@ -81,7 +83,6 @@ namespace UI.Boot
                         _severState.SetVar("isConnect", "未连接").FlushVars();
                         break;
                 }
-               
             }
         }
     }

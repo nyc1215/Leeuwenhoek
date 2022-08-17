@@ -14,8 +14,13 @@ namespace MyWebSocket
 
         public WebSocket WebSocket;
 
+        private bool _opened;
+
         private void Init()
         {
+            _opened = false;
+
+            //HTTPManager.Logger.Level = BestHTTP.Logger.Loglevels.All;
             WebSocket = new WebSocket(new Uri(uri));
 #if !UNITY_WEBGL || UNITY_EDITOR
             //WebSocket.StartPingThread = true;
@@ -32,7 +37,7 @@ namespace MyWebSocket
             WebSocket.OnMessage += OnMessageReceived;
             WebSocket.OnError += OnError;
             WebSocket.OnClosed += OnClosed;
-            WebSocket.OnBinary += OnBinaryMessageReceived;
+            //WebSocket.OnBinary += OnBinaryMessageReceived;
         }
 
         public void Connect()
@@ -41,16 +46,23 @@ namespace MyWebSocket
             {
                 Init();
             }
-            
+
             if (WebSocket is { IsOpen: true })
             {
                 Debug.Log("webSocket already connected");
                 return;
             }
-            
-            WebSocket.Open();
-            
-            Debug.Log("webSocket connecting...");
+
+            if (!_opened)
+            {
+                _opened = true;
+                WebSocket.Open();
+                Debug.Log("webSocket connecting...");
+            }
+            else
+            {
+                Debug.Log("webSocket already call open");
+            }
         }
 
         public void Send(string str)
@@ -91,7 +103,7 @@ namespace MyWebSocket
         /// 在与服务器建立连接时调用
         /// 在此事件之后，WebSocket 的 IsOpen 属性将为 True
         /// </summary>
-        private static void OnOpen(WebSocket ws)
+        private void OnOpen(WebSocket ws)
         {
             Debug.Log("WebSocket Open!");
         }
@@ -99,7 +111,7 @@ namespace MyWebSocket
         /// <summary>
         /// 在从服务器收到文本消息时调用
         /// </summary>
-        private static void OnMessageReceived(WebSocket ws, string message)
+        private void OnMessageReceived(WebSocket ws, string message)
         {
             // foreach (var player in MyGameManager.Instance.allPlayers)
             // {
@@ -111,7 +123,7 @@ namespace MyWebSocket
         /// <summary>
         /// 在从服务器二进制消息时调用
         /// </summary>
-        private static void OnBinaryMessageReceived(WebSocket ws, byte[] message)
+        private void OnBinaryMessageReceived(WebSocket ws, byte[] message)
         {
             Debug.Log("Binary Message received from server. Length: " + message.Length);
         }
@@ -119,7 +131,7 @@ namespace MyWebSocket
         /// <summary>
         /// 在与服务器关闭连接时调用
         /// </summary>
-        private static void OnClosed(WebSocket ws, ushort code, string message)
+        private void OnClosed(WebSocket ws, ushort code, string message)
         {
             Debug.Log("WebSocket Closed!");
         }

@@ -7,20 +7,20 @@ using UnityEngine.Assertions;
 
 namespace UI.Boot
 {
-    public static class TipPanel
+    public class TipPanel
     {
-        private static GComponent _tipUIComponent;
-        private static GButton _tipUIBackButton;
-        private static GTextField _tipUIText;
+        private readonly Window _window;
+        private readonly GComponent _tipUIComponent;
+        private readonly GButton _tipUIBackButton;
+        private readonly GTextField _tipUIText;
 
         /// <summary>
         /// 提示UI的初始化
         /// </summary>
-        public static void TipPanelInit(GComponent uiRoot)
+        public TipPanel()
         {
             _tipUIComponent = UIPackage.CreateObject("Boot", "Tip").asCom;
             _tipUIComponent.Center();
-            _tipUIComponent.sortingOrder = 10;
             Assert.IsNotNull(_tipUIComponent);
 
             _tipUIBackButton = _tipUIComponent.GetChild("Button_Back").asButton;
@@ -29,15 +29,17 @@ namespace UI.Boot
             Assert.IsNotNull(_tipUIBackButton);
             Assert.IsNotNull(_tipUIText);
 
-            _tipUIComponent.visible = false;
-            _tipUIBackButton.onClick.Add((() => { _tipUIComponent.visible = false; }));
 
-            GRoot.inst.AddChild(_tipUIComponent);
+            _window = new Window
+            {
+                contentPane = _tipUIComponent,
+                closeButton = _tipUIBackButton,
+                modal = true
+            };
         }
 
-        public static void ShowNetWorkError()
+        public void ShowNetWorkError()
         {
-            _tipUIComponent.visible = true;
             switch (MyWebSocket.MyWebSocket.Instance.WebSocket.State)
             {
                 case WebSocketStates.Connecting:
@@ -55,21 +57,25 @@ namespace UI.Boot
                     ShowFail();
                     break;
             }
+
+            _window.Show();
+            _window.BringToFront();
         }
 
-        public static void Show(string tips)
+        public void Show(string tips)
         {
             if (!string.IsNullOrEmpty(tips))
             {
                 _tipUIText.text = tips;
-                _tipUIComponent.visible = true;
+                _window.BringToFront();
+                _window.Show();
             }
         }
 
         /// <summary>
         ///连接中的显示
         /// </summary>
-        private static void ShowConnecting()
+        private void ShowConnecting()
         {
             _tipUIText.text = "连接中";
         }
@@ -77,7 +83,7 @@ namespace UI.Boot
         /// <summary>
         ///连接成功的显示
         /// </summary>
-        private static void ShowSuccess()
+        private void ShowSuccess()
         {
             _tipUIText.text = "服务器连接成功";
         }
@@ -85,7 +91,7 @@ namespace UI.Boot
         /// <summary>
         ///连接失败的显示
         /// </summary>
-        private static void ShowFail()
+        private void ShowFail()
         {
             _tipUIText.text = "服务器连接失败";
         }
