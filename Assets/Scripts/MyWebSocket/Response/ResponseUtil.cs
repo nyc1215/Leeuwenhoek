@@ -31,12 +31,16 @@ namespace MyWebSocket.Response
 
         [JsonProperty("requestId")] public virtual string RequestID { get; set; }
 
-        [JsonProperty("data")] protected object Data { get; set; }
+        [JsonProperty("data")] public object Data { get; set; }
 
-        [JsonConstructor]
         public ResponseUtil(string json)
         {
-            var aResponse = JsonConvert.DeserializeObject<ResponseUtil>(json);
+            if (string.IsNullOrEmpty(json))
+            {
+                NowResponseType = "NULL";
+                return;
+            }
+            var aResponse = JsonConvert.DeserializeObject<ResponseUtil>(json,new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All });
             NowResponseType = aResponse.NowResponseType;
             RequestID = aResponse.RequestID;
             Data = aResponse.Data;

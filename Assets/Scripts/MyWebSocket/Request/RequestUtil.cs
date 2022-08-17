@@ -43,7 +43,8 @@ namespace MyWebSocket.Request
             var setting = new JsonSerializerSettings
             {
                 NullValueHandling = NullValueHandling.Ignore,
-                Formatting = prettyPrint ? Formatting.Indented : Formatting.None
+                Formatting = prettyPrint ? Formatting.Indented : Formatting.None,
+                TypeNameHandling = TypeNameHandling.All
             };
             return JsonConvert.SerializeObject(this, setting);
         }

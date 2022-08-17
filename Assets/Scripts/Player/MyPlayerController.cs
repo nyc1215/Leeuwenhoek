@@ -58,9 +58,7 @@ namespace Player
         #endregion
 
         #region 私有变量
-
-        private readonly Hashtable _requestPool = new();
-
+        
         private Rigidbody _playerRigidbody;
         private Transform _playerTransform;
         private Animator _animator;
@@ -178,79 +176,6 @@ namespace Player
                     _targets.Remove(targetPlayer);
                 }
             }
-        }
-
-        #endregion
-
-        #region 服务器通信
-
-        public void SendRequest<T>(T request) where T : RequestUtil
-        {
-            var t = typeof(T);
-            if (MyWebSocket.MyWebSocket.Instance.WebSocket.IsOpen)
-            {
-                MyWebSocket.MyWebSocket.Instance.Send(request.ToJson());
-                if (t == typeof(RequestInvite) || t == typeof(RequestAddRoom))
-                {
-                    return;
-                }
-
-                _requestPool.Add(request.RequestID, request);
-            }
-            else
-            {
-                Debug.LogWarning("Sever is not connected!!!");
-            }
-        }
-
-        public void GetResponse(string json)
-        {
-            ResponseUtil responseUtil = new(json);
-
-            if (!Enum.TryParse(responseUtil.NowResponseType, out ResponseType nowTypeOfResponse))
-            {
-                Debug.Log("string to ResponseType failed");
-                return;
-            }
-
-            switch (nowTypeOfResponse)
-            {
-                case ResponseType.Error:
-                    ResponseErrorWork((ResponseError)responseUtil);
-                    break;
-                case ResponseType.Response:
-                    ResponseWork((Response)responseUtil);
-                    break;
-                case ResponseType.SynchronousData:
-                    SynchronousData((ResponseSynchronousData)responseUtil);
-                    break;
-                default:
-                    throw new System.InvalidCastException();
-            }
-        }
-
-        private void SynchronousData(ResponseSynchronousData responseSynchronousData)
-        {
-        }
-
-        private void ResponseErrorWork(ResponseError responseError)
-        {
-            if (!_requestPool.ContainsKey(responseError.RequestID))
-            {
-                return;
-            }
-
-            _requestPool.Remove(responseError.RequestID);
-        }
-
-        private void ResponseWork(Response response)
-        {
-            if (!_requestPool.ContainsKey(response.RequestID))
-            {
-                return;
-            }
-
-            _requestPool.Remove(response.RequestID);
         }
 
         #endregion

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using BestHTTP.WebSocket;
 using FairyGUI;
+using Manager;
 using MyWebSocket.Request;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -64,7 +65,7 @@ namespace UI.Boot
                 return;
             }
 
-            MyWebSocket.MyWebSocket.Instance.Send(new RequestRegister("1", _registerUITextInput.text).ToJson());
+            MyGameManager.Instance.SendRequest(new RequestRegister(SystemInfo.deviceUniqueIdentifier, _registerUITextInput.text));
         }
     }
 }

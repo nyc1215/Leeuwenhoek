@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using BestHTTP.WebSocket;
 using FairyGUI;
+using Manager;
 using MyWebSocket.Request;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -63,8 +64,8 @@ namespace UI.Boot
                 tipPanel.ShowNetWorkError();
                 return;
             }
-
-            MyWebSocket.MyWebSocket.Instance.Send(new RequestLogin(_loginUITextInput.text).ToJson());
+            
+            MyGameManager.Instance.SendRequest(new RequestLogin(_loginUITextInput.text));
         }
     }
 }

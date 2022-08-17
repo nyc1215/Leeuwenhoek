@@ -37,7 +37,7 @@ namespace MyWebSocket
             WebSocket.OnMessage += OnMessageReceived;
             WebSocket.OnError += OnError;
             WebSocket.OnClosed += OnClosed;
-            //WebSocket.OnBinary += OnBinaryMessageReceived;
+            WebSocket.OnBinary += OnBinaryMessageReceived;
         }
 
         public void Connect()
@@ -113,11 +113,11 @@ namespace MyWebSocket
         /// </summary>
         private void OnMessageReceived(WebSocket ws, string message)
         {
-            // foreach (var player in MyGameManager.Instance.allPlayers)
-            // {
-            //     player.GetResponse(message);
-            // }
-            Debug.Log(message);
+            if (!string.IsNullOrEmpty(message))
+            {
+                Debug.Log(message);
+                MyGameManager.Instance.GetResponse(message);
+            }
         }
 
         /// <summary>
