@@ -1,16 +1,19 @@
 ﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace MyWebSocket.Response
 {
-    public struct PlayerListNode
+    public class PlayerListNode
     {
-        public string Account;
-        public string AccountName;
+        [JsonProperty("account")] public string Account;
+        [JsonProperty("accountName")] public string AccountName;
     }
 
-    public struct PlayerListData
+    public class PlayerListData
     {
-        public string GroupId;
-        public List<PlayerListNode> PlayerList;
+        [JsonProperty("groupId")] public string GroupId;
+        [JsonProperty("playerList")] public List<PlayerListNode> PlayerList;
+        [JsonProperty("scriptName")] public string ScriptName;
     }
+    
 }

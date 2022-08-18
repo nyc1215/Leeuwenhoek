@@ -110,6 +110,9 @@ namespace Manager
 
         private void SynchronousData(ResponseUtil responseSynchronousData)
         {
+            Debug.Log(responseSynchronousData.Data);
+            
+            
         }
 
         private void ResponseErrorWork(ResponseUtil responseError)
