@@ -23,14 +23,16 @@ namespace UI.Boot
 
         private RegisterPanel _registerPanel;
         private LoginPanel _loginPanel;
-        private TipPanel _tipPanel;
+        public TipPanel TipPanel;
+        public MatchingPanel MatchingPanel;
 
         protected override void Awake()
         {
             base.Awake();
-            _tipPanel = new TipPanel();
-            _loginPanel = new LoginPanel(_tipPanel);
-            _registerPanel = new RegisterPanel(_tipPanel);
+            TipPanel = new TipPanel();
+            MatchingPanel = new MatchingPanel();
+            _loginPanel = new LoginPanel(this);
+            _registerPanel = new RegisterPanel(this);
         }
 
         private void Start()
@@ -40,9 +42,9 @@ namespace UI.Boot
             _loginButton = GetButton("Button_Login");
             _severState = UIRoot.GetChild("connect").asTextField;
 
-            _quitButton?.onClick.Add((() => { StartCoroutine(QuitGame()); }));
+            _quitButton?.onClick.Add(() => { StartCoroutine(QuitGame()); });
             _registerButton?.onClick.Add(() => { _registerPanel.Show(); });
-            _loginButton?.onClick.Add((() => { _loginPanel.Show(); }));
+            _loginButton?.onClick.Add(() => { _loginPanel.Show(); });
         }
 
         private static IEnumerator QuitGame()
@@ -64,25 +66,27 @@ namespace UI.Boot
 
         private void Update()
         {
-            if (MyWebSocket.MyWebSocket.Instance.WebSocket != null)
+            if (MyWebSocket.MyWebSocket.Instance.WebSocket == null)
             {
-                switch (MyWebSocket.MyWebSocket.Instance.WebSocket.State)
-                {
-                    case WebSocketStates.Connecting:
-                        _severState.SetVar("isConnect", "连接中").FlushVars();
-                        break;
-                    case WebSocketStates.Open:
-                        _severState.SetVar("isConnect", "已连接").FlushVars();
-                        break;
-                    case WebSocketStates.Closed:
-                    case WebSocketStates.Closing:
-                    case WebSocketStates.Unknown:
-                        _severState.SetVar("isConnect", "未连接").FlushVars();
-                        break;
-                    default:
-                        _severState.SetVar("isConnect", "未连接").FlushVars();
-                        break;
-                }
+                return;
+            }
+            
+            switch (MyWebSocket.MyWebSocket.Instance.WebSocket.State)
+            {
+                case WebSocketStates.Connecting:
+                    _severState.SetVar("isConnect", "连接中").FlushVars();
+                    break;
+                case WebSocketStates.Open:
+                    _severState.SetVar("isConnect", "已连接").FlushVars();
+                    break;
+                case WebSocketStates.Closed:
+                case WebSocketStates.Closing:
+                case WebSocketStates.Unknown:
+                    _severState.SetVar("isConnect", "未连接").FlushVars();
+                    break;
+                default:
+                    _severState.SetVar("isConnect", "未连接").FlushVars();
+                    break;
             }
         }
     }

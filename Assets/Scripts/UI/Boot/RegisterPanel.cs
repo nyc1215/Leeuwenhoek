@@ -12,28 +12,33 @@ namespace UI.Boot
 {
     public class RegisterPanel
     {
+        private BootUIPanel _bootUIPanel;
         private readonly Window _window;
         private readonly GComponent _registerUIComponent;
         private readonly GButton _registerUIBackButton;
         private readonly GButton _registerButton;
-        private readonly GTextInput _registerUITextInput;
+        private readonly GTextInput _registerAccountInput;
+        private readonly GTextInput _registerAccountNameInput;
 
         /// <summary>
-        /// 提示UI的初始化
+        /// UI的初始化
         /// </summary>
-        public RegisterPanel([NotNull] TipPanel tipPanel)
+        public RegisterPanel([NotNull] BootUIPanel bootUIPanel)
         {
+            _bootUIPanel = bootUIPanel;
+            
             _registerUIComponent = UIPackage.CreateObject("Boot", "Register").asCom;
             _registerUIComponent.Center();
             Assert.IsNotNull(_registerUIComponent);
 
             _registerUIBackButton = _registerUIComponent.GetChild("Button_Back").asButton;
             _registerButton = _registerUIComponent.GetChild("Button_Register").asButton;
-            _registerUITextInput = _registerUIComponent.GetChild("name").asTextInput;
+            _registerAccountInput = _registerUIComponent.GetChild("Input_Account").asTextInput;
+            _registerAccountNameInput = _registerUIComponent.GetChild("Input_Name").asTextInput;
 
             Assert.IsNotNull(_registerUIBackButton);
             Assert.IsNotNull(_registerButton);
-            Assert.IsNotNull(_registerUITextInput);
+            Assert.IsNotNull(_registerAccountNameInput);
 
             _window = new Window
             {
@@ -42,32 +47,42 @@ namespace UI.Boot
                 modal = true
             };
 
-            _registerButton.onClick.Add((() => Register(tipPanel)));
+            _registerButton.onClick.Add(Register);
+            _registerAccountInput.onFocusIn.Add(() => { _registerAccountInput.promptText = string.Empty; });
+            _registerAccountNameInput.onFocusIn.Add(() => { _registerAccountNameInput.promptText = string.Empty; });
         }
 
         public void Show()
         {
             _window.Show();
+            _registerAccountInput.promptText = "请输入账号";
+            _registerAccountInput.text = string.Empty;
+            _registerAccountNameInput.promptText = "请输入昵称";
+            _registerAccountNameInput.text = string.Empty;
             MyWebSocket.MyWebSocket.Instance.Connect();
         }
 
-        private void Register(TipPanel tipPanel)
+        private void Register()
         {
-            if (_registerUITextInput.text.Equals(string.Empty))
+            if (_registerAccountNameInput.text.Equals(string.Empty))
             {
-                tipPanel.Show("请输入昵称");
+                _bootUIPanel.TipPanel.Show("请输入昵称");
                 return;
             }
 
             if (MyWebSocket.MyWebSocket.Instance.WebSocket.State != WebSocketStates.Open)
             {
-                tipPanel.ShowNetWorkError();
+                _bootUIPanel.TipPanel.ShowNetWorkError();
                 return;
             }
 
-            var requestRegister = new RequestRegister(SystemInfo.deviceUniqueIdentifier, _registerUITextInput.text);
-            requestRegister.RequestSuccess += () => { tipPanel.Show("注册成功"); };
-            requestRegister.RequestFail += () => { tipPanel.Show("注册失败"); };
+            var requestRegister = new RequestRegister(_registerAccountInput.text, _registerAccountNameInput.text);
+            requestRegister.RequestSuccess += () =>
+            {
+                _bootUIPanel.TipPanel.Show("注册成功");
+                _window.Hide();
+            };
+            requestRegister.RequestFail += () => { _bootUIPanel.TipPanel.Show("注册失败"); };
 
             MyGameManager.Instance.SendRequest(requestRegister);
         }

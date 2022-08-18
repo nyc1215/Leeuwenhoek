@@ -64,12 +64,14 @@ namespace UI.Boot
 
         public void Show(string tips)
         {
-            if (!string.IsNullOrEmpty(tips))
+            if (string.IsNullOrEmpty(tips))
             {
-                _tipUIText.text = tips;
-                _window.Show();
-                _window.BringToFront();
+                return;
             }
+            
+            _tipUIText.text = tips;
+            _window.Show();
+            _window.BringToFront();
         }
 
         /// <summary>

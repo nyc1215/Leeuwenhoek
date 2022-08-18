@@ -34,6 +34,7 @@ namespace MyWebSocket.Request
             {
                 RequestFail();
             }
+            CleanWorkDelegate();
         }
     }
 }

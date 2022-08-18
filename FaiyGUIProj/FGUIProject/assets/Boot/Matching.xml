@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="800,600" pivot="0.5,0.5" anchor="true" extention="Label">
+  <displayList>
+    <graph id="n0_9v6e" name="bg" xy="400,300" pivot="0.5,0.5" anchor="true" size="800,600" type="rect" fillColor="#ffcccccc"/>
+    <component id="n2_9v6e" name="Button_Back" src="e0xw3" fileName="Button/ButtonCom.xml" pkg="z7qisvfx" xy="400,470" pivot="0.5,0.5" anchor="true" size="180,80" aspect="true" touchable="false" grayed="true">
+      <relation target="" sidePair="center-center,bottom-bottom"/>
+      <Button title="取消匹配" titleFontSize="40"/>
+    </component>
+    <text id="n3_9v6e" name="Title" xy="400,120" pivot="0.5,0.5" anchor="true" size="214,66" fontSize="50" text="匹配中....">
+      <relation target="" sidePair="center-center,top-top"/>
+    </text>
+  </displayList>
+  <transition name="匹配文字动画" autoPlay="true" autoPlayRepeat="-1" frameRate="60">
+    <item time="0" type="Text" target="n3_9v6e" value="匹配中"/>
+    <item time="12" type="Text" target="n3_9v6e" value="匹配中."/>
+    <item time="24" type="Text" target="n3_9v6e" value="匹配中.."/>
+    <item time="36" type="Text" target="n3_9v6e" value="匹配中..."/>
+    <item time="48" type="Text" target="n3_9v6e" value="匹配中"/>
+  </transition>
+</component>

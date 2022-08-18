@@ -41,6 +41,11 @@ namespace MyWebSocket.Request
         /*发消息，讨论的消息*/
         SendMessage,
     }
+    
+    public class RequestMatchData
+    {
+        [JsonProperty("account")] public string Account;
+    };
 
     public class RequestLoginData
     {

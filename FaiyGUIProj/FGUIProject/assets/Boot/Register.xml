@@ -2,16 +2,25 @@
 <component size="800,600" pivot="0.5,0.5" anchor="true" extention="Label">
   <displayList>
     <graph id="n0_9v6e" name="bg" xy="400,300" pivot="0.5,0.5" anchor="true" size="800,600" type="rect" lineSize="0" fillColor="#ffcccccc"/>
+    <graph id="n8_h8vv" name="AccountTextBg" xy="400,90" pivot="0.5,0.5" anchor="true" size="382,70" type="rect" lineSize="0" fillColor="#7fffffff">
+      <relation target="" sidePair="center-center,top-top"/>
+    </graph>
+    <graph id="n7_h8vv" name="NameTextBg" xy="400,200" pivot="0.5,0.5" anchor="true" size="382,70" type="rect" lineSize="0" fillColor="#7fffffff">
+      <relation target="" sidePair="center-center,top-top"/>
+    </graph>
     <component id="n2_9v6e" name="Button_Back" src="e0xw3" fileName="Button/ButtonCom.xml" pkg="z7qisvfx" xy="400,470" pivot="0.5,0.5" anchor="true" size="180,80" aspect="true">
       <relation target="" sidePair="center-center,bottom-bottom"/>
       <Button title="返回" titleFontSize="40"/>
     </component>
-    <text id="n4_9v6e" name="name" xy="400,120" pivot="0.5,0.5" anchor="true" size="382,70" fontSize="53" align="center" vAlign="middle" autoSize="none" text="请输入昵称" input="true">
+    <text id="n4_9v6e" name="Input_Name" xy="400,200" pivot="0.5,0.5" anchor="true" size="382,70" fontSize="50" align="center" vAlign="middle" autoSize="none" singleLine="true" text="" input="true" prompt="请输入昵称" maxLength="8" restrict="^[a-zA-Z0-9_\u4e00-\u9fa5]+$">
       <relation target="" sidePair="center-center,top-top"/>
     </text>
     <component id="n5_9v6e" name="Button_Register" src="e0xw3" fileName="Button/ButtonCom.xml" pkg="z7qisvfx" xy="400,340" pivot="0.5,0.5" anchor="true" size="180,80" aspect="true">
       <relation target="" sidePair="center-center,bottom-bottom"/>
       <Button title="注册" titleFontSize="40"/>
     </component>
+    <text id="n6_h8vv" name="Input_Account" xy="400,90" pivot="0.5,0.5" anchor="true" size="382,70" fontSize="50" align="center" vAlign="middle" autoSize="none" singleLine="true" text="" input="true" prompt="请输入账号" maxLength="16" restrict="[0-9]" keyboardType="4">
+      <relation target="" sidePair="center-center,top-top"/>
+    </text>
   </displayList>
 </component>

@@ -22,5 +22,18 @@ namespace MyWebSocket.Request
             _data.TargetAccount = targetAccount;
             _data.GroupId = groupId;
         }
+
+        public override void CheckWorkDelegate(object data)
+        {
+            if ((string)data == "OK")
+            {
+                RequestSuccess();
+            }
+            else
+            {
+                RequestFail();
+            }
+            CleanWorkDelegate();
+        }
     }
 }

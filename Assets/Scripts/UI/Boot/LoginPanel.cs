@@ -6,6 +6,7 @@ using FairyGUI;
 using Manager;
 using MyWebSocket.Request;
 using Newtonsoft.Json;
+using UI.Util;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -13,6 +14,7 @@ namespace UI.Boot
 {
     public class LoginPanel
     {
+        private readonly BootUIPanel _bootUIPanel;
         private readonly Window _window;
         private readonly GComponent _loginUIComponent;
         private readonly GButton _loginUIBackButton;
@@ -20,52 +22,65 @@ namespace UI.Boot
         private readonly GTextInput _loginUITextInput;
 
         /// <summary>
-        /// 提示UI的初始化
+        /// UI的初始化
         /// </summary>
-        public LoginPanel([NotNull] TipPanel tipPanel)
+        public LoginPanel([NotNull] BootUIPanel bootUIPanel)
         {
+            _bootUIPanel = bootUIPanel;
+
             _loginUIComponent = UIPackage.CreateObject("Boot", "Login").asCom;
             _loginUIComponent.Center();
             Assert.IsNotNull(_loginUIComponent);
 
             _loginUIBackButton = _loginUIComponent.GetChild("Button_Back").asButton;
             _loginButton = _loginUIComponent.GetChild("Button_Login").asButton;
-            _loginUITextInput = _loginUIComponent.GetChild("name").asTextInput;
+            _loginUITextInput = _loginUIComponent.GetChild("Input_Account").asTextInput;
 
             Assert.IsNotNull(_loginUIBackButton);
             Assert.IsNotNull(_loginButton);
             Assert.IsNotNull(_loginUITextInput);
-            
-            _window = new Window()
+
+            _window = new Window
             {
                 contentPane = _loginUIComponent,
                 closeButton = _loginUIBackButton,
                 modal = true
             };
-            _loginButton.onClick.Add((() => { Login(tipPanel); }));
+            _loginButton.onClick.Add(Login);
+            _loginUITextInput.onFocusIn.Add(() => { _loginUITextInput.promptText = string.Empty; });
         }
 
         public void Show()
         {
+            _loginUITextInput.promptText = "请输入账号";
             _window.Show();
             MyWebSocket.MyWebSocket.Instance.Connect();
         }
 
-        private void Login(TipPanel tipPanel)
+        private void Login()
         {
             if (_loginUITextInput.text.Equals(string.Empty))
             {
-                tipPanel.Show("请输入昵称");
+                _bootUIPanel.TipPanel.Show("账号为空，请输入账号");
                 return;
             }
 
             if (MyWebSocket.MyWebSocket.Instance.WebSocket.State != WebSocketStates.Open)
             {
-                tipPanel.ShowNetWorkError();
+                _bootUIPanel.TipPanel.ShowNetWorkError();
                 return;
             }
-            
-            MyGameManager.Instance.SendRequest(new RequestLogin(_loginUITextInput.text));
+
+            var requestLogin = new RequestLogin(_loginUITextInput.text);
+            requestLogin.RequestSuccess += () =>
+            {
+                _window.Hide();
+                _bootUIPanel.MatchingPanel.Show();
+                
+            };
+            requestLogin.RequestFail += () => { _bootUIPanel.TipPanel.Show("用户账号不存在，请先注册"); };
+
+            MyGameManager.Instance.SendRequest(requestLogin);
         }
     }
 }

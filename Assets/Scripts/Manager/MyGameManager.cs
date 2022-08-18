@@ -41,7 +41,7 @@ namespace Manager
 
         #region 网络相关变量
 
-        private readonly Hashtable _requestPool = new();
+        private readonly Dictionary<string, RequestUtil> _requestPool = new();
 
         #endregion
 
@@ -114,7 +114,7 @@ namespace Manager
 
         private void ResponseErrorWork(ResponseUtil responseError)
         {
-            if (!_requestPool.ContainsKey(responseError.RequestID))
+            if (!_requestPool.TryGetValue(responseError.RequestID, out var requestUtil))
             {
                 return;
             }
@@ -124,23 +124,49 @@ namespace Manager
 
         private void ResponseWork(ResponseUtil response)
         {
-            if (!_requestPool.ContainsKey(response.RequestID))
+            if (!_requestPool.TryGetValue(response.RequestID, out var requestUtil))
             {
                 return;
             }
 
             Debug.Log($"{response.Data}");
 
-            var request = (RequestUtil)_requestPool[response.RequestID];
-            if (Enum.TryParse(request.NowRequestType, out RequestType nowTypeOfRequest))
+            var request = _requestPool[response.RequestID];
+            if (!Enum.TryParse(request.NowRequestType, out RequestType nowTypeOfRequest))
             {
-                switch (nowTypeOfRequest)
-                {
-                    case RequestType.Register:
-                        var register = request as RequestRegister;
-                        register?.CheckWorkDelegate(response.Data);
-                        break;
-                }
+                return;
+            }
+
+            switch (nowTypeOfRequest)
+            {
+                case RequestType.Register:
+                    var register = request as RequestRegister;
+                    register?.CheckWorkDelegate(response.Data);
+                    break;
+                case RequestType.Login:
+                    var login = request as RequestLogin;
+                    login?.CheckWorkDelegate(response.Data);
+                    break;
+                case RequestType.ListOfScripts:
+                    break;
+                case RequestType.Matching:
+                    break;
+                case RequestType.CreateRoom:
+                    break;
+                case RequestType.Invite:
+                    break;
+                case RequestType.AddRoom:
+                    break;
+                case RequestType.SubmitLead:
+                    break;
+                case RequestType.Settlement:
+                    break;
+                case RequestType.SubmitScript:
+                    break;
+                case RequestType.SendMessage:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
 
             _requestPool.Remove(response.RequestID);
