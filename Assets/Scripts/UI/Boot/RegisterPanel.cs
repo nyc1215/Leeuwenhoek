@@ -64,6 +64,8 @@ namespace UI.Boot
 
         private void Register()
         {
+            MyWebSocket.MyWebSocket.Instance.Connect();
+
             if (_registerAccountNameInput.text.Equals(string.Empty))
             {
                 _bootUIPanel.TipPanel.Show("请输入昵称");

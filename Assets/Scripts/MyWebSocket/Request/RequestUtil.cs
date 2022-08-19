@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using UnityEngine;
 
 namespace MyWebSocket.Request
 {
@@ -53,7 +54,19 @@ namespace MyWebSocket.Request
         /// 判断请求对应的响应是否成功
         /// 然后根据成功与否执行对应的委托
         /// </summary>
-        public virtual void CheckWorkDelegate(object data) { }
+        public virtual void CheckWorkDelegate(object data)
+        {
+            if ((string)data == "OK")
+            {
+                Debug.Log("注册成功");
+                RequestSuccess?.Invoke();
+            }
+            else
+            {
+                RequestFail?.Invoke();
+            }
+            CleanWorkDelegate();
+        }
 
         protected void CleanWorkDelegate()
         {

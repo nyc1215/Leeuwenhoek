@@ -32,6 +32,7 @@ namespace Manager
         #region 玩家相关变量
 
         public string account = "";
+        public string scriptName = "剧本杀";
 
         public List<MyPlayerController> allPlayers = new();
 
@@ -111,8 +112,6 @@ namespace Manager
         private void SynchronousData(ResponseUtil responseSynchronousData)
         {
             Debug.Log(responseSynchronousData.Data);
-            
-            
         }
 
         private void ResponseErrorWork(ResponseUtil responseError)
@@ -168,8 +167,12 @@ namespace Manager
                     break;
                 case RequestType.SendMessage:
                     break;
+                case RequestType.CancelMatching:
+                    var cancelMatching = request as RequestCancelMatching;
+                    cancelMatching?.CheckWorkDelegate(response.Data);
+                    break;
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new ArgumentOutOfRangeException($"{nowTypeOfRequest.ToString()}");
             }
 
             _requestPool.Remove(response.RequestID);

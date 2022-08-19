@@ -26,11 +26,12 @@ namespace MyWebSocket.Request
         {
             if ((string)data == "OK")
             {
-                RequestSuccess();
+                Debug.Log("登录成功");
+                RequestSuccess?.Invoke();
             }
             else
             {
-                RequestFail();
+                RequestFail?.Invoke();
             }
             CleanWorkDelegate();
         }

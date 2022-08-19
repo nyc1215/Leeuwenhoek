@@ -47,7 +47,7 @@ namespace MyWebSocket
                 Init();
             }
 
-            if (WebSocket is { IsOpen: true })
+            if (WebSocket.IsOpen)
             {
                 Debug.Log("webSocket already connected");
                 return;

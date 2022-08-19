@@ -59,6 +59,8 @@ namespace UI.Boot
 
         private void Login()
         {
+            MyWebSocket.MyWebSocket.Instance.Connect();
+
             if (_loginUITextInput.text.Equals(string.Empty))
             {
                 _bootUIPanel.TipPanel.Show("账号为空，请输入账号");
@@ -71,12 +73,12 @@ namespace UI.Boot
                 return;
             }
 
+            MyGameManager.Instance.account = _loginUITextInput.text;
             var requestLogin = new RequestLogin(_loginUITextInput.text);
             requestLogin.RequestSuccess += () =>
             {
                 _window.Hide();
                 _bootUIPanel.MatchingPanel.Show();
-                
             };
             requestLogin.RequestFail += () => { _bootUIPanel.TipPanel.Show("用户账号不存在，请先注册"); };
 

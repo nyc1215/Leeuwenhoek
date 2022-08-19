@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using UnityEngine;
 
 namespace MyWebSocket.Request
 {
@@ -28,11 +29,12 @@ namespace MyWebSocket.Request
         {
             if ((string)data == "OK")
             {
-                RequestSuccess();
+                Debug.Log("注册成功");
+                RequestSuccess?.Invoke();
             }
             else
             {
-                RequestFail();
+                RequestFail?.Invoke();
             }
             CleanWorkDelegate();
         }

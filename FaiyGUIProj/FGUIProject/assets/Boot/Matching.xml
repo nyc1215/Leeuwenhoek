@@ -2,7 +2,7 @@
 <component size="800,600" pivot="0.5,0.5" anchor="true" extention="Label">
   <displayList>
     <graph id="n0_9v6e" name="bg" xy="400,300" pivot="0.5,0.5" anchor="true" size="800,600" type="rect" fillColor="#ffcccccc"/>
-    <component id="n2_9v6e" name="Button_Back" src="e0xw3" fileName="Button/ButtonCom.xml" pkg="z7qisvfx" xy="400,470" pivot="0.5,0.5" anchor="true" size="180,80" aspect="true" touchable="false" grayed="true">
+    <component id="n2_9v6e" name="Button_Back" src="e0xw3" fileName="Button/ButtonCom.xml" pkg="z7qisvfx" xy="400,470" pivot="0.5,0.5" anchor="true" size="180,80" aspect="true">
       <relation target="" sidePair="center-center,bottom-bottom"/>
       <Button title="取消匹配" titleFontSize="40"/>
     </component>

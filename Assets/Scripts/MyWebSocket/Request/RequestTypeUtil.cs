@@ -20,6 +20,9 @@ namespace MyWebSocket.Request
         /*匹配，提交用户信息至玩家池内*/
         Matching,
 
+        /*取消匹配*/
+        CancelMatching,
+
         /*创建房间*/
         CreateRoom,
 
@@ -41,16 +44,17 @@ namespace MyWebSocket.Request
         /*发消息，讨论的消息*/
         SendMessage,
     }
-    
+
     public class RequestMatchData
     {
         [JsonProperty("account")] public string Account;
-    };
+        [JsonProperty("scriptName")] public string ScriptName;
+    }
 
     public class RequestLoginData
     {
         [JsonProperty("account")] public string Account;
-    };
+    }
 
     public class RequestRegisterData
     {
