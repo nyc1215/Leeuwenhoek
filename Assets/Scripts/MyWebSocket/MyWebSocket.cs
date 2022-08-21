@@ -28,7 +28,9 @@ namespace MyWebSocket
 #if !BESTHTTP_DISABLE_PROXY
             if (HTTPManager.Proxy != null)
             {
-                WebSocket.OnInternalRequestCreated = (ws, internalRequest) => internalRequest.Proxy = new HTTPProxy(HTTPManager.Proxy.Address, HTTPManager.Proxy.Credentials, false);
+                WebSocket.OnInternalRequestCreated = (ws, internalRequest) =>
+                    internalRequest.Proxy =
+                        new HTTPProxy(HTTPManager.Proxy.Address, HTTPManager.Proxy.Credentials, false);
             }
 #endif
 #endif
@@ -47,7 +49,7 @@ namespace MyWebSocket
                 Init();
             }
 
-            if (WebSocket.IsOpen)
+            if (WebSocket == null || WebSocket.IsOpen)
             {
                 Debug.Log("webSocket already connected");
                 return;

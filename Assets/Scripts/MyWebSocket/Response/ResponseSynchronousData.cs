@@ -9,18 +9,19 @@ namespace MyWebSocket.Response
     /// </summary>
     public class ResponseSynchronousData : ResponseUtil
     {
-        [JsonIgnore] public override string RequestID => null;
-
-        [JsonIgnore] public List<Vector3>  playerPos {get
+        public List<Vector3> playerPos
         {
-            if (Data is List<Vector3> playerPosition)
+            get
             {
-                return playerPosition;
-            }
-            return null;
-        }}
+                if (Data is List<Vector3> playerPosition)
+                {
+                    return playerPosition;
+                }
 
-        [JsonIgnore]
+                return null;
+            }
+        }
+
         public PlayerListData PlayerListData
         {
             get
@@ -29,6 +30,7 @@ namespace MyWebSocket.Response
                 {
                     return playerListData;
                 }
+
                 return null;
             }
         }

@@ -28,6 +28,7 @@ namespace UI.Util
         {
             if (!string.IsNullOrEmpty(sceneName))
             {
+                GRoot.inst.CloseAllWindows();
                 SceneManager.LoadScene(sceneName);
             }
             else
@@ -40,6 +41,7 @@ namespace UI.Util
         {
             if (!string.IsNullOrEmpty(sceneName))
             {
+                GRoot.inst.CloseAllWindows();
                 MyGameManager.Instance.nextSceneToLoadAsync = sceneName;
                 GoToScene(MyGameManager.Instance.uiJumpData.loadMenu);
             }

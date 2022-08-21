@@ -10,6 +10,7 @@ using Player;
 using UI.Util;
 using Unity.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using Object = UnityEngine.Object;
 
@@ -33,6 +34,8 @@ namespace Manager
 
         public string account = "";
         public string scriptName = "剧本杀";
+        public bool readyForGame = false;
+        public PlayerListData PlayerListData;
 
         public List<MyPlayerController> allPlayers = new();
 
@@ -48,7 +51,7 @@ namespace Manager
 
         #region 玩家控制
 
-        public void AddPlayer()
+        public void AddPlayerPrefab()
         {
             var player = Instantiate(playerPrefab, gameObject.transform).GetComponent<MyPlayerController>();
             allPlayers.Add(player);
@@ -102,16 +105,23 @@ namespace Manager
                     ResponseWork(responseUtil);
                     break;
                 case ResponseType.SynchronousData:
-                    SynchronousData(responseUtil);
+                    SynchronousData(responseUtil.Data.ToString());
                     break;
                 default:
                     throw new InvalidCastException();
             }
         }
 
-        private void SynchronousData(ResponseUtil responseSynchronousData)
+        private void SynchronousData(string responseSynchronousData)
         {
-            Debug.Log(responseSynchronousData.Data);
+            var playerListData = JsonConvert.DeserializeObject<PlayerListData>(responseSynchronousData);
+            PlayerListData = playerListData;
+            scriptName = PlayerListData?.ScriptName;
+
+            if (SceneManager.GetActiveScene().name != uiJumpData.roomMenu)
+            {
+                UIOperationUtil.GoToScene(uiJumpData.roomMenu);
+            }
         }
 
         private void ResponseErrorWork(ResponseUtil responseError)
@@ -126,15 +136,14 @@ namespace Manager
 
         private void ResponseWork(ResponseUtil response)
         {
-            if (!_requestPool.TryGetValue(response.RequestID, out var requestUtil))
+            if (!_requestPool.TryGetValue(response.RequestID, out var aRequestUtil))
             {
                 return;
             }
 
             Debug.Log($"{response.Data}");
 
-            var request = _requestPool[response.RequestID];
-            if (!Enum.TryParse(request.NowRequestType, out RequestType nowTypeOfRequest))
+            if (!Enum.TryParse(aRequestUtil.NowRequestType, out RequestType nowTypeOfRequest))
             {
                 return;
             }
@@ -142,11 +151,11 @@ namespace Manager
             switch (nowTypeOfRequest)
             {
                 case RequestType.Register:
-                    var register = request as RequestRegister;
+                    var register = aRequestUtil as RequestRegister;
                     register?.CheckWorkDelegate(response.Data);
                     break;
                 case RequestType.Login:
-                    var login = request as RequestLogin;
+                    var login = aRequestUtil as RequestLogin;
                     login?.CheckWorkDelegate(response.Data);
                     break;
                 case RequestType.ListOfScripts:
@@ -168,7 +177,7 @@ namespace Manager
                 case RequestType.SendMessage:
                     break;
                 case RequestType.CancelMatching:
-                    var cancelMatching = request as RequestCancelMatching;
+                    var cancelMatching = aRequestUtil as RequestCancelMatching;
                     cancelMatching?.CheckWorkDelegate(response.Data);
                     break;
                 default:
@@ -176,6 +185,17 @@ namespace Manager
             }
 
             _requestPool.Remove(response.RequestID);
+        }
+
+        #endregion
+
+        #region MonoBehaviour
+
+        protected override void Awake()
+        {
+            base.Awake();
+
+            Debug.unityLogger.logEnabled = true;
         }
 
         #endregion
