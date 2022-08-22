@@ -86,7 +86,7 @@ namespace UI.Boot
             };
             requestRegister.RequestFail += () => { _bootUIPanel.TipPanel.Show("注册失败"); };
 
-            MyGameManager.Instance.SendRequest(requestRegister);
+            MyGameManager.Instance.NetWorkOperations.SendRequest(requestRegister);
         }
     }
 }

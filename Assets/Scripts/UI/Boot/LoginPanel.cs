@@ -73,7 +73,7 @@ namespace UI.Boot
                 return;
             }
 
-            MyGameManager.Instance.account = _loginUITextInput.text;
+            MyGameManager.Instance.LocalPlayerInfo.Account = _loginUITextInput.text;
             var requestLogin = new RequestLogin(_loginUITextInput.text);
             requestLogin.RequestSuccess += () =>
             {
@@ -82,7 +82,7 @@ namespace UI.Boot
             };
             requestLogin.RequestFail += () => { _bootUIPanel.TipPanel.Show("用户账号不存在，请先注册"); };
 
-            MyGameManager.Instance.SendRequest(requestLogin);
+            MyGameManager.Instance.NetWorkOperations.SendRequest(requestLogin);
         }
     }
 }

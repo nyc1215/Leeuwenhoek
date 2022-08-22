@@ -38,7 +38,7 @@ namespace UI.Room
 
             for (var i = 0; i < MyGameManager.Instance.PlayerListData.PlayerList.Count; i++)
             {
-                if (MyGameManager.Instance.PlayerListData.PlayerList[i].Account == MyGameManager.Instance.account)
+                if (MyGameManager.Instance.PlayerListData.PlayerList[i].Account == MyGameManager.Instance.LocalPlayerInfo.Account)
                 {
                     _localPlayerIndex = i;
                 }
@@ -52,16 +52,16 @@ namespace UI.Room
 
         private void PlayerReady()
         {
-            if (!MyGameManager.Instance.readyForGame)
+            if (!MyGameManager.Instance.LocalPlayerInfo.ReadyForGame)
             {
-                MyGameManager.Instance.readyForGame = true;
+                MyGameManager.Instance.LocalPlayerInfo.ReadyForGame = true;
                 _readyButton.text = "已准备";
                 _roomUIBackButton.touchable = false;
                 _roomUIBackButton.GetChild("icon").asImage.color = new Color(0.4f, 0.4f, 0.4f);
             }
             else
             {
-                MyGameManager.Instance.readyForGame = false;
+                MyGameManager.Instance.LocalPlayerInfo.ReadyForGame = false;
                 _readyButton.text = "准备";
                 _roomUIBackButton.touchable = true;
                 _roomUIBackButton.GetChild("icon").asImage.color = Color.white;
@@ -75,7 +75,7 @@ namespace UI.Room
             var localPlayerItemReadyText =
                 _playerList.GetChildAt(_localPlayerIndex).asCom.GetChild("Text_Ready").asTextField;
 
-            localPlayerItemReadyText.text = MyGameManager.Instance.readyForGame ? "已准备" : "未准备";
+            localPlayerItemReadyText.text = MyGameManager.Instance.LocalPlayerInfo.ReadyForGame ? "已准备" : "未准备";
         }
     }
 }

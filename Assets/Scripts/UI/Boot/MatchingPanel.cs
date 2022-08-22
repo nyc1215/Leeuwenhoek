@@ -45,8 +45,8 @@ namespace UI.Boot
 
         public void Show()
         {
-            var requestMatching = new RequestMatching(MyGameManager.Instance.account, MyGameManager.Instance.scriptName);
-            MyGameManager.Instance.SendRequest(requestMatching);
+            var requestMatching = new RequestMatching(MyGameManager.Instance.LocalPlayerInfo.Account, MyGameManager.Instance.LocalPlayerInfo.ScriptName);
+            MyGameManager.Instance.NetWorkOperations.SendRequest(requestMatching);
 
             _window.Show();
             _matchingTextAnimate.Play(-1, 0, null);
@@ -55,8 +55,8 @@ namespace UI.Boot
 
         private void CancelMatching()
         {
-            var requestCancelMatching = new RequestCancelMatching(MyGameManager.Instance.account, MyGameManager.Instance.scriptName);
-            MyGameManager.Instance.SendRequest(requestCancelMatching);
+            var requestCancelMatching = new RequestCancelMatching(MyGameManager.Instance.LocalPlayerInfo.Account, MyGameManager.Instance.LocalPlayerInfo.ScriptName);
+            MyGameManager.Instance.NetWorkOperations.SendRequest(requestCancelMatching);
             _matchingTextAnimate.Stop();
             _window.Hide();
         }

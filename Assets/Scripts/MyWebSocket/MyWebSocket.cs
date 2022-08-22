@@ -118,7 +118,7 @@ namespace MyWebSocket
             if (!string.IsNullOrEmpty(message))
             {
                 Debug.Log(message);
-                MyGameManager.Instance.GetResponse(message);
+                MyGameManager.Instance.NetWorkOperations.GetResponse(message);
             }
         }
 
