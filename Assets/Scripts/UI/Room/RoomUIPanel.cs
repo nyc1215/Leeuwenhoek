@@ -1,8 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using FairyGUI;
 using Manager;
+using MyWebSocket.Request;
+using MyWebSocket.Response;
 using UI.Util;
 using UnityEngine;
 
@@ -29,6 +32,8 @@ namespace UI.Room
 
             _roomUIBackButton = GetButton("Button_Back");
             _readyButton = GetButton("Button_Ready");
+
+            _roomUIBackButton.onClick.Add(PlayerExitRoom);
             _readyButton.onClick.Add(PlayerReady);
         }
 
@@ -38,7 +43,8 @@ namespace UI.Room
 
             for (var i = 0; i < MyGameManager.Instance.PlayerListData.PlayerList.Count; i++)
             {
-                if (MyGameManager.Instance.PlayerListData.PlayerList[i].Account == MyGameManager.Instance.LocalPlayerInfo.Account)
+                if (MyGameManager.Instance.PlayerListData.PlayerList[i].Account ==
+                    MyGameManager.Instance.LocalPlayerInfo.Account)
                 {
                     _localPlayerIndex = i;
                 }
@@ -58,6 +64,8 @@ namespace UI.Room
                 _readyButton.text = "已准备";
                 _roomUIBackButton.touchable = false;
                 _roomUIBackButton.GetChild("icon").asImage.color = new Color(0.4f, 0.4f, 0.4f);
+                MyGameManager.Instance.NetWorkOperations.SendRequest(new RequestReady(
+                    MyGameManager.Instance.LocalPlayerInfo.Account, MyGameManager.Instance.LocalPlayerInfo.GroupId));
             }
             else
             {
@@ -76,6 +84,29 @@ namespace UI.Room
                 _playerList.GetChildAt(_localPlayerIndex).asCom.GetChild("Text_Ready").asTextField;
 
             localPlayerItemReadyText.text = MyGameManager.Instance.LocalPlayerInfo.ReadyForGame ? "已准备" : "未准备";
+        }
+
+        private static void PlayerExitRoom()
+        {
+            var requestExitGroup = new RequestExitGroup(
+                MyGameManager.Instance.LocalPlayerInfo.Account, MyGameManager.Instance.LocalPlayerInfo.GroupId);
+            requestExitGroup.RequestSuccess += () =>
+            {
+                UIOperationUtil.GoToScene(MyGameManager.Instance.uiJumpData.bootMenu);
+            };
+            MyGameManager.Instance.NetWorkOperations.SendRequest(requestExitGroup);
+        }
+
+        public void ChangePlayerState(PlayerRoomStatusData playerRoomStatusData)
+        {
+            foreach (var targetPlayerReadyText in from playerItem in _playerList._children
+                     where playerItem.asCom.GetChild("Text_playerInfo").asTextField.templateVars["account"] ==
+                           playerRoomStatusData.Account
+                     select playerItem.asCom.GetChild("Text_Ready").asTextField)
+            {
+                targetPlayerReadyText.text = targetPlayerReadyText.text == "已准备" ? "未准备" : "已准备";
+                return;
+            }
         }
     }
 }

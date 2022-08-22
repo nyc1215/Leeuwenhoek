@@ -331,9 +331,6 @@ MonoBehaviour:
   dontDestroyOnLoad: 1
   nextSceneToLoadAsync: 
   uiJumpData: {fileID: 11400000, guid: 67ce7ebaf0df9e345a85cfeabe105f64, type: 2}
-  account: 
-  scriptName: "\u5267\u672C\u6740"
-  readyForGame: 0
   allPlayers: []
   playerPrefab: {fileID: 0}
 --- !u!1 &1317449407

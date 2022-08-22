@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using MyWebSocket.Request;
 using MyWebSocket.Response;
 using Newtonsoft.Json;
+using UI.Room;
 using UI.Util;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -67,13 +68,32 @@ namespace Manager
 
         public void SynchronousData(string responseSynchronousData)
         {
-            var playerListData = JsonConvert.DeserializeObject<PlayerListData>(responseSynchronousData);
-            MyGameManager.Instance.PlayerListData = playerListData;
-            MyGameManager.Instance.LocalPlayerInfo.ScriptName = playerListData?.ScriptName;
-
-            if (SceneManager.GetActiveScene().name != MyGameManager.Instance.uiJumpData.roomMenu)
+            if (responseSynchronousData.Contains("playerList", StringComparison.Ordinal))
             {
-                UIOperationUtil.GoToScene(MyGameManager.Instance.uiJumpData.roomMenu);
+                var playerListData = JsonConvert.DeserializeObject<PlayerListData>(responseSynchronousData);
+                MyGameManager.Instance.PlayerListData = playerListData;
+                MyGameManager.Instance.LocalPlayerInfo.ScriptName = playerListData?.ScriptName;
+                MyGameManager.Instance.LocalPlayerInfo.GroupId = playerListData?.GroupId;
+
+                if (SceneManager.GetActiveScene().path != MyGameManager.Instance.uiJumpData.roomMenu)
+                {
+                    UIOperationUtil.GoToScene(MyGameManager.Instance.uiJumpData.roomMenu);
+                }
+
+                return;
+            }
+
+            if (responseSynchronousData.Contains("status", StringComparison.Ordinal))
+            {
+                if (SceneManager.GetActiveScene().path == MyGameManager.Instance.uiJumpData.roomMenu)
+                {
+                    var playerRoomStatusData =
+                        JsonConvert.DeserializeObject<PlayerRoomStatusData>(responseSynchronousData);
+                    GameObject.Find("UIPanel").GetComponent<RoomUIPanel>()
+                        .ChangePlayerState(playerRoomStatusData);
+                }
+
+                return;
             }
         }
 
@@ -110,24 +130,6 @@ namespace Manager
                 case RequestType.Login:
                     var login = aRequestUtil as RequestLogin;
                     login?.CheckWorkDelegate(response.Data);
-                    break;
-                case RequestType.ListOfScripts:
-                    break;
-                case RequestType.Matching:
-                    break;
-                case RequestType.CreateRoom:
-                    break;
-                case RequestType.Invite:
-                    break;
-                case RequestType.AddRoom:
-                    break;
-                case RequestType.SubmitLead:
-                    break;
-                case RequestType.Settlement:
-                    break;
-                case RequestType.SubmitScript:
-                    break;
-                case RequestType.SendMessage:
                     break;
                 case RequestType.CancelMatching:
                     var cancelMatching = aRequestUtil as RequestCancelMatching;

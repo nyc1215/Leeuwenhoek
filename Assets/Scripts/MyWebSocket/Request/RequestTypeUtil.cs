@@ -32,6 +32,9 @@ namespace MyWebSocket.Request
         /*加入房间*/
         AddRoom,
 
+        /*退出房间*/
+        ExitGroup,
+
         /*提交线索*/
         SubmitLead,
 
@@ -43,6 +46,15 @@ namespace MyWebSocket.Request
 
         /*发消息，讨论的消息*/
         SendMessage,
+
+        /*玩家准备*/
+        Ready,
+        
+        /*开始游戏*/
+        Start,
+
+        /*玩家移动*/
+        Move
     }
 
     public class RequestMatchData
@@ -79,6 +91,12 @@ namespace MyWebSocket.Request
     {
         [JsonProperty("account")] public string Account;
         [JsonProperty("accountName")] public string AccountName;
+        [JsonProperty("groupId")] public string GroupId;
+    }
+
+    public class RequestAccountAndGroupIdData
+    {
+        [JsonProperty("account")] public string Account;
         [JsonProperty("groupId")] public string GroupId;
     }
 

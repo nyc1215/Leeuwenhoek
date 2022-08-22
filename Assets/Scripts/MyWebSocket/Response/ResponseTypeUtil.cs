@@ -15,5 +15,11 @@ namespace MyWebSocket.Response
         [JsonProperty("playerList")] public List<PlayerListNode> PlayerList;
         [JsonProperty("scriptName")] public string ScriptName;
     }
-    
+
+    public class PlayerRoomStatusData
+    {
+        [JsonProperty("account")] public string Account;
+        [JsonProperty("accountName")] public string AccountName;
+        [JsonProperty("status")] public string Status;
+    }
 }

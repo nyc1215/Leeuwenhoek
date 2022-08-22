@@ -18,6 +18,7 @@ namespace Manager
 {
     public struct LocalPlayerInfo
     {
+        public string GroupId;
         public string Account;
         public string ScriptName;
         public bool ReadyForGame;
