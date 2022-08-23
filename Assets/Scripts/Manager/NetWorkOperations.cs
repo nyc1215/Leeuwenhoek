@@ -80,7 +80,7 @@ namespace Manager
                 MyGameManager.Instance.LocalPlayerInfo.ScriptName = playerListData?.ScriptName;
                 MyGameManager.Instance.LocalPlayerInfo.GroupId = playerListData?.GroupId;
 
-                if (!MyGameManager.Instance.CompareScene(MyGameManager.Instance.uiJumpData.roomMenu))
+                if (!MyGameManager.CompareScene(MyGameManager.Instance.uiJumpData.roomMenu))
                 {
                     UIOperationUtil.GoToScene(MyGameManager.Instance.uiJumpData.roomMenu);
                 }
@@ -95,7 +95,7 @@ namespace Manager
 
             if (responseSynchronousData.Contains("status", StringComparison.Ordinal))
             {
-                if (MyGameManager.Instance.CompareScene(MyGameManager.Instance.uiJumpData.roomMenu))
+                if (MyGameManager.CompareScene(MyGameManager.Instance.uiJumpData.roomMenu))
                 {
                     var playerRoomStatusData =
                         JsonConvert.DeserializeObject<PlayerRoomStatusData>(responseSynchronousData);

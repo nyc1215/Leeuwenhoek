@@ -15,7 +15,8 @@ namespace UI.Util
     public class UIJumpData : ScriptableObject
     {
         [Header("开始界面")] [Scene] public string bootMenu;
-        [Header("加载界面")] [Scene] public string loadMenu;
         [Header("房间界面")] [Scene] public string roomMenu;
+        [Header("加载界面")] [Scene] public string loadMenu;
+        [Header("游戏界面")] [Scene] public string GameMenu;
     }
 }

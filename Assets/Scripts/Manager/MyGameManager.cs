@@ -84,9 +84,14 @@ namespace Manager
 
         #region 场景
 
-        public bool CompareScene(string scene)
+        public static bool CompareScene(string scene)
         {
             return SceneManager.GetActiveScene().path == scene;
+        }
+
+        public void GameStart()
+        {
+            UIOperationUtil.GoToSceneAsync(uiJumpData.GameMenu);
         }
 
         #endregion

@@ -104,20 +104,15 @@ namespace UI.Room
                 {
                     targetPlayerReadyText.text = targetPlayerReadyText.text == "已准备" ? "未准备" : "已准备";
                 }
-
-                return;
             }
 
             var gameStart = (from playerItem in _playerList._children select playerItem.asCom.GetChild("Text_Ready").asTextField).All(targetPlayerReadyText => targetPlayerReadyText.text != "未准备");
 
             if (gameStart)
             {
-                GameStart();
+                MyGameManager.Instance.GameStart();
             }
         }
-
-        public void GameStart()
-        {
-        }
+        
     }
 }
