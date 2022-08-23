@@ -12,7 +12,6 @@ namespace UI.Boot
 {
     public class RegisterPanel
     {
-        private BootUIPanel _bootUIPanel;
         private readonly Window _window;
         private readonly GComponent _registerUIComponent;
         private readonly GButton _registerUIBackButton;
@@ -23,10 +22,8 @@ namespace UI.Boot
         /// <summary>
         /// UI的初始化
         /// </summary>
-        public RegisterPanel([NotNull] BootUIPanel bootUIPanel)
+        public RegisterPanel()
         {
-            _bootUIPanel = bootUIPanel;
-            
             _registerUIComponent = UIPackage.CreateObject("Boot", "Register").asCom;
             _registerUIComponent.Center();
             Assert.IsNotNull(_registerUIComponent);
@@ -68,23 +65,23 @@ namespace UI.Boot
 
             if (_registerAccountNameInput.text.Equals(string.Empty))
             {
-                _bootUIPanel.TipPanel.Show("请输入昵称");
+                BootUIPanel.TipPanel.Show("请输入昵称");
                 return;
             }
 
             if (MyWebSocket.MyWebSocket.Instance.WebSocket.State != WebSocketStates.Open)
             {
-                _bootUIPanel.TipPanel.ShowNetWorkError();
+                BootUIPanel.TipPanel.ShowNetWorkError();
                 return;
             }
 
             var requestRegister = new RequestRegister(_registerAccountInput.text, _registerAccountNameInput.text);
             requestRegister.RequestSuccess += () =>
             {
-                _bootUIPanel.TipPanel.Show("注册成功");
+                BootUIPanel.TipPanel.Show("注册成功");
                 _window.Hide();
             };
-            requestRegister.RequestFail += () => { _bootUIPanel.TipPanel.Show("注册失败"); };
+            requestRegister.RequestFail += () => { BootUIPanel.TipPanel.Show("注册失败"); };
 
             MyGameManager.Instance.NetWorkOperations.SendRequest(requestRegister);
         }

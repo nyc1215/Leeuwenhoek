@@ -4,6 +4,7 @@ using Manager;
 using UnityEngine;
 using Mirror;
 using UnityEditor;
+using UnityEngine.SceneManagement;
 
 namespace UI.Util
 {

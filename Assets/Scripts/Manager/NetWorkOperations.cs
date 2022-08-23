@@ -70,14 +70,24 @@ namespace Manager
         {
             if (responseSynchronousData.Contains("playerList", StringComparison.Ordinal))
             {
+                if (!responseSynchronousData.Contains(MyGameManager.Instance.LocalPlayerInfo.Account, StringComparison.Ordinal))
+                {
+                    return;
+                }
+
                 var playerListData = JsonConvert.DeserializeObject<PlayerListData>(responseSynchronousData);
                 MyGameManager.Instance.PlayerListData = playerListData;
                 MyGameManager.Instance.LocalPlayerInfo.ScriptName = playerListData?.ScriptName;
                 MyGameManager.Instance.LocalPlayerInfo.GroupId = playerListData?.GroupId;
 
-                if (SceneManager.GetActiveScene().path != MyGameManager.Instance.uiJumpData.roomMenu)
+                if (!MyGameManager.Instance.CompareScene(MyGameManager.Instance.uiJumpData.roomMenu))
                 {
                     UIOperationUtil.GoToScene(MyGameManager.Instance.uiJumpData.roomMenu);
+                }
+                else
+                {
+                    GameObject.Find("UIPanel").GetComponent<RoomUIPanel>()
+                        .ListUpdate();
                 }
 
                 return;
@@ -85,7 +95,7 @@ namespace Manager
 
             if (responseSynchronousData.Contains("status", StringComparison.Ordinal))
             {
-                if (SceneManager.GetActiveScene().path == MyGameManager.Instance.uiJumpData.roomMenu)
+                if (MyGameManager.Instance.CompareScene(MyGameManager.Instance.uiJumpData.roomMenu))
                 {
                     var playerRoomStatusData =
                         JsonConvert.DeserializeObject<PlayerRoomStatusData>(responseSynchronousData);

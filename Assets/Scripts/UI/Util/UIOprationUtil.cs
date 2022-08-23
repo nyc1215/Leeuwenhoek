@@ -42,6 +42,7 @@ namespace UI.Util
             if (!string.IsNullOrEmpty(sceneName))
             {
                 GRoot.inst.CloseAllWindows();
+                GRoot.inst.Dispose();
                 MyGameManager.Instance.nextSceneToLoadAsync = sceneName;
                 GoToScene(MyGameManager.Instance.uiJumpData.loadMenu);
             }

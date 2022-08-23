@@ -18,12 +18,10 @@ namespace MyWebSocket
 
         private void Init()
         {
-            _opened = false;
-
             //HTTPManager.Logger.Level = BestHTTP.Logger.Loglevels.All;
             WebSocket = new WebSocket(new Uri(uri));
 #if !UNITY_WEBGL || UNITY_EDITOR
-            //WebSocket.StartPingThread = true;
+            WebSocket.StartPingThread = true;
 
 #if !BESTHTTP_DISABLE_PROXY
             if (HTTPManager.Proxy != null)
@@ -49,7 +47,7 @@ namespace MyWebSocket
                 Init();
             }
 
-            if (WebSocket == null || WebSocket.IsOpen)
+            if (WebSocket.IsOpen)
             {
                 Debug.Log("webSocket already connected");
                 return;
@@ -84,7 +82,10 @@ namespace MyWebSocket
             base.Awake();
 
             //HTTPManager.Logger.Level = BestHTTP.Logger.Loglevels.All;
-            Init();
+            if (WebSocket == null)
+            {
+                Init();
+            }
         }
 
         private void OnDestroy()
@@ -136,6 +137,8 @@ namespace MyWebSocket
         private void OnClosed(WebSocket ws, ushort code, string message)
         {
             Debug.Log("WebSocket Closed!");
+            _opened = false;
+            WebSocket = null;
         }
 
 
@@ -145,6 +148,8 @@ namespace MyWebSocket
         private void OnError(WebSocket ws, string error)
         {
             Debug.Log($"An error occured: <color=red>{error}</color>");
+            _opened = false;
+            WebSocket = null;
         }
 
         #endregion

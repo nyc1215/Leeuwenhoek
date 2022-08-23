@@ -21,18 +21,19 @@ namespace UI.Boot
         private GButton _loginButton;
         private GTextField _severState;
 
-        private RegisterPanel _registerPanel;
-        private LoginPanel _loginPanel;
-        public TipPanel TipPanel;
-        public MatchingPanel MatchingPanel;
+        public static TipPanel TipPanel;
+        public static MatchingPanel MatchingPanel;
+        private static RegisterPanel _registerPanel;
+        private static LoginPanel _loginPanel;
 
         protected override void Awake()
         {
             base.Awake();
-            TipPanel = new TipPanel();
-            MatchingPanel = new MatchingPanel();
-            _loginPanel = new LoginPanel(this);
-            _registerPanel = new RegisterPanel(this);
+
+            TipPanel ??= new TipPanel();
+            MatchingPanel ??= new MatchingPanel();
+            _loginPanel ??= new LoginPanel();
+            _registerPanel ??= new RegisterPanel();
         }
 
         private void Start()
@@ -56,7 +57,7 @@ namespace UI.Boot
             }
 
             MyWebSocket.MyWebSocket.Instance.Close();
-            while (MyWebSocket.MyWebSocket.Instance.WebSocket.State != WebSocketStates.Closed)
+            while (MyWebSocket.MyWebSocket.Instance.WebSocket != null)
             {
                 yield return null;
             }
@@ -70,7 +71,7 @@ namespace UI.Boot
             {
                 return;
             }
-            
+
             switch (MyWebSocket.MyWebSocket.Instance.WebSocket.State)
             {
                 case WebSocketStates.Connecting:

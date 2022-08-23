@@ -37,10 +37,9 @@ namespace UI.Room
             _readyButton.onClick.Add(PlayerReady);
         }
 
-        private void ListUpdate()
+        public void ListUpdate()
         {
             _playerList.RemoveChildrenToPool();
-
             for (var i = 0; i < MyGameManager.Instance.PlayerListData.PlayerList.Count; i++)
             {
                 if (MyGameManager.Instance.PlayerListData.PlayerList[i].Account ==
@@ -90,11 +89,8 @@ namespace UI.Room
         {
             var requestExitGroup = new RequestExitGroup(
                 MyGameManager.Instance.LocalPlayerInfo.Account, MyGameManager.Instance.LocalPlayerInfo.GroupId);
-            requestExitGroup.RequestSuccess += () =>
-            {
-                UIOperationUtil.GoToScene(MyGameManager.Instance.uiJumpData.bootMenu);
-            };
             MyGameManager.Instance.NetWorkOperations.SendRequest(requestExitGroup);
+            UIOperationUtil.GoToScene(MyGameManager.Instance.uiJumpData.bootMenu);
         }
 
         public void ChangePlayerState(PlayerRoomStatusData playerRoomStatusData)
@@ -104,9 +100,24 @@ namespace UI.Room
                            playerRoomStatusData.Account
                      select playerItem.asCom.GetChild("Text_Ready").asTextField)
             {
-                targetPlayerReadyText.text = targetPlayerReadyText.text == "已准备" ? "未准备" : "已准备";
+                if (playerRoomStatusData.Account != MyGameManager.Instance.LocalPlayerInfo.Account)
+                {
+                    targetPlayerReadyText.text = targetPlayerReadyText.text == "已准备" ? "未准备" : "已准备";
+                }
+
                 return;
             }
+
+            var gameStart = (from playerItem in _playerList._children select playerItem.asCom.GetChild("Text_Ready").asTextField).All(targetPlayerReadyText => targetPlayerReadyText.text != "未准备");
+
+            if (gameStart)
+            {
+                GameStart();
+            }
+        }
+
+        public void GameStart()
+        {
         }
     }
 }

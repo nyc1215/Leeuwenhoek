@@ -14,7 +14,6 @@ namespace UI.Boot
 {
     public class LoginPanel
     {
-        private readonly BootUIPanel _bootUIPanel;
         private readonly Window _window;
         private readonly GComponent _loginUIComponent;
         private readonly GButton _loginUIBackButton;
@@ -24,10 +23,8 @@ namespace UI.Boot
         /// <summary>
         /// UI的初始化
         /// </summary>
-        public LoginPanel([NotNull] BootUIPanel bootUIPanel)
+        public LoginPanel()
         {
-            _bootUIPanel = bootUIPanel;
-
             _loginUIComponent = UIPackage.CreateObject("Boot", "Login").asCom;
             _loginUIComponent.Center();
             Assert.IsNotNull(_loginUIComponent);
@@ -63,13 +60,13 @@ namespace UI.Boot
 
             if (_loginUITextInput.text.Equals(string.Empty))
             {
-                _bootUIPanel.TipPanel.Show("账号为空，请输入账号");
+                BootUIPanel.TipPanel.Show("账号为空，请输入账号");
                 return;
             }
 
             if (MyWebSocket.MyWebSocket.Instance.WebSocket.State != WebSocketStates.Open)
             {
-                _bootUIPanel.TipPanel.ShowNetWorkError();
+                BootUIPanel.TipPanel.ShowNetWorkError();
                 return;
             }
 
@@ -78,9 +75,9 @@ namespace UI.Boot
             requestLogin.RequestSuccess += () =>
             {
                 _window.Hide();
-                _bootUIPanel.MatchingPanel.Show();
+                BootUIPanel.MatchingPanel.Show();
             };
-            requestLogin.RequestFail += () => { _bootUIPanel.TipPanel.Show("用户账号不存在，请先注册"); };
+            requestLogin.RequestFail += () => { BootUIPanel.TipPanel.Show("用户账号不存在，请先注册"); };
 
             MyGameManager.Instance.NetWorkOperations.SendRequest(requestLogin);
         }

@@ -22,6 +22,14 @@ namespace Manager
         public string Account;
         public string ScriptName;
         public bool ReadyForGame;
+
+        public LocalPlayerInfo(string groupId, string account, string scriptName, bool readyForGame)
+        {
+            GroupId = groupId;
+            Account = account;
+            ScriptName = scriptName;
+            ReadyForGame = readyForGame;
+        }
     }
 
     /// <summary>
@@ -40,7 +48,7 @@ namespace Manager
 
         #region 玩家相关变量
 
-        public LocalPlayerInfo LocalPlayerInfo;
+        public LocalPlayerInfo LocalPlayerInfo = new("", "", "剧本杀", false);
         public PlayerListData PlayerListData;
         public List<MyPlayerController> allPlayers = new();
         [Header("玩家预制体")] public GameObject playerPrefab;
@@ -49,7 +57,7 @@ namespace Manager
 
         #region 网络操作
 
-        public NetWorkOperations NetWorkOperations = new();
+        public readonly NetWorkOperations NetWorkOperations = new();
 
         #endregion
 
@@ -70,10 +78,15 @@ namespace Manager
             base.Awake();
 
             Debug.unityLogger.logEnabled = true;
+        }
 
-            LocalPlayerInfo.Account = "";
-            LocalPlayerInfo.ScriptName = "剧本杀";
-            LocalPlayerInfo.ReadyForGame = false;
+        #endregion
+
+        #region 场景
+
+        public bool CompareScene(string scene)
+        {
+            return SceneManager.GetActiveScene().path == scene;
         }
 
         #endregion
