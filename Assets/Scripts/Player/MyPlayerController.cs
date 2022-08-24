@@ -5,7 +5,6 @@ using Manager;
 using MyWebSocket.Request;
 using MyWebSocket.Response;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 
 namespace Player
@@ -17,11 +16,11 @@ namespace Player
         [Header("游戏规则相关")] [Tooltip("是否是狼人")] public bool isImposter;
 
         [Space(10)] [Header("操控")] [Tooltip("wasd移动操控")]
-        public InputAction inputWasd;
+        public KeyCode inputWasd;
 
-        [Tooltip("击杀")] public InputAction inputKill;
+        [Tooltip("击杀")] public KeyCode inputKill;
 
-        [Tooltip("报告")] public InputAction inputReport;
+        [Tooltip("报告")] public KeyCode inputReport;
         public static List<Transform> AllBodies;
         [Tooltip("寻找尸体的时候忽略的层")] public LayerMask ignoreForBody;
 
@@ -58,7 +57,7 @@ namespace Player
         #endregion
 
         #region 私有变量
-        
+
         private Rigidbody _playerRigidbody;
         private Transform _playerTransform;
         private Animator _animator;
@@ -84,9 +83,6 @@ namespace Player
             _targets = new List<MyPlayerController>();
             AllBodies = new List<Transform>();
             _bodiesFound = new List<Transform>();
-
-            inputKill.performed += KillTarget;
-            inputReport.performed += Report;
         }
 
         private void Start()
@@ -109,7 +105,7 @@ namespace Player
                 return;
             }
 
-            _moveInput = inputWasd.ReadValue<Vector2>();
+            _moveInput = Vector2.zero;
             _animator.SetFloat(AnimatorParamSpeed, _moveInput.magnitude);
             if (_moveInput.x != 0)
             {
@@ -133,20 +129,6 @@ namespace Player
         private void FixedUpdate()
         {
             _playerRigidbody.velocity = _moveInput * moveSpeed;
-        }
-
-        private void OnEnable()
-        {
-            inputWasd.Enable();
-            inputKill.Enable();
-            inputReport.Enable();
-        }
-
-        private void OnDisable()
-        {
-            inputWasd.Disable();
-            inputKill.Disable();
-            inputReport.Disable();
         }
 
         private void OnTriggerEnter(Collider other)
@@ -244,24 +226,21 @@ namespace Player
         }
 
 
-        private void KillTarget(InputAction.CallbackContext callbackContext)
+        private void KillTarget()
         {
-            if (callbackContext.phase == InputActionPhase.Performed)
+            if (_targets.Count == 0)
             {
-                if (_targets.Count == 0)
-                {
-                    return;
-                }
-
-                if (_targets[^1].isDead)
-                {
-                    return;
-                }
-
-                transform.position = _targets[^1].transform.position;
-                _targets[^1].Die();
-                _targets.RemoveAt(_targets.Count - 1);
+                return;
             }
+
+            if (_targets[^1].isDead)
+            {
+                return;
+            }
+
+            transform.position = _targets[^1].transform.position;
+            _targets[^1].Die();
+            _targets.RemoveAt(_targets.Count - 1);
         }
 
         private void Die()
@@ -278,25 +257,22 @@ namespace Player
             temPlayerBody.SetColor(playerSpriteRenderer.color);
         }
 
-        private void Report(InputAction.CallbackContext callbackContext)
+        private void Report()
         {
-            if (callbackContext.phase == InputActionPhase.Performed)
+            if (_bodiesFound == null)
             {
-                if (_bodiesFound == null)
-                {
-                    return;
-                }
-
-                if (_bodiesFound.Count == 0)
-                {
-                    return;
-                }
-
-                var tempBody = _bodiesFound[^1];
-                AllBodies.Remove(tempBody);
-                _bodiesFound.Remove(tempBody);
-                tempBody.GetComponent<MyPlayerBody>().Report();
+                return;
             }
+
+            if (_bodiesFound.Count == 0)
+            {
+                return;
+            }
+
+            var tempBody = _bodiesFound[^1];
+            AllBodies.Remove(tempBody);
+            _bodiesFound.Remove(tempBody);
+            tempBody.GetComponent<MyPlayerBody>().Report();
         }
 
         private void HideOrShowPlayerSelf()

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using FairyGUI;
@@ -9,14 +10,11 @@ namespace UI.Game
 {
     public class GameUIPanel : UIPanelUtil
     {
-        public GameObject canvasObject;
+        private JoystickModule _joystick;
 
-        private GoWrapper _gw;
-
-        protected override void Awake()
+        private void Start()
         {
-            base.Awake();
-            _gw = new GoWrapper(canvasObject);
+            _joystick = new JoystickModule(UIRoot);
         }
     }
 }
