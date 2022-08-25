@@ -8,6 +8,7 @@ using Unity.Netcode;
 using Unity.Netcode.Components;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
@@ -15,7 +16,7 @@ namespace Player
 {
     public class MyPlayerController : NetworkBehaviour
     {
-        #region 游戏规则相关变量
+        #region 游戏规则和操作
 
         [Header("游戏规则相关")] [Tooltip("是否是狼人")] public bool isImposter;
 
@@ -30,21 +31,17 @@ namespace Player
 
         #endregion
 
-        #region 角色状态变量
-
-        public NetworkVariable<Vector3> position = new();
+        #region 角色状态
 
         [Space(10)] [Header("角色状态")] [Tooltip("移动速度")]
         public float moveSpeed;
 
-        [Tooltip("是否允许操控")] public bool hasControl;
         [Tooltip("是否死亡")] public bool isDead;
         [Tooltip("角色尸体预制体")] public GameObject bodyPrefab;
-        [Tooltip("是否隐藏")] public bool isHide;
 
         #endregion
 
-        #region 角色显示相关变量
+        #region 角色显示
 
         [Space(10)] [Header("角色显示相关")] [Tooltip("角色身体精灵渲染器")]
         public SpriteRenderer playerSpriteRenderer;
@@ -53,17 +50,7 @@ namespace Player
 
         #endregion
 
-        #region 游戏管理系统相关变量
-
-        [Space(10)] [Header("游戏管理系统")] [Tooltip("是否是本地玩家")]
-        public bool isLocalClient;
-
-        public static MyPlayerController LocalPlayerController;
-
-        #endregion
-
-        #region 私有变量
-
+        private Light2D _playerLight2D;
         private Rigidbody _playerRigidbody;
         private Transform _playerTransform;
         private Animator _animator;
@@ -76,7 +63,6 @@ namespace Player
 
         private List<Transform> _bodiesFound;
 
-        #endregion
 
         #region MonoBehaviour
 
@@ -89,39 +75,25 @@ namespace Player
             _targets = new List<MyPlayerController>();
             AllBodies = new List<Transform>();
             _bodiesFound = new List<Transform>();
+            _playerLight2D = transform.GetChild(1).GetComponent<Light2D>();
         }
 
-        private void Start()
+        private void OnEnable()
         {
-            if (IsServer)
-            {
-                transform.position = new Vector3(1, 1, 0);
-            }
+            inputWasd.Enable();
+            inputReport.Enable();
+            inputKill.Enable();
+        }
 
-            if (!IsClient || !IsOwner)
-            {
-                enabled = false;
-                return;
-            }
-
-            if (hasControl)
-            {
-                LocalPlayerController = this;
-            }
-
-            if (!hasControl)
-            {
-                return;
-            }
+        private void OnDisable()
+        {
+            inputWasd.Disable();
+            inputReport.Disable();
+            inputKill.Disable();
         }
 
         private void Update()
         {
-            if (!hasControl)
-            {
-                return;
-            }
-
             _moveInput = inputWasd.ReadValue<Vector2>();
             _animator.SetFloat(AnimatorParamSpeed, _moveInput.magnitude);
             if (_moveInput.x != 0)
@@ -133,16 +105,6 @@ namespace Player
             {
                 BodySearch();
             }
-
-            if (MyGameManager.Instance != null)
-            {
-                if (MyGameManager.Instance.allPlayers?.Count > 0)
-                {
-                    HideOtherPlayers();
-                }
-            }
-
-            transform.position = position.Value;
         }
 
         private void FixedUpdate()
@@ -181,36 +143,18 @@ namespace Player
 
         #endregion
 
-        private void HideOtherPlayers()
-        {
-            foreach (var otherPlayerController in MyGameManager.Instance.allPlayers)
-            {
-                if (otherPlayerController.isLocalClient)
-                {
-                    return;
-                }
-                var myPlayerPos = transform.position;
-                var otherPlayerPos = otherPlayerController.transform.position;
-                var ray = new Ray(myPlayerPos, otherPlayerPos - myPlayerPos);
-                Debug.DrawLine(myPlayerPos, otherPlayerPos, Color.green);
+        #region NetCode
 
-                if (Physics.Raycast(ray, out var hit, 1000f, ~ignoreForBody))
-                {
-                    if (hit.transform == otherPlayerController.transform)
-                    {
-                        //Debug.Log(hit.transform.name);
-                        //Debug.Log($"_bodiesFound :{_bodiesFound.Count}");
-                        otherPlayerController.isHide = false;
-                        otherPlayerController.HideOrShowPlayerSelf();
-                    }
-                    else
-                    {
-                        otherPlayerController.isHide = true;
-                        otherPlayerController.HideOrShowPlayerSelf();
-                    }
-                }
+        public override void OnNetworkSpawn()
+        {
+            if (!IsOwner)
+            {
+                _playerLight2D.enabled = false;
+                Destroy(this);
             }
         }
+
+        #endregion
 
         private void BodySearch()
         {
@@ -292,48 +236,5 @@ namespace Player
             _bodiesFound.Remove(tempBody);
             tempBody.GetComponent<MyPlayerBody>().Report();
         }
-
-        private void HideOrShowPlayerSelf()
-        {
-            playerSpriteRenderer.enabled = isHide;
-            playerPartSpriteRenderer.enabled = isHide;
-        }
-
-        #region NetCode
-
-        public override void OnNetworkSpawn()
-        {
-            if (!IsOwner)
-            {
-                Destroy(this);
-            }
-        }
-
-        // public void Move()
-        // {
-        //     if (NetworkManager.Singleton.IsServer)
-        //     {
-        //         var randomPosition = GetRandomPositionOnPlane();
-        //         transform.position = randomPosition;
-        //         position.Value = randomPosition;
-        //     }
-        //     else
-        //     {
-        //         SubmitPositionRequestServerRpc();
-        //     }
-        // }
-
-        // [ServerRpc]
-        // void SubmitPositionRequestServerRpc(ServerRpcParams rpcParams = default)
-        // {
-        //     position.Value = GetRandomPositionOnPlane();
-        // }
-        //
-        // static Vector3 GetRandomPositionOnPlane()
-        // {
-        //     return new Vector3(Random.Range(-3f, 3f), 1f, Random.Range(-3f, 3f));
-        // }
-
-        #endregion
     }
 }
