@@ -5,6 +5,7 @@ using UnityEngine;
 using Mirror;
 using UnityEditor;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 namespace UI.Util
 {
@@ -17,6 +18,6 @@ namespace UI.Util
         [Header("开始界面")] [Scene] public string bootMenu;
         [Header("房间界面")] [Scene] public string roomMenu;
         [Header("加载界面")] [Scene] public string loadMenu;
-        [Header("游戏界面")] [Scene] public string GameMenu;
+        [Header("游戏界面")] [Scene] public string gameMenu;
     }
 }

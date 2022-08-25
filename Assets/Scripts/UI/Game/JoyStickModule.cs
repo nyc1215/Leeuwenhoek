@@ -1,27 +1,21 @@
 ﻿using FairyGUI;
 using UnityEngine;
 
-namespace UI.Room
+namespace UI.Game
 {
     public class JoyStickModule : EventDispatcher
     {
-        float _InitX;
-        float _InitY;
-        float _startStageX;
-        float _startStageY;
-        float _lastStageX;
-        float _lastStageY;
-        GButton _button;
-        GObject _touchArea;
-        GObject _thumb;
-        GObject _center;
-        int touchId;
-        GTweener _tweener;
+        private readonly float _initX;
+        private readonly float _initY;
+        private readonly GButton _button;
+        private readonly GObject _touchArea;
+        private int _touchId;
+        private GTweener _tweener;
 
         public EventListener onMove { get; private set; }
-        public EventListener onEnd { get; private set; }
+        private EventListener onEnd { get; set; }
 
-        public int radius { get; set; }
+        private int radius { get; set; }
 
         public JoyStickModule(GComponent mainView)
         {
@@ -30,141 +24,96 @@ namespace UI.Room
 
             _button = mainView.GetChild("joystick").asButton;
             _button.changeStateOnClick = false;
-            _thumb = _button.GetChild("thumb");
             _touchArea = mainView.GetChild("joystick_touch");
-            _center = mainView.GetChild("joystick_center");
 
-            _InitX = _center.x + _center.width / 2;
-            _InitY = _center.y + _center.height / 2;
-            touchId = -1;
+            _initX = _touchArea.x;
+            _initY = _touchArea.y;
+            _touchId = -1;
             radius = 150;
 
-            _touchArea.onTouchBegin.Add(this.OnTouchBegin);
-            _touchArea.onTouchMove.Add(this.OnTouchMove);
-            _touchArea.onTouchEnd.Add(this.OnTouchEnd);
-        }
-
-        public void Trigger(EventContext context)
-        {
-            OnTouchBegin(context);
+            _touchArea.onTouchBegin.Add(OnTouchBegin);
+            _touchArea.onTouchMove.Add(OnTouchMove);
+            _touchArea.onTouchEnd.Add(OnTouchEnd);
         }
 
         private void OnTouchBegin(EventContext context)
         {
-            if (touchId == -1) //First touch
+            if (_touchId != -1)
             {
-                InputEvent evt = (InputEvent)context.data;
-                touchId = evt.touchId;
-
-                if (_tweener != null)
-                {
-                    _tweener.Kill();
-                    _tweener = null;
-                }
-
-                Vector2 pt = GRoot.inst.GlobalToLocal(new Vector2(evt.x, evt.y));
-                float bx = pt.x;
-                float by = pt.y;
-                _button.selected = true;
-
-                if (bx < 0)
-                {
-                    bx = 0;
-                }
-                else if (bx > _touchArea.width)
-                {
-                    bx = _touchArea.width;
-                }
-
-                if (by > GRoot.inst.height)
-                {
-                    by = GRoot.inst.height;
-                }
-                else if (by < _touchArea.y)
-                {
-                    by = _touchArea.y;
-                }
-
-                _lastStageX = bx;
-                _lastStageY = by;
-                _startStageX = bx;
-                _startStageY = by;
-
-                _center.visible = true;
-                _center.SetXY(bx - _center.width / 2, by - _center.height / 2);
-                _button.SetXY(bx - _button.width / 2, by - _button.height / 2);
-
-                float deltaX = bx - _InitX;
-                float deltaY = by - _InitY;
-                float degrees = Mathf.Atan2(deltaY, deltaX) * 180 / Mathf.PI;
-                _thumb.rotation = degrees + 90;
-
-                context.CaptureTouch();
+                return;
             }
+
+            var evt = (InputEvent)context.data;
+            _touchId = evt.touchId;
+
+            if (_tweener != null)
+            {
+                _tweener.Kill();
+                _tweener = null;
+            }
+
+            var touchPos = GRoot.inst.GlobalToLocal(new Vector2(evt.x, evt.y));
+            _button.selected = true;
+
+            Mathf.Clamp(touchPos.x, _touchArea.x - _touchArea.width / 2, _touchArea.x + _touchArea.width / 2);
+            Mathf.Clamp(touchPos.y, _touchArea.y - _touchArea.height / 2, _touchArea.y + _touchArea.height / 2);
+
+            _button.SetXY(touchPos.x, touchPos.y);
+
+            context.CaptureTouch();
         }
 
         private void OnTouchEnd(EventContext context)
         {
-            InputEvent inputEvt = (InputEvent)context.data;
-            if (touchId != -1 && inputEvt.touchId == touchId)
+            var inputEvt = (InputEvent)context.data;
+            if (_touchId == -1 || inputEvt.touchId != _touchId)
             {
-                touchId = -1;
-                _thumb.rotation = _thumb.rotation + 180;
-                _center.visible = false;
-                _tweener = _button.TweenMove(new Vector2(_InitX - _button.width / 2, _InitY - _button.height / 2), 0.3f)
-                    .OnComplete(() =>
-                        {
-                            _tweener = null;
-                            _button.selected = false;
-                            _thumb.rotation = 0;
-                            _center.visible = true;
-                            _center.SetXY(_InitX - _center.width / 2, _InitY - _center.height / 2);
-                        }
-                    );
-                onEnd.Call();
+                return;
             }
+
+            _touchId = -1;
+            _tweener = _button.TweenMove(new Vector2(_initX, _initY), 0.3f)
+                .OnComplete(() =>
+                    {
+                        _tweener = null;
+                        _button.selected = false;
+                    }
+                );
+            onEnd.Call();
         }
 
         private void OnTouchMove(EventContext context)
         {
-            InputEvent evt = (InputEvent)context.data;
-            if (touchId != -1 && evt.touchId == touchId)
+            var evt = (InputEvent)context.data;
+            if (_touchId == -1 || evt.touchId != _touchId)
             {
-                Vector2 pt = GRoot.inst.GlobalToLocal(new Vector2(evt.x, evt.y));
-                float bx = pt.x;
-                float by = pt.y;
-                float moveX = bx - _lastStageX;
-                float moveY = by - _lastStageY;
-                _lastStageX = bx;
-                _lastStageY = by;
-                float buttonX = _button.x + moveX;
-                float buttonY = _button.y + moveY;
-
-                float offsetX = buttonX + _button.width / 2 - _startStageX;
-                float offsetY = buttonY + _button.height / 2 - _startStageY;
-
-                float rad = Mathf.Atan2(offsetY, offsetX);
-                float degree = rad * 180 / Mathf.PI;
-                _thumb.rotation = degree + 90;
-
-                float maxX = radius * Mathf.Cos(rad);
-                float maxY = radius * Mathf.Sin(rad);
-                if (Mathf.Abs(offsetX) > Mathf.Abs(maxX))
-                    offsetX = maxX;
-                if (Mathf.Abs(offsetY) > Mathf.Abs(maxY))
-                    offsetY = maxY;
-
-                buttonX = _startStageX + offsetX;
-                buttonY = _startStageY + offsetY;
-                if (buttonX < 0)
-                    buttonX = 0;
-                if (buttonY > GRoot.inst.height)
-                    buttonY = GRoot.inst.height;
-
-                _button.SetXY(buttonX - _button.width / 2, buttonY - _button.height / 2);
-
-                onMove.Call(degree);
+                return;
             }
+
+            var pt = GRoot.inst.GlobalToLocal(new Vector2(evt.x, evt.y));
+            var buttonX = pt.x;
+            var buttonY = pt.y;
+            var offsetX = buttonX - _initX;
+            var offsetY = buttonY - _initY;
+
+            var rad = Mathf.Atan2(offsetY, offsetX);
+            var degree = rad * 180 / Mathf.PI;
+
+            var maxX = radius * Mathf.Cos(rad);
+            var maxY = radius * Mathf.Sin(rad);
+            if (Mathf.Abs(offsetX) > Mathf.Abs(maxX))
+            {
+                buttonX = _initX + maxX;
+            }
+
+            if (Mathf.Abs(offsetY) > Mathf.Abs(maxY))
+            {
+                buttonY = _initY + maxY;
+            }
+
+            _button.SetXY(buttonX, buttonY);
+
+            onMove.Call(degree);
         }
     }
 }

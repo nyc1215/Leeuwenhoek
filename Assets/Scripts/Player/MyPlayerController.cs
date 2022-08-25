@@ -4,29 +4,35 @@ using System.Collections.Generic;
 using Manager;
 using MyWebSocket.Request;
 using MyWebSocket.Response;
+using Unity.Netcode;
+using Unity.Netcode.Components;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 namespace Player
 {
-    public class MyPlayerController : MonoBehaviour
+    public class MyPlayerController : NetworkBehaviour
     {
         #region 游戏规则相关变量
 
         [Header("游戏规则相关")] [Tooltip("是否是狼人")] public bool isImposter;
 
         [Space(10)] [Header("操控")] [Tooltip("wasd移动操控")]
-        public KeyCode inputWasd;
+        public InputAction inputWasd;
 
-        [Tooltip("击杀")] public KeyCode inputKill;
+        [Tooltip("击杀")] public InputAction inputKill;
 
-        [Tooltip("报告")] public KeyCode inputReport;
+        [Tooltip("报告")] public InputAction inputReport;
         public static List<Transform> AllBodies;
         [Tooltip("寻找尸体的时候忽略的层")] public LayerMask ignoreForBody;
 
         #endregion
 
         #region 角色状态变量
+
+        public NetworkVariable<Vector3> position = new();
 
         [Space(10)] [Header("角色状态")] [Tooltip("移动速度")]
         public float moveSpeed;
@@ -87,6 +93,17 @@ namespace Player
 
         private void Start()
         {
+            if (IsServer)
+            {
+                transform.position = new Vector3(1, 1, 0);
+            }
+
+            if (!IsClient || !IsOwner)
+            {
+                enabled = false;
+                return;
+            }
+
             if (hasControl)
             {
                 LocalPlayerController = this;
@@ -105,7 +122,7 @@ namespace Player
                 return;
             }
 
-            _moveInput = Vector2.zero;
+            _moveInput = inputWasd.ReadValue<Vector2>();
             _animator.SetFloat(AnimatorParamSpeed, _moveInput.magnitude);
             if (_moveInput.x != 0)
             {
@@ -124,6 +141,8 @@ namespace Player
                     HideOtherPlayers();
                 }
             }
+
+            transform.position = position.Value;
         }
 
         private void FixedUpdate()
@@ -170,7 +189,6 @@ namespace Player
                 {
                     return;
                 }
-
                 var myPlayerPos = transform.position;
                 var otherPlayerPos = otherPlayerController.transform.position;
                 var ray = new Ray(myPlayerPos, otherPlayerPos - myPlayerPos);
@@ -280,5 +298,42 @@ namespace Player
             playerSpriteRenderer.enabled = isHide;
             playerPartSpriteRenderer.enabled = isHide;
         }
+
+        #region NetCode
+
+        public override void OnNetworkSpawn()
+        {
+            if (!IsOwner)
+            {
+                Destroy(this);
+            }
+        }
+
+        // public void Move()
+        // {
+        //     if (NetworkManager.Singleton.IsServer)
+        //     {
+        //         var randomPosition = GetRandomPositionOnPlane();
+        //         transform.position = randomPosition;
+        //         position.Value = randomPosition;
+        //     }
+        //     else
+        //     {
+        //         SubmitPositionRequestServerRpc();
+        //     }
+        // }
+
+        // [ServerRpc]
+        // void SubmitPositionRequestServerRpc(ServerRpcParams rpcParams = default)
+        // {
+        //     position.Value = GetRandomPositionOnPlane();
+        // }
+        //
+        // static Vector3 GetRandomPositionOnPlane()
+        // {
+        //     return new Vector3(Random.Range(-3f, 3f), 1f, Random.Range(-3f, 3f));
+        // }
+
+        #endregion
     }
 }

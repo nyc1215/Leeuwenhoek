@@ -91,7 +91,7 @@ namespace Manager
 
         public void GameStart()
         {
-            UIOperationUtil.GoToSceneAsync(uiJumpData.GameMenu);
+            UIOperationUtil.GoToSceneAsync(uiJumpData.gameMenu);
         }
 
         #endregion

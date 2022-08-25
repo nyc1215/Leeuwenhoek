@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<component size="1920,1080" opaque="false">
+<component size="1920,1080">
   <displayList>
-    <graph id="n0_gtoe" name="n0" xy="12,20" size="100,100" type="rect"/>
-    <image id="n2_mv3z" name="joystick_touch" src="mv3z1" fileName="WhiteCircle.png" xy="200,900" pivot="0.5,0.5" anchor="true" size="250,250" alpha="0.5">
-      <relation target="" sidePair="bottom-bottom"/>
-    </image>
     <component id="n3_mv3z" name="joystick" src="mv3z2" fileName="JoyStick.xml" xy="200,900">
       <relation target="" sidePair="bottom-bottom"/>
     </component>
-    <image id="n4_mv3z" name="joystick_center" src="mv3z1" fileName="WhiteCircle.png" xy="200,900" pivot="0.5,0.5" anchor="true"/>
+    <graph id="n6_mw5q" name="joystick_touch" xy="200,900" pivot="0.5,0.5" anchor="true" size="250,250" type="eclipse" lineSize="0" fillColor="#7fffffff">
+      <relation target="" sidePair="bottom-bottom"/>
+    </graph>
+    <component id="n7_dc2f" name="Button_Server" src="e0xw3" fileName="Button/ButtonCom.xml" pkg="z7qisvfx" xy="1419,107" size="116,52">
+      <Button title="服务器" titleFontSize="30"/>
+    </component>
+    <component id="n8_dc2f" name="Button_Host" src="e0xw3" fileName="Button/ButtonCom.xml" pkg="z7qisvfx" xy="1567,106" size="116,52">
+      <Button title="主机" titleFontSize="30"/>
+    </component>
+    <component id="n9_dc2f" name="Button_Client" src="e0xw3" fileName="Button/ButtonCom.xml" pkg="z7qisvfx" xy="1716,106" size="116,52">
+      <Button title="客户端" titleFontSize="30"/>
+    </component>
   </displayList>
 </component>

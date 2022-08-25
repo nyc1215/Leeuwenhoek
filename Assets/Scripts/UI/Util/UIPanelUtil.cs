@@ -19,6 +19,8 @@ namespace UI.Util
 
         protected virtual void Awake()
         {
+            UIPackage.AddPackage("FairyGUIOutPut/Public");
+
             UIRoot = GetComponent<UIPanel>().ui;
 
             Assert.IsNotNull(UIRoot);
