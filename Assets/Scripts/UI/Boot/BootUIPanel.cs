@@ -26,9 +26,20 @@ namespace UI.Boot
         private static RegisterPanel _registerPanel;
         private static LoginPanel _loginPanel;
 
+        public static GComponent ChoosePanelComponent;
+        public static ChoosePanel ChoosePanel;
+        public static GComponent InfoPanelComponent;
+        public static InfoPanel InfoPanel;
+
         protected override void Awake()
         {
             base.Awake();
+
+            ChoosePanelComponent = UIPackage.CreateObject("Boot", "ChoosePanel").asCom;
+            InfoPanelComponent = UIPackage.CreateObject("Boot", "InfoPanel").asCom;
+
+            ChoosePanel ??= new ChoosePanel(ChoosePanelComponent);
+            InfoPanel ??= new InfoPanel(InfoPanelComponent);
 
             TipPanel ??= new TipPanel();
             MatchingPanel ??= new MatchingPanel();
@@ -50,14 +61,14 @@ namespace UI.Boot
 
         private static IEnumerator QuitGame()
         {
-            if (MyWebSocket.MyWebSocket.Instance.WebSocket == null)
+            if (MyWebSocket.MyWebSocket.WebSocket == null)
             {
                 UIOperationUtil.QuitGame();
                 yield break;
             }
 
             MyWebSocket.MyWebSocket.Instance.Close();
-            while (MyWebSocket.MyWebSocket.Instance.WebSocket != null)
+            while (MyWebSocket.MyWebSocket.WebSocket != null)
             {
                 yield return null;
             }
@@ -67,12 +78,12 @@ namespace UI.Boot
 
         private void Update()
         {
-            if (MyWebSocket.MyWebSocket.Instance.WebSocket == null)
+            if (MyWebSocket.MyWebSocket.WebSocket == null)
             {
                 return;
             }
 
-            switch (MyWebSocket.MyWebSocket.Instance.WebSocket.State)
+            switch (MyWebSocket.MyWebSocket.WebSocket.State)
             {
                 case WebSocketStates.Connecting:
                     _severState.SetVar("isConnect", "连接中").FlushVars();

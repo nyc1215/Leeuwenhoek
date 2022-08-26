@@ -23,6 +23,8 @@ namespace Player
         [Space(10)] [Header("操控")] [Tooltip("wasd移动操控")]
         public InputAction inputWasd;
 
+        [Tooltip("摇杆移动操控")] public JoyStickOutputXY JoyStickOutput;
+
         [Tooltip("击杀")] public InputAction inputKill;
 
         [Tooltip("报告")] public InputAction inputReport;
@@ -63,7 +65,6 @@ namespace Player
 
         private List<Transform> _bodiesFound;
 
-
         #region MonoBehaviour
 
         private void Awake()
@@ -77,6 +78,7 @@ namespace Player
             _bodiesFound = new List<Transform>();
             _playerLight2D = transform.GetChild(1).GetComponent<Light2D>();
         }
+
 
         private void OnEnable()
         {
@@ -94,8 +96,19 @@ namespace Player
 
         private void Update()
         {
+            if (!IsLocalPlayer)
+            {
+                return;
+            }
+
             _moveInput = inputWasd.ReadValue<Vector2>();
+            if (!JoyStickOutput.IsZero())
+            {
+                _moveInput = JoyStickOutput.GetVector2();
+            }
+
             _animator.SetFloat(AnimatorParamSpeed, _moveInput.magnitude);
+
             if (_moveInput.x != 0)
             {
                 _playerTransform.localScale = new Vector2(Mathf.Sign(_moveInput.x), 1);
@@ -150,8 +163,9 @@ namespace Player
             if (!IsOwner)
             {
                 _playerLight2D.enabled = false;
-                Destroy(this);
             }
+
+            MyGameManager.Instance.allPlayers.Add(this);
         }
 
         #endregion

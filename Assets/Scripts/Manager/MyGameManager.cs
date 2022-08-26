@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using BestHTTP.JSON;
+using BestHTTP.SecureProtocol.Org.BouncyCastle.Asn1.X509;
 using Mirror;
 using MyWebSocket.Request;
 using MyWebSocket.Response;
@@ -32,6 +33,28 @@ namespace Manager
         }
     }
 
+    public struct JoyStickOutputXY
+    {
+        public float _x;
+        public float _y;
+
+        public JoyStickOutputXY(float x, float y)
+        {
+            _x = x;
+            _y = y;
+        }
+
+        public bool IsZero()
+        {
+            return _x == 0f && _y == 0f;
+        }
+
+        public Vector2 GetVector2()
+        {
+            return new Vector2(_x, _y);
+        }
+    }
+
     /// <summary>
     /// 游戏管理单例类
     /// </summary>
@@ -50,8 +73,7 @@ namespace Manager
 
         public LocalPlayerInfo LocalPlayerInfo = new("", "", "剧本杀", false);
         public PlayerListData PlayerListData;
-        public List<MyPlayerController> allPlayers = new();
-        [Header("玩家预制体")] public GameObject playerPrefab;
+        [Header("玩家列表")]public List<MyPlayerController> allPlayers = new();
 
         #endregion
 
@@ -63,10 +85,17 @@ namespace Manager
 
         #region 玩家控制
 
-        public void AddPlayerPrefab()
+        public void SendJoyStickDegreeToPlayers(JoyStickOutputXY outputXY)
         {
-            var player = Instantiate(playerPrefab, gameObject.transform).GetComponent<MyPlayerController>();
-            allPlayers.Add(player);
+            foreach (var playerController in allPlayers)
+            {
+                if (Vector2.SqrMagnitude(outputXY.GetVector2()) <= float.Epsilon)
+                {
+                    outputXY = new JoyStickOutputXY(0f, 0f);
+                }
+
+                playerController.JoyStickOutput = outputXY;
+            }
         }
 
         #endregion

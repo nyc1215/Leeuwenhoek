@@ -7,6 +7,7 @@ namespace MyWebSocket.Response
     {
         [JsonProperty("account")] public string Account;
         [JsonProperty("accountName")] public string AccountName;
+        [JsonProperty("status")] public string Status;
     }
 
     public class PlayerListData

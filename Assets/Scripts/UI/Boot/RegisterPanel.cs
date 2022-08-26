@@ -69,7 +69,7 @@ namespace UI.Boot
                 return;
             }
 
-            if (MyWebSocket.MyWebSocket.Instance.WebSocket.State != WebSocketStates.Open)
+            if (MyWebSocket.MyWebSocket.WebSocket.State != WebSocketStates.Open)
             {
                 BootUIPanel.TipPanel.ShowNetWorkError();
                 return;

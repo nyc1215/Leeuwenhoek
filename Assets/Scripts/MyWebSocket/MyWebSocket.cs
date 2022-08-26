@@ -12,7 +12,7 @@ namespace MyWebSocket
     {
         public string uri = "webSocket://localhost:8080/web1/webSocket";
 
-        public WebSocket WebSocket;
+        public static WebSocket WebSocket;
 
         private bool _opened;
 

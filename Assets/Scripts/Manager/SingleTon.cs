@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Object = System.Object;
 
 namespace Manager
 {
@@ -24,7 +25,7 @@ namespace Manager
 
             if (dontDestroyOnLoad)
             {
-                Instance = this as T;
+                Instance = FindObjectOfType(typeof(T)) as T;;
                 if (Application.isPlaying)
                 {
                     transform.SetParent(null);
@@ -33,7 +34,7 @@ namespace Manager
             }
             else
             {
-                Instance = this as T;
+                Instance = FindObjectOfType(typeof(T)) as T;
             }
         }
     }

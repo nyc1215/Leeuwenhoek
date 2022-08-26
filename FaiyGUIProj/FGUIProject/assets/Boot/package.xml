@@ -6,6 +6,9 @@
     <component id="9v6e2" name="Login.xml" path="/" exported="true"/>
     <component id="9v6e3" name="Register.xml" path="/" exported="true"/>
     <component id="h8vv5" name="Matching.xml" path="/" exported="true"/>
+    <component id="pr3a6" name="ChoosePanel.xml" path="/" exported="true"/>
+    <component id="pr3a7" name="ButtonScript.xml" path="/" exported="true"/>
+    <component id="pr3a8" name="InfoPanel.xml" path="/" exported="true"/>
   </resources>
   <publish name=""/>
 </packageDescription>

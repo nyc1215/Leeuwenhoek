@@ -17,7 +17,7 @@ namespace Manager
 
         public void SendRequest(RequestUtil request)
         {
-            if (MyWebSocket.MyWebSocket.Instance.WebSocket.IsOpen)
+            if (MyWebSocket.MyWebSocket.WebSocket.IsOpen)
             {
                 MyWebSocket.MyWebSocket.Instance.Send(request.ToJson());
                 if (request.NowRequestType == RequestType.Invite.ToString() ||
@@ -100,7 +100,7 @@ namespace Manager
                     var playerRoomStatusData =
                         JsonConvert.DeserializeObject<PlayerRoomStatusData>(responseSynchronousData);
                     GameObject.Find("UIPanel").GetComponent<RoomUIPanel>()
-                        .ChangePlayerState(playerRoomStatusData);
+                        .CheckGameStart(playerRoomStatusData);
                 }
 
                 return;

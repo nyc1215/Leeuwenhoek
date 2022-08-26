@@ -42,16 +42,18 @@ namespace UI.Room
             _playerList.RemoveChildrenToPool();
             for (var i = 0; i < MyGameManager.Instance.PlayerListData.PlayerList.Count; i++)
             {
-                if (MyGameManager.Instance.PlayerListData.PlayerList[i].Account ==
-                    MyGameManager.Instance.LocalPlayerInfo.Account)
+                var playerListNode = MyGameManager.Instance.PlayerListData.PlayerList[i];
+
+                if (playerListNode.Account == MyGameManager.Instance.LocalPlayerInfo.Account)
                 {
                     _localPlayerIndex = i;
                 }
 
                 _playerList.AddItemFromPool("ui://Room/PlayerListItem");
                 _playerList.GetChildAt(i).asCom.GetChild("Text_playerInfo").asTextField
-                    .SetVar("accountName", MyGameManager.Instance.PlayerListData.PlayerList[i].AccountName)
-                    .SetVar("account", MyGameManager.Instance.PlayerListData.PlayerList[i].Account).FlushVars();
+                    .SetVar("accountName", playerListNode.AccountName)
+                    .SetVar("account", playerListNode.Account).FlushVars();
+                _playerList.GetChildAt(i).asCom.GetChild("Text_Ready").asTextField.text = playerListNode.Status == "READY" ? "已准备" : "未准备";
             }
         }
 
@@ -72,6 +74,8 @@ namespace UI.Room
                 _readyButton.text = "准备";
                 _roomUIBackButton.touchable = true;
                 _roomUIBackButton.GetChild("icon").asImage.color = Color.white;
+                MyGameManager.Instance.NetWorkOperations.SendRequest(new RequestCancelReady(
+                    MyGameManager.Instance.LocalPlayerInfo.Account, MyGameManager.Instance.LocalPlayerInfo.GroupId));
             }
 
             ChangeLocalPlayerReadyState();
@@ -93,26 +97,21 @@ namespace UI.Room
             UIOperationUtil.GoToScene(MyGameManager.Instance.uiJumpData.bootMenu);
         }
 
-        public void ChangePlayerState(PlayerRoomStatusData playerRoomStatusData)
+        public void CheckGameStart(PlayerRoomStatusData playerRoomStatusData)
         {
-            foreach (var targetPlayerReadyText in from playerItem in _playerList._children
-                     where playerItem.asCom.GetChild("Text_playerInfo").asTextField.templateVars["account"] ==
-                           playerRoomStatusData.Account
-                     select playerItem.asCom.GetChild("Text_Ready").asTextField)
+            foreach (var playerListNode in MyGameManager.Instance.PlayerListData.PlayerList.Where(playerListNode => playerListNode.Account == playerRoomStatusData.Account))
             {
-                if (playerRoomStatusData.Account != MyGameManager.Instance.LocalPlayerInfo.Account)
-                {
-                    targetPlayerReadyText.text = targetPlayerReadyText.text == "已准备" ? "未准备" : "已准备";
-                }
+                playerListNode.Status = playerRoomStatusData.Status;
+                ListUpdate();
+                break;
             }
 
-            var gameStart = (from playerItem in _playerList._children select playerItem.asCom.GetChild("Text_Ready").asTextField).All(targetPlayerReadyText => targetPlayerReadyText.text != "未准备");
+            var gameStart = MyGameManager.Instance.PlayerListData.PlayerList.All(playerListNode => playerListNode.Status == "READY");
 
             if (gameStart)
             {
                 MyGameManager.Instance.GameStart();
             }
         }
-        
     }
 }

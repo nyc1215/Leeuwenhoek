@@ -46,6 +46,11 @@ namespace UI.Boot
         public void Show()
         {
             var requestMatching = new RequestMatching(MyGameManager.Instance.LocalPlayerInfo.Account, MyGameManager.Instance.LocalPlayerInfo.ScriptName);
+            requestMatching.RequestSuccess += () =>
+            {
+                BootUIPanel.ChoosePanelComponent.visible = false;
+                BootUIPanel.InfoPanelComponent.visible = false;
+            };
             MyGameManager.Instance.NetWorkOperations.SendRequest(requestMatching);
 
             _window.Show();

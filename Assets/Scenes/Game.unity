@@ -804,12 +804,7 @@ MonoBehaviour:
     ProtocolVersion: 0
     NetworkTransport: {fileID: 1453856326}
     PlayerPrefab: {fileID: 8749746188917088025, guid: 1ccc213092c088144b7d30451e834425, type: 3}
-    NetworkPrefabs:
-    - Override: 0
-      Prefab: {fileID: 8749746188917088025, guid: 1ccc213092c088144b7d30451e834425, type: 3}
-      SourcePrefabToOverride: {fileID: 0}
-      SourceHashToOverride: 0
-      OverridingTargetPrefab: {fileID: 0}
+    NetworkPrefabs: []
     TickRate: 30
     ClientConnectionBufferTimeout: 10
     ConnectionApproval: 0
@@ -840,7 +835,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!43 &1614677009
+--- !u!43 &1681397914
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

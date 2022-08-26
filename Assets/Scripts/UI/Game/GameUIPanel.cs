@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using FairyGUI;
+using Manager;
 using UI.Util;
 using Unity.Netcode;
 using UnityEngine;
@@ -22,7 +23,7 @@ namespace UI.Game
         {
             base.Awake();
             _joystick = new JoyStickModule(UIRoot);
-            _joystick.onMove.Add(__joystickMove);
+            _joystick.onMove.Add(JoystickMove);
 
             _startServer = GetButton("Button_Server");
             _startHost = GetButton("Button_Host");
@@ -33,10 +34,9 @@ namespace UI.Game
             _startClient.onClick.Add(() => { NetworkManager.Singleton.StartClient(); });
         }
 
-        private static void __joystickMove(EventContext context)
+        private static void JoystickMove(EventContext context)
         {
-            var degree = (float)context.data;
-            Debug.Log(degree);
+            MyGameManager.Instance.SendJoyStickDegreeToPlayers((JoyStickOutputXY)context.data);
         }
     }
 }

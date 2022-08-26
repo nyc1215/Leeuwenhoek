@@ -1,4 +1,5 @@
 ﻿using FairyGUI;
+using Manager;
 using UnityEngine;
 
 namespace UI.Game
@@ -97,7 +98,6 @@ namespace UI.Game
             var offsetY = buttonY - _initY;
 
             var rad = Mathf.Atan2(offsetY, offsetX);
-            var degree = rad * 180 / Mathf.PI;
 
             var maxX = radius * Mathf.Cos(rad);
             var maxY = radius * Mathf.Sin(rad);
@@ -113,7 +113,11 @@ namespace UI.Game
 
             _button.SetXY(buttonX, buttonY);
 
-            onMove.Call(degree);
+            var joyStickOutputXY = new JoyStickOutputXY(offsetX,offsetY);
+
+            onMove.Call(joyStickOutputXY);
         }
+
+        
     }
 }

@@ -64,7 +64,7 @@ namespace UI.Boot
                 return;
             }
 
-            if (MyWebSocket.MyWebSocket.Instance.WebSocket.State != WebSocketStates.Open)
+            if (MyWebSocket.MyWebSocket.WebSocket.State != WebSocketStates.Open)
             {
                 BootUIPanel.TipPanel.ShowNetWorkError();
                 return;
@@ -75,7 +75,11 @@ namespace UI.Boot
             requestLogin.RequestSuccess += () =>
             {
                 _window.Hide();
-                BootUIPanel.MatchingPanel.Show();
+                if (GRoot.inst.GetChild("ChoosePanel") == null)
+                {
+                    GRoot.inst.AddChild(BootUIPanel.ChoosePanelComponent);
+                }
+                BootUIPanel.ChoosePanelComponent.visible = true;
             };
             requestLogin.RequestFail += () => { BootUIPanel.TipPanel.Show("用户账号不存在，请先注册"); };
 

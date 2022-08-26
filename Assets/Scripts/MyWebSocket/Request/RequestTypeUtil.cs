@@ -50,6 +50,8 @@ namespace MyWebSocket.Request
         /*玩家准备*/
         Ready,
         
+        CancelReady,
+        
         /*开始游戏*/
         Start,
 

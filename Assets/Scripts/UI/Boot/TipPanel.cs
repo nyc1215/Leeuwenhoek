@@ -40,7 +40,7 @@ namespace UI.Boot
 
         public void ShowNetWorkError()
         {
-            switch (MyWebSocket.MyWebSocket.Instance.WebSocket.State)
+            switch (MyWebSocket.MyWebSocket.WebSocket.State)
             {
                 case WebSocketStates.Connecting:
                     ShowConnecting();
