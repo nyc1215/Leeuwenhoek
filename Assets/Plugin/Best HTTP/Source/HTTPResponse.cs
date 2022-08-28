@@ -384,7 +384,7 @@ namespace BestHTTP
 
         protected void ReadHeaders(Stream stream)
         {
-            var newHeaders = this.baseRequest.OnHeadersReceived != null ? new Dictionary<string, List<string>>() : null;
+            var newHeaders = this.baseRequest.OnHeadersReceived != null ? new Dictionary<string, List<string>>(StringComparer.OrdinalIgnoreCase) : null;
 
             string headerName = ReadTo(stream, (byte)':', LF)/*.Trim()*/;
             while (headerName != string.Empty)
@@ -414,10 +414,8 @@ namespace BestHTTP
 
         public void AddHeader(string name, string value)
         {
-            name = name.ToLower();
-
             if (Headers == null)
-                Headers = new Dictionary<string, List<string>>();
+                Headers = new Dictionary<string, List<string>>(StringComparer.OrdinalIgnoreCase);
 
             List<string> values;
             if (!Headers.TryGetValue(name, out values))
@@ -435,7 +433,6 @@ namespace BestHTTP
 
         /// <summary>
         /// Returns the list of values that received from the server for the given header name.
-        /// <remarks>Remarks: All headers converted to lowercase while reading the response.</remarks>
         /// </summary>
         /// <param name="name">Name of the header</param>
         /// <returns>If no header found with the given name or there are no values in the list (eg. Count == 0) returns null.</returns>
@@ -443,8 +440,6 @@ namespace BestHTTP
         {
             if (Headers == null)
                 return null;
-
-            name = name.ToLower();
 
             List<string> values;
             if (!Headers.TryGetValue(name, out values) || values.Count == 0)
@@ -462,8 +457,6 @@ namespace BestHTTP
         {
             if (Headers == null)
                 return null;
-
-            name = name.ToLower();
 
             List<string> values;
             if (!Headers.TryGetValue(name, out values) || values.Count == 0)
@@ -573,7 +566,8 @@ namespace BestHTTP
         internal static string ReadTo(Stream stream, byte blocker1, byte blocker2)
         {
             byte[] readBuf = BufferPool.Get(1024, true);
-            try {
+            try
+            {
                 int bufpos = 0;
 
                 int ch = stream.ReadByte();
@@ -605,7 +599,8 @@ namespace BestHTTP
         internal static string NoTrimReadTo(Stream stream, byte blocker1, byte blocker2)
         {
             byte[] readBuf = BufferPool.Get(1024, true);
-            try {
+            try
+            {
                 int bufpos = 0;
 
                 int ch = stream.ReadByte();

@@ -40,6 +40,11 @@ namespace BestHTTP.WebSocket
         public Action<WebSocketResponse, byte[]> OnBinary;
 
         /// <summary>
+        /// Called when a Binary message received. It's a more performant version than the OnBinary event, as the memory will be reused.
+        /// </summary>
+        public Action<WebSocketResponse, BufferSegment> OnBinaryNoAlloc;
+
+        /// <summary>
         /// Called when an incomplete frame received. No attempt will be made to reassemble these fragments.
         /// </summary>
         public Action<WebSocketResponse, WebSocketFrameReader> OnIncompleteFrame;
@@ -476,7 +481,7 @@ namespace BestHTTP.WebSocket
                             // Upon receipt of a Ping frame, an endpoint MUST send a Pong frame in response, unless it already received a Close frame.
                             case WebSocketFrameTypes.Ping:
                                 if (!closeSent && !closed)
-                                    Send(new WebSocketFrame(this.WebSocket, WebSocketFrameTypes.Pong, frame.Data));
+                                    Send(new WebSocketFrame(this.WebSocket, WebSocketFrameTypes.Pong, frame.Data, 0, frame.Length, true, true));
                                 break;
 
                             case WebSocketFrameTypes.Pong:
@@ -581,13 +586,24 @@ namespace BestHTTP.WebSocket
 
                             HTTPManager.Logger.Verbose("WebSocketResponse", "HandleEvents - OnBinary", this.Context);
                             if (OnBinary != null)
-                                OnBinary(this, frame.Data);
+                            {
+                                var data = new byte[frame.Length];
+                                Array.Copy(frame.Data, 0, data, 0, (int)frame.Length);
+                                OnBinary(this, data);
+                            }
+
+                            if (OnBinaryNoAlloc != null)
+                                OnBinaryNoAlloc(this, new BufferSegment(frame.Data, 0, (int)frame.Length));
                             break;
                     }
                 }
                 catch (Exception ex)
                 {
-                    HTTPManager.Logger.Exception("WebSocketResponse", "HandleEvents", ex, this.Context);
+                    HTTPManager.Logger.Exception("WebSocketResponse", string.Format("HandleEvents({0})", frame.Type), ex, this.Context);
+                }
+                finally
+                {
+                    frame.ReleaseData();
                 }
             }
 
@@ -603,14 +619,14 @@ namespace BestHTTP.WebSocket
                     string msg = string.Empty;
 
                     // If we received any data, we will get the status code and the message from it
-                    if (/*CloseFrame != null && */CloseFrame.Data != null && CloseFrame.Data.Length >= 2)
+                    if (/*CloseFrame != null && */CloseFrame.Data != null && CloseFrame.Length >= 2)
                     {
                         if (BitConverter.IsLittleEndian)
                             Array.Reverse(CloseFrame.Data, 0, 2);
                         statusCode = BitConverter.ToUInt16(CloseFrame.Data, 0);
 
                         if (CloseFrame.Data.Length > 2)
-                            msg = Encoding.UTF8.GetString(CloseFrame.Data, 2, CloseFrame.Data.Length - 2);
+                            msg = Encoding.UTF8.GetString(CloseFrame.Data, 2, (int)CloseFrame.Length - 2);
 
                         CloseFrame.ReleaseData();
                     }

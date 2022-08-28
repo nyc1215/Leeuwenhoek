@@ -450,9 +450,17 @@ namespace BestHTTP.SocketIO3.Parsers
 
                     if (!string.IsNullOrEmpty(name))
                         writer.Write(name);
-                    
-                    foreach (var arg in args)
-                        writer.WriteValue(arg, arg.GetType());
+
+                    if (args != null && args.Length > 0)
+                    {
+                        foreach (var arg in args)
+                        {
+                            if (arg != null)
+                                writer.WriteValue(arg, arg.GetType());
+                            else
+                                writer.WriteNull();
+                        }
+                    }
 
                     writer.WriteArrayEnd();
                     break;

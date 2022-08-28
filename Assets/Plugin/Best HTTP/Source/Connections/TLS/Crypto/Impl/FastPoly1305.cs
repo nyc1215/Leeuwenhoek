@@ -1,6 +1,7 @@
 #if !BESTHTTP_DISABLE_ALTERNATE_SSL && (!UNITY_WEBGL || UNITY_EDITOR)
 #pragma warning disable
 using System;
+using System.Runtime.CompilerServices;
 
 using BestHTTP.SecureProtocol.Org.BouncyCastle.Crypto;
 using BestHTTP.SecureProtocol.Org.BouncyCastle.Crypto.Generators;
@@ -23,9 +24,9 @@ namespace BestHTTP.Connections.TLS.Crypto.Impl
     /// by Andrew M (@floodyberry).
     /// </remarks>
     /// <seealso cref="BestHTTP.SecureProtocol.Org.BouncyCastle.Crypto.Generators.Poly1305KeyGenerator"/>
-    [BestHTTP.PlatformSupport.IL2CPP.Il2CppSetOption(BestHTTP.PlatformSupport.IL2CPP.Option.NullChecks, false)]
-    [BestHTTP.PlatformSupport.IL2CPP.Il2CppSetOption(BestHTTP.PlatformSupport.IL2CPP.Option.ArrayBoundsChecks, false)]
-    [BestHTTP.PlatformSupport.IL2CPP.Il2CppSetOption(BestHTTP.PlatformSupport.IL2CPP.Option.DivideByZeroChecks, false)]
+    
+    
+    
     [BestHTTP.PlatformSupport.IL2CPP.Il2CppEagerStaticClassConstructionAttribute]
     public sealed class FastPoly1305 : IMac
     {
@@ -191,6 +192,7 @@ namespace BestHTTP.Connections.TLS.Crypto.Impl
             }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void ProcessBlock()
         {
             if (currentBlockOffset < BlockSize)
@@ -290,6 +292,7 @@ namespace BestHTTP.Connections.TLS.Crypto.Impl
             h0 = h1 = h2 = h3 = h4 = 0;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static ulong mul32x32_64(uint i1, uint i2)
         {
             return ((ulong)i1) * i2;

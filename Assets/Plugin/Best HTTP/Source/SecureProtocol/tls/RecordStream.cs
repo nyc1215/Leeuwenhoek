@@ -486,12 +486,12 @@ namespace BestHTTP.SecureProtocol.Org.BouncyCastle.Tls
 
             internal void Reset()
             {
-                if (m_buf != m_header)
-                    BufferPool.Release(m_buf);
+                    if (m_buf != m_header)
+                        BufferPool.Release(m_buf);
 
-                m_buf = m_header;
-                m_pos = 0;
-            }
+                    m_buf = m_header;
+                    m_pos = 0;
+                }
 
             private void Resize(int length)
             {
@@ -503,6 +503,9 @@ namespace BestHTTP.SecureProtocol.Org.BouncyCastle.Tls
 
                     byte[] tmp = BufferPool.Get(length, true);
                     Array.Copy(m_buf, 0, tmp, 0, m_pos);
+
+                    if (m_buf != m_header)
+                        BufferPool.Release(m_buf);
                     m_buf = tmp;
                 }
             }

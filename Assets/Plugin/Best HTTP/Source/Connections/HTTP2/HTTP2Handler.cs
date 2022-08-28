@@ -10,6 +10,7 @@ using BestHTTP.Extensions;
 using BestHTTP.Core;
 using BestHTTP.PlatformSupport.Memory;
 using BestHTTP.Logger;
+using BestHTTP.PlatformSupport.Threading;
 
 namespace BestHTTP.Connections.HTTP2
 {
@@ -103,7 +104,7 @@ namespace BestHTTP.Connections.HTTP2
         {
             HTTPManager.Logger.Information("HTTP2Handler", "Processing thread up and running!", this.Context);
 
-            Thread.CurrentThread.Name = "BestHTTP.HTTP2 Process";
+            ThreadedRunner.SetThreadName("BestHTTP.HTTP2 Process");
 
             PlatformSupport.Threading.ThreadedRunner.RunLongLiving(ReadThread);
 
@@ -276,7 +277,7 @@ namespace BestHTTP.Connections.HTTP2
                                         // set the running flag to false, so the thread can exit
                                         this.isRunning = false;
 
-                                        this.conn.State = HTTPConnectionStates.Closed;
+                                        //this.conn.State = HTTPConnectionStates.Closed;
                                         break;
 
                                     case HTTP2FrameTypes.ALT_SVC:
@@ -363,7 +364,8 @@ namespace BestHTTP.Connections.HTTP2
                         {
                             HTTPManager.Logger.Information("HTTP2Handler", "No GoAway frame received back. Really quitting now!", this.Context);
                             this.isRunning = false;
-                            conn.State = HTTPConnectionStates.Closed;
+
+                            //conn.State = HTTPConnectionStates.Closed;
                         }
 
                         uint streamWindowUpdates = 0;
@@ -485,7 +487,7 @@ namespace BestHTTP.Connections.HTTP2
         {
             try
             {
-                Thread.CurrentThread.Name = "BestHTTP.HTTP2 Read";
+                ThreadedRunner.SetThreadName("BestHTTP.HTTP2 Read");
                 HTTPManager.Logger.Information("HTTP2Handler", "Reader thread up and running!", this.Context);
 
                 while (this.isRunning)
@@ -555,15 +557,21 @@ namespace BestHTTP.Connections.HTTP2
 
             // First thread closing notifies the ConnectionEventHelper
             int counter = Interlocked.Increment(ref this.threadExitCount);
-            if (counter == 1)
-                ConnectionEventHelper.EnqueueConnectionEvent(new ConnectionEventInfo(this.conn, HTTPConnectionStates.Closed));
-
-            // Last thread closes the AutoResetEvent
-            if (counter == 2)
+            switch(counter)
             {
-                if (this.newFrameSignal != null)
-                    this.newFrameSignal.Close();
-                this.newFrameSignal = null;
+                case 1:
+                    ConnectionEventHelper.EnqueueConnectionEvent(new ConnectionEventInfo(this.conn, HTTPConnectionStates.Closed));
+                    break;
+
+                // Last thread closes the AutoResetEvent
+                case 2:
+                    if (this.newFrameSignal != null)
+                        this.newFrameSignal.Close();
+                    this.newFrameSignal = null;
+                    break;
+                default:
+                    HTTPManager.Logger.Warning("HTTP2Handler", String.Format("TryToCleanup - counter is {0}!", counter));
+                    break;
             }
         }
 

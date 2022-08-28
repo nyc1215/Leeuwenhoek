@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <packageDescription id="z7qisvfx">
   <resources>
-    <image id="e0xw2" name="按钮基础图片.png" path="/Button/" exported="true"/>
-    <component id="e0xw3" name="ButtonCom.xml" path="/Button/" exported="true"/>
+    <image id="e0xw2" name="按钮基础图片.png" path="/" exported="true"/>
+    <component id="e0xw3" name="ButtonCom.xml" path="/" exported="true"/>
+    <component id="mv3z2" name="JoyStick.xml" path="/" exported="true"/>
+    <image id="mv3z1" name="WhiteCircle.png" path="/" exported="true"/>
   </resources>
   <publish name=""/>
 </packageDescription>

@@ -9,9 +9,9 @@ using BestHTTP.SecureProtocol.Org.BouncyCastle.Tls;
 namespace BestHTTP.Connections.TLS.Crypto.Impl
 {
     /// <summary>A generic TLS 1.2 AEAD cipher.</summary>
-    [BestHTTP.PlatformSupport.IL2CPP.Il2CppSetOption(BestHTTP.PlatformSupport.IL2CPP.Option.NullChecks, false)]
-    [BestHTTP.PlatformSupport.IL2CPP.Il2CppSetOption(BestHTTP.PlatformSupport.IL2CPP.Option.ArrayBoundsChecks, false)]
-    [BestHTTP.PlatformSupport.IL2CPP.Il2CppSetOption(BestHTTP.PlatformSupport.IL2CPP.Option.DivideByZeroChecks, false)]
+    
+    
+    
     [BestHTTP.PlatformSupport.IL2CPP.Il2CppEagerStaticClassConstructionAttribute]
     public sealed class FastTlsAeadCipher
         : TlsCipher

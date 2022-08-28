@@ -14,7 +14,7 @@ namespace UI.Game
         private GTweener _tweener;
 
         public EventListener onMove { get; private set; }
-        private EventListener onEnd { get; set; }
+        public EventListener onEnd { get; set; }
 
         private int radius { get; set; }
 
@@ -56,10 +56,12 @@ namespace UI.Game
             var touchPos = GRoot.inst.GlobalToLocal(new Vector2(evt.x, evt.y));
             _button.selected = true;
 
-            Mathf.Clamp(touchPos.x, _touchArea.x - _touchArea.width / 2, _touchArea.x + _touchArea.width / 2);
-            Mathf.Clamp(touchPos.y, _touchArea.y - _touchArea.height / 2, _touchArea.y + _touchArea.height / 2);
+            var touchPosXClamp = Mathf.Clamp(touchPos.x, _touchArea.x - _touchArea.width / 2,
+                _touchArea.x + _touchArea.width / 2);
+            var touchPosYClamp = Mathf.Clamp(touchPos.y, _touchArea.y - _touchArea.height / 2,
+                _touchArea.y + _touchArea.height / 2);
 
-            _button.SetXY(touchPos.x, touchPos.y);
+            _button.SetXY(touchPosXClamp, touchPosYClamp);
 
             context.CaptureTouch();
         }
@@ -80,7 +82,7 @@ namespace UI.Game
                         _button.selected = false;
                     }
                 );
-            onEnd.Call();
+            onEnd.Call(new JoyStickOutputXY(0f, 0f));
         }
 
         private void OnTouchMove(EventContext context)
@@ -113,11 +115,9 @@ namespace UI.Game
 
             _button.SetXY(buttonX, buttonY);
 
-            var joyStickOutputXY = new JoyStickOutputXY(offsetX,offsetY);
+            var joyStickOutputXY = new JoyStickOutputXY(offsetX, -offsetY);
 
             onMove.Call(joyStickOutputXY);
         }
-
-        
     }
 }

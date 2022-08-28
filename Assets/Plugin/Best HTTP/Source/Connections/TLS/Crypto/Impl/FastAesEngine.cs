@@ -8,6 +8,11 @@ using BestHTTP.SecureProtocol.Org.BouncyCastle.Crypto.Parameters;
 using BestHTTP.SecureProtocol.Org.BouncyCastle.Crypto.Utilities;
 using BestHTTP.SecureProtocol.Org.BouncyCastle.Utilities;
 
+#if false && BESTHTTP_WITH_BURST
+using Unity.Collections;
+using Unity.Collections.LowLevel.Unsafe;
+#endif
+
 namespace BestHTTP.Connections.TLS.Crypto.Impl
 {
     /**
@@ -39,10 +44,13 @@ namespace BestHTTP.Connections.TLS.Crypto.Impl
     /// In an environment where encryption/decryption may be closely observed it should not be used.
     /// </remarks>
 
-    [BestHTTP.PlatformSupport.IL2CPP.Il2CppSetOption(BestHTTP.PlatformSupport.IL2CPP.Option.NullChecks, false)]
-    [BestHTTP.PlatformSupport.IL2CPP.Il2CppSetOption(BestHTTP.PlatformSupport.IL2CPP.Option.ArrayBoundsChecks, false)]
-    [BestHTTP.PlatformSupport.IL2CPP.Il2CppSetOption(BestHTTP.PlatformSupport.IL2CPP.Option.DivideByZeroChecks, false)]
+    
+    
+    
     [BestHTTP.PlatformSupport.IL2CPP.Il2CppEagerStaticClassConstructionAttribute]
+#if false && BESTHTTP_WITH_BURST
+    [Unity.Burst.BurstCompile]
+#endif
     public sealed class FastAesEngine
         : IBlockCipher
     {
@@ -788,6 +796,9 @@ namespace BestHTTP.Connections.TLS.Crypto.Impl
         private bool forEncryption;
 
         private const int BLOCK_SIZE = 16;
+#if false && BESTHTTP_WITH_BURST
+        uint[] flattenedWorkingKey = null;
+#endif
 
         /**
         * default constructor - 128 bit block size.
@@ -815,7 +826,10 @@ namespace BestHTTP.Connections.TLS.Crypto.Impl
                     + BestHTTP.SecureProtocol.Org.BouncyCastle.Utilities.Platform.GetTypeName(parameters));
 
             WorkingKey = GenerateWorkingKey(keyParameter.GetKey(), forEncryption);
-
+#if false && BESTHTTP_WITH_BURST
+            flattenedWorkingKey = new uint[(ROUNDS + 1) * 4];
+            Flatten();
+#endif
             this.forEncryption = forEncryption;
         }
 
@@ -854,6 +868,15 @@ namespace BestHTTP.Connections.TLS.Crypto.Impl
 
             if (forEncryption)
             {
+#if false && BESTHTTP_WITH_BURST
+                fixed(uint* pkeys = flattenedWorkingKey)
+                fixed (uint* pt0 = T0)
+                fixed (uint* pt1 = T1)
+                fixed (uint* pt2 = T2)
+                fixed (uint* pt3 = T3)
+                fixed (byte* ps = S)
+                    Encrypt(pkeys, ROUNDS, pt0, pt1, pt2, pt3, ps, ref this.C0, ref this.C1, ref this.C2, ref this.C3);
+#else
                 uint[][] KW = WorkingKey;
                 uint[] kw = KW[0];
                 uint t0 = this.C0 ^ kw[0];
@@ -906,9 +929,19 @@ namespace BestHTTP.Connections.TLS.Crypto.Impl
                         this.C3 = (uint)pS[r3 & 255] ^ (((uint)pS[(r0 >> 8) & 255]) << 8) ^ (((uint)pS[(r1 >> 16) & 255]) << 16) ^ (((uint)pS[r2 >> 24]) << 24) ^ pkw[3];
                     }
                 }
+#endif
             }
             else
             {
+#if false && BESTHTTP_WITH_BURST
+                fixed(uint* pkeys = flattenedWorkingKey)
+                fixed(uint* ptinv0 = Tinv0)
+                fixed (uint* ptinv1 = Tinv1)
+                fixed (uint* ptinv2 = Tinv2)
+                fixed (uint* ptinv3 = Tinv3)
+                fixed (byte* psi = Si)
+                    Decrypt(pkeys, ROUNDS, ptinv0, ptinv1, ptinv2, ptinv3, psi, ref this.C0, ref this.C1, ref this.C2, ref this.C3);
+#else
                 uint[][] KW = WorkingKey;
                 uint[] kw = KW[ROUNDS];
                 uint t0 = this.C0 ^ kw[0];
@@ -961,6 +994,7 @@ namespace BestHTTP.Connections.TLS.Crypto.Impl
                         this.C3 = (uint)pSi[r3 & 255] ^ (((uint)pSi[(r2 >> 8) & 255]) << 8) ^ (((uint)pSi[(r1 >> 16) & 255]) << 16) ^ (((uint)pSi[r0 >> 24]) << 24) ^ pkw[3];
                     }
                 }
+#endif
             }
 
             fixed (byte* poutput = output)
@@ -976,7 +1010,103 @@ namespace BestHTTP.Connections.TLS.Crypto.Impl
             return BLOCK_SIZE;
         }
 
-        public void Reset()
+#if false && BESTHTTP_WITH_BURST
+
+        void Flatten()
+        {
+            int pos = 0;
+            for (int i = 0; i < WorkingKey.Length; i++)
+            {
+                for (int cv = 0; cv < WorkingKey[i].Length; ++cv)
+                    flattenedWorkingKey[pos++] = WorkingKey[i][cv];
+            }
+        }
+        
+        [Unity.Burst.BurstCompile]
+        unsafe static void Encrypt(uint* KW, in int ROUNDS, uint* pt0, uint* pt1, uint* pt2, uint* pt3, byte* ps, ref uint c0, ref uint c1, ref uint c2, ref uint c3)
+        {
+            //uint[] kw = KW[0];
+            uint t0 = c0 ^ KW[0];
+            uint t1 = c1 ^ KW[1];
+            uint t2 = c2 ^ KW[2];
+        
+            uint r0, r1, r2, r3 = c3 ^ KW[3];
+            int r = 1;
+            while (r < ROUNDS - 1)
+            {
+                //kw = KW[r++];
+                r0 = pt0[t0 & 255] ^ pt1[(t1 >> 8) & 255] ^ pt2[(t2 >> 16) & 255] ^ pt3[r3 >> 24] ^ KW[(r * 4) + 0];
+                r1 = pt0[t1 & 255] ^ pt1[(t2 >> 8) & 255] ^ pt2[(r3 >> 16) & 255] ^ pt3[t0 >> 24] ^ KW[(r * 4) + 1];
+                r2 = pt0[t2 & 255] ^ pt1[(r3 >> 8) & 255] ^ pt2[(t0 >> 16) & 255] ^ pt3[t1 >> 24] ^ KW[(r * 4) + 2];
+                r3 = pt0[r3 & 255] ^ pt1[(t0 >> 8) & 255] ^ pt2[(t1 >> 16) & 255] ^ pt3[t2 >> 24] ^ KW[(r * 4) + 3];
+                r++;
+                //kw = KW[r++];
+                t0 = pt0[r0 & 255] ^ pt1[(r1 >> 8) & 255] ^ pt2[(r2 >> 16) & 255] ^ pt3[r3 >> 24] ^ KW[(r * 4) + 0];
+                t1 = pt0[r1 & 255] ^ pt1[(r2 >> 8) & 255] ^ pt2[(r3 >> 16) & 255] ^ pt3[r0 >> 24] ^ KW[(r * 4) + 1];
+                t2 = pt0[r2 & 255] ^ pt1[(r3 >> 8) & 255] ^ pt2[(r0 >> 16) & 255] ^ pt3[r1 >> 24] ^ KW[(r * 4) + 2];
+                r3 = pt0[r3 & 255] ^ pt1[(r0 >> 8) & 255] ^ pt2[(r1 >> 16) & 255] ^ pt3[r2 >> 24] ^ KW[(r * 4) + 3];
+                r++;
+            }
+        
+            //kw = KW[r++];
+            r0 = pt0[t0 & 255] ^ pt1[(t1 >> 8) & 255] ^ pt2[(t2 >> 16) & 255] ^ pt3[r3 >> 24] ^ KW[(r * 4) + 0];
+            r1 = pt0[t1 & 255] ^ pt1[(t2 >> 8) & 255] ^ pt2[(r3 >> 16) & 255] ^ pt3[t0 >> 24] ^ KW[(r * 4) + 1];
+            r2 = pt0[t2 & 255] ^ pt1[(r3 >> 8) & 255] ^ pt2[(t0 >> 16) & 255] ^ pt3[t1 >> 24] ^ KW[(r * 4) + 2];
+            r3 = pt0[r3 & 255] ^ pt1[(t0 >> 8) & 255] ^ pt2[(t1 >> 16) & 255] ^ pt3[t2 >> 24] ^ KW[(r * 4) + 3];
+            r++;
+        
+            // the final round's table is a simple function of S so we don't use a whole other four tables for it
+        
+            //kw = KW[r];
+            c0 = (uint)ps[r0 & 255] ^ (((uint)ps[(r1 >> 8) & 255]) << 8) ^ (((uint)ps[(r2 >> 16) & 255]) << 16) ^ (((uint)ps[r3 >> 24]) << 24) ^ KW[(r * 4) + 0];
+            c1 = (uint)ps[r1 & 255] ^ (((uint)ps[(r2 >> 8) & 255]) << 8) ^ (((uint)ps[(r3 >> 16) & 255]) << 16) ^ (((uint)ps[r0 >> 24]) << 24) ^ KW[(r * 4) + 1];
+            c2 = (uint)ps[r2 & 255] ^ (((uint)ps[(r3 >> 8) & 255]) << 8) ^ (((uint)ps[(r0 >> 16) & 255]) << 16) ^ (((uint)ps[r1 >> 24]) << 24) ^ KW[(r * 4) + 2];
+            c3 = (uint)ps[r3 & 255] ^ (((uint)ps[(r0 >> 8) & 255]) << 8) ^ (((uint)ps[(r1 >> 16) & 255]) << 16) ^ (((uint)ps[r2 >> 24]) << 24) ^ KW[(r * 4) + 3];
+        }
+
+        [Unity.Burst.BurstCompile]
+        unsafe static void Decrypt(uint* KW, in int ROUNDS, uint* ptinv0, uint* ptinv1, uint* ptinv2, uint* ptinv3, byte* psi, ref uint c0, ref uint c1, ref uint c2, ref uint c3)
+        {
+            //uint[] kw = KW[ROUNDS];
+            uint t0 = c0 ^ KW[(ROUNDS * 4) + 0];
+            uint t1 = c1 ^ KW[(ROUNDS * 4) + 1];
+            uint t2 = c2 ^ KW[(ROUNDS * 4) + 2];
+
+            uint r0, r1, r2, r3 = c3 ^ KW[(ROUNDS * 4) + 3];
+            int r = ROUNDS - 1;
+            while (r > 1)
+            {
+                //kw = KW[r--];
+                r0 = ptinv0[t0 & 255] ^ ptinv1[(r3 >> 8) & 255] ^ ptinv2[(t2 >> 16) & 255] ^ ptinv3[t1 >> 24] ^ KW[(r * 4) + 0];
+                r1 = ptinv0[t1 & 255] ^ ptinv1[(t0 >> 8) & 255] ^ ptinv2[(r3 >> 16) & 255] ^ ptinv3[t2 >> 24] ^ KW[(r * 4) + 1];
+                r2 = ptinv0[t2 & 255] ^ ptinv1[(t1 >> 8) & 255] ^ ptinv2[(t0 >> 16) & 255] ^ ptinv3[r3 >> 24] ^ KW[(r * 4) + 2];
+                r3 = ptinv0[r3 & 255] ^ ptinv1[(t2 >> 8) & 255] ^ ptinv2[(t1 >> 16) & 255] ^ ptinv3[t0 >> 24] ^ KW[(r * 4) + 3];
+                r--;
+                //kw = KW[r--];
+                t0 = ptinv0[r0 & 255] ^ ptinv1[(r3 >> 8) & 255] ^ ptinv2[(r2 >> 16) & 255] ^ ptinv3[r1 >> 24] ^ KW[(r * 4) + 0];
+                t1 = ptinv0[r1 & 255] ^ ptinv1[(r0 >> 8) & 255] ^ ptinv2[(r3 >> 16) & 255] ^ ptinv3[r2 >> 24] ^ KW[(r * 4) + 1];
+                t2 = ptinv0[r2 & 255] ^ ptinv1[(r1 >> 8) & 255] ^ ptinv2[(r0 >> 16) & 255] ^ ptinv3[r3 >> 24] ^ KW[(r * 4) + 2];
+                r3 = ptinv0[r3 & 255] ^ ptinv1[(r2 >> 8) & 255] ^ ptinv2[(r1 >> 16) & 255] ^ ptinv3[r0 >> 24] ^ KW[(r * 4) + 3];
+                r--;
+            }
+
+            //kw = KW[1];
+            r0 = ptinv0[t0 & 255] ^ ptinv1[(r3 >> 8) & 255] ^ ptinv2[(t2 >> 16) & 255] ^ ptinv3[t1 >> 24] ^ KW[4 + 0];
+            r1 = ptinv0[t1 & 255] ^ ptinv1[(t0 >> 8) & 255] ^ ptinv2[(r3 >> 16) & 255] ^ ptinv3[t2 >> 24] ^ KW[4 + 1];
+            r2 = ptinv0[t2 & 255] ^ ptinv1[(t1 >> 8) & 255] ^ ptinv2[(t0 >> 16) & 255] ^ ptinv3[r3 >> 24] ^ KW[4 + 2];
+            r3 = ptinv0[r3 & 255] ^ ptinv1[(t2 >> 8) & 255] ^ ptinv2[(t1 >> 16) & 255] ^ ptinv3[t0 >> 24] ^ KW[4 + 3];
+
+            // the final round's table is a simple function of Si so we don't use a whole other four tables for it
+
+            //kw = KW[0];
+            c0 = (uint)psi[r0 & 255] ^ (((uint)psi[(r3 >> 8) & 255]) << 8) ^ (((uint)psi[(r2 >> 16) & 255]) << 16) ^ (((uint)psi[r1 >> 24]) << 24) ^ KW[0];
+            c1 = (uint)psi[r1 & 255] ^ (((uint)psi[(r0 >> 8) & 255]) << 8) ^ (((uint)psi[(r3 >> 16) & 255]) << 16) ^ (((uint)psi[r2 >> 24]) << 24) ^ KW[1];
+            c2 = (uint)psi[r2 & 255] ^ (((uint)psi[(r1 >> 8) & 255]) << 8) ^ (((uint)psi[(r0 >> 16) & 255]) << 16) ^ (((uint)psi[r3 >> 24]) << 24) ^ KW[2];
+            c3 = (uint)psi[r3 & 255] ^ (((uint)psi[(r2 >> 8) & 255]) << 8) ^ (((uint)psi[(r1 >> 16) & 255]) << 16) ^ (((uint)psi[r0 >> 24]) << 24) ^ KW[3];
+        }
+#endif
+
+        public /*virtual*/ void Reset()
         {
         }
 

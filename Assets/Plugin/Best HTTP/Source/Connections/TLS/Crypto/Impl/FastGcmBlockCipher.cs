@@ -17,9 +17,9 @@ namespace BestHTTP.Connections.TLS.Crypto.Impl
     /// Implements the Galois/Counter mode (GCM) detailed in
     /// NIST Special Publication 800-38D.
     /// </summary>
-    [BestHTTP.PlatformSupport.IL2CPP.Il2CppSetOption(BestHTTP.PlatformSupport.IL2CPP.Option.NullChecks, false)]
-    [BestHTTP.PlatformSupport.IL2CPP.Il2CppSetOption(BestHTTP.PlatformSupport.IL2CPP.Option.ArrayBoundsChecks, false)]
-    [BestHTTP.PlatformSupport.IL2CPP.Il2CppSetOption(BestHTTP.PlatformSupport.IL2CPP.Option.DivideByZeroChecks, false)]
+    
+    
+    
     [BestHTTP.PlatformSupport.IL2CPP.Il2CppEagerStaticClassConstructionAttribute]
     public sealed class FastGcmBlockCipher
         : IAeadBlockCipher
@@ -28,6 +28,9 @@ namespace BestHTTP.Connections.TLS.Crypto.Impl
         byte[] ctrBlock = new byte[BlockSize];
 
         private readonly IBlockCipher cipher;
+#if BESTHTTP_WITH_BURST
+        private BestHTTP.Connections.TLS.Crypto.Impl.BurstTables8kGcmMultiplier multiplier;
+#endif
         private IGcmExponentiator exp;
 
         // These fields are set by Init and not modified by processing
@@ -179,7 +182,14 @@ namespace BestHTTP.Connections.TLS.Crypto.Impl
                 cipher.ProcessBlock(H, 0, H, 0);
 
                 // if keyParam is null we're reusing the last key and the multiplier doesn't need re-init
+#if BESTHTTP_WITH_BURST
+                if (this.multiplier == null)
+                    this.multiplier = new Connections.TLS.Crypto.Impl.BurstTables8kGcmMultiplier();
+                this.multiplier.Init(H);
+#else
                 Tables8kGcmMultiplier_Init(H);
+#endif
+
                 exp = null;
             }
             else if (this.H == null)
@@ -427,7 +437,11 @@ namespace BestHTTP.Connections.TLS.Crypto.Impl
                         pulongS[0] ^= pulongctrBlock[0];
                         pulongS[1] ^= pulongctrBlock[1];
 
+#if BESTHTTP_WITH_BURST
+                        this.multiplier.MultiplyH(S);
+#else
                         Tables8kGcmMultiplier_MultiplyH(S);
+#endif
 
                         ulong* pulongoutput = (ulong*)&poutput[outOff + resultLen];
                         pulongoutput[0] = pulongctrBlock[0];
@@ -510,7 +524,11 @@ namespace BestHTTP.Connections.TLS.Crypto.Impl
                                 pulongS[0] ^= pulongbufBlock[0];
                                 pulongS[1] ^= pulongbufBlock[1];
 
+#if BESTHTTP_WITH_BURST
+                                this.multiplier.MultiplyH(S);
+#else
                                 Tables8kGcmMultiplier_MultiplyH(S);
+#endif
 
                                 ulong* pulongOutput = (ulong*)&poutput[outOff + resultLen];
                                 ulong* pulongctrBlock = (ulong*)pctrBlock;
@@ -575,7 +593,11 @@ namespace BestHTTP.Connections.TLS.Crypto.Impl
                     pulongS[0] ^= pulongctrBlock[0];
                     pulongS[1] ^= pulongctrBlock[1];
 
+#if BESTHTTP_WITH_BURST
+                    this.multiplier.MultiplyH(S);
+#else
                     Tables8kGcmMultiplier_MultiplyH(S);
+#endif
 
                     fixed (byte* poutput = output)
                     {
@@ -596,7 +618,11 @@ namespace BestHTTP.Connections.TLS.Crypto.Impl
                     pulongS[0] ^= pulongBuf[0];
                     pulongS[1] ^= pulongBuf[1];
 
+#if BESTHTTP_WITH_BURST
+                    this.multiplier.MultiplyH(S);
+#else
                     Tables8kGcmMultiplier_MultiplyH(S);
+#endif
 
                     ulong* pulongOutput = (ulong*)&poutput[outOff];
                     ulong* pulongctrBlock = (ulong*)pctrBlock;
@@ -820,19 +846,31 @@ namespace BestHTTP.Connections.TLS.Crypto.Impl
         private void gHASHBlock(byte[] Y, byte[] b)
         {
             GcmUtilities.Xor(Y, b);
+#if BESTHTTP_WITH_BURST
+            this.multiplier.MultiplyH(Y);
+#else
             Tables8kGcmMultiplier_MultiplyH(Y);
+#endif
         }
 
         private void gHASHBlock(byte[] Y, byte[] b, int off)
         {
             GcmUtilities.Xor(Y, b, off);
+#if BESTHTTP_WITH_BURST
+            this.multiplier.MultiplyH(Y);
+#else
             Tables8kGcmMultiplier_MultiplyH(Y);
+#endif
         }
 
         private void gHASHPartial(byte[] Y, byte[] b, int off, int len)
         {
             GcmUtilities.Xor(Y, b, off, len);
+#if BESTHTTP_WITH_BURST
+            this.multiplier.MultiplyH(Y);
+#else
             Tables8kGcmMultiplier_MultiplyH(Y);
+#endif
         }
 
         private void GetNextCtrBlock(byte[] block)
@@ -865,6 +903,7 @@ namespace BestHTTP.Connections.TLS.Crypto.Impl
 
         #region Tables8kGcmMultiplier
 
+#if !BESTHTTP_WITH_BURST
         private byte[] Tables8kGcmMultiplier_H;
         private uint[][][] Tables8kGcmMultiplier_M;
 
@@ -967,28 +1006,32 @@ namespace BestHTTP.Connections.TLS.Crypto.Impl
                 }
 
                 byte* pbyteZ = (byte*)pz;
+                //ulong* pulongX = (ulong*)px;
+                //pulongX[0] = pz[0];
+                //pulongX[1] = pz[1];
                 px[0] = pbyteZ[3];
                 px[1] = pbyteZ[2];
                 px[2] = pbyteZ[1];
                 px[3] = pbyteZ[0];
-
+                
                 px[4] = pbyteZ[7];
                 px[5] = pbyteZ[6];
                 px[6] = pbyteZ[5];
                 px[7] = pbyteZ[4];
-
+                
                 px[8] = pbyteZ[11];
                 px[9] = pbyteZ[10];
                 px[10] = pbyteZ[9];
                 px[11] = pbyteZ[8];
-
+                
                 px[12] = pbyteZ[15];
                 px[13] = pbyteZ[14];
                 px[14] = pbyteZ[13];
                 px[15] = pbyteZ[12];
             }
         }
-        #endregion
+#endif
+    #endregion
     }
 }
 #pragma warning restore

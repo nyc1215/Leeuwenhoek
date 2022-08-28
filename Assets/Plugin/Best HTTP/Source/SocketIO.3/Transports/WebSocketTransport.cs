@@ -64,7 +64,7 @@ namespace BestHTTP.SocketIO3.Transports
 
             Implementation.OnOpen = OnOpen;
             Implementation.OnMessage = OnMessage;
-            Implementation.OnBinary = OnBinary;
+            Implementation.OnBinaryNoAlloc = OnBinaryNoAlloc;
             Implementation.OnError = OnError;
             Implementation.OnClosed = OnClosed;
 
@@ -160,7 +160,7 @@ namespace BestHTTP.SocketIO3.Transports
         /// <summary>
         /// WebSocket implementation OnBinary event handler.
         /// </summary>
-        private void OnBinary(WebSocket ws, byte[] data)
+        private void OnBinaryNoAlloc(WebSocket ws, BufferSegment data)
         {
             if (ws != Implementation)
                 return;
@@ -171,7 +171,7 @@ namespace BestHTTP.SocketIO3.Transports
             IncomingPacket packet = IncomingPacket.Empty;
             try
             {
-                packet = this.Manager.Parser.Parse(this.Manager, new BufferSegment(data, 0, data.Length));
+                packet = this.Manager.Parser.Parse(this.Manager, data);
             }
             catch (Exception ex)
             {

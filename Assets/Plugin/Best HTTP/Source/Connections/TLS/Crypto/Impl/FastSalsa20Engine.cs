@@ -13,9 +13,9 @@ namespace BestHTTP.Connections.TLS.Crypto.Impl
     /// <summary>
     /// Implementation of Daniel J. Bernstein's Salsa20 stream cipher, Snuffle 2005
     /// </summary>
-    [BestHTTP.PlatformSupport.IL2CPP.Il2CppSetOption(BestHTTP.PlatformSupport.IL2CPP.Option.NullChecks, false)]
-    [BestHTTP.PlatformSupport.IL2CPP.Il2CppSetOption(BestHTTP.PlatformSupport.IL2CPP.Option.ArrayBoundsChecks, false)]
-    [BestHTTP.PlatformSupport.IL2CPP.Il2CppSetOption(BestHTTP.PlatformSupport.IL2CPP.Option.DivideByZeroChecks, false)]
+    
+    
+    
     [BestHTTP.PlatformSupport.IL2CPP.Il2CppEagerStaticClassConstructionAttribute]
     public class FastSalsa20Engine
         : IStreamCipher
@@ -165,7 +165,20 @@ namespace BestHTTP.Connections.TLS.Crypto.Impl
             }
         }
 
-        public virtual void ProcessBytes(
+#if BESTHTTP_WITH_BURST
+        [Unity.Burst.BurstCompile]
+        class SalsaBurstHelper
+        {
+            [Unity.Burst.BurstCompile]
+            public unsafe static void ProcessBytes(int idx, byte* outBytes, int outOff, byte* inBytes, int inOff, byte* keyStream)
+            {
+                for (int i = 0; i < 64; ++i)
+                    outBytes[idx + i + outOff] = (byte)(keyStream[i] ^ inBytes[idx + i + inOff]);
+            }
+        }
+#endif
+
+        public unsafe virtual void ProcessBytes(
             byte[] inBytes,
             int inOff,
             int len,
@@ -187,10 +200,102 @@ namespace BestHTTP.Connections.TLS.Crypto.Impl
                 {
                     GenerateKeyStream(keyStream);
                     AdvanceCounter();
+
+#if BESTHTTP_WITH_BURST
+                    if (len - i >= 64)
+                    {
+                        fixed (byte* pbout = outBytes)
+                        fixed (byte* pbin = inBytes)
+                        fixed (byte* pbkey = keyStream)
+                        {
+                            SalsaBurstHelper.ProcessBytes(i, pbout, outOff, pbin, inOff, pbkey);
+                        }
+
+                        i += 63;
+                        index = 0;
+                        continue;
+                    }
+#endif
                 }
                 outBytes[i + outOff] = (byte)(keyStream[index] ^ inBytes[i + inOff]);
                 index = (index + 1) & 63;
             }
+            //for (int i = 0; i < len; i++)
+            //{
+            //    if (index == 0)
+            //    {
+            //        GenerateKeyStream(keyStream);
+            //        AdvanceCounter();
+            //    }
+            //    outBytes[i + outOff] = (byte)(keyStream[index] ^ inBytes[i + inOff]);
+            //    index = (index + 1) & 63;
+            //}
+
+            //int longLen = 0;
+            //
+            //// TODO: do the basic calculation until index != 0 to align it for the more performant algorithm.
+            //
+            //if (index % sizeof(ushort) == 0)
+            //{
+            //    longLen = len / sizeof(ushort);
+            //    if (longLen > 0)
+            //    {
+            //        fixed (byte* pbout = outBytes)
+            //        fixed (byte* pbin = inBytes)
+            //        fixed (byte* pbkey = keyStream)
+            //        {
+            //            ushort* plout = (ushort*)&pbout[outOff];
+            //            ushort* plin = (ushort*)&pbin[inOff];
+            //            ushort* plkey = (ushort*)&pbkey[index];
+            //            int keySize = (64 / sizeof(ushort)) - 1;
+            //
+            //            byte[] expectedOutput = new byte[keyStream.Length];
+            //            byte[] inCopy = new byte[inBytes.Length];
+            //            inBytes.CopyTo(inCopy, 0);
+            //
+            //            int counter = 0;
+            //
+            //            for (int i = 0; i < longLen; i++)
+            //            {
+            //                if (index == 0)
+            //                {
+            //                    GenerateKeyStream(keyStream);
+            //                    AdvanceCounter();
+            //
+            //                    for (int cv = 0; cv < keyStream.Length; cv++)
+            //                        expectedOutput[cv] = (byte)(pbkey[cv] ^ pbin[inOff + counter + cv]);
+            //                }
+            //
+            //                var outVal = (ushort)(plkey[index / sizeof(ushort)] ^ plin[i]);
+            //
+            //                ushort expectedValue = (ushort)(expectedOutput[index + 1] << 8 | expectedOutput[index]);
+            //                if (expectedValue != outVal)
+            //                    UnityEngine.Debug.Break();
+            //                //for (int cv = 0; cv < sizeof(ushort); cv++)
+            //                //{
+            //                //    if (expectedOutput[index + cv] != pbout[outOff + i + cv])
+            //                //        UnityEngine.Debug.Break();
+            //                //}
+            //
+            //                plout[i] = outVal;
+            //                index = (index + sizeof(ushort)) & keySize;
+            //
+            //                counter += sizeof(ushort);
+            //            }
+            //        }
+            //    }
+            //}
+            //
+            //for (int i = longLen * sizeof(ushort); i < len; i++)
+            //{
+            //    if (index == 0)
+            //    {
+            //        GenerateKeyStream(keyStream);
+            //        AdvanceCounter();
+            //    }
+            //    outBytes[i + outOff] = (byte)(keyStream[index] ^ inBytes[i + inOff]);
+            //    index = (index + 1) & 63;
+            //}
         }
 
         public virtual void Reset()

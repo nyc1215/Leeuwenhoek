@@ -1403,6 +1403,15 @@ namespace BestHTTP.SecureProtocol.Org.BouncyCastle.Tls
             TlsUtilities.EstablishServerSigAlgs(m_tlsClientContext.SecurityParameters, certificateRequest);
         }
 
+        protected override void Send13CertificateMessage(Certificate certificate)
+        {
+            // Create a new certificate with the current context.
+            certificate = new Certificate(this.m_certificateRequest.GetCertificateRequestContext(), certificate.GetCertificateEntryList());
+
+            // call base's implementation with the new certificate
+            base.Send13CertificateMessage(certificate);
+        }
+
         /// <exception cref="IOException"/>
         protected virtual void Receive13EncryptedExtensions(MemoryStream buf)
         {

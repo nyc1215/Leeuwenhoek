@@ -155,6 +155,26 @@ namespace BestHTTP.WebSocket
                         HTTPManager.Logger.Exception("WebSocket", "OnBinary", ex, ws.Context);
                     }
                 }
+
+                if (ws.OnBinaryNoAlloc != null)
+                {
+                    try
+                    {
+                        byte[] buffer = BufferPool.Get(length, true);
+
+                        // We still have to do a copy here, but at least the buffer will be released back to the pool.
+                        // Copy data from the 'unmanaged' memory to managed memory. Buffer will be reclaimed by the GC.
+                        Marshal.Copy(pBuffer, buffer, 0, length);
+
+                        ws.OnBinaryNoAlloc(ws, new BufferSegment(buffer, 0, length));
+
+                        BufferPool.Release(buffer);
+                    }
+                    catch (Exception ex)
+                    {
+                        HTTPManager.Logger.Exception("WebSocket", "OnBinary", ex, ws.Context);
+                    }
+                }
             }
             else
                 HTTPManager.Logger.Warning("WebSocket", "OnBinaryCallback - No WebSocket found for id: " + id.ToString());

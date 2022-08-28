@@ -90,6 +90,7 @@ namespace BestHTTP.Connections
                             goto default;
                         }
 
+#if !BESTHTTP_DISABLE_PROXY
                     case 407:
                         {
                             if (request.Proxy == null)
@@ -99,6 +100,7 @@ namespace BestHTTP.Connections
 
                             goto default;
                         }
+#endif
 
                     // Redirected
                     case 301: // http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.3.2

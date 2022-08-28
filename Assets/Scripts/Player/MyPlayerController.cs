@@ -1,16 +1,9 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using Manager;
-using MyWebSocket.Request;
-using MyWebSocket.Response;
 using Unity.Netcode;
-using Unity.Netcode.Components;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering.Universal;
-using UnityEngine.Serialization;
-using Random = UnityEngine.Random;
 
 namespace Player
 {
@@ -79,6 +72,12 @@ namespace Player
             _playerLight2D = transform.GetChild(1).GetComponent<Light2D>();
         }
 
+        private void Start()
+        {
+            inputKill.performed += KillTarget;
+            inputReport.performed += Report;
+        }
+
 
         private void OnEnable()
         {
@@ -104,7 +103,7 @@ namespace Player
             _moveInput = inputWasd.ReadValue<Vector2>();
             if (!JoyStickOutput.IsZero())
             {
-                _moveInput = JoyStickOutput.GetVector2();
+                _moveInput = JoyStickOutput.GetVector2().normalized;
             }
 
             _animator.SetFloat(AnimatorParamSpeed, _moveInput.magnitude);
@@ -160,12 +159,26 @@ namespace Player
 
         public override void OnNetworkSpawn()
         {
+            if (IsLocalPlayer)
+            {
+                MyGameManager.Instance.localPlayerController = this;
+            }
+
             if (!IsOwner)
             {
                 _playerLight2D.enabled = false;
             }
-
-            MyGameManager.Instance.allPlayers.Add(this);
+            else
+            {
+                MyGameManager.Instance.allPlayers.Add(this);
+                if (MyGameManager.CompareScene(MyGameManager.Instance.uiJumpData.roomMenu))
+                {
+                    _playerLight2D.enabled = false;
+                    inputReport.Disable();
+                    inputKill.Disable();
+                    transform.position = GameObject.Find("StartPoint").transform.position;
+                }
+            }
         }
 
         #endregion
@@ -202,7 +215,7 @@ namespace Player
         }
 
 
-        private void KillTarget()
+        private void KillTarget(InputAction.CallbackContext context)
         {
             if (_targets.Count == 0)
             {
@@ -233,7 +246,7 @@ namespace Player
             temPlayerBody.SetColor(playerSpriteRenderer.color);
         }
 
-        private void Report()
+        private void Report(InputAction.CallbackContext context)
         {
             if (_bodiesFound == null)
             {

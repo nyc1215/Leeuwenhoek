@@ -102,6 +102,7 @@ namespace BestHTTP
                                                           HTTPMethods.Merge.ToString().ToUpper(),
                                                           HTTPMethods.Options.ToString().ToUpper(),
                                                           HTTPMethods.Connect.ToString().ToUpper(),
+                                                          HTTPMethods.Query.ToString().ToUpper()
                                                       };
 
         /// <summary>
@@ -1119,7 +1120,7 @@ namespace BestHTTP
                     if (string.IsNullOrEmpty(header) || values == null)
                         return;
 
-                    byte[] headerName = string.Concat(header, ": ").GetASCIIBytes();
+                    var headerName = string.Concat(header, ": ").GetASCIIBytes();
 
                     for (int i = 0; i < values.Count; ++i)
                     {
@@ -1132,10 +1133,10 @@ namespace BestHTTP
                         if (HTTPManager.Logger.Level <= Logger.Loglevels.Information)
                             VerboseLogging("Header - '" + header + "': '" + values[i] + "'");
 
-                        byte[] valueBytes = values[i].GetASCIIBytes();
+                        var valueBytes = values[i].GetASCIIBytes();
 
-                        stream.WriteArray(headerName);
-                        stream.WriteArray(valueBytes);
+                        stream.WriteBufferSegment(headerName);
+                        stream.WriteBufferSegment(valueBytes);
                         stream.WriteArray(EOL);
 
                         BufferPool.Release(valueBytes);
@@ -1246,8 +1247,8 @@ namespace BestHTTP
             //  it should have enough room for UploadChunkSize data and additional chunk information.
             using (WriteOnlyBufferedStream bufferStream = new WriteOnlyBufferedStream(stream, (int)(UploadChunkSize * 1.5f)))
             {
-                byte[] requestLineBytes = requestLine.GetASCIIBytes();
-                bufferStream.WriteArray(requestLineBytes);
+                var requestLineBytes = requestLine.GetASCIIBytes();
+                bufferStream.WriteBufferSegment(requestLineBytes);
                 bufferStream.WriteArray(EOL);
 
                 BufferPool.Release(requestLineBytes);
@@ -1298,8 +1299,8 @@ namespace BestHTTP
                         // If we don't know the size, send as chunked
                         if (!UseUploadStreamLength)
                         {
-                            byte[] countBytes = count.ToString("X").GetASCIIBytes();
-                            bufferStream.WriteArray(countBytes);
+                            var countBytes = count.ToString("X").GetASCIIBytes();
+                            bufferStream.WriteBufferSegment(countBytes);
                             bufferStream.WriteArray(EOL);
 
                             BufferPool.Release(countBytes);

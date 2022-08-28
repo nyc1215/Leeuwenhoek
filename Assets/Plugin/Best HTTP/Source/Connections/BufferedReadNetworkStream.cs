@@ -93,10 +93,16 @@ namespace BestHTTP.Connections
 
             if (this.innerStream != null)
             {
-                this.innerStream.Close();
-                this.innerStream = null;
+                lock (this)
+                {
+                    if (this.innerStream != Null)
+                    {
+                        this.innerStream.Close();
+                        this.innerStream = null;
 
-                DecrementCurrentConnections();
+                        DecrementCurrentConnections();
+                    }
+                }
             }
         }
     }

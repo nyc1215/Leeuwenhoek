@@ -1,19 +1,15 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using BestHTTP.JSON;
-using BestHTTP.SecureProtocol.Org.BouncyCastle.Asn1.X509;
+using System.Linq;
 using Mirror;
-using MyWebSocket.Request;
 using MyWebSocket.Response;
-using Newtonsoft.Json;
 using Player;
 using UI.Util;
-using Unity.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
-using Object = UnityEngine.Object;
+#if UNITY_2018_3_OR_NEWER
+using UnityEngine.Android;
+#endif
 
 namespace Manager
 {
@@ -21,22 +17,24 @@ namespace Manager
     {
         public string GroupId;
         public string Account;
+        public string AccountName;
         public string ScriptName;
         public bool ReadyForGame;
 
-        public LocalPlayerInfo(string groupId, string account, string scriptName, bool readyForGame)
+        public LocalPlayerInfo(string groupId, string account, string accountName, string scriptName, bool readyForGame)
         {
             GroupId = groupId;
             Account = account;
+            AccountName = accountName;
             ScriptName = scriptName;
             ReadyForGame = readyForGame;
         }
     }
 
-    public struct JoyStickOutputXY
+    public readonly struct JoyStickOutputXY
     {
-        public float _x;
-        public float _y;
+        private readonly float _x;
+        private readonly float _y;
 
         public JoyStickOutputXY(float x, float y)
         {
@@ -46,7 +44,7 @@ namespace Manager
 
         public bool IsZero()
         {
-            return _x == 0f && _y == 0f;
+            return Mathf.Abs(_x) <= float.Epsilon && Mathf.Abs(_y) <= float.Epsilon;
         }
 
         public Vector2 GetVector2()
@@ -71,15 +69,20 @@ namespace Manager
 
         #region 玩家相关变量
 
-        public LocalPlayerInfo LocalPlayerInfo = new("", "", "剧本杀", false);
+        public LocalPlayerInfo LocalPlayerInfo = new("", "", "", "剧本杀", false);
         public PlayerListData PlayerListData;
-        [Header("玩家列表")]public List<MyPlayerController> allPlayers = new();
+        public MyPlayerController localPlayerController;
+        public MyPlayerNetwork localPlayerNetwork;
+        [Header("玩家列表")] public List<MyPlayerController> allPlayers = new();
 
         #endregion
 
         #region 网络操作
 
         public readonly NetWorkOperations NetWorkOperations = new();
+
+        //安卓权限列表
+        private readonly List<string> _permissionList = new();
 
         #endregion
 
@@ -109,6 +112,21 @@ namespace Manager
             Debug.unityLogger.logEnabled = true;
         }
 
+        private void Start()
+        {
+#if UNITY_2018_3_OR_NEWER
+            _permissionList.Add(Permission.Microphone);
+#endif
+        }
+
+        private void Update()
+        {
+#if UNITY_2018_3_OR_NEWER
+            // 获取设备权限。 
+            CheckPermission();
+#endif
+        }
+
         #endregion
 
         #region 场景
@@ -121,6 +139,20 @@ namespace Manager
         public void GameStart()
         {
             UIOperationUtil.GoToSceneAsync(uiJumpData.gameMenu);
+        }
+
+        #endregion
+
+        #region 权限
+
+        private void CheckPermission()
+        {
+#if UNITY_2018_3_OR_NEWER
+            foreach (var permission in _permissionList.Where(permission => !Permission.HasUserAuthorizedPermission(permission)))
+            {
+                Permission.RequestUserPermission(permission);
+            }
+#endif
         }
 
         #endregion

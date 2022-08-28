@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using MyWebSocket.Request;
 using MyWebSocket.Response;
 using Newtonsoft.Json;
+using UI.Boot;
 using UI.Room;
 using UI.Util;
 using UnityEngine;
@@ -82,6 +83,8 @@ namespace Manager
 
                 if (!MyGameManager.CompareScene(MyGameManager.Instance.uiJumpData.roomMenu))
                 {
+                    BootUIPanel.ChoosePanelComponent.visible = false;
+                    BootUIPanel.InfoPanelComponent.visible = false;
                     UIOperationUtil.GoToScene(MyGameManager.Instance.uiJumpData.roomMenu);
                 }
                 else

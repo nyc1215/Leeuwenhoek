@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using BestHTTP.WebSocket;
 using FairyGUI;
-using Manager;
-using Mirror;
 using UI.Util;
-using Unity.VisualScripting;
-using UnityEngine;
-using UnityEngine.Assertions;
 
 namespace UI.Boot
 {

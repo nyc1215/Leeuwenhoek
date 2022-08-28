@@ -24,6 +24,7 @@ namespace UI.Game
             base.Awake();
             _joystick = new JoyStickModule(UIRoot);
             _joystick.onMove.Add(JoystickMove);
+            _joystick.onEnd.Add(JoystickMove);
 
             _startServer = GetButton("Button_Server");
             _startHost = GetButton("Button_Host");
