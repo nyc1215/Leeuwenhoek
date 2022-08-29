@@ -716,10 +716,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d48046f0c5dfdcd449b329d647710869, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonNames:
-  - Button_Server
-  - Button_Host
-  - Button_Client
+  buttonNames: []
 --- !u!114 &1309396387
 MonoBehaviour:
   m_ObjectHideFlags: 0
