@@ -6,6 +6,7 @@ using Mirror;
 using MyWebSocket.Response;
 using Player;
 using UI.Util;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 #if UNITY_2018_3_OR_NEWER
@@ -213,7 +214,7 @@ namespace Manager
         {
             _rtcEngine.MuteLocalAudioStream(false);
         }
-        
+
         public void VoiceEndTalk()
         {
             _rtcEngine.MuteLocalAudioStream(true);

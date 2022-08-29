@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using MyWebSocket.Request;
 using MyWebSocket.Response;
 using Newtonsoft.Json;
@@ -77,9 +78,25 @@ namespace Manager
                 }
 
                 var playerListData = JsonConvert.DeserializeObject<PlayerListData>(responseSynchronousData);
+                if (playerListData == null)
+                {
+                    return;
+                }
+
+                var existLocalPlayer = false;
+                foreach (var _ in playerListData.PlayerList.Where(playerListNode => playerListNode.Account == MyGameManager.Instance.LocalPlayerInfo.Account))
+                {
+                    existLocalPlayer = true;
+                }
+
                 MyGameManager.Instance.PlayerListData = playerListData;
                 MyGameManager.Instance.LocalPlayerInfo.ScriptName = playerListData?.ScriptName;
                 MyGameManager.Instance.LocalPlayerInfo.GroupId = playerListData?.GroupId;
+
+                if (!existLocalPlayer)
+                {
+                    return;
+                }
 
                 if (!MyGameManager.CompareScene(MyGameManager.Instance.uiJumpData.roomMenu))
                 {
@@ -105,8 +122,6 @@ namespace Manager
                     GameObject.Find("UIPanel").GetComponent<RoomUIPanel>()
                         .CheckGameStart(playerRoomStatusData);
                 }
-
-                return;
             }
         }
 

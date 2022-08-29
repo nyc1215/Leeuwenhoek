@@ -335,7 +335,7 @@ MonoBehaviour:
   localPlayerNetwork: {fileID: 0}
   allPlayers: []
   rtcAppId: 977d278672b24ea085b4caf9e8c1987c
-  rtcToken: 007eJxTYLi8VSk1VmWGm+8WXvU+ladZDEExnZN947/9nm3ZzLFnv48Cg6W5eYqRuYWZuVGSkUlqooGFaZJJcmKaZapFsqGlhXnyVz3u5JIGnuQTjP9YGBkgEMRnYShJLS5hYAAA0qwfBw==
+  rtcToken: 007eJxTYEgs5HS4qOhQ61hubPR03p1nmr2cX7Jnr/nolpz2QTZ44TQFBktz8xQjcwszc6MkI5PURAML0yST5MQ0y1SLZENLC/PkkDae5CvXeZOd2nqYGBkgEMRnYShJLS5hYAAAISAgsQ==
   rtcChannelName: test
 --- !u!1 &1317449407
 GameObject:

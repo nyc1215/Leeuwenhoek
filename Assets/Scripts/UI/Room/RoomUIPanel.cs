@@ -87,9 +87,11 @@ namespace UI.Room
 
         private static void PlayerExitRoom()
         {
+            MyGameManager.Instance.VoiceLeaveChannel();
             var requestExitGroup = new RequestExitGroup(
                 MyGameManager.Instance.LocalPlayerInfo.Account, MyGameManager.Instance.LocalPlayerInfo.GroupId);
             MyGameManager.Instance.NetWorkOperations.SendRequest(requestExitGroup);
+            MyGameManager.Instance.localPlayerController.DestroyPlayerServerRpc(NetworkManager.Singleton.LocalClientId);
             UIOperationUtil.GoToScene(MyGameManager.Instance.uiJumpData.bootMenu);
         }
 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Manager;
 using Unity.Netcode;
@@ -70,12 +71,29 @@ namespace Player
             AllBodies = new List<Transform>();
             _bodiesFound = new List<Transform>();
             _playerLight2D = transform.GetChild(1).GetComponent<Light2D>();
+
+            DontDestroyOnLoad(this);
         }
 
         private void Start()
         {
             inputKill.performed += KillTarget;
             inputReport.performed += Report;
+
+            transform.position = GameObject.Find("StartPoint").transform.position;
+        }
+
+        public override void OnDestroy()
+        {
+            if (IsServer || IsHost)
+            {
+                foreach (var playerController in MyGameManager.Instance.allPlayers)
+                {
+                    Destroy(playerController.gameObject);
+                }
+            }
+
+            base.OnDestroy();
         }
 
 
@@ -153,6 +171,20 @@ namespace Player
             }
         }
 
+        private void OnTriggerStay(Collider other)
+        {
+            if (other.CompareTag("Player"))
+            {
+                _targets.Sort((player1, player2) =>
+                {
+                    var localPlayerPosition = transform.position;
+                    var player1Distance = (player1.transform.position - localPlayerPosition).magnitude;
+                    var player2Distance = (player2.transform.position - localPlayerPosition).magnitude;
+                    return -player1Distance.CompareTo(player2Distance);
+                });
+            }
+        }
+
         #endregion
 
         #region NetCode
@@ -180,6 +212,35 @@ namespace Player
             }
 
             transform.position = GameObject.Find("StartPoint").transform.position;
+        }
+
+        [ServerRpc]
+        public void DestroyPlayerServerRpc(ulong localClientId)
+        {
+            var playerToRemove = NetworkManager.Singleton.ConnectedClients[localClientId].PlayerObject;
+            var playerControllerToRemove = playerToRemove.gameObject.GetComponent<MyPlayerController>();
+            if (!MyGameManager.Instance.allPlayers.Contains(playerControllerToRemove))
+            {
+                return;
+            }
+            
+            MyGameManager.Instance.allPlayers.Remove(playerControllerToRemove);
+            Destroy(playerToRemove.gameObject);
+            DisablePlayerClientRpc(localClientId);
+        }
+
+        [ClientRpc]
+        private void DisablePlayerClientRpc(ulong localClientId)
+        {
+            var playerToRemove = NetworkManager.Singleton.ConnectedClients[localClientId].PlayerObject;
+            var playerControllerToRemove = playerToRemove.gameObject.GetComponent<MyPlayerController>();
+            if (!MyGameManager.Instance.allPlayers.Contains(playerControllerToRemove))
+            {
+                return;
+            }
+
+            MyGameManager.Instance.allPlayers.Remove(playerControllerToRemove);
+            playerToRemove.gameObject.SetActive(false);
         }
 
         #endregion
@@ -228,7 +289,7 @@ namespace Player
                 return;
             }
 
-            transform.position = _targets[^1].transform.position;
+            //transform.position = _targets[^1].transform.position;
             _targets[^1].Die();
             _targets.RemoveAt(_targets.Count - 1);
         }

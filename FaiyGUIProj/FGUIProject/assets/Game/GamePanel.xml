@@ -7,5 +7,6 @@
     <graph id="n6_mw5q" name="joystick_touch" xy="200,900" pivot="0.5,0.5" anchor="true" size="250,250" type="eclipse" lineSize="0" fillColor="#7fffffff">
       <relation target="" sidePair="bottom-bottom"/>
     </graph>
+    <loader id="n7_opeb" name="Loader_MiniMap" xy="1920,0" pivot="1,0" anchor="true" size="256,256"/>
   </displayList>
 </component>

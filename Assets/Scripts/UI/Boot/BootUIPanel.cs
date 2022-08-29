@@ -29,8 +29,8 @@ namespace UI.Boot
         {
             base.Awake();
 
-            ChoosePanelComponent = UIPackage.CreateObject("Boot", "ChoosePanel").asCom;
-            InfoPanelComponent = UIPackage.CreateObject("Boot", "InfoPanel").asCom;
+            ChoosePanelComponent ??= UIPackage.CreateObject("Boot", "ChoosePanel").asCom;
+            InfoPanelComponent ??= UIPackage.CreateObject("Boot", "InfoPanel").asCom;
 
             ChoosePanel ??= new ChoosePanel(ChoosePanelComponent);
             InfoPanel ??= new InfoPanel(InfoPanelComponent);
