@@ -15,4 +15,4 @@ MonoBehaviour:
   bootMenu: Assets/Scenes/Boot.unity
   roomMenu: Assets/Scenes/Room.unity
   loadMenu: Assets/Scenes/Load.unity
-  GameMenu: Assets/Scenes/Game.unity
+  gameMenu: Assets/Scenes/Game.unity

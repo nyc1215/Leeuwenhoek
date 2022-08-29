@@ -176,9 +176,10 @@ namespace Player
                     _playerLight2D.enabled = false;
                     inputReport.Disable();
                     inputKill.Disable();
-                    transform.position = GameObject.Find("StartPoint").transform.position;
                 }
             }
+
+            transform.position = GameObject.Find("StartPoint").transform.position;
         }
 
         #endregion

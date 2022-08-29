@@ -57,7 +57,6 @@ namespace Player
 
         #endregion
 
-
         #region NetworkBehaviour
 
         public override void OnNetworkSpawn()
