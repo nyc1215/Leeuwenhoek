@@ -21,6 +21,9 @@ namespace Player
         private readonly NetworkVariable<Color> _netTopTextColor = new();
         private readonly NetworkVariable<FixedString64Bytes> _netTopText = new();
 
+        [Tooltip("角色头顶语音图标")] public SpriteRenderer playerVoiceIcon;
+        private readonly NetworkVariable<bool> _networkShowVoiceIcon = new();
+
         private readonly Color[] _playerRandomColors =
         {
             Color.cyan, Color.green, Color.white, Color.blue, Color.black, Color.grey, Color.red, Color.yellow,
@@ -46,6 +49,12 @@ namespace Player
             _netTopText.Value = text;
         }
 
+        [ServerRpc]
+        private void CommitVoiceIconServerRpc(bool isShow)
+        {
+            _networkShowVoiceIcon.Value = isShow;
+        }
+
         #endregion
 
 
@@ -63,11 +72,13 @@ namespace Player
                 CommitSpriteColorServerRpc(_playerRandomColors[Random.Range(0, _playerRandomColors.Length)]);
                 CommitTopTextServerRpc(MyGameManager.Instance.LocalPlayerInfo.AccountName);
                 ChangeTopTextColor(false);
+                CommitVoiceIconServerRpc(false);
             }
             else
             {
                 playerPartSpriteRenderer.color = _netSpriteColor.Value;
                 playerTopText.text = _netTopText.Value.ToString();
+                playerVoiceIcon.enabled = _networkShowVoiceIcon.Value;
             }
         }
 
@@ -77,6 +88,7 @@ namespace Player
             _netSpriteColor.OnValueChanged += (value, newValue) => { playerPartSpriteRenderer.color = newValue; };
             _netTopTextColor.OnValueChanged += (value, newValue) => { playerTopText.color = newValue; };
             _netTopText.OnValueChanged += (value, newValue) => { playerTopText.text = newValue.ToString(); };
+            _networkShowVoiceIcon.OnValueChanged += (value, newValue) => { playerVoiceIcon.enabled = newValue; };
         }
 
         public override void OnDestroy()
@@ -84,13 +96,14 @@ namespace Player
             _netSpriteColor.OnValueChanged = null;
             _netTopTextColor.OnValueChanged = null;
             _netTopText.OnValueChanged = null;
+            _networkShowVoiceIcon.OnValueChanged = null;
         }
 
         private void Update()
         {
             if (IsOwner)
             {
-                _netSpriteScale.Value = new PlayerNetworkData()
+                _netSpriteScale.Value = new PlayerNetworkData
                 {
                     spriteScale = _spriteTransform.localScale
                 };
@@ -131,6 +144,14 @@ namespace Player
                 CommitTopTextServerRpc(isReady
                     ? MyGameManager.Instance.LocalPlayerInfo.AccountName + "√"
                     : MyGameManager.Instance.LocalPlayerInfo.AccountName);
+            }
+        }
+
+        public void ChangeVoiceIconShow(bool isShow)
+        {
+            if (IsOwner)
+            {
+                CommitVoiceIconServerRpc(isShow);
             }
         }
     }

@@ -404,6 +404,7 @@ MonoBehaviour:
   buttonNames:
   - Button_Back
   - Button_Ready
+  - Button_Voice
 --- !u!1 &564951418
 GameObject:
   m_ObjectHideFlags: 0

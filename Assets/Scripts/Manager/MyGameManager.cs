@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using agora_gaming_rtc;
 using Mirror;
 using MyWebSocket.Response;
 using Player;
@@ -84,6 +85,12 @@ namespace Manager
         //安卓权限列表
         private readonly List<string> _permissionList = new();
 
+        //IRtcEngine语音
+        [Header("Agora语音appID")] public string rtcAppId = "YOUR_APPID";
+        [Header("Agora语音token")] public string rtcToken = "";
+        [Header("Agora语音频道名称")] public string rtcChannelName = "YOUR_CHANNEL_NAME";
+        private IRtcEngine _rtcEngine;
+
         #endregion
 
         #region 玩家控制
@@ -105,6 +112,17 @@ namespace Manager
 
         #region MonoBehaviour
 
+        private void OnApplicationQuit()
+        {
+            if (_rtcEngine == null)
+            {
+                return;
+            }
+
+            IRtcEngine.Destroy();
+            _rtcEngine = null;
+        }
+
         protected override void Awake()
         {
             base.Awake();
@@ -117,6 +135,15 @@ namespace Manager
 #if UNITY_2018_3_OR_NEWER
             _permissionList.Add(Permission.Microphone);
 #endif
+            if (rtcAppId.Length > 10)
+            {
+                InitRtcEngine();
+                VoiceJoinChannel();
+            }
+            else
+            {
+                Debug.LogWarning("Please fill in your appId in Canvas!!!!!");
+            }
         }
 
         private void Update()
@@ -148,11 +175,80 @@ namespace Manager
         private void CheckPermission()
         {
 #if UNITY_2018_3_OR_NEWER
-            foreach (var permission in _permissionList.Where(permission => !Permission.HasUserAuthorizedPermission(permission)))
+            foreach (var permission in _permissionList.Where(permission =>
+                         !Permission.HasUserAuthorizedPermission(permission)))
             {
                 Permission.RequestUserPermission(permission);
             }
 #endif
+        }
+
+        #endregion
+
+        #region 语音
+
+        private void InitRtcEngine()
+        {
+            _rtcEngine = IRtcEngine.GetEngine(rtcAppId);
+            _rtcEngine.OnJoinChannelSuccess += OnJoinChannelSuccessHandler;
+            _rtcEngine.OnLeaveChannel += OnLeaveChannelHandler;
+            _rtcEngine.OnWarning += OnSDKWarningHandler;
+            _rtcEngine.OnError += OnSDKErrorHandler;
+            _rtcEngine.OnConnectionLost += OnConnectionLostHandler;
+        }
+
+        private void VoiceJoinChannel()
+        {
+            _rtcEngine.JoinChannelByKey(rtcToken, rtcChannelName);
+            _rtcEngine.MuteAllRemoteAudioStreams(true);
+            _rtcEngine.MuteLocalAudioStream(true);
+        }
+
+        public void VoiceChangeRemoteVoice(bool isMute)
+        {
+            _rtcEngine.MuteAllRemoteAudioStreams(isMute);
+        }
+
+        public void VoiceStartTalk()
+        {
+            _rtcEngine.MuteLocalAudioStream(false);
+        }
+        
+        public void VoiceEndTalk()
+        {
+            _rtcEngine.MuteLocalAudioStream(true);
+        }
+
+        public void VoiceLeaveChannel()
+        {
+            Debug.Log("calling VoiceLeaveChannel");
+            _rtcEngine?.LeaveChannel();
+        }
+
+        void OnJoinChannelSuccessHandler(string channelName, uint uid, int elapsed)
+        {
+            Debug.Log($"sdk version: {IRtcEngine.GetSdkVersion()}");
+            Debug.Log($"onJoinChannelSuccess channelName: {channelName}, uid: {uid}, elapsed: {elapsed}");
+        }
+
+        void OnLeaveChannelHandler(RtcStats stats)
+        {
+            Debug.Log("OnLeaveChannelSuccess");
+        }
+
+        void OnSDKWarningHandler(int warn, string msg)
+        {
+            Debug.Log($"OnSDKWarning warn: {warn}, msg: {msg}");
+        }
+
+        void OnSDKErrorHandler(int error, string msg)
+        {
+            Debug.Log($"OnSDKError error: {error}, msg: {msg}");
+        }
+
+        void OnConnectionLostHandler()
+        {
+            Debug.Log("OnConnectionLost");
         }
 
         #endregion

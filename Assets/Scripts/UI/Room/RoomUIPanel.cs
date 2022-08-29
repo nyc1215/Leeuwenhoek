@@ -16,6 +16,7 @@ namespace UI.Room
 
         private GButton _roomUIBackButton;
         private GButton _readyButton;
+        private GButton _voiceButton;
 
         private int _localPlayerIndex;
 
@@ -33,11 +34,16 @@ namespace UI.Room
 
             _roomUIBackButton = GetButton("Button_Back");
             _readyButton = GetButton("Button_Ready");
+            _voiceButton = GetButton("Button_Voice");
 
             _roomUIBackButton.onClick.Add(PlayerExitRoom);
             _readyButton.onClick.Add(PlayerReady);
+            _voiceButton.onTouchBegin.Add(StartVoice);
+            _voiceButton.onTouchEnd.Add(EndVoice);
 
             CreatePlayer();
+
+            MyGameManager.Instance.VoiceChangeRemoteVoice(false);
         }
 
         public void ListUpdate()
@@ -122,6 +128,20 @@ namespace UI.Room
             {
                 NetworkManager.Singleton.StartClient();
             }
+        }
+
+        private void StartVoice()
+        {
+            _voiceButton.title = "语音中";
+            MyGameManager.Instance.localPlayerNetwork.ChangeVoiceIconShow(true);
+            MyGameManager.Instance.VoiceStartTalk();
+        }
+
+        private void EndVoice()
+        {
+            _voiceButton.title = "按住语音";
+            MyGameManager.Instance.localPlayerNetwork.ChangeVoiceIconShow(false);
+            MyGameManager.Instance.VoiceEndTalk();
         }
     }
 }

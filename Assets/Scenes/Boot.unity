@@ -331,8 +331,12 @@ MonoBehaviour:
   dontDestroyOnLoad: 1
   nextSceneToLoadAsync: 
   uiJumpData: {fileID: 11400000, guid: e713263045c02b54aaf779744c31f650, type: 2}
+  localPlayerController: {fileID: 0}
+  localPlayerNetwork: {fileID: 0}
   allPlayers: []
-  playerPrefab: {fileID: 0}
+  rtcAppId: 977d278672b24ea085b4caf9e8c1987c
+  rtcToken: 007eJxTYLi8VSk1VmWGm+8WXvU+ladZDEExnZN947/9nm3ZzLFnv48Cg6W5eYqRuYWZuVGSkUlqooGFaZJJcmKaZapFsqGlhXnyVz3u5JIGnuQTjP9YGBkgEMRnYShJLS5hYAAA0qwfBw==
+  rtcChannelName: test
 --- !u!1 &1317449407
 GameObject:
   m_ObjectHideFlags: 0
