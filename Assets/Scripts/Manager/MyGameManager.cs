@@ -169,6 +169,14 @@ namespace Manager
             UIOperationUtil.GoToSceneAsync(uiJumpData.gameMenu);
         }
 
+        public void ChangeSceneCallBack(Scene scene, LoadSceneMode mode)
+        {
+            foreach (var playerController in allPlayers)
+            {
+                playerController.ChangeSceneCallBack?.Invoke();
+            }
+        }
+
         #endregion
 
         #region 权限

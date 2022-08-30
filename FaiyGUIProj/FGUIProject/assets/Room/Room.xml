@@ -4,9 +4,6 @@
     <text id="n2_lxz0" name="title" xy="960,100" pivot="0.5,0.5" anchor="true" size="244,79" fontSize="60" align="center" vAlign="middle" text="准备阶段">
       <relation target="" sidePair="center-center"/>
     </text>
-    <component id="n5_lxz0" name="Button_Back" src="e0xw3" fileName="ButtonCom.xml" pkg="z7qisvfx" xy="1700,100" size="120,50">
-      <Button title="退出" titleFontSize="30"/>
-    </component>
     <component id="n7_di5g" name="Button_Ready" src="e0xw3" fileName="ButtonCom.xml" pkg="z7qisvfx" xy="1700,899" size="120,50">
       <Button title="准备" titleFontSize="30"/>
     </component>

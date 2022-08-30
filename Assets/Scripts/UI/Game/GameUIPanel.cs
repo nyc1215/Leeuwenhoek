@@ -13,6 +13,8 @@ namespace UI.Game
 
         private JoyStickModule _joystick;
         private GLoader _miniMapLoader;
+        private GButton _reportButton;
+        private GButton _killButton;
 
         protected override void Awake()
         {
@@ -22,13 +24,18 @@ namespace UI.Game
             _joystick.onEnd.Add(JoystickMove);
 
             _miniMapLoader = UIRoot.GetChild("Loader_MiniMap").asLoader;
-
+            _reportButton = GetButton("Button_Report");
+            _killButton = GetButton("Button_Kill");
             CreatePlayer();
         }
 
         private void Start()
         {
             _miniMapLoader.texture = new NTexture(miniMapRanderTexture);
+            _reportButton.onClick.Add(() =>
+            {
+                
+            });
         }
 
         private static void JoystickMove(EventContext context)

@@ -727,6 +727,13 @@ MonoBehaviour:
   bodyPrefab: {fileID: 6540672241139089927, guid: 2401f236d44709f469ffbe2326ad9f3e, type: 3}
   playerSpriteRenderer: {fileID: 1142689203342683541}
   playerPartSpriteRenderer: {fileID: 1372084542301323607}
+  playerMainCamera: {fileID: 0}
+  objsToHide:
+  - {fileID: 3088424091278528599}
+  - {fileID: 6538186605965751591}
+  ignoreForHide:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!114 &8460458793590721624
 MonoBehaviour:
   m_ObjectHideFlags: 0

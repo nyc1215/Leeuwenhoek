@@ -38,7 +38,11 @@ namespace UI.Util
 
             foreach (var btnName in buttonNames)
             {
-                var aButton = UIRoot?.GetChild(btnName).asButton;
+                var aButton = UIRoot?.GetChild(btnName)?.asButton;
+                if (aButton == null)
+                {
+                    continue;
+                }
                 _buttonList.Add(btnName, aButton);
             }
         }

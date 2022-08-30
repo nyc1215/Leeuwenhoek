@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using Manager;
 using Unity.Netcode;
 using UnityEngine;
@@ -43,7 +45,9 @@ namespace Player
         public SpriteRenderer playerSpriteRenderer;
 
         [Tooltip("角色其他部分精灵渲染器")] public SpriteRenderer playerPartSpriteRenderer;
-
+        [Tooltip("角色主摄像机")] public Camera playerMainCamera;
+        [Tooltip("角色在阴影下需要隐藏的物体")] public List<GameObject> objsToHide;
+        [Tooltip("隐藏物体时候忽略的层")] public LayerMask ignoreForHide;
         #endregion
 
         private Light2D _playerLight2D;
@@ -59,6 +63,8 @@ namespace Player
 
         private List<Transform> _bodiesFound;
 
+        public Action ChangeSceneCallBack;
+
         #region MonoBehaviour
 
         private void Awake()
@@ -72,6 +78,7 @@ namespace Player
             _bodiesFound = new List<Transform>();
             _playerLight2D = transform.GetChild(1).GetComponent<Light2D>();
 
+            MyGameManager.Instance.localPlayerController = this;
             DontDestroyOnLoad(this);
         }
 
@@ -79,8 +86,7 @@ namespace Player
         {
             inputKill.performed += KillTarget;
             inputReport.performed += Report;
-
-            transform.position = GameObject.Find("StartPoint").transform.position;
+            ChangeSceneCallBack += OnGameSceneInit;
         }
 
         public override void OnDestroy()
@@ -129,6 +135,11 @@ namespace Player
             if (_moveInput.x != 0)
             {
                 _playerTransform.localScale = new Vector2(Mathf.Sign(_moveInput.x), 1);
+            }
+
+            if (MyGameManager.CompareScene(MyGameManager.Instance.uiJumpData.gameMenu))
+            {
+                PlayerSearch();
             }
 
             if (AllBodies.Count > 0)
@@ -185,65 +196,98 @@ namespace Player
             }
         }
 
+        private void LateUpdate()
+        {
+            if (IsOwner)
+            {
+                if (MyGameManager.CompareScene(MyGameManager.Instance.uiJumpData.gameMenu))
+                {
+                    var localPlayerPosition = transform.position;
+                    if (playerMainCamera == null)
+                    {
+                        playerMainCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
+                    }
+
+                    var playerMainCameraTransform = playerMainCamera.transform;
+                    playerMainCameraTransform.position = new Vector3(localPlayerPosition.x, localPlayerPosition.y, playerMainCameraTransform.position.z);
+                }
+            }
+        }
+
         #endregion
 
         #region NetCode
 
         public override void OnNetworkSpawn()
         {
-            if (IsLocalPlayer)
-            {
-                MyGameManager.Instance.localPlayerController = this;
-            }
-
+            MyGameManager.Instance.allPlayers.Add(this);
             if (!IsOwner)
             {
                 _playerLight2D.enabled = false;
             }
             else
             {
-                MyGameManager.Instance.allPlayers.Add(this);
                 if (MyGameManager.CompareScene(MyGameManager.Instance.uiJumpData.roomMenu))
                 {
                     _playerLight2D.enabled = false;
                     inputReport.Disable();
                     inputKill.Disable();
                 }
+
+                if (IsServer)
+                {
+                    GetComponent<NetworkObject>().ChangeOwnership(NetworkManager.Singleton.LocalClientId);
+                }
             }
 
             transform.position = GameObject.Find("StartPoint").transform.position;
         }
 
-        [ServerRpc]
-        public void DestroyPlayerServerRpc(ulong localClientId)
-        {
-            var playerToRemove = NetworkManager.Singleton.ConnectedClients[localClientId].PlayerObject;
-            var playerControllerToRemove = playerToRemove.gameObject.GetComponent<MyPlayerController>();
-            if (!MyGameManager.Instance.allPlayers.Contains(playerControllerToRemove))
-            {
-                return;
-            }
-            
-            MyGameManager.Instance.allPlayers.Remove(playerControllerToRemove);
-            Destroy(playerToRemove.gameObject);
-            DisablePlayerClientRpc(localClientId);
-        }
-
-        [ClientRpc]
-        private void DisablePlayerClientRpc(ulong localClientId)
-        {
-            var playerToRemove = NetworkManager.Singleton.ConnectedClients[localClientId].PlayerObject;
-            var playerControllerToRemove = playerToRemove.gameObject.GetComponent<MyPlayerController>();
-            if (!MyGameManager.Instance.allPlayers.Contains(playerControllerToRemove))
-            {
-                return;
-            }
-
-            MyGameManager.Instance.allPlayers.Remove(playerControllerToRemove);
-            playerToRemove.gameObject.SetActive(false);
-        }
+        // public void DestroySelf()
+        // {
+        //     if (MyGameManager.Instance.allPlayers.Contains(this))
+        //     {
+        //         MyGameManager.Instance.allPlayers.Remove(this);
+        //         DestroyPlayerServerRpc(NetworkManager.Singleton.LocalClientId);
+        //     }
+        //     //DestroyPlayerServerRpc(NetworkManager.Singleton.LocalClientId);
+        // }
+        //
+        // [ServerRpc]
+        // private void DestroyPlayerServerRpc(ulong localClientId)
+        // {
+        //     var playerObject = FindObjectsOfType<MyPlayerController>().First(n => n.gameObject.GetComponent<NetworkObject>().NetworkObjectId == localClientId);
+        //     if (playerObject != null)
+        //     {
+        //         Destroy(playerObject.gameObject);
+        //     }
+        // }
 
         #endregion
+
+        private void PlayerSearch()
+        {
+            if (IsOwner)
+            {
+                foreach (var otherPlayerController in MyGameManager.Instance.allPlayers)
+                {
+                    if (otherPlayerController == this)
+                    {
+                        continue;
+                    }
+
+                    var playerPos = transform.position;
+                    var otherPlayerPos = otherPlayerController.transform.position;
+                    var ray = new Ray(playerPos, otherPlayerPos - playerPos);
+                    Debug.DrawLine(playerPos, otherPlayerPos, Color.magenta);
+
+                    if (Physics.Raycast(ray, out var hit, 1000f, ~ignoreForHide))
+                    {
+                        otherPlayerController.ChangeAllComponentsNeedToHide(hit.transform == otherPlayerController.transform);
+                    }
+                }
+            }
+        }
 
         private void BodySearch()
         {
@@ -324,6 +368,42 @@ namespace Player
             AllBodies.Remove(tempBody);
             _bodiesFound.Remove(tempBody);
             tempBody.GetComponent<MyPlayerBody>().Report();
+        }
+
+        private void OnGameSceneInit()
+        {
+            if (IsOwner)
+            {
+                if (MyGameManager.CompareScene(MyGameManager.Instance.uiJumpData.loadMenu))
+                {
+                    GetComponent<MyPlayerNetwork>().ChangeTopTextColor(false);
+                    GetComponent<MyPlayerNetwork>().ChangeVoiceIconShow(false);
+                }
+
+                if (MyGameManager.CompareScene(MyGameManager.Instance.uiJumpData.gameMenu))
+                {
+                    _playerLight2D.enabled = true;
+                    inputReport.Enable();
+                    inputKill.Enable();
+
+                    if (playerMainCamera == null)
+                    {
+                        playerMainCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
+                        playerMainCamera.targetTexture = RenderTexture.active;
+                    }
+
+                    transform.position = GameObject.Find("StartPoint").transform.position;
+                }
+            }
+        }
+
+        private void ChangeAllComponentsNeedToHide(bool isShow)
+        {
+            foreach (var obj in objsToHide)
+            {
+                obj.SetActive(isShow);
+                Debug.Log($"obj: {obj.name} show: {isShow}");
+            }
         }
     }
 }

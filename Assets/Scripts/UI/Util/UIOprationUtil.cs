@@ -29,6 +29,7 @@ namespace UI.Util
             if (!string.IsNullOrEmpty(sceneName))
             {
                 GRoot.inst.CloseAllWindows();
+                SceneManager.sceneLoaded += MyGameManager.Instance.ChangeSceneCallBack;
                 SceneManager.LoadScene(sceneName);
             }
             else

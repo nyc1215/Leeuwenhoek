@@ -14,7 +14,7 @@ namespace UI.Room
     {
         private JoyStickModule _joystick;
 
-        private GButton _roomUIBackButton;
+        // private GButton _roomUIBackButton;
         private GButton _readyButton;
         private GButton _voiceButton;
 
@@ -32,11 +32,11 @@ namespace UI.Room
         {
             ListUpdate();
 
-            _roomUIBackButton = GetButton("Button_Back");
+            // _roomUIBackButton = GetButton("Button_Back");
             _readyButton = GetButton("Button_Ready");
             _voiceButton = GetButton("Button_Voice");
 
-            _roomUIBackButton.onClick.Add(PlayerExitRoom);
+            // _roomUIBackButton.onClick.Add(PlayerExitRoom);
             _readyButton.onClick.Add(PlayerReady);
             _voiceButton.onTouchBegin.Add(StartVoice);
             _voiceButton.onTouchEnd.Add(EndVoice);
@@ -66,8 +66,8 @@ namespace UI.Room
             {
                 MyGameManager.Instance.LocalPlayerInfo.ReadyForGame = true;
                 _readyButton.text = "已准备";
-                _roomUIBackButton.touchable = false;
-                _roomUIBackButton.GetChild("icon").asImage.color = new Color(0.4f, 0.4f, 0.4f);
+                // _roomUIBackButton.touchable = false;
+                // _roomUIBackButton.GetChild("icon").asImage.color = new Color(0.4f, 0.4f, 0.4f);
                 MyGameManager.Instance.NetWorkOperations.SendRequest(new RequestReady(
                     MyGameManager.Instance.LocalPlayerInfo.Account, MyGameManager.Instance.LocalPlayerInfo.GroupId));
             }
@@ -75,8 +75,8 @@ namespace UI.Room
             {
                 MyGameManager.Instance.LocalPlayerInfo.ReadyForGame = false;
                 _readyButton.text = "准备!";
-                _roomUIBackButton.touchable = true;
-                _roomUIBackButton.GetChild("icon").asImage.color = Color.white;
+                // _roomUIBackButton.touchable = true;
+                // _roomUIBackButton.GetChild("icon").asImage.color = Color.white;
                 MyGameManager.Instance.NetWorkOperations.SendRequest(new RequestCancelReady(
                     MyGameManager.Instance.LocalPlayerInfo.Account, MyGameManager.Instance.LocalPlayerInfo.GroupId));
             }
@@ -85,15 +85,15 @@ namespace UI.Room
                 .ReadyForGame);
         }
 
-        private static void PlayerExitRoom()
-        {
-            MyGameManager.Instance.VoiceLeaveChannel();
-            var requestExitGroup = new RequestExitGroup(
-                MyGameManager.Instance.LocalPlayerInfo.Account, MyGameManager.Instance.LocalPlayerInfo.GroupId);
-            MyGameManager.Instance.NetWorkOperations.SendRequest(requestExitGroup);
-            MyGameManager.Instance.localPlayerController.DestroyPlayerServerRpc(NetworkManager.Singleton.LocalClientId);
-            UIOperationUtil.GoToScene(MyGameManager.Instance.uiJumpData.bootMenu);
-        }
+        // private static void PlayerExitRoom()
+        // {
+        //     MyGameManager.Instance.VoiceLeaveChannel();
+        //     var requestExitGroup = new RequestExitGroup(
+        //         MyGameManager.Instance.LocalPlayerInfo.Account, MyGameManager.Instance.LocalPlayerInfo.GroupId);
+        //     MyGameManager.Instance.NetWorkOperations.SendRequest(requestExitGroup);
+        //     MyGameManager.Instance.localPlayerController.DestroySelf();
+        //     UIOperationUtil.GoToScene(MyGameManager.Instance.uiJumpData.bootMenu);
+        // }
 
         public void CheckGameStart(PlayerRoomStatusData playerRoomStatusData)
         {
