@@ -54,6 +54,7 @@ namespace Player
         {
             _networkShowVoiceIcon.Value = isShow;
         }
+        
 
         #endregion
 

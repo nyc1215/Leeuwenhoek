@@ -4,6 +4,8 @@ using Manager;
 using UI.Util;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.OnScreen;
 
 namespace UI.Game
 {
@@ -15,6 +17,7 @@ namespace UI.Game
         private GLoader _miniMapLoader;
         private GButton _reportButton;
         private GButton _killButton;
+        private GButton _taskButton;
         private GProgressBar _gameProgress;
 
         protected override void Awake()
@@ -27,13 +30,16 @@ namespace UI.Game
             _miniMapLoader = UIRoot.GetChild("Loader_MiniMap").asLoader;
             _reportButton = GetButton("Button_Report");
             _killButton = GetButton("Button_Kill");
+            _taskButton = GetButton("Button_Task");
             CreatePlayer();
         }
 
         private void Start()
         {
             _miniMapLoader.texture = new NTexture(miniMapRanderTexture);
-            _reportButton.onClick.Add(() => { });
+            _reportButton.onClick.Add(MyGameManager.Instance.localPlayerController.Report);
+            _killButton.onClick.Add(MyGameManager.Instance.localPlayerController.KillTarget);
+            _taskButton.onClick.Add(MyGameManager.Instance.localPlayerController.DoTask);
         }
 
         private static void JoystickMove(EventContext context)

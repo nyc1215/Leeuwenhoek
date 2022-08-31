@@ -8,7 +8,9 @@ using Player;
 using UI.Util;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
 #if UNITY_2018_3_OR_NEWER
 using UnityEngine.Android;
 #endif
@@ -61,7 +63,6 @@ namespace Manager
     [DisallowMultipleComponent]
     public class MyGameManager : SingleTon<MyGameManager>
     {
-
         #region UI与场景相关变量
 
         [Header("下一个要异步加载的场景")] [Scene] public string nextSceneToLoadAsync;
@@ -77,6 +78,11 @@ namespace Manager
         public MyPlayerController localPlayerController;
         public MyPlayerNetwork localPlayerNetwork;
         [Header("玩家列表")] public List<MyPlayerController> allPlayers = new();
+
+        private readonly Dictionary<int, int> _playerNumToImposterNum = new()
+        {
+            { 1, 0 }, { 2, 1 }, { 3, 1 }, { 4, 1 }, { 5, 2 }, { 6, 2 }
+        };
 
         #endregion
 
@@ -107,6 +113,24 @@ namespace Manager
                 }
 
                 playerController.JoyStickOutput = outputXY;
+            }
+        }
+
+        public void RandomSetImposter()
+        {
+            Assert.IsTrue(_playerNumToImposterNum.ContainsKey(allPlayers.Count));
+            Debug.Log($"imposterNum = {_playerNumToImposterNum[allPlayers.Count]}");
+
+            var imposterNum = 0;
+            while (imposterNum < _playerNumToImposterNum[allPlayers.Count])
+            {
+                var playerToBeImposter = allPlayers[Random.Range(0, allPlayers.Count)];
+                if (!playerToBeImposter.isImposter)
+                {
+                    playerToBeImposter.isImposter = true;
+                    Debug.Log($"networkClientId: {playerToBeImposter.NetworkManager.LocalClientId} become imposter");
+                    imposterNum++;
+                }
             }
         }
 

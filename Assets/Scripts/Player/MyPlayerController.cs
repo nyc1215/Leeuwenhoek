@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -48,6 +49,7 @@ namespace Player
         [Tooltip("角色主摄像机")] public Camera playerMainCamera;
         [Tooltip("角色在阴影下需要隐藏的物体")] public List<GameObject> objsToHide;
         [Tooltip("隐藏物体时候忽略的层")] public LayerMask ignoreForHide;
+
         #endregion
 
         private Light2D _playerLight2D;
@@ -234,13 +236,39 @@ namespace Player
                     inputKill.Disable();
                 }
 
-                if (IsServer)
-                {
-                    GetComponent<NetworkObject>().ChangeOwnership(NetworkManager.Singleton.LocalClientId);
-                }
+                StartCoroutine(CheckAllPlayersIsHadSpawn());
             }
 
             transform.position = GameObject.Find("StartPoint").transform.position;
+        }
+
+        private IEnumerator CheckAllPlayersIsHadSpawn()
+        {
+            while (MyGameManager.Instance.allPlayers.Count < MyGameManager.Instance.PlayerListData.PlayerList.Count)
+            {
+                yield return null;
+            }
+
+            GetComponent<NetworkObject>().ChangeOwnership(NetworkManager.LocalClientId);
+            MyGameManager.Instance.RandomSetImposter();
+
+            foreach (var playerController in MyGameManager.Instance.allPlayers)
+            {
+                ChangePlayerImposterClientRpc(playerController.NetworkManager.LocalClientId, playerController.isImposter);
+            }
+        }
+
+        [ClientRpc]
+        private void ChangePlayerImposterClientRpc(ulong clientId, bool beImposter)
+        {
+            if (!IsServer)
+            {
+                foreach (var playerController in MyGameManager.Instance.allPlayers.Where(playerController => playerController.NetworkManager.LocalClientId == clientId))
+                {
+                    playerController.isImposter = beImposter;
+                    Debug.Log($"clientId: {clientId} beImposter: {beImposter}");
+                }
+            }
         }
 
         // public void DestroySelf()
@@ -264,6 +292,8 @@ namespace Player
         // }
 
         #endregion
+
+        #region GamePlay
 
         private void PlayerSearch()
         {
@@ -338,6 +368,24 @@ namespace Player
             _targets.RemoveAt(_targets.Count - 1);
         }
 
+        public void KillTarget()
+        {
+            if (_targets.Count == 0)
+            {
+                return;
+            }
+
+            if (_targets[^1].isDead)
+            {
+                return;
+            }
+
+            //transform.position = _targets[^1].transform.position;
+            _targets[^1].Die();
+            _targets.RemoveAt(_targets.Count - 1);
+        }
+
+
         private void Die()
         {
             isDead = true;
@@ -369,6 +417,30 @@ namespace Player
             _bodiesFound.Remove(tempBody);
             tempBody.GetComponent<MyPlayerBody>().Report();
         }
+
+        public void Report()
+        {
+            if (_bodiesFound == null)
+            {
+                return;
+            }
+
+            if (_bodiesFound.Count == 0)
+            {
+                return;
+            }
+
+            var tempBody = _bodiesFound[^1];
+            AllBodies.Remove(tempBody);
+            _bodiesFound.Remove(tempBody);
+            tempBody.GetComponent<MyPlayerBody>().Report();
+        }
+
+        public void DoTask()
+        {
+        }
+
+        #endregion
 
         private void OnGameSceneInit()
         {
