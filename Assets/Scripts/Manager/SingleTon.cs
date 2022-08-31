@@ -25,7 +25,7 @@ namespace Manager
 
             if (dontDestroyOnLoad)
             {
-                Instance = FindObjectOfType(typeof(T)) as T;;
+                Instance = FindObjectOfType(typeof(T)) as T;
                 if (Application.isPlaying)
                 {
                     transform.SetParent(null);

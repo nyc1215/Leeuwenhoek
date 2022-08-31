@@ -2,6 +2,7 @@
 <packageDescription id="djj8vne8">
   <resources>
     <component id="gtoe0" name="GamePanel.xml" path="/" exported="true"/>
+    <component id="l60n1" name="GameProgressBar.xml" path="/" exported="true"/>
   </resources>
   <publish name=""/>
 </packageDescription>

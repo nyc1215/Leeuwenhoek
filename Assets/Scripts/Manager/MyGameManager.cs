@@ -61,6 +61,7 @@ namespace Manager
     [DisallowMultipleComponent]
     public class MyGameManager : SingleTon<MyGameManager>
     {
+
         #region UI与场景相关变量
 
         [Header("下一个要异步加载的场景")] [Scene] public string nextSceneToLoadAsync;

@@ -14,5 +14,8 @@
     <component id="n9_nx98" name="Button_Report" src="e0xw3" fileName="ButtonCom.xml" pkg="z7qisvfx" xy="1669,821" size="180,180" alpha="0.8">
       <Button title="报告"/>
     </component>
+    <component id="n10_l60n" name="ProgressBar_Game" src="l60n1" fileName="GameProgressBar.xml" xy="75,37">
+      <ProgressBar value="50" max="100"/>
+    </component>
   </displayList>
 </component>

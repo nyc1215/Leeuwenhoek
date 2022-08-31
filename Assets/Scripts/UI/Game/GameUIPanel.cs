@@ -15,6 +15,7 @@ namespace UI.Game
         private GLoader _miniMapLoader;
         private GButton _reportButton;
         private GButton _killButton;
+        private GProgressBar _gameProgress;
 
         protected override void Awake()
         {
@@ -32,10 +33,7 @@ namespace UI.Game
         private void Start()
         {
             _miniMapLoader.texture = new NTexture(miniMapRanderTexture);
-            _reportButton.onClick.Add(() =>
-            {
-                
-            });
+            _reportButton.onClick.Add(() => { });
         }
 
         private static void JoystickMove(EventContext context)
@@ -45,7 +43,8 @@ namespace UI.Game
 
         private void CreatePlayer()
         {
-            if (MyGameManager.Instance.allPlayers.FindIndex(controller => ReferenceEquals(controller, MyGameManager.Instance.localPlayerController)) == 0)
+            if (MyGameManager.Instance.allPlayers.FindIndex(controller =>
+                    ReferenceEquals(controller, MyGameManager.Instance.localPlayerController)) == 0)
             {
                 NetworkManager.Singleton.StartHost();
             }
