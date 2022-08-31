@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="800,600">
+  <displayList>
+    <graph id="n0_h6td" name="bg" xy="0,0" size="800,600" type="rect" fillColor="#ffcccccc"/>
+    <component id="n1_h6td" name="Button_Back" src="e0xw3" fileName="ButtonCom.xml" pkg="z7qisvfx" xy="713,22" size="59,26">
+      <Button title="退出" titleFontSize="20"/>
+    </component>
+  </displayList>
+</component>

@@ -11,7 +11,7 @@ namespace UI.Game
 {
     public class GameUIPanel : UIPanelUtil
     {
-        [Header("小地图渲染器纹理")] public Texture miniMapRanderTexture;
+        [Header("小地图渲染器纹理")] public Texture miniMapRenderTexture;
 
         private JoyStickModule _joystick;
         private GLoader _miniMapLoader;
@@ -31,12 +31,14 @@ namespace UI.Game
             _reportButton = GetButton("Button_Report");
             _killButton = GetButton("Button_Kill");
             _taskButton = GetButton("Button_Task");
-            CreatePlayer();
+            _gameProgress = UIRoot.GetChild("ProgressBar_Game").asProgress;
+
+            MyGameNetWorkManager.Instance.gameProgressBar = _gameProgress;
         }
 
         private void Start()
         {
-            _miniMapLoader.texture = new NTexture(miniMapRanderTexture);
+            _miniMapLoader.texture = new NTexture(miniMapRenderTexture);
             _reportButton.onClick.Add(MyGameManager.Instance.localPlayerController.Report);
             _killButton.onClick.Add(MyGameManager.Instance.localPlayerController.KillTarget);
             _taskButton.onClick.Add(MyGameManager.Instance.localPlayerController.DoTask);
@@ -45,19 +47,6 @@ namespace UI.Game
         private static void JoystickMove(EventContext context)
         {
             MyGameManager.Instance.SendJoyStickDegreeToPlayers((JoyStickOutputXY)context.data);
-        }
-
-        private void CreatePlayer()
-        {
-            if (MyGameManager.Instance.allPlayers.FindIndex(controller =>
-                    ReferenceEquals(controller, MyGameManager.Instance.localPlayerController)) == 0)
-            {
-                NetworkManager.Singleton.StartHost();
-            }
-            else
-            {
-                NetworkManager.Singleton.StartClient();
-            }
         }
     }
 }

@@ -68,7 +68,7 @@ namespace Manager
         [Header("下一个要异步加载的场景")] [Scene] public string nextSceneToLoadAsync;
 
         [Header("UI跳转信息存储")] public UIJumpData uiJumpData;
-
+        
         #endregion
 
         #region 玩家相关变量
