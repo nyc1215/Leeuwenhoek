@@ -33,7 +33,7 @@ namespace UI.Game
             _taskButton = GetButton("Button_Task");
             _gameProgress = UIRoot.GetChild("ProgressBar_Game").asProgress;
 
-            MyGameNetWorkManager.Instance.gameProgressBar = _gameProgress;
+            MyGameNetWorkManager.Instance.GameProgressBar = _gameProgress;
         }
 
         private void Start()

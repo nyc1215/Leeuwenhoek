@@ -9,7 +9,7 @@ namespace Manager
     {
         [Header("游戏总进度")] [Range(0, 100)] private readonly NetworkVariable<int> _gameTotalProgress = new();
 
-        public GProgressBar gameProgressBar;
+        public GProgressBar GameProgressBar;
 
         public static MyGameNetWorkManager Instance { get; private set; }
 
@@ -38,39 +38,39 @@ namespace Manager
         {
             _gameTotalProgress.OnValueChanged += (value, newValue) =>
             {
-                if (newValue >= value)
+                if (GameProgressBar != null)
                 {
-                    if (gameProgressBar != null)
+                    if (IsServer)
                     {
-                        gameProgressBar.value = newValue;
-                        if (IsServer)
-                        {
-                            SyncGameProgressClientRpc(newValue);
-                        }
+                        GameProgressBar.value = newValue;
+                        SyncGameProgressClientRpc(newValue);
                     }
                 }
             };
-            _gameTotalProgress.Value = 0;
         }
 
-        [ServerRpc]
+        [ServerRpc(RequireOwnership = false)]
         private void CommitGameProgressServerRpc(int progress)
         {
-            _gameTotalProgress.Value = progress;
+            if (!IsClient)
+            {
+                _gameTotalProgress.Value = progress;
+            }
         }
 
         [ClientRpc]
         private void SyncGameProgressClientRpc(int progress)
         {
-            _gameTotalProgress.Value = progress;
+            GameProgressBar.value = progress;
         }
 
         public void AddGameProgress(int addProgress)
         {
-            if (IsClient && IsOwner)
-            {
-                CommitGameProgressServerRpc(_gameTotalProgress.Value += addProgress);
-            }
+            // if (IsOwner)
+            // {
+            //     CommitGameProgressServerRpc(_gameTotalProgress.Value += addProgress);
+            // }
+            CommitGameProgressServerRpc(_gameTotalProgress.Value += addProgress);
         }
 
         #endregion
