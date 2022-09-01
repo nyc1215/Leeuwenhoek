@@ -53,7 +53,8 @@ namespace UI.Game
                 _tweener = null;
             }
 
-            var touchPos = GRoot.inst.GlobalToLocal(new Vector2(evt.x, evt.y));
+            //var touchPos = GRoot.inst.GlobalToLocal(new Vector2(evt.x, evt.y));
+            var touchPos = new Vector2(evt.x, evt.y);
             _button.selected = true;
 
             var touchPosXClamp = Mathf.Clamp(touchPos.x, _touchArea.x - _touchArea.width / 2,
@@ -93,7 +94,8 @@ namespace UI.Game
                 return;
             }
 
-            var pt = GRoot.inst.GlobalToLocal(new Vector2(evt.x, evt.y));
+            //var pt = GRoot.inst.GlobalToLocal(new Vector2(evt.x, evt.y));
+            var pt = new Vector2(evt.x, evt.y);
             var buttonX = pt.x;
             var buttonY = pt.y;
             var offsetX = buttonX - _initX;

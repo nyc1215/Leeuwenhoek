@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Manager;
+using Player;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -8,8 +10,6 @@ namespace Tasks
 {
     public class Atask : TaskUtil
     {
-        private readonly NetworkVariable<Color> _netSpriteColor = new();
-
         private SpriteRenderer _spriteRenderer;
 
         protected override void Awake()
@@ -17,49 +17,24 @@ namespace Tasks
             base.Awake();
 
             _spriteRenderer = GetComponent<SpriteRenderer>();
-            _netSpriteColor.OnValueChanged = (value, newValue) => { _spriteRenderer.color = newValue; };
         }
 
         protected override void OnTriggerEnter(Collider other)
         {
+            base.OnTriggerEnter(other);
             if (other.CompareTag("Player"))
             {
-                if (IsServer || IsHost)
-                {
-                    CommitSpriteColorClientRpc(Color.yellow);
-                }
-                else
-                {
-                    CommitSpriteColorServerRpc(Color.yellow);
-                }
+                _spriteRenderer.color = Color.yellow;
             }
         }
 
         protected override void OnTriggerExit(Collider other)
         {
+            base.OnTriggerExit(other);
             if (other.CompareTag("Player"))
             {
-                if (IsServer || IsHost)
-                {
-                    CommitSpriteColorClientRpc(Color.white);
-                }
-                else
-                {
-                    CommitSpriteColorServerRpc(Color.white);
-                }
+                _spriteRenderer.color = Color.white;
             }
-        }
-
-        [ServerRpc]
-        private void CommitSpriteColorServerRpc(Color color)
-        {
-            _netSpriteColor.Value = color;
-        }
-
-        [ClientRpc]
-        private void CommitSpriteColorClientRpc(Color color)
-        {
-            _netSpriteColor.Value = color;
         }
     }
 }

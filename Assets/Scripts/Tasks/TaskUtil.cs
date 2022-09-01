@@ -1,6 +1,7 @@
 ﻿using System;
 using FairyGUI;
 using Manager;
+using Player;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -8,47 +9,50 @@ using UnityEngine.Serialization;
 
 namespace Tasks
 {
-    public abstract class TaskUtil : NetworkBehaviour
+    public class TaskUtil : MonoBehaviour
     {
-        public InputAction interactiveKey;
         public bool isDoing;
         public int addProgress = 5;
         private bool _isSuccess;
         private Window _taskWindow;
+        private GComponent taskUI;
+        private GButton taskQuitButton;
 
         protected virtual void Awake()
         {
             UIPackage.AddPackage("FairyGUIOutPut/Game");
-            var taskUI = UIPackage.CreateObject("Game", "TaskPanel").asCom;
-            var taskQuitButton = taskUI.GetChild("Button_Back").asButton;
+            taskUI = UIPackage.CreateObject("Game", "TaskPanel").asCom;
+            taskQuitButton = taskUI.GetChild("Button_Back").asButton;
 
             _taskWindow = new Window
             {
                 contentPane = taskUI,
                 modal = true,
-                closeButton = taskQuitButton
+                closeButton = taskQuitButton,
+                gameObjectName = "UIPanel"
             };
-            _taskWindow.Hide();
             _taskWindow.closeButton.onClick.Add(EndTask);
             isDoing = false;
         }
 
-        private void OnEnable()
+        protected virtual void OnTriggerEnter(Collider other)
         {
-            interactiveKey.performed += StartTask;
+            if (other.CompareTag("Player"))
+            {
+                MyGameManager.Instance.localPlayerController.nowTask = this;
+            }
         }
 
-        private void OnDisable()
+        protected virtual void OnTriggerExit(Collider other)
         {
-            interactiveKey.performed -= StartTask;
+            if (other.CompareTag("Player"))
+            {
+                MyGameManager.Instance.localPlayerController.nowTask = null;
+            }
         }
 
-        protected abstract void OnTriggerEnter(Collider other);
 
-        protected abstract void OnTriggerExit(Collider other);
-
-
-        private void StartTask(InputAction.CallbackContext context)
+        public void StartTask()
         {
             if (!isDoing)
             {

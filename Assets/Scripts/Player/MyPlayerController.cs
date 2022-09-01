@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Manager;
+using Tasks;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -37,6 +38,7 @@ namespace Player
 
         [Tooltip("是否死亡")] public bool isDead;
         [Tooltip("角色尸体预制体")] public GameObject bodyPrefab;
+        public TaskUtil nowTask;
 
         #endregion
 
@@ -438,6 +440,10 @@ namespace Player
 
         public void DoTask()
         {
+            if (nowTask != null)
+            {
+                nowTask.StartTask();
+            }
         }
 
         #endregion
