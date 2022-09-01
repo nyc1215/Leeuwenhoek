@@ -1,19 +1,28 @@
-﻿using FairyGUI;
+﻿using System;
+using FairyGUI;
 using Manager;
+using Unity.Netcode;
+using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 namespace Tasks
 {
-    public class TaskUtil : ITask
+    public abstract class TaskUtil : NetworkBehaviour
     {
-        private const int AddProgress = 5;
+        public InputAction interactiveKey;
+        public bool isDoing;
+        public int addProgress = 5;
         private bool _isSuccess;
-        private readonly Window _taskWindow;
+        private Window _taskWindow;
 
-        private TaskUtil()
+        protected virtual void Awake()
         {
+            UIPackage.AddPackage("FairyGUIOutPut/Game");
             var taskUI = UIPackage.CreateObject("Game", "TaskPanel").asCom;
             var taskQuitButton = taskUI.GetChild("Button_Back").asButton;
-            _taskWindow = new Window()
+
+            _taskWindow = new Window
             {
                 contentPane = taskUI,
                 modal = true,
@@ -21,12 +30,32 @@ namespace Tasks
             };
             _taskWindow.Hide();
             _taskWindow.closeButton.onClick.Add(EndTask);
+            isDoing = false;
         }
 
-        public void StartTask()
+        private void OnEnable()
         {
-            InitTask();
-            StartTaskUI();
+            interactiveKey.performed += StartTask;
+        }
+
+        private void OnDisable()
+        {
+            interactiveKey.performed -= StartTask;
+        }
+
+        protected abstract void OnTriggerEnter(Collider other);
+
+        protected abstract void OnTriggerExit(Collider other);
+
+
+        private void StartTask(InputAction.CallbackContext context)
+        {
+            if (!isDoing)
+            {
+                isDoing = true;
+                InitTask();
+                StartTaskUI();
+            }
         }
 
         private void InitTask()
@@ -39,17 +68,19 @@ namespace Tasks
             _taskWindow.Show();
             _taskWindow.Center();
         }
-        
+
         private void EndTask()
         {
             if (_isSuccess)
             {
-                MyGameNetWorkManager.Instance.AddGameProgress(AddProgress);
+                MyGameNetWorkManager.Instance.AddGameProgress(addProgress);
             }
             else
             {
                 InitTask();
             }
+
+            isDoing = false;
         }
     }
 }
