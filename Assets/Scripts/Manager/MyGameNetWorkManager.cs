@@ -36,15 +36,12 @@ namespace Manager
 
         public override void OnNetworkSpawn()
         {
+            _gameTotalProgress.Value = 0;
             _gameTotalProgress.OnValueChanged += (value, newValue) =>
             {
                 if (GameProgressBar != null)
                 {
-                    if (IsServer)
-                    {
-                        GameProgressBar.value = newValue;
-                        SyncGameProgressClientRpc(newValue);
-                    }
+                    GameProgressBar.value = newValue;
                 }
             };
         }
@@ -52,25 +49,15 @@ namespace Manager
         [ServerRpc(RequireOwnership = false)]
         private void CommitGameProgressServerRpc(int progress)
         {
-            if (!IsClient)
+            if (IsServer || IsHost)
             {
                 _gameTotalProgress.Value = progress;
             }
         }
 
-        [ClientRpc]
-        private void SyncGameProgressClientRpc(int progress)
-        {
-            GameProgressBar.value = progress;
-        }
-
         public void AddGameProgress(int addProgress)
         {
-            // if (IsOwner)
-            // {
-            //     CommitGameProgressServerRpc(_gameTotalProgress.Value += addProgress);
-            // }
-            CommitGameProgressServerRpc(_gameTotalProgress.Value += addProgress);
+            CommitGameProgressServerRpc(_gameTotalProgress.Value + addProgress);
         }
 
         #endregion

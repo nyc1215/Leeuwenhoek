@@ -49,7 +49,7 @@ namespace Player
 
         [Tooltip("角色其他部分精灵渲染器")] public SpriteRenderer playerPartSpriteRenderer;
         [Tooltip("角色主摄像机")] public Camera playerMainCamera;
-        [Tooltip("角色在阴影下需要隐藏的物体")] public List<GameObject> objsToHide;
+        [Tooltip("角色在阴影下需要隐藏的物体")] public List<Renderer> objsToHide;
         [Tooltip("隐藏物体时候忽略的层")] public LayerMask ignoreForHide;
 
         #endregion
@@ -141,10 +141,7 @@ namespace Player
                 _playerTransform.localScale = new Vector2(Mathf.Sign(_moveInput.x), 1);
             }
 
-            if (MyGameManager.CompareScene(MyGameManager.Instance.uiJumpData.gameMenu))
-            {
-                PlayerSearch();
-            }
+            PlayerSearch();
 
             if (AllBodies.Count > 0)
             {
@@ -233,7 +230,8 @@ namespace Player
             {
                 if (MyGameManager.CompareScene(MyGameManager.Instance.uiJumpData.roomMenu))
                 {
-                    _playerLight2D.enabled = false;
+                    _playerLight2D.shadowIntensity = 0.7f;
+                    _playerLight2D.intensity = 1.5f;
                     inputReport.Disable();
                     inputKill.Disable();
                 }
@@ -477,10 +475,10 @@ namespace Player
 
         private void ChangeAllComponentsNeedToHide(bool isShow)
         {
-            foreach (var obj in objsToHide)
+            foreach (var objRenderer in objsToHide)
             {
-                obj.SetActive(isShow);
-                Debug.Log($"obj: {obj.name} show: {isShow}");
+                objRenderer.enabled = isShow;
+                Debug.Log($"obj: {objRenderer.name} show: {isShow}");
             }
         }
     }

@@ -75,7 +75,6 @@ namespace Tasks
 
         private void EndTask()
         {
-            _isSuccess = true;
             if (_isSuccess)
             {
                 MyGameNetWorkManager.Instance.AddGameProgress(addProgress);
