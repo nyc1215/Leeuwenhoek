@@ -128,7 +128,7 @@ namespace Manager
                 if (!playerToBeImposter.isImposter)
                 {
                     playerToBeImposter.isImposter = true;
-                    Debug.Log($"networkClientId: {playerToBeImposter.NetworkManager.LocalClientId} become imposter");
+                    Debug.Log($"NetworkObjectId: {playerToBeImposter.NetworkObject.NetworkObjectId} become imposter");
                     imposterNum++;
                 }
             }

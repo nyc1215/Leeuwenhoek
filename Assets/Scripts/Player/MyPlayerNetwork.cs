@@ -54,7 +54,6 @@ namespace Player
         {
             _networkShowVoiceIcon.Value = isShow;
         }
-        
 
         #endregion
 
@@ -65,6 +64,8 @@ namespace Player
             if (IsLocalPlayer)
             {
                 MyGameManager.Instance.localPlayerNetwork = this;
+                _networkShowVoiceIcon.Value = false;
+                playerVoiceIcon.color = Color.clear;
             }
 
             if (IsOwner)
@@ -88,7 +89,7 @@ namespace Player
             _netSpriteColor.OnValueChanged += (value, newValue) => { playerPartSpriteRenderer.color = newValue; };
             _netTopTextColor.OnValueChanged += (value, newValue) => { playerTopText.color = newValue; };
             _netTopText.OnValueChanged += (value, newValue) => { playerTopText.text = newValue.ToString(); };
-            _networkShowVoiceIcon.OnValueChanged += (value, newValue) => { playerVoiceIcon.enabled = newValue; };
+            _networkShowVoiceIcon.OnValueChanged += (value, newValue) => { playerVoiceIcon.color = newValue ? Color.white : Color.clear; };
         }
 
         public override void OnDestroy()

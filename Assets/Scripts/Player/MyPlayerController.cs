@@ -254,19 +254,19 @@ namespace Player
 
             foreach (var playerController in MyGameManager.Instance.allPlayers)
             {
-                ChangePlayerImposterClientRpc(playerController.NetworkManager.LocalClientId, playerController.isImposter);
+                ChangePlayerImposterClientRpc(playerController.NetworkObject.NetworkObjectId, playerController.isImposter);
             }
         }
 
         [ClientRpc]
-        private void ChangePlayerImposterClientRpc(ulong clientId, bool beImposter)
+        private void ChangePlayerImposterClientRpc(ulong networkObjectId, bool beImposter)
         {
             if (!IsServer)
             {
-                foreach (var playerController in MyGameManager.Instance.allPlayers.Where(playerController => playerController.NetworkManager.LocalClientId == clientId))
+                foreach (var playerController in MyGameManager.Instance.allPlayers.Where(playerController => playerController.NetworkObject.NetworkObjectId == networkObjectId))
                 {
                     playerController.isImposter = beImposter;
-                    Debug.Log($"clientId: {clientId} beImposter: {beImposter}");
+                    Debug.Log($"networkObjectId: {networkObjectId} beImposter: {beImposter}");
                 }
             }
         }
