@@ -18,6 +18,7 @@ namespace UI.Game
         private GButton _reportButton;
         private GButton _killButton;
         private GButton _taskButton;
+        private GButton _sewerButton;
         private GProgressBar _gameProgress;
 
         protected override void Awake()
@@ -31,6 +32,8 @@ namespace UI.Game
             _reportButton = GetButton("Button_Report");
             _killButton = GetButton("Button_Kill");
             _taskButton = GetButton("Button_Task");
+            _sewerButton = GetButton("Button_Sewer");
+
             _gameProgress = UIRoot.GetChild("ProgressBar_Game").asProgress;
 
             MyGameNetWorkManager.Instance.GameProgressBar = _gameProgress;
@@ -42,11 +45,40 @@ namespace UI.Game
             _reportButton.onClick.Add(MyGameManager.Instance.localPlayerController.Report);
             _killButton.onClick.Add(MyGameManager.Instance.localPlayerController.KillTarget);
             _taskButton.onClick.Add(MyGameManager.Instance.localPlayerController.DoTask);
+            _sewerButton.onClick.Add(() =>
+            {
+                MyGameManager.Instance.localPlayerController.nowSewer.GoOtherSewer(MyGameManager.Instance
+                    .localPlayerController);
+            });
+
+            if (MyGameManager.Instance.localPlayerController.GetComponent<NetworkObject>().IsLocalPlayer)
+            {
+                if (MyGameManager.Instance.localPlayerController.isImposter)
+                {
+                    _sewerButton.visible = false;
+                    _killButton.visible = true;
+                }
+                else
+                {
+                    _sewerButton.visible = false;
+                    _killButton.visible = false;
+                }
+            }
         }
 
         private static void JoystickMove(EventContext context)
         {
             MyGameManager.Instance.SendJoyStickDegreeToPlayers((JoyStickOutputXY)context.data);
+        }
+
+        public void ChangeSewerButtonVisible(bool isVisible)
+        {
+            _sewerButton.visible = isVisible;
+        }
+        
+        public void ChangeTaskButtonVisible(bool isVisible)
+        {
+            _taskButton.visible = isVisible;
         }
     }
 }

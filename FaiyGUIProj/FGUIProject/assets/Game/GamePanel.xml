@@ -17,8 +17,11 @@
     <component id="n10_l60n" name="ProgressBar_Game" src="l60n1" fileName="GameProgressBar.xml" xy="75,37">
       <ProgressBar max="100"/>
     </component>
-    <component id="n12_escu" name="Button_Task" src="e0xw3" fileName="ButtonCom.xml" pkg="z7qisvfx" xy="1669,589" size="180,180" alpha="0.8">
+    <component id="n12_escu" name="Button_Task" src="e0xw3" fileName="ButtonCom.xml" pkg="z7qisvfx" xy="1669,589" size="180,180" visible="false" alpha="0.8">
       <Button title="做任务"/>
+    </component>
+    <component id="n13_tlqf" name="Button_Sewer" src="e0xw3" fileName="ButtonCom.xml" pkg="z7qisvfx" xy="1430,589" size="180,180" visible="false" alpha="0.8">
+      <Button title="传送"/>
     </component>
   </displayList>
 </component>

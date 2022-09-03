@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using InteractiveObj;
 using Manager;
 using Tasks;
 using Unity.Netcode;
@@ -39,6 +40,7 @@ namespace Player
         [Tooltip("是否死亡")] public bool isDead;
         [Tooltip("角色尸体预制体")] public GameObject bodyPrefab;
         public TaskUtil nowTask;
+        public SewerForImposter nowSewer;
 
         #endregion
 
@@ -107,14 +109,14 @@ namespace Player
         }
 
 
-        private void OnEnable()
+        public void OnEnable()
         {
             inputWasd.Enable();
             inputReport.Enable();
             inputKill.Enable();
         }
 
-        private void OnDisable()
+        public void OnDisable()
         {
             inputWasd.Disable();
             inputReport.Disable();
