@@ -12,33 +12,46 @@ namespace Tasks
 {
     public class TaskUtil : NetworkBehaviour
     {
-        public NetworkVariable<bool> isDoing = new();
+        protected string TaskPanelName;
         public int addProgress = 5;
-        private bool _isSuccess;
+
+        protected bool IsSuccess;
+        private readonly NetworkVariable<bool> _isDoing = new();
+
         private Window _taskWindow;
-        private GComponent taskUI;
-        private GButton taskQuitButton;
+        protected GComponent TaskUI;
+        private GButton _taskQuitButton;
         private SpriteRenderer _spriteRenderer;
+        private GameUIPanel _gameUIPanel;
 
         protected virtual void Awake()
         {
             UIPackage.AddPackage("FairyGUIOutPut/Game");
-            taskUI = UIPackage.CreateObject("Game", "TaskPanel").asCom;
-            taskQuitButton = taskUI.GetChild("Button_Back").asButton;
+            TaskUI = string.IsNullOrEmpty(TaskPanelName)
+                ? UIPackage.CreateObject("Game", "TaskPanel").asCom
+                : UIPackage.CreateObject("Game", TaskPanelName).asCom;
+
+            _taskQuitButton = TaskUI.GetChild("Button_Back").asButton;
             _spriteRenderer = GetComponent<SpriteRenderer>();
             _taskWindow = new Window
             {
-                contentPane = taskUI,
+                contentPane = TaskUI,
                 modal = true,
-                closeButton = taskQuitButton,
+                closeButton = _taskQuitButton,
                 gameObjectName = "UIPanel"
             };
             _taskWindow.closeButton.onClick.Add(EndTask);
         }
 
+        private void Start()
+        {
+            _gameUIPanel = FindObjectOfType<GameUIPanel>();
+        }
+
         public override void OnNetworkSpawn()
         {
-            isDoing.Value = false;
+            _isDoing.Value = false;
+            IsSuccess = false;
         }
 
         protected virtual void OnTriggerEnter(Collider other)
@@ -46,9 +59,14 @@ namespace Tasks
             if (other.CompareTag("Player") &&
                 other.gameObject.GetComponent<NetworkObject>().IsLocalPlayer)
             {
+                if (IsSuccess)
+                {
+                    return;
+                }
+
                 _spriteRenderer.color = Color.yellow;
                 MyGameManager.Instance.localPlayerController.nowTask = this;
-                FindObjectOfType<GameUIPanel>().ChangeTaskButtonVisible(true);
+                _gameUIPanel.ChangeTaskButtonVisible(true);
             }
         }
 
@@ -57,40 +75,48 @@ namespace Tasks
             if (other.CompareTag("Player") &&
                 other.gameObject.GetComponent<NetworkObject>().IsLocalPlayer)
             {
+                if (IsSuccess)
+                {
+                    return;
+                }
+
                 _spriteRenderer.color = Color.white;
                 MyGameManager.Instance.localPlayerController.nowTask = null;
-                FindObjectOfType<GameUIPanel>().ChangeTaskButtonVisible(false);
+                _gameUIPanel.ChangeTaskButtonVisible(false);
             }
         }
 
 
         public void StartTask()
         {
-            if (isDoing.Value == false)
+            if (_isDoing.Value == false && IsSuccess == false)
             {
                 CommitDoingStateServerRpc(true);
                 InitTask();
-                StartTaskUI();
+                OpenTaskUI();
             }
         }
 
-        private void InitTask()
+        protected virtual void InitTask()
         {
-            _isSuccess = false;
         }
 
-        private void StartTaskUI()
+        private void OpenTaskUI()
         {
             _taskWindow.Show();
             _taskWindow.Center();
             MyGameManager.Instance.localPlayerController.OnDisable();
         }
 
-        private void EndTask()
+        protected void EndTask()
         {
-            if (_isSuccess)
+            if (IsSuccess)
             {
                 MyGameNetWorkManager.Instance.AddGameProgress(addProgress);
+                _taskWindow.Hide();
+                _spriteRenderer.color = Color.white;
+                MyGameManager.Instance.localPlayerController.nowTask = null;
+                _gameUIPanel.ChangeTaskButtonVisible(false);
             }
             else
             {
@@ -104,7 +130,7 @@ namespace Tasks
         [ServerRpc]
         private void CommitDoingStateServerRpc(bool doing)
         {
-            isDoing.Value = doing;
+            _isDoing.Value = doing;
         }
     }
 }

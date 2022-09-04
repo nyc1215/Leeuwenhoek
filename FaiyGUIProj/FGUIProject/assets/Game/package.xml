@@ -4,6 +4,7 @@
     <component id="gtoe0" name="GamePanel.xml" path="/" exported="true"/>
     <component id="l60n1" name="GameProgressBar.xml" path="/" exported="true"/>
     <component id="h6td2" name="TaskPanel.xml" path="/" exported="true"/>
+    <component id="y8ni3" name="LinkLines.xml" path="/" exported="true"/>
   </resources>
   <publish name=""/>
 </packageDescription>
