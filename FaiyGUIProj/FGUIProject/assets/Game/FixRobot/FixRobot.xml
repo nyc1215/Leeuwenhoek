@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="800,600">
+  <displayList>
+    <graph id="n0_guyd" name="bg" xy="0,0" size="800,600" type="rect" fillColor="#ffcccccc"/>
+    <component id="n1_guyd" name="Button_Back" src="e0xw3" fileName="ButtonCom.xml" pkg="z7qisvfx" xy="713,22" size="59,26">
+      <Button title="退出" titleFontSize="20"/>
+    </component>
+    <text id="n2_guyd" name="title" xy="400,40" pivot="0.5,0.5" anchor="true" size="162,44" fontSize="26" align="center" vAlign="middle" autoSize="none" text="修理机器人"/>
+    <text id="n3_guyd" name="title2" xy="400,77" pivot="0.5,0.5" anchor="true" size="162,44" fontSize="24" align="center" vAlign="middle" autoSize="none" text="点击"/>
+    <text id="n13_guyd" name="Success_Text" xy="400,300" pivot="0.5,0.5" anchor="true" size="461,147" visible="false" fontSize="79" align="center" vAlign="middle" autoSize="none" text="任务完成"/>
+    <graph id="n4_guyd" name="p1" xy="91,146" size="33,33" type="eclipse" lineSize="0"/>
+    <graph id="n5_guyd" name="p2" xy="433,179" size="33,33" type="eclipse" lineSize="0"/>
+    <graph id="n6_guyd" name="p3" xy="218,476" size="33,33" type="eclipse" lineSize="0"/>
+    <graph id="n14_guyd" name="p4" xy="183,286" size="33,33" type="eclipse" lineSize="0"/>
+    <graph id="n15_guyd" name="p5" xy="388,357" size="33,33" type="eclipse" lineSize="0"/>
+    <graph id="n16_guyd" name="p6" xy="619,297" size="33,33" type="eclipse" lineSize="0"/>
+    <graph id="n17_guyd" name="p7" xy="422,492" size="33,33" type="eclipse" lineSize="0"/>
+    <graph id="n18_guyd" name="p8" xy="35,525" size="33,33" type="eclipse" lineSize="0"/>
+    <graph id="n19_guyd" name="p9" xy="684,118" size="33,33" type="eclipse" lineSize="0"/>
+    <graph id="n20_guyd" name="p10" xy="624,512" size="33,33" type="eclipse" lineSize="0"/>
+  </displayList>
+</component>

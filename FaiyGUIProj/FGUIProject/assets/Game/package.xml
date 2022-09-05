@@ -6,10 +6,9 @@
     <component id="h6td2" name="TaskPanel.xml" path="/" exported="true"/>
     <component id="y8ni3" name="LinkLines.xml" path="/LinkLines/" exported="true"/>
     <component id="guyd4" name="FeedCat.xml" path="/FeedCat/" exported="true"/>
-    <image id="guyd5" name="猫.png" path="/FeedCat/" exported="true"/>
-    <image id="guyd7" name="猫粮.png" path="/FeedCat/" exported="true"/>
-    <component id="guyd9" name="Img_CatFoodCom.xml" path="/FeedCat/"/>
-    <component id="guyda" name="CatFoodComponent.xml" path="/FeedCat/"/>
+    <image id="guyd5" name="猫.png" path="/FeedCat/"/>
+    <image id="guyd7" name="猫粮.png" path="/FeedCat/"/>
+    <component id="guydb" name="FixRobot.xml" path="/FixRobot/" exported="true"/>
   </resources>
   <publish name=""/>
 </packageDescription>

@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<component size="283,402">
-  <displayList>
-    <image id="n6_guyd" name="Img_CatFood1" src="guyd7" fileName="FeedCat/猫粮.png" xy="20,0" pivot="0.5,0.5" anchor="true" size="125,125"/>
-    <image id="n8_guyd" name="Img_CatFood3" src="guyd7" fileName="FeedCat/猫粮.png" xy="0,277" pivot="0.5,0.5" anchor="true" size="125,125"/>
-    <image id="n9_guyd" name="Img_CatFood2" src="guyd7" fileName="FeedCat/猫粮.png" xy="158,147" pivot="0.5,0.5" anchor="true" size="125,125"/>
-  </displayList>
-</component>
