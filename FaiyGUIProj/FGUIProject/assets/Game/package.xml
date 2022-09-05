@@ -9,6 +9,8 @@
     <image id="guyd5" name="猫.png" path="/FeedCat/"/>
     <image id="guyd7" name="猫粮.png" path="/FeedCat/"/>
     <component id="guydb" name="FixRobot.xml" path="/FixRobot/" exported="true"/>
+    <component id="guydc" name="MoveTelescopeBinoculars.xml" path="/MoveTelescopeBinoculars/" exported="true"/>
+    <image id="guydd" name="望远镜.png" path="/MoveTelescopeBinoculars/"/>
   </resources>
   <publish name=""/>
 </packageDescription>
