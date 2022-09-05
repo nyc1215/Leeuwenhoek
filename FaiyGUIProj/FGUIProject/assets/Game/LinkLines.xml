@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="800,600">
+  <displayList>
+    <graph id="n0_y8ni" name="bg" xy="0,0" size="800,600" type="rect" fillColor="#ffcccccc"/>
+    <component id="n1_y8ni" name="Button_Back" src="e0xw3" fileName="ButtonCom.xml" pkg="z7qisvfx" xy="713,22" size="59,26">
+      <Button title="退出" titleFontSize="20"/>
+    </component>
+    <text id="n2_y8ni" name="title" xy="400,40" pivot="0.5,0.5" anchor="true" size="162,44" fontSize="26" align="center" vAlign="middle" autoSize="none" text="架设机枪"/>
+    <graph id="n3_y8ni" name="p1" xy="95,460" size="33,33" type="eclipse" lineSize="0"/>
+    <graph id="n4_y8ni" name="p2" xy="357,171" size="33,33" type="eclipse" lineSize="0"/>
+    <graph id="n5_y8ni" name="p3" xy="645,417" size="33,33" type="eclipse" lineSize="0"/>
+    <text id="n6_y8ni" name="title2" xy="400,77" pivot="0.5,0.5" anchor="true" size="162,44" fontSize="24" align="center" vAlign="middle" autoSize="none" text="连线"/>
+    <graph id="n7_y8ni" name="n7" xy="172,410" pivot="0.5,0.5" anchor="true" size="100,12" rotation="-48" type="rect" lineSize="0" fillColor="#ff999999"/>
+    <graph id="n8_y8ni" name="n8" xy="247,325" pivot="0.5,0.5" anchor="true" size="100,12" rotation="-48" type="rect" lineSize="0" fillColor="#ff999999"/>
+    <graph id="n9_y8ni" name="n9" xy="320,245" pivot="0.5,0.5" anchor="true" size="100,12" rotation="-48" type="rect" lineSize="0" fillColor="#ff999999"/>
+    <graph id="n10_y8ni" name="n10" xy="602,380" pivot="0.5,0.5" anchor="true" size="100,12" rotation="41" type="rect" lineSize="0" fillColor="#ff999999"/>
+    <graph id="n11_y8ni" name="n11" xy="518,309" pivot="0.5,0.5" anchor="true" size="100,12" rotation="41" type="rect" lineSize="0" fillColor="#ff999999"/>
+    <graph id="n12_y8ni" name="n12" xy="434,237" pivot="0.5,0.5" anchor="true" size="100,12" rotation="41" type="rect" lineSize="0" fillColor="#ff999999"/>
+  </displayList>
+</component>
