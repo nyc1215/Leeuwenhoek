@@ -22,6 +22,7 @@ namespace MyWebSocket
             WebSocket = new WebSocket(new Uri(uri));
 #if !UNITY_WEBGL || UNITY_EDITOR
             WebSocket.StartPingThread = true;
+            WebSocket.CloseAfterNoMessage = TimeSpan.MaxValue;
 
 #if !BESTHTTP_DISABLE_PROXY
             if (HTTPManager.Proxy != null)

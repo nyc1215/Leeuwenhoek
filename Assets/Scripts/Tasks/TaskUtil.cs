@@ -26,6 +26,11 @@ namespace Tasks
 
         protected virtual void Awake()
         {
+            if (string.IsNullOrEmpty(TaskPanelName))
+            {
+                Debug.LogWarning($"{gameObject.name} -> TaskPanelName is null or empty");
+            }
+            
             UIPackage.AddPackage("FairyGUIOutPut/Game");
             TaskUI = string.IsNullOrEmpty(TaskPanelName)
                 ? UIPackage.CreateObject("Game", "TaskPanel").asCom
@@ -108,7 +113,7 @@ namespace Tasks
             MyGameManager.Instance.localPlayerController.OnDisable();
         }
 
-        protected void EndTask()
+        private void EndTask()
         {
             if (IsSuccess)
             {

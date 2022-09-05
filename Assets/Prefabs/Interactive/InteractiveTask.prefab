@@ -11,10 +11,9 @@ GameObject:
   - component: {fileID: 5663668144623898660}
   - component: {fileID: 5663668144623898661}
   - component: {fileID: 5663668144623898662}
-  - component: {fileID: 3744096538378982491}
   - component: {fileID: 9160711124730772504}
   m_Layer: 0
-  m_Name: InteractiveTest
+  m_Name: InteractiveTask
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -100,37 +99,6 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 1.7
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3744096538378982491
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5663668144623898663}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41c42dc28c1a81d4abda21bb235f3bda, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  interactiveKey:
-    m_Name: Interactive Key
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 8cf209b2-86c4-4845-a934-2457cbe32d8c
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings:
-    - m_Name: 
-      m_Id: f05daa35-a0ad-441b-a283-e3660d97b777
-      m_Path: <Keyboard>/e
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Interactive Key
-      m_Flags: 0
-    m_Flags: 0
-  isDoing: 0
-  addProgress: 5
 --- !u!114 &9160711124730772504
 MonoBehaviour:
   m_ObjectHideFlags: 0
