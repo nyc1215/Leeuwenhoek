@@ -17,6 +17,7 @@ namespace Tasks
 
         private GGraph _firstPoint;
         private GGraph _secondPoint;
+        private GTextField _successText;
 
         private readonly List<GGraph> _lines = new();
         private int _lineNum;
@@ -34,6 +35,8 @@ namespace Tasks
             {
                 varPoint.onClick.Add(() => { AsPointBeClicked(varPoint); });
             }
+
+            _successText = TaskUI.GetChild("Success_Text").asTextField;
         }
 
         protected override void InitTask()
@@ -48,6 +51,8 @@ namespace Tasks
             }
 
             _lineNum = 0;
+            
+            _successText.visible = false;
         }
 
         /// <summary>
@@ -108,7 +113,7 @@ namespace Tasks
             if (_lineNum == _points.Count - 1)
             {
                 IsSuccess = true;
-                EndTask();
+                ShowSuccessText();
             }
         }
 
@@ -123,6 +128,16 @@ namespace Tasks
             line.rotation = Mathf.Atan2(twoPointsDir.y, twoPointsDir.x) / Mathf.PI * 180;
             TaskUI.AddChild(line);
             _lines.Add(line);
+        }
+
+        private void ShowSuccessText()
+        {
+            _successText.visible = true;
+
+            foreach (var point in _points)
+            {
+                point.onClick.Clear();
+            }
         }
     }
 }
