@@ -10,6 +10,7 @@ namespace Tasks
         private GGraph _startPoint;
         private GGraph _endPoint;
         private GTextField _successText;
+        private GGraph _successTextBg;
 
         protected override void Awake()
         {
@@ -24,12 +25,15 @@ namespace Tasks
 
             _telescopeBinocular.onDragMove.Add(OnTelescopeBinocularBeDragged);
             _telescopeBinocular.onDragEnd.Add(OnTelescopeBinocularDragEnd);
+            
+            _successTextBg = TaskUI.GetChild("Success_TextBG").asGraph;
         }
 
         protected override void InitTask()
         {
             _telescopeBinocular.draggable = true;
             _successText.visible = false;
+            _successTextBg.visible = false;
         }
 
         private void OnTelescopeBinocularBeDragged()
@@ -45,6 +49,7 @@ namespace Tasks
                 IsSuccess = true;
                 _telescopeBinocular.draggable = false;
                 _successText.visible = true;
+                _successTextBg.visible = true;
             }
         }
     }

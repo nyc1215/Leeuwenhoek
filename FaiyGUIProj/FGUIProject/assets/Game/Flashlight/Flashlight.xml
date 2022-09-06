@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="800,600">
+  <displayList>
+    <graph id="n0_guyd" name="bg" xy="0,0" size="800,600" type="rect" fillColor="#ffcccccc"/>
+    <component id="n1_guyd" name="Button_Back" src="e0xw3" fileName="ButtonCom.xml" pkg="z7qisvfx" xy="713,22" size="59,26">
+      <Button title="退出" titleFontSize="20"/>
+    </component>
+    <text id="n2_guyd" name="title" xy="400,40" pivot="0.5,0.5" anchor="true" size="162,44" fontSize="26" align="center" vAlign="middle" autoSize="none" text="点亮手电筒"/>
+    <text id="n3_guyd" name="title2" xy="400,77" pivot="0.5,0.5" anchor="true" size="196,34" fontSize="24" align="center" vAlign="middle" text="移动电池到手电筒"/>
+    <image id="n4_guyd" name="Img_Flashlight" src="guydm" fileName="Flashlight/手电筒.png" xy="400,300" pivot="0.5,0.5" anchor="true" size="264,343" aspect="true"/>
+    <graph id="n5_guyd" name="Success_TextBG" xy="400,300" pivot="0.5,0.5" anchor="true" size="460,150" visible="false" type="rect"/>
+    <text id="n6_guyd" name="Success_Text" xy="400,300" pivot="0.5,0.5" anchor="true" size="461,147" visible="false" fontSize="79" align="center" vAlign="middle" autoSize="none" text="任务完成"/>
+    <loader id="n7_guyd" name="battery1" xy="90,146" pivot="0.5,0.5" anchor="true" size="152,152" scale="0.5,0.5" url="ui://djj8vne8guydl" autoSize="true"/>
+    <loader id="n8_guyd" name="battery2" xy="695,198" pivot="0.5,0.5" anchor="true" size="152,152" scale="0.5,0.5" url="ui://djj8vne8guydl" autoSize="true"/>
+    <loader id="n9_guyd" name="battery3" xy="165,504" pivot="0.5,0.5" anchor="true" size="152,152" scale="0.5,0.5" url="ui://djj8vne8guydl" autoSize="true"/>
+  </displayList>
+</component>

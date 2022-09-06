@@ -7,16 +7,18 @@
     </component>
     <text id="n2_guyd" name="title" xy="400,40" pivot="0.5,0.5" anchor="true" size="162,44" fontSize="26" align="center" vAlign="middle" autoSize="none" text="修理机器人"/>
     <text id="n3_guyd" name="title2" xy="400,77" pivot="0.5,0.5" anchor="true" size="162,44" fontSize="24" align="center" vAlign="middle" autoSize="none" text="点击"/>
+    <image id="n22_guyd" name="n22" src="guydg" fileName="FixRobot/火箭机器人.png" xy="400,300" pivot="0.5,0.5" anchor="true" size="491,491"/>
+    <graph id="n4_guyd" name="p1" xy="495,245" size="33,33" type="eclipse" lineSize="0"/>
+    <graph id="n5_guyd" name="p2" xy="413,292" size="33,33" type="eclipse" lineSize="0"/>
+    <graph id="n6_guyd" name="p3" xy="243,394" size="33,33" type="eclipse" lineSize="0"/>
+    <graph id="n14_guyd" name="p4" xy="260,264" size="33,33" type="eclipse" lineSize="0"/>
+    <graph id="n15_guyd" name="p5" xy="340,192" size="33,33" type="eclipse" lineSize="0"/>
+    <graph id="n16_guyd" name="p6" xy="532,414" size="33,33" type="eclipse" lineSize="0"/>
+    <graph id="n17_guyd" name="p7" xy="447,355" size="33,33" type="eclipse" lineSize="0"/>
+    <graph id="n18_guyd" name="p8" xy="351,367" size="33,33" type="eclipse" lineSize="0"/>
+    <graph id="n19_guyd" name="p9" xy="427,192" size="33,33" type="eclipse" lineSize="0"/>
+    <graph id="n20_guyd" name="p10" xy="341,296" size="33,33" type="eclipse" lineSize="0"/>
+    <graph id="n23_guyd" name="Success_TextBG" xy="400,300" pivot="0.5,0.5" anchor="true" size="460,150" visible="false" type="rect"/>
     <text id="n13_guyd" name="Success_Text" xy="400,300" pivot="0.5,0.5" anchor="true" size="461,147" visible="false" fontSize="79" align="center" vAlign="middle" autoSize="none" text="任务完成"/>
-    <graph id="n4_guyd" name="p1" xy="91,146" size="33,33" type="eclipse" lineSize="0"/>
-    <graph id="n5_guyd" name="p2" xy="433,179" size="33,33" type="eclipse" lineSize="0"/>
-    <graph id="n6_guyd" name="p3" xy="218,476" size="33,33" type="eclipse" lineSize="0"/>
-    <graph id="n14_guyd" name="p4" xy="183,286" size="33,33" type="eclipse" lineSize="0"/>
-    <graph id="n15_guyd" name="p5" xy="388,357" size="33,33" type="eclipse" lineSize="0"/>
-    <graph id="n16_guyd" name="p6" xy="619,297" size="33,33" type="eclipse" lineSize="0"/>
-    <graph id="n17_guyd" name="p7" xy="422,492" size="33,33" type="eclipse" lineSize="0"/>
-    <graph id="n18_guyd" name="p8" xy="35,525" size="33,33" type="eclipse" lineSize="0"/>
-    <graph id="n19_guyd" name="p9" xy="684,118" size="33,33" type="eclipse" lineSize="0"/>
-    <graph id="n20_guyd" name="p10" xy="624,512" size="33,33" type="eclipse" lineSize="0"/>
   </displayList>
 </component>

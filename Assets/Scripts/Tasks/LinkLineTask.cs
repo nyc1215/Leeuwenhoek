@@ -18,6 +18,7 @@ namespace Tasks
         private GGraph _firstPoint;
         private GGraph _secondPoint;
         private GTextField _successText;
+        private GGraph _successTextBg;
 
         private readonly List<GGraph> _lines = new();
         private int _lineNum;
@@ -37,6 +38,7 @@ namespace Tasks
             }
 
             _successText = TaskUI.GetChild("Success_Text").asTextField;
+            _successTextBg = TaskUI.GetChild("Success_TextBG").asGraph;
         }
 
         protected override void InitTask()
@@ -53,6 +55,7 @@ namespace Tasks
             _lineNum = 0;
             
             _successText.visible = false;
+            _successTextBg.visible = false;
         }
 
         /// <summary>
@@ -133,7 +136,7 @@ namespace Tasks
         private void ShowSuccessText()
         {
             _successText.visible = true;
-
+            _successTextBg.visible = true;
             foreach (var point in _points)
             {
                 point.onClick.Clear();

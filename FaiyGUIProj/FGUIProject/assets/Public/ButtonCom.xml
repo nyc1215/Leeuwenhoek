@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<component size="400,180" extention="Button">
-  <controller name="button" pages="0,up,1,down,2,over,3,selectedOver" selected="0"/>
+<component size="400,180" pivot="0.5,0.5" extention="Button">
+  <controller name="button" pages="0,up,1,down,2,over,3,selectedOver" selected="1"/>
   <displayList>
-    <image id="n0_e0xw" name="icon" src="e0xw2" fileName="Button/按钮基础图片.png" xy="0,0">
+    <image id="n0_e0xw" name="icon" src="e0xw2" fileName="按钮基础图片.png" xy="0,0">
       <gearDisplay controller="button" pages="0"/>
       <relation target="" sidePair="width-width,height-height"/>
     </image>
-    <image id="n1_e0xw" name="icon1" src="e0xw2" fileName="Button/按钮基础图片.png" xy="0,0" blend="multiply" filter="color" filterData="0.4,0,0,0">
+    <image id="n1_e0xw" name="icon1" src="e0xw2" fileName="按钮基础图片.png" xy="0,0" blend="multiply" color="#cccccc">
       <gearDisplay controller="button" pages="1"/>
       <relation target="" sidePair="width-width,height-height"/>
     </image>
-    <image id="n2_e0xw" name="icon2" src="e0xw2" fileName="Button/按钮基础图片.png" xy="0,0" blend="multiply" filter="color" filterData="0.8,0,0,0">
+    <image id="n2_e0xw" name="icon2" src="e0xw2" fileName="按钮基础图片.png" xy="0,0" blend="multiply" color="#909090">
       <gearDisplay controller="button" pages="2"/>
       <relation target="" sidePair="width-width,height-height"/>
     </image>
-    <image id="n3_e0xw" name="icon3" src="e0xw2" fileName="Button/按钮基础图片.png" xy="0,0" blend="multiply" filter="color" filterData="0.4,0,0,0">
+    <image id="n3_e0xw" name="icon3" src="e0xw2" fileName="按钮基础图片.png" xy="0,0" blend="multiply" filter="color" filterData="0.4,0,0,0">
       <gearDisplay controller="button" pages="3"/>
       <relation target="" sidePair="width-width,height-height"/>
     </image>
@@ -22,5 +22,5 @@
       <relation target="" sidePair="center-center,middle-middle"/>
     </text>
   </displayList>
-  <Button downEffect="dark" downEffectValue=".4"/>
+  <Button/>
 </component>

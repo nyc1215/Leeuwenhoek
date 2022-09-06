@@ -7,10 +7,23 @@
     <component id="y8ni3" name="LinkLines.xml" path="/LinkLines/" exported="true"/>
     <component id="guyd4" name="FeedCat.xml" path="/FeedCat/" exported="true"/>
     <image id="guyd5" name="猫.png" path="/FeedCat/"/>
-    <image id="guyd7" name="猫粮.png" path="/FeedCat/"/>
+    <image id="guyd7" name="猫粮.png" path="/FeedCat/" scale9grid="0,0,-66,-63"/>
     <component id="guydb" name="FixRobot.xml" path="/FixRobot/" exported="true"/>
     <component id="guydc" name="MoveTelescopeBinoculars.xml" path="/MoveTelescopeBinoculars/" exported="true"/>
     <image id="guydd" name="望远镜.png" path="/MoveTelescopeBinoculars/"/>
+    <image id="guydg" name="火箭机器人.png" path="/FixRobot/"/>
+    <component id="guydh" name="TelescopicSight.xml" path="/TelescopicSight/" exported="true"/>
+    <image id="guydi" name="靶子8.png" path="/TelescopicSight/"/>
+    <image id="guydj" name="添加.png" path="/TelescopicSight/" scale9grid="0,0,-50,-50"/>
+    <component id="guydk" name="Flashlight.xml" path="/Flashlight/" exported="true"/>
+    <image id="guydl" name="电池.png" path="/Flashlight/" scale9grid="0,0,-48,-48"/>
+    <image id="guydm" name="手电筒.png" path="/Flashlight/" scale9grid="0,0,-55,-12" duplicatePadding="true"/>
+    <component id="guydn" name="ClickFireFly.xml" path="/ClickFireFly/" exported="true"/>
+    <component id="guydo" name="PickUpSupport.xml" path="/PickUpSupport/" exported="true"/>
+    <image id="guydp" name="袋子.png" path="/PickUpSupport/" scale9grid="0,0,-14,0"/>
+    <image id="guydq" name="宠物口粮.png" path="/PickUpSupport/" scale9grid="0,0,-34,-12"/>
+    <image id="guyds" name="萤火虫.png" path="/ClickFireFly/"/>
+    <component id="guydt" name="Com_FireFly.xml" path="/ClickFireFly/" exported="true"/>
   </resources>
   <publish name=""/>
 </packageDescription>

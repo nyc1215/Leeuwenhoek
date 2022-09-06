@@ -18,7 +18,7 @@ namespace Tasks
         protected bool IsSuccess;
         private readonly NetworkVariable<bool> _isDoing = new();
 
-        private Window _taskWindow;
+        protected Window TaskWindow;
         protected GComponent TaskUI;
         private GButton _taskQuitButton;
         private SpriteRenderer _spriteRenderer;
@@ -38,14 +38,14 @@ namespace Tasks
 
             _taskQuitButton = TaskUI.GetChild("Button_Back").asButton;
             _spriteRenderer = GetComponent<SpriteRenderer>();
-            _taskWindow = new Window
+            TaskWindow = new Window
             {
                 contentPane = TaskUI,
                 modal = true,
                 closeButton = _taskQuitButton,
                 gameObjectName = "UIPanel"
             };
-            _taskWindow.closeButton.onClick.Add(EndTask);
+            TaskWindow.closeButton.onClick.Add(EndTask);
         }
 
         private void Start()
@@ -106,10 +106,10 @@ namespace Tasks
         {
         }
 
-        private void OpenTaskUI()
+        protected virtual void OpenTaskUI()
         {
-            _taskWindow.Show();
-            _taskWindow.Center();
+            TaskWindow.Show();
+            TaskWindow.Center();
             MyGameManager.Instance.localPlayerController.OnDisable();
         }
 
@@ -118,7 +118,7 @@ namespace Tasks
             if (IsSuccess)
             {
                 MyGameNetWorkManager.Instance.AddGameProgress(addProgress);
-                _taskWindow.Hide();
+                TaskWindow.Hide();
                 _spriteRenderer.color = Color.white;
                 MyGameManager.Instance.localPlayerController.nowTask = null;
                 _gameUIPanel.ChangeTaskButtonVisible(false);

@@ -9,6 +9,7 @@ namespace Tasks
         private readonly List<GLoader> _catFoodsList = new();
         private GImage _cat;
         private GTextField _successText;
+        private GGraph _successTextBg;
 
         private bool _isDragging;
         private int _feedNum;
@@ -27,6 +28,7 @@ namespace Tasks
                 catFoodImg.pivot = new Vector2(0.5f, 0.5f);
                 catFoodImg.pivotAsAnchor = true;
                 catFoodImg.draggable = true;
+                catFoodImg.dragBounds = new Rect(560,240,800,600);
                 catFoodImg.onDragStart.Add(() =>
                 {
                     if (!_isDragging)
@@ -51,13 +53,15 @@ namespace Tasks
             _cat.pivotAsAnchor = true;
 
             _successText = TaskUI.GetChild("Success_Text").asTextField;
+            _successTextBg = TaskUI.GetChild("Success_TextBG").asGraph;
         }
-        
+
         protected override void InitTask()
-        {           
+        {
             _feedNum = 0;
             _isDragging = false;
             _successText.visible = false;
+            _successTextBg.visible = false;
         }
 
         private void CatFoodDragEnd(GObject image)
@@ -69,7 +73,7 @@ namespace Tasks
                 image.visible = false;
                 _feedNum++;
             }
-            
+
             if (_feedNum == _catFoodsList.Count)
             {
                 IsSuccess = true;
@@ -80,11 +84,11 @@ namespace Tasks
         private void ShowSuccessText()
         {
             _successText.visible = true;
+            _successTextBg.visible = true;
 
             foreach (var catFoodImg in _catFoodsList)
             {
                 catFoodImg.draggable = false;
-                catFoodImg.onDragMove.Clear();
             }
         }
     }

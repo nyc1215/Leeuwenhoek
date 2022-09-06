@@ -7,6 +7,8 @@ namespace Tasks
     public class FixRobot : TaskUtil
     {
         private GTextField _successText;
+        private GGraph _successTextBg;
+
 
         private const int AllPointsNum = 10;
         private int _clickNum;
@@ -27,12 +29,14 @@ namespace Tasks
             }
             
             _successText = TaskUI.GetChild("Success_Text").asTextField;
+            _successTextBg = TaskUI.GetChild("Success_TextBG").asGraph;
         }
 
         protected override void InitTask()
         {
             _clickNum = 0;
             _successText.visible = false;
+            _successTextBg.visible = false;
         }
 
         private void PointBeClicked(GGraph point)
@@ -51,6 +55,7 @@ namespace Tasks
         private void ShowSuccessText()
         {
             _successText.visible = true;
+            _successTextBg.visible = true;
         }
     }
 }

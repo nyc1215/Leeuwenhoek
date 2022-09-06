@@ -8,9 +8,10 @@
     <text id="n2_guyd" name="title" xy="400,40" pivot="0.5,0.5" anchor="true" size="162,44" fontSize="26" align="center" vAlign="middle" autoSize="none" text="喂猫"/>
     <text id="n3_guyd" name="title2" xy="400,77" pivot="0.5,0.5" anchor="true" size="220,34" fontSize="24" align="center" vAlign="middle" text="将猫粮拖动到猫身上"/>
     <image id="n4_guyd" name="Img_Cat" src="guyd5" fileName="FeedCat/猫.png" xy="636,310" pivot="0.5,0.5" anchor="true" size="200,200"/>
-    <loader id="n6_guyd" name="Img_CatFood1" xy="165,171" pivot="0.5,0.5" anchor="true" size="200,200" scale="0.6,0.6" url="ui://djj8vne8guyd7" autoSize="true"/>
-    <loader id="n8_guyd" name="Img_CatFood3" xy="145,448" pivot="0.5,0.5" anchor="true" size="200,200" scale="0.6,0.6" url="ui://djj8vne8guyd7" autoSize="true"/>
-    <loader id="n9_guyd" name="Img_CatFood2" xy="303,318" pivot="0.5,0.5" anchor="true" size="200,200" scale="0.6,0.6" url="ui://djj8vne8guyd7" autoSize="true"/>
+    <loader id="n6_guyd" name="Img_CatFood1" xy="165,171" pivot="0.5,0.5" anchor="true" size="134,137" scale="0.6,0.6" url="ui://djj8vne8guyd7" autoSize="true"/>
+    <loader id="n8_guyd" name="Img_CatFood3" xy="146,448" pivot="0.5,0.5" anchor="true" size="134,137" scale="0.6,0.6" url="ui://djj8vne8guyd7" autoSize="true"/>
+    <loader id="n9_guyd" name="Img_CatFood2" xy="303,318" pivot="0.5,0.5" anchor="true" size="134,137" scale="0.6,0.6" url="ui://djj8vne8guyd7" autoSize="true"/>
+    <graph id="n11_guyd" name="Success_TextBG" xy="400,300" pivot="0.5,0.5" anchor="true" size="460,150" visible="false" type="rect"/>
     <text id="n10_guyd" name="Success_Text" xy="400,300" pivot="0.5,0.5" anchor="true" size="461,147" visible="false" fontSize="79" align="center" vAlign="middle" autoSize="none" text="任务完成"/>
   </displayList>
 </component>
