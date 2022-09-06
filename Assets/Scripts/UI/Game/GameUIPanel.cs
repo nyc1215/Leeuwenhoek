@@ -83,7 +83,7 @@ namespace UI.Game
         }
 
 
-        private IEnumerator ButtonCold(GButton button, float coldTime, Action buttonDo)
+        private static IEnumerator ButtonCold(GButton button, float coldTime, Action buttonDo)
         {
             var buttonIconImage = button.GetChild(button.icon).asImage;
             if (buttonIconImage.fillAmount >= 0.99f)

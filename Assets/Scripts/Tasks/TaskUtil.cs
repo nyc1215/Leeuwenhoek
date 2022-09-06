@@ -16,7 +16,7 @@ namespace Tasks
         public int addProgress = 5;
 
         protected bool IsSuccess;
-        private readonly NetworkVariable<bool> _isDoing = new();
+        private readonly NetworkVariable<int> _isDoingNum = new();
 
         protected Window TaskWindow;
         protected GComponent TaskUI;
@@ -55,7 +55,7 @@ namespace Tasks
 
         public override void OnNetworkSpawn()
         {
-            _isDoing.Value = false;
+            _isDoingNum.Value = 0;
             IsSuccess = false;
         }
 
@@ -64,12 +64,10 @@ namespace Tasks
             if (other.CompareTag("Player") &&
                 other.gameObject.GetComponent<NetworkObject>().IsLocalPlayer)
             {
-                if (IsSuccess)
+                if (_isDoingNum.Value > 3)
                 {
                     return;
                 }
-
-                _spriteRenderer.color = Color.yellow;
                 MyGameManager.Instance.localPlayerController.nowTask = this;
                 _gameUIPanel.ChangeTaskButtonVisible(true);
             }
@@ -80,12 +78,10 @@ namespace Tasks
             if (other.CompareTag("Player") &&
                 other.gameObject.GetComponent<NetworkObject>().IsLocalPlayer)
             {
-                if (IsSuccess)
+                if (_isDoingNum.Value > 3)
                 {
                     return;
                 }
-
-                _spriteRenderer.color = Color.white;
                 MyGameManager.Instance.localPlayerController.nowTask = null;
                 _gameUIPanel.ChangeTaskButtonVisible(false);
             }
@@ -94,7 +90,7 @@ namespace Tasks
 
         public void StartTask()
         {
-            if (_isDoing.Value == false && IsSuccess == false)
+            if (_isDoingNum.Value <= 3 && IsSuccess == false)
             {
                 CommitDoingStateServerRpc(true);
                 InitTask();
@@ -135,7 +131,14 @@ namespace Tasks
         [ServerRpc]
         private void CommitDoingStateServerRpc(bool doing)
         {
-            _isDoing.Value = doing;
+            if (doing)
+            {
+                _isDoingNum.Value++;
+            }
+            else
+            {
+                _isDoingNum.Value--;
+            }
         }
     }
 }
