@@ -23,5 +23,6 @@
     <component id="n13_tlqf" name="Button_Sewer" src="e0xw3" fileName="ButtonCom.xml" pkg="z7qisvfx" xy="1430,589" size="180,180" visible="false" alpha="0.8">
       <Button title="传送"/>
     </component>
+    <text id="n14_guyd" name="Text_Timer" xy="960,75" pivot="0.5,0.5" anchor="true" size="513,54" fontSize="40" color="#ffffff" vars="true" text="轮次：{nowRound=1}/{allRounds=4}  剩余时间：{nowRoundTime=150}秒"/>
   </displayList>
 </component>
