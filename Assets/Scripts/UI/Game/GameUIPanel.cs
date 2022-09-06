@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using FairyGUI;
 using Manager;
 using UI.Util;
@@ -43,7 +44,7 @@ namespace UI.Game
         {
             _miniMapLoader.texture = new NTexture(miniMapRenderTexture);
             _reportButton.onClick.Add(MyGameManager.Instance.localPlayerController.Report);
-            _killButton.onClick.Add(MyGameManager.Instance.localPlayerController.KillTarget);
+            _killButton.onClick.Add(() => { StartCoroutine(ButtonCold(_killButton, 25f, MyGameManager.Instance.localPlayerController.KillTarget)); });
             _taskButton.onClick.Add(MyGameManager.Instance.localPlayerController.DoTask);
             _sewerButton.onClick.Add(() =>
             {
@@ -75,10 +76,36 @@ namespace UI.Game
         {
             _sewerButton.visible = isVisible;
         }
-        
+
         public void ChangeTaskButtonVisible(bool isVisible)
         {
             _taskButton.visible = isVisible;
+        }
+
+
+        private IEnumerator ButtonCold(GButton button, float coldTime, Action buttonDo)
+        {
+            var buttonIconImage = button.GetChild(button.icon).asImage;
+            if (buttonIconImage.fillAmount >= 0.99f)
+            {
+                button.touchable = false;
+                buttonIconImage.fillAmount = 0f;
+                var nowTime = coldTime;
+                while (nowTime < coldTime)
+                {
+                    nowTime += Time.deltaTime;
+                    buttonIconImage.fillAmount = nowTime / coldTime;
+                    yield return null;
+                }
+
+                button.touchable = true;
+            }
+            else
+            {
+                buttonDo.Invoke();
+            }
+
+            yield return null;
         }
     }
 }
