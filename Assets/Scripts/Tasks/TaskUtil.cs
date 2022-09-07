@@ -100,6 +100,8 @@ namespace Tasks
 
         protected virtual void InitTask()
         {
+            IsSuccess = false;
+            Awake();
         }
 
         protected virtual void OpenTaskUI()

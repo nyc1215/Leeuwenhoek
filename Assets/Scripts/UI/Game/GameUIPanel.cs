@@ -21,6 +21,7 @@ namespace UI.Game
         private GButton _taskButton;
         private GButton _sewerButton;
         private GProgressBar _gameProgress;
+        private GTextField _timer;
 
         protected override void Awake()
         {

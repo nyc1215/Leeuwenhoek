@@ -33,6 +33,7 @@ namespace Tasks
 
         protected override void InitTask()
         {
+            base.InitTask();
             _successNum = 0;
             _successText.visible = false;
             _successTextBg.visible = false;

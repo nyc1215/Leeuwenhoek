@@ -19,7 +19,7 @@ namespace Tasks
             TaskPanelName = "PickUpSupport";
 
             base.Awake();
-
+            _supportList.Clear();
             _supportList.Add(TaskUI.GetChild("support1").asLoader);
             _supportList.Add(TaskUI.GetChild("support2").asLoader);
             _supportList.Add(TaskUI.GetChild("support3").asLoader);
@@ -58,6 +58,7 @@ namespace Tasks
 
         protected override void InitTask()
         {
+            base.InitTask();
             _successNum = 0;
             _isDragging = false;
             _successText.visible = false;

@@ -31,6 +31,7 @@ namespace Tasks
 
         protected override void InitTask()
         {
+            base.InitTask();
             _telescopeBinocular.draggable = true;
             _successText.visible = false;
             _successTextBg.visible = false;

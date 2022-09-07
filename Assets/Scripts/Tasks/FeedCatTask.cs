@@ -19,7 +19,7 @@ namespace Tasks
             TaskPanelName = "FeedCat";
 
             base.Awake();
-
+            _catFoodsList.Clear();
             _catFoodsList.Add(TaskUI.GetChild("Img_CatFood1").asLoader);
             _catFoodsList.Add(TaskUI.GetChild("Img_CatFood2").asLoader);
             _catFoodsList.Add(TaskUI.GetChild("Img_CatFood3").asLoader);
@@ -58,6 +58,7 @@ namespace Tasks
 
         protected override void InitTask()
         {
+            base.InitTask();
             _feedNum = 0;
             _isDragging = false;
             _successText.visible = false;

@@ -34,6 +34,7 @@ namespace Tasks
 
         protected override void InitTask()
         {
+            base.InitTask();
             _clickNum = 0;
             _successText.visible = false;
             _successTextBg.visible = false;

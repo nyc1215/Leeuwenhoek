@@ -27,7 +27,7 @@ namespace Tasks
         {
             TaskPanelName = "LinkLines";
             base.Awake();
-
+            _points.Clear();
             _points.Add(TaskUI.GetChild("p1").asGraph);
             _points.Add(TaskUI.GetChild("p2").asGraph);
             _points.Add(TaskUI.GetChild("p3").asGraph);

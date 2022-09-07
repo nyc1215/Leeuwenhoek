@@ -22,7 +22,7 @@ namespace Tasks
             TaskPanelName = "TelescopicSight";
 
             base.Awake();
-
+            _crossList.Clear();
             _crossList.Add(TaskUI.GetChild("cross1").asLoader);
             _crossList.Add(TaskUI.GetChild("cross2").asLoader);
             _crossList.Add(TaskUI.GetChild("cross3").asLoader);
@@ -61,6 +61,7 @@ namespace Tasks
 
         protected override void InitTask()
         {
+            base.InitTask();
             _successNum = 0;
             _isDragging = false;
             _successText.visible = false;

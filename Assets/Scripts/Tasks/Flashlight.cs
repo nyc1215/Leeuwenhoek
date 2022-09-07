@@ -19,7 +19,7 @@ namespace Tasks
             TaskPanelName = "Flashlight";
 
             base.Awake();
-
+            _batteryList.Clear();
             _batteryList.Add(TaskUI.GetChild("battery1").asLoader);
             _batteryList.Add(TaskUI.GetChild("battery2").asLoader);
             _batteryList.Add(TaskUI.GetChild("battery3").asLoader);
@@ -58,6 +58,7 @@ namespace Tasks
 
         protected override void InitTask()
         {
+            base.InitTask();
             _successNum = 0;
             _isDragging = false;
             _successText.visible = false;

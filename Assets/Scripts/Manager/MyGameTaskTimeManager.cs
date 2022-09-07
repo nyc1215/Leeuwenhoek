@@ -15,7 +15,7 @@ namespace Manager
 
         public List<TaskUtil> allTasks = new();
 
-        public int changeTaskSecond = 150;
+        public int changeTaskSecond;
 
         private WaitForSeconds _changeTaskWaitForSeconds;
 

@@ -199,7 +199,7 @@ namespace Manager
 
         public void GameStart()
         {
-            UIOperationUtil.GoToSceneAsync(uiJumpData.gameMenu);
+            UIOperationUtil.GoToScene(uiJumpData.gameMenu);
         }
 
         public void ChangeSceneCallBack(Scene scene, LoadSceneMode mode)
