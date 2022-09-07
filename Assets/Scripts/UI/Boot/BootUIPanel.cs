@@ -2,6 +2,8 @@
 using BestHTTP.WebSocket;
 using FairyGUI;
 using UI.Util;
+using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace UI.Boot
 {
@@ -10,6 +12,9 @@ namespace UI.Boot
     /// </summary>
     public class BootUIPanel : UIPanelUtil
     {
+        [Header("开始界面视频渲染器纹理")] public Texture bootVideoRenderTexture;
+        private GLoader _videoLoader;
+
         private GButton _quitButton;
         private GButton _registerButton;
         private GButton _loginButton;
@@ -47,6 +52,8 @@ namespace UI.Boot
             _registerButton = GetButton("Button_Register");
             _loginButton = GetButton("Button_Login");
             _severState = UIRoot.GetChild("connect").asTextField;
+            _videoLoader = UIRoot.GetChild("bg").asLoader;
+            _videoLoader.texture = new NTexture(bootVideoRenderTexture);
 
             _quitButton?.onClick.Add(() => { StartCoroutine(QuitGame()); });
             _registerButton?.onClick.Add(() => { _registerPanel.Show(); });

@@ -5,6 +5,7 @@
     <component id="e0xw3" name="ButtonCom.xml" path="/" exported="true"/>
     <component id="mv3z2" name="JoyStick.xml" path="/" exported="true"/>
     <image id="mv3z1" name="WhiteCircle.png" path="/" exported="true"/>
+    <font id="e6cd4" name="FZZJ-JHTJF.TTF" path="/字体/" renderMode="" samplePointSize="16"/>
   </resources>
   <publish name=""/>
 </packageDescription>

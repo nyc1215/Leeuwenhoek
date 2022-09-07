@@ -43,6 +43,10 @@ namespace Manager
                 {
                     GameProgressBar.value = newValue;
                 }
+                if (newValue >= 100)
+                {
+                    MyGameManager.Instance.GameIsEnd = true;
+                }
             };
         }
 

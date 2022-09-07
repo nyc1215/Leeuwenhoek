@@ -1,7 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using Tasks;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 namespace Manager
 {
@@ -9,7 +13,11 @@ namespace Manager
     {
         public static MyGameNetWorkManager Instance { get; private set; }
 
-        public List<TaskUtil> AllTasks = new ();
+        public List<TaskUtil> allTasks = new();
+
+        public int changeTaskSecond = 150;
+
+        private WaitForSeconds _changeTaskWaitForSeconds;
 
         #region MonoBehavior
 
@@ -25,6 +33,39 @@ namespace Manager
             {
                 transform.SetParent(null);
                 DontDestroyOnLoad(gameObject);
+            }
+
+            _changeTaskWaitForSeconds = new WaitForSeconds(changeTaskSecond);
+        }
+
+        private void Start()
+        {
+            StartCoroutine(TaskRandomOpen());
+        }
+
+        private IEnumerator TaskRandomOpen()
+        {
+            while (!MyGameManager.Instance.GameIsEnd)
+            {
+                foreach (var taskUtil in allTasks)
+                {
+                    taskUtil.gameObject.SetActive(false);
+                }
+
+                var openTaskNum = 0;
+                while (openTaskNum <= 5)
+                {
+                    var task = allTasks[Random.Range(0, allTasks.Count)];
+                    if (task.gameObject.activeInHierarchy)
+                    {
+                        continue;
+                    }
+
+                    task.gameObject.SetActive(true);
+                    openTaskNum++;
+                }
+
+                yield return _changeTaskWaitForSeconds;
             }
         }
 

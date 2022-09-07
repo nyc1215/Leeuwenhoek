@@ -19,5 +19,6 @@ namespace UI.Util
         [Header("房间界面")] [Scene] public string roomMenu;
         [Header("加载界面")] [Scene] public string loadMenu;
         [Header("游戏界面")] [Scene] public string gameMenu;
+        [Header("结束界面")] [Scene] public string endMenu;
     }
 }

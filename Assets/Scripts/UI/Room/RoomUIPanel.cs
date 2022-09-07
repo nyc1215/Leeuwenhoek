@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using FairyGUI;
 using Manager;
@@ -6,15 +7,24 @@ using MyWebSocket.Response;
 using UI.Game;
 using UI.Util;
 using UnityEngine;
+using UnityEngine.Serialization;
 using NetworkManager = Unity.Netcode.NetworkManager;
 
 namespace UI.Room
 {
     public class RoomUIPanel : UIPanelUtil
     {
+        public RoomReadyStory roomReadyStory;
+
+        private GComponent _storyCom;
+        private GTextField _storyText;
+        private GTextField _storyLetter;
+        private GTextField _storyLetterName;
+        private GLoader _storyImg;
+        private int _storyIndex;
+
         private JoyStickModule _joystick;
 
-        // private GButton _roomUIBackButton;
         private GButton _readyButton;
         private GButton _voiceButton;
 
@@ -26,24 +36,52 @@ namespace UI.Room
             _joystick = new JoyStickModule(UIRoot);
             _joystick.onMove.Add(JoystickMove);
             _joystick.onEnd.Add(JoystickMove);
+
+            _storyIndex = 0;
+            _storyCom = UIRoot.AddChild(UIPackage.CreateObject("Room", "StoryPanel")).asCom;
+            _storyImg = _storyCom.GetChild("Loader_Img").asLoader;
+            _storyText = _storyCom.GetChild("Text_Story").asTextField;
+            _storyLetter = _storyCom.GetChild("Text_Letter").asTextField;
+            _storyLetter.SetVar("AccountName", MyGameManager.Instance.LocalPlayerInfo.AccountName).FlushVars();
+            _storyLetterName = _storyCom.GetChild("Text_LetterName").asTextField;
         }
 
         private void Start()
         {
             ListUpdate();
 
-            // _roomUIBackButton = GetButton("Button_Back");
             _readyButton = GetButton("Button_Ready");
             _voiceButton = GetButton("Button_Voice");
 
-            // _roomUIBackButton.onClick.Add(PlayerExitRoom);
             _readyButton.onClick.Add(PlayerReady);
             _voiceButton.onTouchBegin.Add(StartVoice);
             _voiceButton.onTouchEnd.Add(EndVoice);
 
             CreatePlayer();
-
             MyGameManager.Instance.VoiceChangeRemoteVoice(false);
+
+            _storyCom.onClick.Add(OnStoryClicked);
+            _storyText.text = roomReadyStory.storyText[_storyIndex];
+        }
+
+        private void Update()
+        {
+            if (MyGameManager.Instance.localPlayerController.isImposter)
+            {
+                if (_storyIndex >= 19)
+                {
+                    _storyCom.onClick.Clear();
+                    _storyCom.Dispose();
+                }
+            }
+            else
+            {
+                if (_storyIndex >= 18)
+                {
+                    _storyCom.onClick.Clear();
+                    _storyCom.Dispose();
+                }
+            }
         }
 
         public void ListUpdate()
@@ -66,8 +104,6 @@ namespace UI.Room
             {
                 MyGameManager.Instance.LocalPlayerInfo.ReadyForGame = true;
                 _readyButton.text = "已准备";
-                // _roomUIBackButton.touchable = false;
-                // _roomUIBackButton.GetChild("icon").asImage.color = new Color(0.4f, 0.4f, 0.4f);
                 MyGameManager.Instance.NetWorkOperations.SendRequest(new RequestReady(
                     MyGameManager.Instance.LocalPlayerInfo.Account, MyGameManager.Instance.LocalPlayerInfo.GroupId));
             }
@@ -75,8 +111,6 @@ namespace UI.Room
             {
                 MyGameManager.Instance.LocalPlayerInfo.ReadyForGame = false;
                 _readyButton.text = "准备!";
-                // _roomUIBackButton.touchable = true;
-                // _roomUIBackButton.GetChild("icon").asImage.color = Color.white;
                 MyGameManager.Instance.NetWorkOperations.SendRequest(new RequestCancelReady(
                     MyGameManager.Instance.LocalPlayerInfo.Account, MyGameManager.Instance.LocalPlayerInfo.GroupId));
             }
@@ -84,16 +118,6 @@ namespace UI.Room
             MyGameManager.Instance.localPlayerNetwork.ChangeTopTextColor(MyGameManager.Instance.LocalPlayerInfo
                 .ReadyForGame);
         }
-
-        // private static void PlayerExitRoom()
-        // {
-        //     MyGameManager.Instance.VoiceLeaveChannel();
-        //     var requestExitGroup = new RequestExitGroup(
-        //         MyGameManager.Instance.LocalPlayerInfo.Account, MyGameManager.Instance.LocalPlayerInfo.GroupId);
-        //     MyGameManager.Instance.NetWorkOperations.SendRequest(requestExitGroup);
-        //     MyGameManager.Instance.localPlayerController.DestroySelf();
-        //     UIOperationUtil.GoToScene(MyGameManager.Instance.uiJumpData.bootMenu);
-        // }
 
         public void CheckGameStart(PlayerRoomStatusData playerRoomStatusData)
         {
@@ -144,6 +168,63 @@ namespace UI.Room
             _voiceButton.title = "按住语音";
             MyGameManager.Instance.localPlayerNetwork.ChangeVoiceIconShow(false);
             MyGameManager.Instance.VoiceEndTalk();
+        }
+
+
+        private void OnStoryClicked()
+        {
+            if (_storyIndex == 16)
+            {
+                _storyIndex += MyGameManager.Instance.localPlayerController.isImposter ? 2 : 1;
+            }
+            else
+            {
+                _storyIndex++;
+            }
+
+            if (MyGameManager.Instance.localPlayerController.isImposter)
+            {
+                if (_storyIndex >= 19)
+                {
+                    return;
+                }
+            }
+            else
+            {
+                if (_storyIndex >= 18)
+                {
+                    return;
+                }
+            }
+
+            _storyText.text = roomReadyStory.storyText[_storyIndex];
+
+            if (_storyIndex is >= 1 and <= 2)
+            {
+                _storyImg.url = "ui://Room/序章剧本1";
+            }
+            else if (_storyIndex is >= 3 and <= 6)
+            {
+                _storyImg.url = "ui://Room/序章剧本2";
+            }
+            else if (_storyIndex == 9)
+            {
+                _storyImg.url = null;
+                _storyLetter.visible = true;
+                _storyLetterName.visible = true;
+                _storyText.visible = false;
+            }
+            else if (_storyIndex is >= 13 and <= 18)
+            {
+                _storyImg.url = "ui://Room/序章剧本3";
+            }
+            else
+            {
+                _storyLetter.visible = false;
+                _storyLetterName.visible = false;
+                _storyText.visible = true;
+                _storyImg.url = null;
+            }
         }
     }
 }

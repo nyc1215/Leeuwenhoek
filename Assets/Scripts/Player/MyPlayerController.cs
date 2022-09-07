@@ -251,7 +251,6 @@ namespace Player
                 yield return null;
             }
 
-            //GetComponent<NetworkObject>().ChangeOwnership(NetworkManager.LocalClientId);
             MyGameManager.Instance.RandomSetImposter();
 
             foreach (var playerController in MyGameManager.Instance.allPlayers)

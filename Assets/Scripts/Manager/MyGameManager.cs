@@ -63,12 +63,14 @@ namespace Manager
     [DisallowMultipleComponent]
     public class MyGameManager : SingleTon<MyGameManager>
     {
+        public bool GameIsEnd;
+
         #region UI与场景相关变量
 
         [Header("下一个要异步加载的场景")] [Scene] public string nextSceneToLoadAsync;
 
         [Header("UI跳转信息存储")] public UIJumpData uiJumpData;
-        
+
         #endregion
 
         #region 玩家相关变量
@@ -154,6 +156,8 @@ namespace Manager
             base.Awake();
 
             Debug.unityLogger.logEnabled = true;
+
+            GameIsEnd = false;
         }
 
         private void Start()
@@ -178,6 +182,10 @@ namespace Manager
             // 获取设备权限。 
             CheckPermission();
 #endif
+            if (GameIsEnd)
+            {
+                EndGame();
+            }
         }
 
         #endregion
@@ -200,6 +208,12 @@ namespace Manager
             {
                 playerController.ChangeSceneCallBack?.Invoke();
             }
+        }
+
+        private void EndGame()
+        {
+            localPlayerController.OnDisable();
+            UIOperationUtil.GoToScene(uiJumpData.endMenu);
         }
 
         #endregion

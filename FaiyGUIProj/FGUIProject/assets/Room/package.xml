@@ -3,6 +3,10 @@
   <resources>
     <component id="lxz00" name="Room.xml" path="/" exported="true"/>
     <component id="lxz01" name="PlayerListItem.xml" path="/" exported="true"/>
+    <component id="s5wku" name="StoryPanel.xml" path="/" exported="true"/>
+    <image id="s5wk2" name="序章剧本3.png" path="/剧情图片/" exported="true"/>
+    <image id="s5wk3" name="序章剧本1.png" path="/剧情图片/" exported="true"/>
+    <image id="s5wk4" name="序章剧本2.png" path="/剧情图片/" exported="true"/>
   </resources>
   <publish name=""/>
 </packageDescription>
