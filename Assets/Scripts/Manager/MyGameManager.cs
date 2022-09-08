@@ -63,8 +63,6 @@ namespace Manager
     [DisallowMultipleComponent]
     public class MyGameManager : SingleTon<MyGameManager>
     {
-        public bool GameIsEnd;
-
         #region UI与场景相关变量
 
         [Header("下一个要异步加载的场景")] [Scene] public string nextSceneToLoadAsync;
@@ -80,6 +78,9 @@ namespace Manager
         public MyPlayerController localPlayerController;
         public MyPlayerNetwork localPlayerNetwork;
         [Header("玩家列表")] public List<MyPlayerController> allPlayers = new();
+        public int goodPlayerNum;
+        public bool isImposterWin;
+        public int allTime = 1200;
 
         private readonly Dictionary<int, int> _playerNumToImposterNum = new()
         {
@@ -122,7 +123,8 @@ namespace Manager
         {
             Assert.IsTrue(_playerNumToImposterNum.ContainsKey(allPlayers.Count));
             Debug.Log($"imposterNum = {_playerNumToImposterNum[allPlayers.Count]}");
-
+            goodPlayerNum = allPlayers.Count - _playerNumToImposterNum[allPlayers.Count];
+            isImposterWin = false;
             var imposterNum = 0;
             while (imposterNum < _playerNumToImposterNum[allPlayers.Count])
             {
@@ -156,8 +158,6 @@ namespace Manager
             base.Awake();
 
             Debug.unityLogger.logEnabled = true;
-
-            GameIsEnd = false;
         }
 
         private void Start()
@@ -182,9 +182,13 @@ namespace Manager
             // 获取设备权限。 
             CheckPermission();
 #endif
-            if (GameIsEnd)
+            if (CompareScene(uiJumpData.gameMenu))
             {
-                EndGame();
+                if (goodPlayerNum <= 0 || allTime <= 0)
+                {
+                    isImposterWin = true;
+                    MyGameNetWorkManager.Instance.CommitGameEndServerRpc(true);
+                }
             }
         }
 
@@ -208,12 +212,6 @@ namespace Manager
             {
                 playerController.ChangeSceneCallBack?.Invoke();
             }
-        }
-
-        private void EndGame()
-        {
-            localPlayerController.OnDisable();
-            UIOperationUtil.GoToScene(uiJumpData.endMenu);
         }
 
         #endregion

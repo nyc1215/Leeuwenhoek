@@ -24,7 +24,6 @@
     <image id="guydq" name="宠物口粮.png" path="/PickUpSupport/" scale9grid="0,0,-34,-12"/>
     <image id="guyds" name="萤火虫.png" path="/ClickFireFly/"/>
     <component id="guydt" name="Com_FireFly.xml" path="/ClickFireFly/" exported="true"/>
-    <component id="e6cdu" name="Circle.xml" path="/"/>
   </resources>
   <publish name=""/>
 </packageDescription>

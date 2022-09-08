@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Globalization;
 using FairyGUI;
 using Manager;
 using UI.Util;
@@ -23,6 +24,8 @@ namespace UI.Game
         private GProgressBar _gameProgress;
         private GTextField _timer;
 
+        private WaitForSeconds _waitForASecond;
+
         protected override void Awake()
         {
             base.Awake();
@@ -37,6 +40,8 @@ namespace UI.Game
             _sewerButton = GetButton("Button_Sewer");
 
             _gameProgress = UIRoot.GetChild("ProgressBar_Game").asProgress;
+            _timer = UIRoot.GetChild("Text_Timer").asTextField;
+            _waitForASecond = new WaitForSeconds(1);
 
             MyGameNetWorkManager.Instance.GameProgressBar = _gameProgress;
         }
@@ -66,6 +71,8 @@ namespace UI.Game
                     _killButton.visible = false;
                 }
             }
+
+            StartCoroutine(TimeCountDown());
         }
 
         private static void JoystickMove(EventContext context)
@@ -107,6 +114,17 @@ namespace UI.Game
             }
 
             yield return null;
+        }
+
+        private IEnumerator TimeCountDown()
+        {
+            while (MyGameManager.Instance.allTime > 0)
+            {
+                _timer.SetVar("Min", Math.Floor(MyGameManager.Instance.allTime / 60f).ToString(CultureInfo.InvariantCulture))
+                    .SetVar("Sec", Math.Floor(MyGameManager.Instance.allTime % 60f).ToString(CultureInfo.InvariantCulture)).FlushVars();
+                yield return _waitForASecond;
+                MyGameManager.Instance.allTime--;
+            }
         }
     }
 }

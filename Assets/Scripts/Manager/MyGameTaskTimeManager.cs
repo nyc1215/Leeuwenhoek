@@ -45,11 +45,15 @@ namespace Manager
 
         private IEnumerator TaskRandomOpen()
         {
-            while (!MyGameManager.Instance.GameIsEnd)
+            while (!MyGameNetWorkManager.Instance.GameIsEnd.Value)
             {
                 foreach (var taskUtil in allTasks)
                 {
                     taskUtil.gameObject.SetActive(false);
+                    if (taskUtil.TaskWindow.isShowing)
+                    {
+                        taskUtil.EndTask();
+                    }
                 }
 
                 var openTaskNum = 0;

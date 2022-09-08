@@ -272,26 +272,6 @@ namespace Player
             }
         }
 
-        // public void DestroySelf()
-        // {
-        //     if (MyGameManager.Instance.allPlayers.Contains(this))
-        //     {
-        //         MyGameManager.Instance.allPlayers.Remove(this);
-        //         DestroyPlayerServerRpc(NetworkManager.Singleton.LocalClientId);
-        //     }
-        //     //DestroyPlayerServerRpc(NetworkManager.Singleton.LocalClientId);
-        // }
-        //
-        // [ServerRpc]
-        // private void DestroyPlayerServerRpc(ulong localClientId)
-        // {
-        //     var playerObject = FindObjectsOfType<MyPlayerController>().First(n => n.gameObject.GetComponent<NetworkObject>().NetworkObjectId == localClientId);
-        //     if (playerObject != null)
-        //     {
-        //         Destroy(playerObject.gameObject);
-        //     }
-        // }
-
         #endregion
 
         #region GamePlay
@@ -395,6 +375,11 @@ namespace Player
 
             gameObject.layer = LayerMask.NameToLayer("Ghost") == -1 ? 9 : LayerMask.NameToLayer("Ghost");
 
+            if (!isImposter)
+            {
+                MyGameManager.Instance.goodPlayerNum--;
+            }
+
             var trans = transform;
             var temPlayerBody = Instantiate(bodyPrefab, trans.position, trans.rotation)
                 .GetComponent<MyPlayerBody>();
@@ -451,14 +436,10 @@ namespace Player
         {
             if (IsOwner)
             {
-                if (MyGameManager.CompareScene(MyGameManager.Instance.uiJumpData.loadMenu))
+                if (MyGameManager.CompareScene(MyGameManager.Instance.uiJumpData.gameMenu))
                 {
                     GetComponent<MyPlayerNetwork>().ChangeTopTextColor(false);
                     GetComponent<MyPlayerNetwork>().ChangeVoiceIconShow(false);
-                }
-
-                if (MyGameManager.CompareScene(MyGameManager.Instance.uiJumpData.gameMenu))
-                {
                     _playerLight2D.enabled = true;
                     inputReport.Enable();
                     inputKill.Enable();

@@ -64,26 +64,6 @@ namespace UI.Room
             _storyText.text = roomReadyStory.storyText[_storyIndex];
         }
 
-        private void Update()
-        {
-            if (MyGameManager.Instance.localPlayerController.isImposter)
-            {
-                if (_storyIndex >= 19)
-                {
-                    _storyCom.onClick.Clear();
-                    _storyCom.Dispose();
-                }
-            }
-            else
-            {
-                if (_storyIndex >= 18)
-                {
-                    _storyCom.onClick.Clear();
-                    _storyCom.Dispose();
-                }
-            }
-        }
-
         public void ListUpdate()
         {
             for (var i = 0; i < MyGameManager.Instance.PlayerListData.PlayerList.Count; i++)
@@ -186,6 +166,8 @@ namespace UI.Room
             {
                 if (_storyIndex >= 19)
                 {
+                    _storyCom.onClick.Clear();
+                    _storyCom.Dispose();
                     return;
                 }
             }
@@ -193,6 +175,8 @@ namespace UI.Room
             {
                 if (_storyIndex >= 18)
                 {
+                    _storyCom.onClick.Clear();
+                    _storyCom.Dispose();
                     return;
                 }
             }
