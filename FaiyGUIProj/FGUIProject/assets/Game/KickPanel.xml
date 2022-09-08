@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="1920,1080">
+  <displayList>
+    <graph id="n0_j5ug" name="bg" xy="0,0" size="1920,1080" type="rect" fillColor="#ff999999"/>
+    <text id="n1_j5ug" name="title" xy="960,165" pivot="0.5,0.5" anchor="true" size="256,54" fontSize="40" align="center" vAlign="middle" vars="true" text="当前阶段:{state=讨论}"/>
+    <text id="n2_j5ug" name="title2" xy="960,70" pivot="0.5,0.5" anchor="true" size="124,79" fontSize="60" align="center" vAlign="middle" text="报告"/>
+    <list id="n3_j5ug" name="List_Player" xy="960,527" pivot="0.5,0.5" anchor="true" size="1741,552" layout="flow_vt" overflow="scroll" lineGap="127" colGap="226" lineItemCount="2" align="center" vAlign="middle" autoClearItems="true">
+      <item url="ui://djj8vne8j5ugw"/>
+      <item url="ui://djj8vne8j5ugw"/>
+      <item url="ui://djj8vne8j5ugw"/>
+      <item url="ui://djj8vne8j5ugw"/>
+      <item url="ui://djj8vne8j5ugw"/>
+      <item url="ui://djj8vne8j5ugw"/>
+    </list>
+    <component id="n4_j5ug" name="Button_Talk" src="e0xw3" fileName="ButtonCom.xml" pkg="z7qisvfx" xy="1662,973" size="198,70">
+      <Button title="按住语音"/>
+    </component>
+  </displayList>
+</component>

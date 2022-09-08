@@ -45,7 +45,7 @@ namespace Player
         #endregion
 
         #region 角色显示
-
+    
         [Space(10)] [Header("角色显示相关")] [Tooltip("角色身体精灵渲染器")]
         public SpriteRenderer playerSpriteRenderer;
 
@@ -53,6 +53,7 @@ namespace Player
         [Tooltip("角色主摄像机")] public Camera playerMainCamera;
         [Tooltip("角色在阴影下需要隐藏的物体")] public List<Renderer> objsToHide;
         [Tooltip("隐藏物体时候忽略的层")] public LayerMask ignoreForHide;
+        public string playerAccountName;
 
         #endregion
 
@@ -85,6 +86,7 @@ namespace Player
             _playerLight2D = transform.GetChild(1).GetComponent<Light2D>();
 
             MyGameManager.Instance.localPlayerController = this;
+            playerAccountName = MyGameManager.Instance.LocalPlayerInfo.AccountName;
             DontDestroyOnLoad(this);
         }
 

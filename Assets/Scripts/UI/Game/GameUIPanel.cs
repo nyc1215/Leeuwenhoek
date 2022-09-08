@@ -26,6 +26,8 @@ namespace UI.Game
 
         private WaitForSeconds _waitForASecond;
 
+        private KickUIPanel _kickUIPanel;
+
         protected override void Awake()
         {
             base.Awake();
@@ -44,6 +46,8 @@ namespace UI.Game
             _waitForASecond = new WaitForSeconds(1);
 
             MyGameNetWorkManager.Instance.GameProgressBar = _gameProgress;
+
+            _kickUIPanel = new KickUIPanel();
         }
 
         private void Start()
@@ -121,7 +125,7 @@ namespace UI.Game
             while (MyGameManager.Instance.allTime > 0)
             {
                 _timer.SetVar("Min", Math.Floor(MyGameManager.Instance.allTime / 60f).ToString(CultureInfo.InvariantCulture))
-                    .SetVar("Sec", Math.Floor(MyGameManager.Instance.allTime % 60f).ToString(CultureInfo.InvariantCulture)).FlushVars();
+                    .SetVar("Sec", Math.Floor(MyGameManager.Instance.allTime % 60f).ToString("00",CultureInfo.InvariantCulture)).FlushVars();
                 yield return _waitForASecond;
                 MyGameManager.Instance.allTime--;
             }

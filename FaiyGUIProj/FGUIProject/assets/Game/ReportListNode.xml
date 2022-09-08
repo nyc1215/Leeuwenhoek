@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="400,200">
+  <displayList>
+    <graph id="n0_j5ug" name="bg" xy="0,0" size="400,200" type="rect" lineSize="0"/>
+    <text id="n1_j5ug" name="Text_User" xy="13,8" size="376,41" fontSize="25" vars="true" autoSize="none" text="用户名：{accountName=user}"/>
+    <text id="n2_j5ug" name="Text_Talk" xy="313,153" size="79,35" visible="false" fontSize="25" vars="true" text="说话中"/>
+  </displayList>
+</component>
