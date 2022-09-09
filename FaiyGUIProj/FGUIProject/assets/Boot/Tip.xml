@@ -2,11 +2,11 @@
 <component size="800,600" pivot="0.5,0.5" anchor="true" extention="Label">
   <displayList>
     <graph id="n0_9v6e" name="bg" xy="400,300" pivot="0.5,0.5" anchor="true" size="800,600" type="rect" fillColor="#ffcccccc"/>
-    <component id="n2_9v6e" name="Button_Back" src="e0xw3" fileName="Button/ButtonCom.xml" pkg="z7qisvfx" xy="400,470" pivot="0.5,0.5" anchor="true" size="180,80" aspect="true">
+    <component id="n2_9v6e" name="Button_Back" src="e0xw3" fileName="ButtonCom.xml" pkg="z7qisvfx" xy="400,470" pivot="0.5,0.5" anchor="true" size="180,80" aspect="true">
       <relation target="" sidePair="center-center,bottom-bottom"/>
       <Button title="返回" titleFontSize="40"/>
     </component>
-    <text id="n3_9v6e" name="Title" xy="400,120" pivot="0.5,0.5" anchor="true" size="10,66" fontSize="50" text="">
+    <text id="n3_9v6e" name="Title" xy="400,120" pivot="0.5,0.5" anchor="true" size="10,66" font="ui://z7qisvfxlzh25" fontSize="50" text="">
       <relation target="" sidePair="center-center,top-top"/>
     </text>
   </displayList>

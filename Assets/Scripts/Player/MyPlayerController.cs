@@ -45,11 +45,10 @@ namespace Player
         #endregion
 
         #region 角色显示
-    
+
         [Space(10)] [Header("角色显示相关")] [Tooltip("角色身体精灵渲染器")]
         public SpriteRenderer playerSpriteRenderer;
 
-        [Tooltip("角色其他部分精灵渲染器")] public SpriteRenderer playerPartSpriteRenderer;
         [Tooltip("角色主摄像机")] public Camera playerMainCamera;
         [Tooltip("角色在阴影下需要隐藏的物体")] public List<Renderer> objsToHide;
         [Tooltip("隐藏物体时候忽略的层")] public LayerMask ignoreForHide;
@@ -214,7 +213,8 @@ namespace Player
                     }
 
                     var playerMainCameraTransform = playerMainCamera.transform;
-                    playerMainCameraTransform.position = new Vector3(localPlayerPosition.x, localPlayerPosition.y, playerMainCameraTransform.position.z);
+                    playerMainCameraTransform.position = new Vector3(localPlayerPosition.x, localPlayerPosition.y,
+                        playerMainCameraTransform.position.z);
                 }
             }
         }
@@ -257,7 +257,8 @@ namespace Player
 
             foreach (var playerController in MyGameManager.Instance.allPlayers)
             {
-                ChangePlayerImposterClientRpc(playerController.NetworkObject.NetworkObjectId, playerController.isImposter);
+                ChangePlayerImposterClientRpc(playerController.NetworkObject.NetworkObjectId,
+                    playerController.isImposter);
             }
         }
 
@@ -266,7 +267,8 @@ namespace Player
         {
             if (!IsServer)
             {
-                foreach (var playerController in MyGameManager.Instance.allPlayers.Where(playerController => playerController.NetworkObject.NetworkObjectId == networkObjectId))
+                foreach (var playerController in MyGameManager.Instance.allPlayers.Where(playerController =>
+                             playerController.NetworkObject.NetworkObjectId == networkObjectId))
                 {
                     playerController.isImposter = beImposter;
                     Debug.Log($"networkObjectId: {networkObjectId} beImposter: {beImposter}");
@@ -296,7 +298,8 @@ namespace Player
 
                     if (Physics.Raycast(ray, out var hit, 1000f, ~ignoreForHide))
                     {
-                        otherPlayerController.ChangeAllComponentsNeedToHide(hit.transform == otherPlayerController.transform);
+                        otherPlayerController.ChangeAllComponentsNeedToHide(hit.transform ==
+                                                                            otherPlayerController.transform);
                     }
                 }
             }
@@ -385,7 +388,7 @@ namespace Player
             var trans = transform;
             var temPlayerBody = Instantiate(bodyPrefab, trans.position, trans.rotation)
                 .GetComponent<MyPlayerBody>();
-            temPlayerBody.SetColor(playerSpriteRenderer.color);
+            temPlayerBody.SetColor(Color.gray);
         }
 
         private void Report(InputAction.CallbackContext context)

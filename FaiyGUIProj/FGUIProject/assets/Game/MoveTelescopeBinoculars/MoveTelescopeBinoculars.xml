@@ -5,13 +5,13 @@
     <component id="n1_y8ni" name="Button_Back" src="e0xw3" fileName="ButtonCom.xml" pkg="z7qisvfx" xy="713,22" size="59,26">
       <Button title="退出" titleFontSize="20"/>
     </component>
-    <text id="n2_y8ni" name="title" xy="400,40" pivot="0.5,0.5" anchor="true" size="162,44" fontSize="26" align="center" vAlign="middle" autoSize="none" text="警戒敌人"/>
-    <text id="n6_y8ni" name="title2" xy="400,77" pivot="0.5,0.5" anchor="true" size="162,44" fontSize="24" align="center" vAlign="middle" autoSize="none" text="移动望远镜"/>
+    <text id="n2_y8ni" name="title" xy="400,40" pivot="0.5,0.5" anchor="true" size="162,44" font="ui://z7qisvfxlzh25" fontSize="26" align="center" vAlign="middle" autoSize="none" text="警戒敌人"/>
+    <text id="n6_y8ni" name="title2" xy="400,77" pivot="0.5,0.5" anchor="true" size="162,44" font="ui://z7qisvfxlzh25" fontSize="24" align="center" vAlign="middle" autoSize="none" text="移动望远镜"/>
     <graph id="n3_y8ni" name="StartPoint" xy="100,300" pivot="0.5,0.5" anchor="true" size="33,33" type="eclipse" lineSize="0"/>
     <graph id="n5_y8ni" name="EndPoint" xy="700,300" pivot="0.5,0.5" anchor="true" size="33,33" type="eclipse" lineSize="0"/>
     <graph id="n10_y8ni" name="line" xy="400,300" pivot="0.5,0.5" anchor="true" size="540,12" type="rect" lineSize="0" fillColor="#ff999999"/>
     <loader id="n14_guyd" name="Loader_TelescopeBinoculars" xy="100,300" pivot="0.5,0.5" anchor="true" size="200,200" url="ui://djj8vne8guydd"/>
     <graph id="n15_guyd" name="Success_TextBG" xy="400,300" pivot="0.5,0.5" anchor="true" size="460,150" visible="false" type="rect"/>
-    <text id="n13_guyd" name="Success_Text" xy="400,300" pivot="0.5,0.5" anchor="true" size="461,147" visible="false" fontSize="79" align="center" vAlign="middle" autoSize="none" text="任务完成"/>
+    <text id="n13_guyd" name="Success_Text" xy="400,300" pivot="0.5,0.5" anchor="true" size="461,147" visible="false" font="ui://z7qisvfxlzh25" fontSize="79" align="center" vAlign="middle" autoSize="none" text="任务完成"/>
   </displayList>
 </component>

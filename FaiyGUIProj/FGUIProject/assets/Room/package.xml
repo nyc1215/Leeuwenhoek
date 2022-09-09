@@ -7,6 +7,7 @@
     <image id="s5wk2" name="序章剧本3.png" path="/剧情图片/" exported="true"/>
     <image id="s5wk3" name="序章剧本1.png" path="/剧情图片/" exported="true"/>
     <image id="s5wk4" name="序章剧本2.png" path="/剧情图片/" exported="true"/>
+    <component id="lzh2v" name="CharacterPanel.xml" path="/" exported="true"/>
   </resources>
   <publish name=""/>
 </packageDescription>

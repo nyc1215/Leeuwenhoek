@@ -2,7 +2,7 @@
 <component size="400,200">
   <displayList>
     <graph id="n0_lxz0" name="bg" xy="0,0" size="400,200" type="rect" lineSize="0" fillColor="#b2ffffff"/>
-    <text id="n1_lxz0" name="Text_playerInfo" xy="15,19" size="370,138" fontSize="35" vars="true" autoSize="height" text="昵称:  {accountName=nyc}&#xA;账号:  {account=0}&#xA;角色：{player=one}"/>
-    <text id="n2_di5g" name="Text_Ready" xy="300,160" size="93,41" fontSize="30" text="未准备"/>
+    <text id="n1_lxz0" name="Text_playerInfo" xy="15,19" size="370,138" font="ui://z7qisvfxlzh25" fontSize="35" vars="true" autoSize="height" text="昵称:  {accountName=nyc}&#xA;账号:  {account=0}&#xA;角色：{player=one}"/>
+    <text id="n2_di5g" name="Text_Ready" xy="300,160" size="93,42" font="ui://z7qisvfxlzh25" fontSize="30" text="未准备"/>
   </displayList>
 </component>

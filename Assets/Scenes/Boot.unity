@@ -301,7 +301,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ace51c3cbb5309547a7029cadaaa20ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Items: []
+  Items:
+  - valid: 0
+    s: 
+    i: 0
+    f: 0
+    b: 0
+    c: {r: 0, g: 0, b: 0, a: 1}
   PreloadPackages:
   - FairyGUIOutPut/Public
 --- !u!1 &1230632244
@@ -349,12 +355,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dontDestroyOnLoad: 1
-  GameIsEnd: 0
   nextSceneToLoadAsync: 
   uiJumpData: {fileID: 11400000, guid: e713263045c02b54aaf779744c31f650, type: 2}
   localPlayerController: {fileID: 0}
   localPlayerNetwork: {fileID: 0}
   allPlayers: []
+  goodPlayerNum: 0
+  isImposterWin: 0
+  allTime: 1200
   rtcAppId: 977d278672b24ea085b4caf9e8c1987c
   rtcToken: 007eJxTYEgs5HS4qOhQ61hubPR03p1nmr2cX7Jnr/nolpz2QTZ44TQFBktz8xQjcwszc6MkI5PURAML0yST5MQ0y1SLZENLC/PkkDae5CvXeZOd2nqYGBkgEMRnYShJLS5hYAAAISAgsQ==
   rtcChannelName: test

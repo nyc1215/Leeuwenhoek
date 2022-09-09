@@ -6,6 +6,10 @@
     <component id="mv3z2" name="JoyStick.xml" path="/" exported="true"/>
     <image id="mv3z1" name="WhiteCircle.png" path="/" exported="true"/>
     <font id="e6cd4" name="FZZJ-JHTJF.TTF" path="/字体/" renderMode="" samplePointSize="16"/>
+    <font id="lzh25" name="FZLTHJW.TTF" path="/字体/" renderMode="" samplePointSize="16"/>
+    <font id="lzh26" name="造字工房夏萤体.ttf" path="/字体/" renderMode="" samplePointSize="16"/>
+    <font id="lzh27" name="造字工房朗倩常规体.ttf" path="/字体/" renderMode="" samplePointSize="16"/>
+    <font id="lzh28" name="造字工房甜栗体.ttf" path="/字体/" renderMode="" samplePointSize="16"/>
   </resources>
   <publish name=""/>
 </packageDescription>

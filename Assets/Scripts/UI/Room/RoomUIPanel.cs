@@ -17,6 +17,7 @@ namespace UI.Room
         public RoomReadyStory roomReadyStory;
 
         private GComponent _storyCom;
+        private GComponent _characterCom;
         private GTextField _storyText;
         private GTextField _storyLetter;
         private GTextField _storyLetterName;
@@ -36,6 +37,8 @@ namespace UI.Room
             _joystick = new JoyStickModule(UIRoot);
             _joystick.onMove.Add(JoystickMove);
             _joystick.onEnd.Add(JoystickMove);
+
+            _characterCom = UIPackage.CreateObject("Room", "CharacterPanel").asCom;
 
             _storyIndex = 0;
             _storyCom = UIRoot.AddChild(UIPackage.CreateObject("Room", "StoryPanel")).asCom;
@@ -62,6 +65,8 @@ namespace UI.Room
 
             _storyCom.onClick.Add(OnStoryClicked);
             _storyText.text = roomReadyStory.storyText[_storyIndex];
+
+            _characterCom.onClick.Add(() => { _characterCom.Dispose(); });
         }
 
         public void ListUpdate()
@@ -197,6 +202,10 @@ namespace UI.Room
                 _storyLetter.visible = true;
                 _storyLetterName.visible = true;
                 _storyText.visible = false;
+            }
+            else if (_storyIndex == 12)
+            {
+                UIRoot.AddChild(_characterCom);
             }
             else if (_storyIndex is >= 13 and <= 18)
             {

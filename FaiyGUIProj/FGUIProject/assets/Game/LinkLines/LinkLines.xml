@@ -5,8 +5,8 @@
     <component id="n1_y8ni" name="Button_Back" src="e0xw3" fileName="ButtonCom.xml" pkg="z7qisvfx" xy="713,22" size="59,26">
       <Button title="退出" titleFontSize="20"/>
     </component>
-    <text id="n2_y8ni" name="title" xy="400,40" pivot="0.5,0.5" anchor="true" size="162,44" fontSize="26" align="center" vAlign="middle" autoSize="none" text="架设机枪"/>
-    <text id="n6_y8ni" name="title2" xy="400,77" pivot="0.5,0.5" anchor="true" size="162,44" fontSize="24" align="center" vAlign="middle" autoSize="none" text="连线"/>
+    <text id="n2_y8ni" name="title" xy="400,40" pivot="0.5,0.5" anchor="true" size="162,44" font="ui://z7qisvfxlzh25" fontSize="26" align="center" vAlign="middle" autoSize="none" text="架设机枪"/>
+    <text id="n6_y8ni" name="title2" xy="400,77" pivot="0.5,0.5" anchor="true" size="162,44" font="ui://z7qisvfxlzh25" fontSize="24" align="center" vAlign="middle" autoSize="none" text="连线"/>
     <graph id="n3_y8ni" name="p1" xy="95,460" size="33,33" type="eclipse" lineSize="0"/>
     <graph id="n4_y8ni" name="p2" xy="357,171" size="33,33" type="eclipse" lineSize="0"/>
     <graph id="n5_y8ni" name="p3" xy="645,417" size="33,33" type="eclipse" lineSize="0"/>
@@ -17,6 +17,6 @@
     <graph id="n11_y8ni" name="n11" xy="518,309" pivot="0.5,0.5" anchor="true" size="100,12" rotation="41" type="rect" lineSize="0" fillColor="#ff999999"/>
     <graph id="n12_y8ni" name="n12" xy="434,237" pivot="0.5,0.5" anchor="true" size="100,12" rotation="41" type="rect" lineSize="0" fillColor="#ff999999"/>
     <graph id="n14_guyd" name="Success_TextBG" xy="400,300" pivot="0.5,0.5" anchor="true" size="460,150" visible="false" type="rect"/>
-    <text id="n13_guyd" name="Success_Text" xy="400,300" pivot="0.5,0.5" anchor="true" size="461,147" visible="false" fontSize="79" align="center" vAlign="middle" autoSize="none" text="任务完成"/>
+    <text id="n13_guyd" name="Success_Text" xy="400,300" pivot="0.5,0.5" anchor="true" size="461,147" visible="false" font="ui://z7qisvfxlzh25" fontSize="79" align="center" vAlign="middle" autoSize="none" text="任务完成"/>
   </displayList>
 </component>

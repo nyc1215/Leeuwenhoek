@@ -8,25 +8,32 @@ namespace UI.Game
     {
         public Window KickUIPanelWindow;
 
+        private GComponent _kickPanelCom;
         private readonly GButton _talkButton;
         private GList _listPlayer;
         private string _titleState;
 
         public KickUIPanel()
         {
+            _kickPanelCom = UIPackage.CreateObject("Game", "KickPanel").asCom;
             KickUIPanelWindow = new Window
             {
-                contentPane = UIPackage.CreateObject("Boot", "ChoosePanel").asCom,
+                contentPane = _kickPanelCom,
                 modal = true,
             };
 
-            _talkButton = KickUIPanelWindow.contentPane.GetChild("Button_Talk").asButton;
-            _listPlayer = KickUIPanelWindow.contentPane.GetChild("List_Player").asList;
-            _titleState = KickUIPanelWindow.contentPane.GetChild("title").asTextField.templateVars["state"];
+            _talkButton = _kickPanelCom.GetChild("Button_Talk").asButton;
+            _listPlayer = _kickPanelCom.GetChild("List_Player").asList;
+            _titleState = _kickPanelCom.GetChild("title").asTextField.templateVars["state"];
             _talkButton.onTouchBegin.Add(StartVoice);
             _talkButton.onTouchEnd.Add(EndVoice);
+        }
 
+        public void ShowPanel()
+        {
+            _listPlayer.RemoveChildren();
             AddPlayerNodeToList();
+            KickUIPanelWindow.Show();
         }
 
         private void StartVoice()
@@ -51,6 +58,7 @@ namespace UI.Game
                 {
                     continue;
                 }
+
                 var node = _listPlayer.AddChild(UIPackage.CreateObject("Game", "ReportListNode").asCom).asCom;
                 node.GetChild("Text_User").asTextField.templateVars["accountName"] = playerController.playerAccountName;
             }

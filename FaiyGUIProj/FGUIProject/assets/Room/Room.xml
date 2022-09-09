@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component size="1920,1080">
   <displayList>
-    <text id="n2_lxz0" name="title" xy="960,100" pivot="0.5,0.5" anchor="true" size="244,79" fontSize="60" align="center" vAlign="middle" text="准备阶段">
+    <text id="n2_lxz0" name="title" xy="960,100" pivot="0.5,0.5" anchor="true" size="244,79" font="ui://z7qisvfxlzh25" fontSize="60" color="#ffffff" align="center" vAlign="middle" text="准备阶段">
       <relation target="" sidePair="center-center"/>
     </text>
     <component id="n7_di5g" name="Button_Ready" src="e0xw3" fileName="ButtonCom.xml" pkg="z7qisvfx" xy="1700,899" size="120,50">

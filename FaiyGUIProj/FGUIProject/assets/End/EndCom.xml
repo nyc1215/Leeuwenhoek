@@ -2,7 +2,7 @@
 <component size="1920,1080">
   <displayList>
     <graph id="n0_s5wk" name="bg" xy="0,0" size="1920,1080" type="rect" fillColor="#ffcccccc"/>
-    <text id="n1_s5wk" name="title" xy="960,150" pivot="0.5,0.5" anchor="true" size="244,79" fontSize="60" align="center" vAlign="middle" text="游戏结束">
+    <text id="n1_s5wk" name="title" xy="960,150" pivot="0.5,0.5" anchor="true" size="244,79" font="ui://z7qisvfxlzh25" fontSize="60" align="center" vAlign="middle" text="游戏结束">
       <relation target="" sidePair="center-center,middle-middle"/>
     </text>
     <component id="n2_s5wk" name="Button_Back" src="e0xw3" fileName="ButtonCom.xml" pkg="z7qisvfx" xy="960,940" pivot="0.5,0.5" anchor="true" size="240,106" aspect="true">

@@ -26,7 +26,7 @@ namespace Player
 
         private readonly Color[] _playerRandomColors =
         {
-            Color.cyan, Color.green, Color.white, Color.blue, Color.black, Color.grey, Color.red, Color.yellow,
+            new(128, 0, 128), new(128, 64, 0), new(217, 217, 25), new(255, 192, 203), Color.red, Color.white
         };
 
         #region Rpc
@@ -89,7 +89,10 @@ namespace Player
             _netSpriteColor.OnValueChanged += (value, newValue) => { playerPartSpriteRenderer.color = newValue; };
             _netTopTextColor.OnValueChanged += (value, newValue) => { playerTopText.color = newValue; };
             _netTopText.OnValueChanged += (value, newValue) => { playerTopText.text = newValue.ToString(); };
-            _networkShowVoiceIcon.OnValueChanged += (value, newValue) => { playerVoiceIcon.color = newValue ? Color.white : Color.clear; };
+            _networkShowVoiceIcon.OnValueChanged += (value, newValue) =>
+            {
+                playerVoiceIcon.color = newValue ? Color.white : Color.clear;
+            };
         }
 
         public override void OnDestroy()
