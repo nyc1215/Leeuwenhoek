@@ -6,7 +6,6 @@
       <Button title="退出" titleFontSize="20"/>
     </component>
     <text id="n2_guyd" name="title" xy="400,40" pivot="0.5,0.5" anchor="true" size="162,44" font="ui://z7qisvfxlzh25" fontSize="26" align="center" vAlign="middle" autoSize="none" text="划水"/>
-    <text id="n3_guyd" name="title2" xy="400,77" pivot="0.5,0.5" anchor="true" size="306,34" font="ui://z7qisvfxlzh25" fontSize="24" align="center" vAlign="middle" vars="true" text="点击快消失的萤火虫（{now=0}/{all=5}）"/>
     <graph id="n5_guyd" name="Success_TextBG" xy="400,300" pivot="0.5,0.5" anchor="true" size="460,150" visible="false" type="rect"/>
     <text id="n6_guyd" name="Success_Text" xy="400,300" pivot="0.5,0.5" anchor="true" size="461,147" visible="false" font="ui://z7qisvfxlzh25" fontSize="79" align="center" vAlign="middle" autoSize="none" text="任务完成"/>
   </displayList>

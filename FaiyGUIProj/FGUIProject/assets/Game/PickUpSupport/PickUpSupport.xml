@@ -6,7 +6,6 @@
       <Button title="退出" titleFontSize="20"/>
     </component>
     <text id="n2_guyd" name="title" xy="400,36" pivot="0.5,0.5" anchor="true" size="162,44" font="ui://z7qisvfxlzh25" fontSize="26" align="center" vAlign="middle" autoSize="none" text="带上补给"/>
-    <text id="n3_guyd" name="title2" xy="400,73" pivot="0.5,0.5" anchor="true" size="172,34" font="ui://z7qisvfxlzh25" fontSize="24" align="center" vAlign="middle" text="将补给装进袋子"/>
     <image id="n4_guyd" name="Img_Bag" src="guydp" fileName="PickUpSupport/袋子.png" xy="400,296" pivot="0.5,0.5" anchor="true" size="367,368"/>
     <graph id="n5_guyd" name="Success_TextBG" xy="400,296" pivot="0.5,0.5" anchor="true" size="460,150" visible="false" type="rect"/>
     <text id="n6_guyd" name="Success_Text" xy="400,296" pivot="0.5,0.5" anchor="true" size="461,147" visible="false" font="ui://z7qisvfxlzh25" fontSize="79" align="center" vAlign="middle" autoSize="none" text="任务完成"/>
