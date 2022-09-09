@@ -11,7 +11,6 @@ namespace UI.Game
         private GComponent _kickPanelCom;
         private readonly GButton _talkButton;
         private GList _listPlayer;
-        private string _titleState;
 
         public KickUIPanel()
         {
@@ -24,7 +23,6 @@ namespace UI.Game
 
             _talkButton = _kickPanelCom.GetChild("Button_Talk").asButton;
             _listPlayer = _kickPanelCom.GetChild("List_Player").asList;
-            _titleState = _kickPanelCom.GetChild("title").asTextField.templateVars["state"];
             _talkButton.onTouchBegin.Add(StartVoice);
             _talkButton.onTouchEnd.Add(EndVoice);
         }

@@ -6,8 +6,6 @@
     <component id="h6td2" name="TaskPanel.xml" path="/" exported="true"/>
     <component id="y8ni3" name="LinkLines.xml" path="/LinkLines/" exported="true"/>
     <component id="guyd4" name="FeedCat.xml" path="/FeedCat/" exported="true"/>
-    <image id="guyd5" name="猫.png" path="/FeedCat/"/>
-    <image id="guyd7" name="猫粮.png" path="/FeedCat/" scale9grid="0,0,-66,-63"/>
     <component id="guydb" name="FixRobot.xml" path="/FixRobot/" exported="true"/>
     <component id="guydc" name="MoveTelescopeBinoculars.xml" path="/MoveTelescopeBinoculars/" exported="true"/>
     <image id="guydd" name="望远镜.png" path="/MoveTelescopeBinoculars/"/>
@@ -26,6 +24,10 @@
     <component id="guydt" name="Com_FireFly.xml" path="/ClickFireFly/" exported="true"/>
     <component id="j5ugv" name="KickPanel.xml" path="/" exported="true"/>
     <component id="j5ugw" name="ReportListNode.xml" path="/" exported="true"/>
+    <image id="pwzhx" name="猫.png" path="/FeedCat/"/>
+    <image id="pwzhy" name="猫粮.png" path="/FeedCat/" scale9grid="0,0,-478,-1002"/>
+    <image id="pwzhz" name="进度条bar.png" path="/图片/" scale9grid="0,0,-3664,-4034"/>
+    <image id="pwzh10" name="进度条.png" path="/图片/" scale9grid="0,0,-81,-1999"/>
   </resources>
   <publish name=""/>
 </packageDescription>

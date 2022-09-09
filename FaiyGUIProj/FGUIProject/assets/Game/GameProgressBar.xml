@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component size="600,50" extention="ProgressBar">
   <displayList>
-    <graph id="n0_l60n" name="n0" xy="0,0" size="600,60" type="rect" lineColor="#ffa0a0a0" fillColor="#fff0f0f0">
+    <image id="n0_l60n" name="n0" src="pwzh10" fileName="图片/进度条.png" xy="0,0" size="600,50">
       <relation target="" sidePair="width-width,height-height"/>
-    </graph>
-    <graph id="n1_l60n" name="bar" xy="0,5" size="600,50" type="rect" lineSize="0" fillColor="#ff3399ff"/>
+    </image>
+    <image id="n3_pwzh" name="bar" src="pwzhz" fileName="图片/进度条bar.png" xy="13,0" size="568,50" fillMethod="hz"/>
   </displayList>
   <ProgressBar/>
 </component>

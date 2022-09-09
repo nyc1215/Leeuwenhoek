@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component size="800,600" pivot="0.5,0.5" anchor="true" extention="Label">
   <displayList>
-    <graph id="n0_9v6e" name="bg" xy="400,300" pivot="0.5,0.5" anchor="true" size="800,600" type="rect" lineSize="0" fillColor="#ffcccccc"/>
-    <component id="n2_9v6e" name="Button_Back" src="e0xw3" fileName="ButtonCom.xml" pkg="z7qisvfx" xy="400,470" pivot="0.5,0.5" anchor="true" size="180,80" aspect="true">
+    <graph id="n7_pwzh" name="n7" xy="33,46" size="734,471" type="rect" lineSize="0" fillColor="#7f000000"/>
+    <image id="n0_9v6e" name="bg" src="pwzh9" fileName="图片/弹出面板背景.png" xy="400,300" pivot="0.5,0.5" anchor="true" size="800,600"/>
+    <component id="n2_9v6e" name="Button_Back" src="e0xw3" fileName="ButtonCom.xml" pkg="z7qisvfx" xy="400,432" pivot="0.5,0.5" anchor="true" size="140,62" aspect="true">
       <relation target="" sidePair="center-center,bottom-bottom"/>
       <Button title="返回" titleFontSize="40"/>
     </component>
-    <graph id="n6_h8vv" name="TextBg" xy="400,120" pivot="0.5,0.5" anchor="true" size="382,70" type="rect" lineSize="0" fillColor="#7fffffff">
+    <image id="n6_h8vv" name="TextBg" src="pwzha" fileName="图片/文本底部背景.png" xy="410,142" pivot="0.5,0.5" anchor="true" size="382,70">
       <relation target="" sidePair="center-center,top-top"/>
-    </graph>
-    <text id="n4_9v6e" name="Input_Account" xy="400,120" pivot="0.5,0.5" anchor="true" size="382,70" font="ui://z7qisvfxlzh25" fontSize="50" align="center" vAlign="middle" autoSize="none" singleLine="true" text="" input="true" prompt="请输入账号" maxLength="16" restrict="[0-9]" keyboardType="4">
+    </image>
+    <text id="n4_9v6e" name="Input_Account" xy="410,142" pivot="0.5,0.5" anchor="true" size="382,70" font="ui://z7qisvfxlzh25" fontSize="50" color="#ffffff" align="center" vAlign="middle" autoSize="none" singleLine="true" text="" input="true" prompt="请输入账号" maxLength="16" restrict="[0-9]" keyboardType="4">
       <relation target="" sidePair="center-center,top-top"/>
     </text>
-    <component id="n5_9v6e" name="Button_Login" src="e0xw3" fileName="ButtonCom.xml" pkg="z7qisvfx" xy="400,340" pivot="0.5,0.5" anchor="true" size="180,80" aspect="true">
+    <component id="n5_9v6e" name="Button_Login" src="e0xw3" fileName="ButtonCom.xml" pkg="z7qisvfx" xy="400,334" pivot="0.5,0.5" anchor="true" size="140,62" aspect="true">
       <relation target="" sidePair="center-center,bottom-bottom"/>
       <Button title="登录" titleFontSize="40"/>
     </component>

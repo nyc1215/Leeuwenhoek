@@ -9,6 +9,12 @@
     <component id="pr3a6" name="ChoosePanel.xml" path="/" exported="true"/>
     <component id="pr3a7" name="ButtonScript.xml" path="/" exported="true"/>
     <component id="pr3a8" name="InfoPanel.xml" path="/" exported="true"/>
+    <image id="pwzh9" name="弹出面板背景.png" path="/图片/" scale9grid="0,0,-778,-1253"/>
+    <image id="pwzha" name="文本底部背景.png" path="/图片/" scale9grid="0,0,-1280,-1849"/>
+    <image id="pwzhb" name="章节选择文字背景.png" path="/图片/" scale9grid="0,0,-1621,-1001"/>
+    <image id="pwzhc" name="章节选择背景.png" path="/图片/"/>
+    <image id="pwzhd" name="序章按钮.png" path="/图片/" scale9grid="0,0,-1171,-653"/>
+    <image id="pwzhe" name="InfoPanel背景.png" path="/图片/" scale9grid="0,0,-1513,-861"/>
   </resources>
   <publish name=""/>
 </packageDescription>

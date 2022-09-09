@@ -23,7 +23,7 @@ namespace UI.Boot
         /// <summary>
         /// UI的初始化
         /// </summary>
-        public LoginPanel()
+        public LoginPanel(GComponent uiRoot)
         {
             _loginUIComponent = UIPackage.CreateObject("Boot", "Login").asCom;
             _loginUIComponent.Center();
@@ -45,6 +45,10 @@ namespace UI.Boot
             };
             _loginButton.onClick.Add(Login);
             _loginUITextInput.onFocusIn.Add(() => { _loginUITextInput.promptText = string.Empty; });
+            _loginUIBackButton.onClick.Add(() =>
+            {
+                uiRoot.filter = null;
+            });
         }
 
         public void Show()

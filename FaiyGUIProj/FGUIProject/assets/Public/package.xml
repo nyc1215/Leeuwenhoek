@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <packageDescription id="z7qisvfx">
   <resources>
-    <image id="e0xw2" name="按钮基础图片.png" path="/" exported="true"/>
     <component id="e0xw3" name="ButtonCom.xml" path="/" exported="true"/>
     <component id="mv3z2" name="JoyStick.xml" path="/" exported="true"/>
     <image id="mv3z1" name="WhiteCircle.png" path="/" exported="true"/>
@@ -10,6 +9,7 @@
     <font id="lzh26" name="造字工房夏萤体.ttf" path="/字体/" renderMode="" samplePointSize="16"/>
     <font id="lzh27" name="造字工房朗倩常规体.ttf" path="/字体/" renderMode="" samplePointSize="16"/>
     <font id="lzh28" name="造字工房甜栗体.ttf" path="/字体/" renderMode="" samplePointSize="16"/>
+    <image id="pwzh9" name="按钮图片1.png" path="/" exported="true" scale9grid="0,0,-904,-1733"/>
   </resources>
   <publish name=""/>
 </packageDescription>

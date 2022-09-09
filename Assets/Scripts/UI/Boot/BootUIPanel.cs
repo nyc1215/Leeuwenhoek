@@ -29,6 +29,8 @@ namespace UI.Boot
         public static ChoosePanel ChoosePanel;
         public static GComponent InfoPanelComponent;
         public static InfoPanel InfoPanel;
+        private BlurFilter _blur;
+
 
         protected override void Awake()
         {
@@ -37,13 +39,18 @@ namespace UI.Boot
             ChoosePanelComponent ??= UIPackage.CreateObject("Boot", "ChoosePanel").asCom;
             InfoPanelComponent ??= UIPackage.CreateObject("Boot", "InfoPanel").asCom;
 
-            ChoosePanel ??= new ChoosePanel(ChoosePanelComponent);
+            ChoosePanel ??= new ChoosePanel(ChoosePanelComponent,UIRoot);
             InfoPanel ??= new InfoPanel(InfoPanelComponent);
 
             TipPanel ??= new TipPanel();
             MatchingPanel ??= new MatchingPanel();
-            _loginPanel ??= new LoginPanel();
-            _registerPanel ??= new RegisterPanel();
+            _loginPanel ??= new LoginPanel(UIRoot);
+            _registerPanel ??= new RegisterPanel(UIRoot);
+
+            _blur = new BlurFilter
+            {
+                blurSize = 0.25f
+            };
         }
 
         private void Start()
@@ -56,8 +63,16 @@ namespace UI.Boot
             _videoLoader.texture = new NTexture(bootVideoRenderTexture);
 
             _quitButton?.onClick.Add(() => { StartCoroutine(QuitGame()); });
-            _registerButton?.onClick.Add(() => { _registerPanel.Show(); });
-            _loginButton?.onClick.Add(() => { _loginPanel.Show(); });
+            _registerButton?.onClick.Add(() =>
+            {
+                _registerPanel.Show();
+                UIRoot.filter = _blur;
+            });
+            _loginButton?.onClick.Add(() =>
+            {
+                _loginPanel.Show();
+                UIRoot.filter = _blur;
+            });
         }
 
         private static IEnumerator QuitGame()

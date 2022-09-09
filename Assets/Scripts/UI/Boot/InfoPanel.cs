@@ -9,7 +9,11 @@ namespace UI.Boot
         public InfoPanel(GComponent gComponent)
         {
             _matchButton = gComponent.GetChild("Button_Match").asButton;
-            _matchButton.onClick.Add(() => { BootUIPanel.MatchingPanel.Show(); });
+            _matchButton.onClick.Add(() =>
+            {
+                BootUIPanel.MatchingPanel.Show();
+                gComponent.visible = false;
+            });
 
             gComponent.onRemovedFromStage.Add(() => { BootUIPanel.ChoosePanel.SetButtonTouchable(true); });
         }

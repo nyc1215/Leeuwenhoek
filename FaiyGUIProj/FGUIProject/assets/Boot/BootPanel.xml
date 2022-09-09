@@ -2,8 +2,8 @@
 <component size="1920,1080">
   <displayList>
     <loader id="n1_e0xw" name="bg" xy="0,0" size="1920,1080"/>
-    <graph id="n6_e6cd" name="basic2" xy="0,0" size="1920,1080" alpha="0.5" type="rect" lineSize="0" fillColor="#ff000000"/>
-    <text id="n0_e0xw" name="title" xy="960,150" pivot="0.5,0.5" anchor="true" size="484,154" font="ui://z7qisvfxe6cd4" fontSize="120" color="#ffffff" align="center" vAlign="middle" text="侍从觉醒">
+    <graph id="n6_e6cd" name="basic2" xy="0,0" size="1920,1080" visible="false" alpha="0.5" type="rect" lineSize="0" fillColor="#ff000000"/>
+    <text id="n0_e0xw" name="title" xy="960,150" pivot="0.5,0.5" anchor="true" size="400,154" font="ui://z7qisvfxe6cd4" fontSize="120" color="#ffffff" align="center" vAlign="middle" text="AWAKEN">
       <relation target="" sidePair="center-center,middle-middle"/>
     </text>
     <component id="n2_e0xw" name="Button_Quit" src="e0xw3" fileName="ButtonCom.xml" pkg="z7qisvfx" xy="960,940" pivot="0.5,0.5" anchor="true" size="180,80" aspect="true">
@@ -18,7 +18,7 @@
       <relation target="" sidePair="center-center,middle-middle"/>
       <Button title="注册"/>
     </component>
-    <text id="n5_9v6e" name="connect" xy="1626,37" size="221,43" font="ui://z7qisvfxe6cd4" fontSize="31" color="#ffffff" vars="true" text="服务器：{isConnect=未连接}">
+    <text id="n5_9v6e" name="connect" xy="1626,37" size="217,42" font="ui://z7qisvfxe6cd4" fontSize="31" color="#ffffff" vars="true" text="服务器：{isConnect=未连接}">
       <relation target="" sidePair="right-right,top-top"/>
     </text>
   </displayList>

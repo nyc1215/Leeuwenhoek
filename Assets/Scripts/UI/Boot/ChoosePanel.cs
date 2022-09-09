@@ -8,10 +8,14 @@ namespace UI.Boot
         private readonly GButton _choosePanelUIBackButton;
         private readonly GButton _InfoButton;
 
-        public ChoosePanel(GComponent gComponent)
+        public ChoosePanel(GComponent gComponent,GComponent uiRoot)
         {
             _choosePanelUIBackButton = gComponent.GetChild("Button_Back").asButton;
-            _choosePanelUIBackButton.onClick.Add(() => { BootUIPanel.ChoosePanelComponent.visible = false; });
+            _choosePanelUIBackButton.onClick.Add(() =>
+            {
+                BootUIPanel.ChoosePanelComponent.visible = false;
+                uiRoot.filter = null;
+            });
 
             _InfoButton = gComponent.GetChild("Button_Info").asButton;
             _InfoButton.onClick.Add(() =>

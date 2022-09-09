@@ -22,7 +22,7 @@ namespace UI.Boot
         /// <summary>
         /// UI的初始化
         /// </summary>
-        public RegisterPanel()
+        public RegisterPanel(GComponent uiRoot)
         {
             _registerUIComponent = UIPackage.CreateObject("Boot", "Register").asCom;
             _registerUIComponent.Center();
@@ -47,6 +47,10 @@ namespace UI.Boot
             _registerButton.onClick.Add(Register);
             _registerAccountInput.onFocusIn.Add(() => { _registerAccountInput.promptText = string.Empty; });
             _registerAccountNameInput.onFocusIn.Add(() => { _registerAccountNameInput.promptText = string.Empty; });
+            _registerUIBackButton.onClick.Add(() =>
+            {
+                uiRoot.filter = null;
+            });
         }
 
         public void Show()
@@ -79,7 +83,6 @@ namespace UI.Boot
             requestRegister.RequestSuccess += () =>
             {
                 BootUIPanel.TipPanel.Show("注册成功");
-                _window.Hide();
             };
             requestRegister.RequestFail += () => { BootUIPanel.TipPanel.Show("注册失败"); };
 

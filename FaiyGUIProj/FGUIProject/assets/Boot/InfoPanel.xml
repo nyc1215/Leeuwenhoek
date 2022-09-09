@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<component size="1298,653">
+<component size="1300,650">
   <displayList>
-    <graph id="n0_pr3a" name="bg" xy="649,327" pivot="0.5,0.5" anchor="true" size="1298,653" type="rect" lineSize="3" lineColor="#ff006bff" fillColor="#ffcccccc" corner="100"/>
-    <graph id="n1_pr3a" name="n1" xy="649,87" pivot="0.5,0.5" anchor="true" size="547,62" type="rect" lineSize="0"/>
-    <text id="n2_pr3a" name="n2" xy="649,87" pivot="0.5,0.5" anchor="true" size="216,54" font="ui://z7qisvfxlzh25" fontSize="40" align="center" vAlign="middle" text="序章：XXX"/>
-    <graph id="n3_pr3a" name="n3" xy="89,157" size="500,350" type="rect" lineSize="0"/>
-    <graph id="n4_pr3a" name="n4" xy="719,157" size="500,350" type="rect" lineSize="0"/>
-    <component id="n5_pr3a" name="Button_Match" src="e0xw3" fileName="ButtonCom.xml" pkg="z7qisvfx" xy="649,586" pivot="0.5,0.5" anchor="true" size="153,55">
+    <image id="n0_pr3a" name="bg" src="pwzhe" fileName="图片/InfoPanel背景.png" xy="649,310" pivot="0.5,0.5" anchor="true" size="1300,650"/>
+    <text id="n2_pr3a" name="n2" xy="649,114" pivot="0.5,0.5" anchor="true" size="216,54" font="ui://z7qisvfxlzh25" fontSize="40" color="#ffffff" align="center" vAlign="middle" text="序章：XXX"/>
+    <component id="n5_pr3a" name="Button_Match" src="e0xw3" fileName="ButtonCom.xml" pkg="z7qisvfx" xy="649,534" pivot="0.5,0.5" anchor="true" size="153,55">
       <Button title="开始匹配" titleFontSize="30"/>
     </component>
-    <text id="n6_pr3a" name="n6" xy="116,174" size="428,312" font="ui://z7qisvfxlzh25" fontSize="40" align="center" autoSize="none" text=""/>
-    <text id="n7_pr3a" name="n7" xy="760,181" size="428,312" font="ui://z7qisvfxlzh25" fontSize="40" align="center" autoSize="none" text=""/>
+    <text id="n6_pr3a" name="n6" xy="116,174" size="428,312" font="ui://z7qisvfxlzh25" fontSize="40" color="#ffffff" align="center" autoSize="none" text=""/>
+    <text id="n7_pr3a" name="n7" xy="760,181" size="428,312" font="ui://z7qisvfxlzh25" fontSize="40" color="#ffffff" align="center" autoSize="none" text=""/>
   </displayList>
 </component>
