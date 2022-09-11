@@ -10,6 +10,7 @@
     <font id="lzh27" name="造字工房朗倩常规体.ttf" path="/字体/" renderMode="" samplePointSize="16"/>
     <font id="lzh28" name="造字工房甜栗体.ttf" path="/字体/" renderMode="" samplePointSize="16"/>
     <image id="pwzh9" name="按钮图片1.png" path="/" exported="true" scale9grid="0,0,-904,-1733"/>
+    <sound id="pwzha" name="Computer_search.mp3" path="/音效/"/>
   </resources>
   <publish name=""/>
 </packageDescription>

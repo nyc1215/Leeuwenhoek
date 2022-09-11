@@ -13,10 +13,10 @@ namespace Tasks
 {
     public class LinkLineTask : TaskUtil
     {
-        private readonly List<GGraph> _points = new();
+        private readonly List<GLoader> _points = new();
 
-        private GGraph _firstPoint;
-        private GGraph _secondPoint;
+        private GLoader _firstPoint;
+        private GLoader _secondPoint;
         private GTextField _successText;
         private GGraph _successTextBg;
 
@@ -28,9 +28,9 @@ namespace Tasks
             TaskPanelName = "LinkLines";
             base.Awake();
             _points.Clear();
-            _points.Add(TaskUI.GetChild("p1").asGraph);
-            _points.Add(TaskUI.GetChild("p2").asGraph);
-            _points.Add(TaskUI.GetChild("p3").asGraph);
+            _points.Add(TaskUI.GetChild("p1").asLoader);
+            _points.Add(TaskUI.GetChild("p2").asLoader);
+            _points.Add(TaskUI.GetChild("p3").asLoader);
 
             foreach (var varPoint in _points)
             {
@@ -74,7 +74,7 @@ namespace Tasks
                              _points.FindIndex(point => point.name == _secondPoint.name)) == 1;
         }
 
-        private void AsPointBeClicked(GGraph graph)
+        private void AsPointBeClicked(GLoader graph)
         {
             if (_lineNum < _points.Count - 1)
             {

@@ -19,15 +19,21 @@
     <component id="guydn" name="ClickFireFly.xml" path="/ClickFireFly/" exported="true"/>
     <component id="guydo" name="PickUpSupport.xml" path="/PickUpSupport/" exported="true"/>
     <image id="guydp" name="袋子.png" path="/PickUpSupport/" scale9grid="0,0,-14,0"/>
-    <image id="guydq" name="宠物口粮.png" path="/PickUpSupport/" scale9grid="0,0,-34,-12"/>
     <image id="guyds" name="萤火虫.png" path="/ClickFireFly/"/>
     <component id="guydt" name="Com_FireFly.xml" path="/ClickFireFly/" exported="true"/>
-    <component id="j5ugv" name="KickPanel.xml" path="/" exported="true"/>
-    <component id="j5ugw" name="ReportListNode.xml" path="/" exported="true"/>
-    <image id="pwzhx" name="猫.png" path="/FeedCat/"/>
-    <image id="pwzhy" name="猫粮.png" path="/FeedCat/" scale9grid="0,0,-478,-1002"/>
+    <component id="j5ugv" name="KickPanel.xml" path="/投票界面/" exported="true"/>
+    <component id="j5ugw" name="ReportListNode.xml" path="/投票界面/" exported="true"/>
     <image id="pwzhz" name="进度条bar.png" path="/图片/" scale9grid="0,0,-3664,-4034"/>
     <image id="pwzh10" name="进度条.png" path="/图片/" scale9grid="0,0,-81,-1999"/>
+    <image id="ga3711" name="Panel背景.png" path="/图片/" scale9grid="0,0,-1513,-861"/>
+    <image id="dr9x12" name="5.png" path="/FeedCat/" scale9grid="0,0,-1304,-1573"/>
+    <image id="dr9x13" name="6.png" path="/FeedCat/" scale9grid="0,0,-688,-988"/>
+    <image id="dr9x14" name="1.png" path="/LinkLines/" scale9grid="0,0,-1552,-1552"/>
+    <image id="dr9x15" name="3.png" path="/PickUpSupport/" scale9grid="0,0,-1321,-1457"/>
+    <image id="dr9x16" name="4.png" path="/PickUpSupport/" scale9grid="0,0,-1645,-1468"/>
+    <image id="dr9x17" name="5.png" path="/PickUpSupport/" scale9grid="0,0,-1304,-1573"/>
+    <image id="dr9x18" name="投票界面玩家节点底图.png" path="/投票界面/" scale9grid="0,0,-1480,-919"/>
+    <image id="dr9x19" name="7.png" path="/投票界面/"/>
   </resources>
   <publish name=""/>
 </packageDescription>

@@ -167,7 +167,8 @@ namespace UI.Room
                 _storyIndex++;
             }
 
-            if (MyGameManager.Instance.localPlayerController.isImposter)
+            if (MyGameManager.Instance.localPlayerController != null &&
+                MyGameManager.Instance.localPlayerController.isImposter)
             {
                 if (_storyIndex >= 19)
                 {

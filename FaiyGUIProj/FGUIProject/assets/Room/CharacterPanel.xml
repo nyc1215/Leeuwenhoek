@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component size="1920,1080">
   <displayList>
-    <graph id="n0_lzh2" name="BG" xy="0,0" size="1920,1080" type="rect" lineSize="0" fillColor="#ff000000"/>
+    <image id="n0_lzh2" name="BG" src="dr9xw" fileName="选角色图片/17.png" xy="0,0" size="1920,1080"/>
     <text id="n1_lzh2" name="n1" xy="960,120" pivot="0.5,0.5" anchor="true" size="364,79" font="ui://z7qisvfxlzh25" fontSize="60" color="#ffffff" text="本次人物队员"/>
-    <text id="n2_lzh2" name="n2" xy="550,300" pivot="0.5,0.5" anchor="true" size="124,79" font="ui://z7qisvfxlzh25" fontSize="60" color="#ffffff" text="洛维"/>
-    <text id="n4_lzh2" name="n4" xy="550,600" pivot="0.5,0.5" anchor="true" size="64,79" font="ui://z7qisvfxlzh25" fontSize="60" color="#ffffff" text="扬"/>
-    <text id="n6_lzh2" name="n6" xy="550,900" pivot="0.5,0.5" anchor="true" size="124,79" font="ui://z7qisvfxlzh25" fontSize="60" color="#ffffff" text="保罗"/>
-    <graph id="n8_lzh2" name="n8" xy="325,300" pivot="0.5,0.5" anchor="true" size="150,150" type="rect"/>
-    <graph id="n9_lzh2" name="n9" xy="325,609" pivot="0.5,0.5" anchor="true" size="150,150" type="rect"/>
-    <graph id="n10_lzh2" name="n10" xy="325,901" pivot="0.5,0.5" anchor="true" size="150,150" type="rect"/>
-    <text id="n14_lzh2" name="n14" xy="1400,306" pivot="0.5,0.5" anchor="true" size="124,79" font="ui://z7qisvfxlzh25" fontSize="60" color="#ffffff" text="小安"/>
-    <text id="n15_lzh2" name="n15" xy="1400,606" pivot="0.5,0.5" anchor="true" size="124,79" font="ui://z7qisvfxlzh25" fontSize="60" color="#ffffff" text="丽莉"/>
-    <text id="n16_lzh2" name="n16" xy="1400,906" pivot="0.5,0.5" anchor="true" size="124,79" font="ui://z7qisvfxlzh25" fontSize="60" color="#ffffff" text="雪拉"/>
-    <graph id="n17_lzh2" name="n17" xy="1175,306" pivot="0.5,0.5" anchor="true" size="150,150" type="rect"/>
-    <graph id="n18_lzh2" name="n18" xy="1175,615" pivot="0.5,0.5" anchor="true" size="150,150" type="rect"/>
-    <graph id="n19_lzh2" name="n19" xy="1175,907" pivot="0.5,0.5" anchor="true" size="150,150" type="rect"/>
+    <text id="n2_lzh2" name="n2" xy="470,345" pivot="0.5,0.5" anchor="true" size="124,79" font="ui://z7qisvfxlzh25" fontSize="60" color="#ffffff" text="洛维"/>
+    <text id="n4_lzh2" name="n4" xy="470,600" pivot="0.5,0.5" anchor="true" size="64,79" font="ui://z7qisvfxlzh25" fontSize="60" color="#ffffff" text="扬"/>
+    <text id="n6_lzh2" name="n6" xy="470,870" pivot="0.5,0.5" anchor="true" size="124,79" font="ui://z7qisvfxlzh25" fontSize="60" color="#ffffff" text="保罗"/>
+    <loader id="n8_lzh2" name="Button_luowei" xy="700,345" pivot="0.5,0.5" anchor="true" size="236,183" url="ui://o5dbpgr6dr9xx" autoSize="true"/>
+    <loader id="n9_lzh2" name="Button_yang" xy="700,600" pivot="0.5,0.5" anchor="true" size="236,183" url="ui://o5dbpgr6dr9xx" autoSize="true"/>
+    <loader id="n10_lzh2" name="Button_polo" xy="700,870" pivot="0.5,0.5" anchor="true" size="236,183" url="ui://o5dbpgr6dr9xx" autoSize="true"/>
+    <text id="n14_lzh2" name="n14" xy="1450,345" pivot="0.5,0.5" anchor="true" size="124,79" font="ui://z7qisvfxlzh25" fontSize="60" color="#ffffff" text="小安"/>
+    <text id="n15_lzh2" name="n15" xy="1450,600" pivot="0.5,0.5" anchor="true" size="124,79" font="ui://z7qisvfxlzh25" fontSize="60" color="#ffffff" text="丽莉"/>
+    <text id="n16_lzh2" name="n16" xy="1450,870" pivot="0.5,0.5" anchor="true" size="124,79" font="ui://z7qisvfxlzh25" fontSize="60" color="#ffffff" text="雪拉"/>
+    <loader id="n17_lzh2" name="Button_xiaoan" xy="1220,345" pivot="0.5,0.5" anchor="true" size="236,183" url="ui://o5dbpgr6dr9xx" autoSize="true"/>
+    <loader id="n18_lzh2" name="Button_lily" xy="1220,600" pivot="0.5,0.5" anchor="true" size="236,183" url="ui://o5dbpgr6dr9xx" autoSize="true"/>
+    <loader id="n19_lzh2" name="Button_xuela" xy="1220,870" pivot="0.5,0.5" anchor="true" size="236,183" url="ui://o5dbpgr6dr9xx" autoSize="true"/>
   </displayList>
 </component>

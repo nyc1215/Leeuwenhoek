@@ -7,8 +7,8 @@ namespace Tasks
     {
         private GLoader _telescopeBinocular;
 
-        private GGraph _startPoint;
-        private GGraph _endPoint;
+        private GLoader _startPoint;
+        private GLoader _endPoint;
         private GTextField _successText;
         private GGraph _successTextBg;
 
@@ -19,8 +19,8 @@ namespace Tasks
             base.Awake();
 
             _telescopeBinocular = TaskUI.GetChild("Loader_TelescopeBinoculars").asLoader;
-            _endPoint = TaskUI.GetChild("EndPoint").asGraph;
-            _startPoint = TaskUI.GetChild("StartPoint").asGraph;
+            _endPoint = TaskUI.GetChild("EndPoint").asLoader;
+            _startPoint = TaskUI.GetChild("StartPoint").asLoader;
             _successText = TaskUI.GetChild("Success_Text").asTextField;
 
             _telescopeBinocular.onDragMove.Add(OnTelescopeBinocularBeDragged);

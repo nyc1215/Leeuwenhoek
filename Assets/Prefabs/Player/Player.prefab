@@ -646,7 +646,6 @@ MonoBehaviour:
   playerMainCamera: {fileID: 0}
   objsToHide:
   - {fileID: 6067932544281133267}
-  - {fileID: 0}
   - {fileID: 1142689203342683541}
   - {fileID: 1055369250183806422}
   ignoreForHide:

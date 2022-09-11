@@ -50,7 +50,7 @@ namespace Player
         public SpriteRenderer playerSpriteRenderer;
 
         [Tooltip("角色主摄像机")] public Camera playerMainCamera;
-        [Tooltip("角色在阴影下需要隐藏的物体")] public List<Renderer> objsToHide;
+        [Tooltip("角色在阴影下需要隐藏的物体")] public List<Renderer> objsToHide = new();
         [Tooltip("隐藏物体时候忽略的层")] public LayerMask ignoreForHide;
         public string playerAccountName;
 
@@ -462,7 +462,7 @@ namespace Player
 
         private void ChangeAllComponentsNeedToHide(bool isShow)
         {
-            foreach (var objRenderer in objsToHide)
+            foreach (var objRenderer in objsToHide.Where(objRenderer => objRenderer != null))
             {
                 objRenderer.enabled = isShow;
                 Debug.Log($"obj: {objRenderer.name} show: {isShow}");

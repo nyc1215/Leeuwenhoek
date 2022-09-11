@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component size="800,600">
   <displayList>
-    <graph id="n0_guyd" name="bg" xy="0,-4" size="800,600" type="rect" fillColor="#ffcccccc"/>
-    <component id="n1_guyd" name="Button_Back" src="e0xw3" fileName="ButtonCom.xml" pkg="z7qisvfx" xy="713,18" size="59,26">
+    <image id="n0_guyd" name="bg" src="ga3711" fileName="图片/Panel背景.png" xy="-20,-20" size="820,620"/>
+    <component id="n1_guyd" name="Button_Back" src="e0xw3" fileName="ButtonCom.xml" pkg="z7qisvfx" xy="660,70" size="59,26">
       <Button title="退出" titleFontSize="20"/>
     </component>
-    <text id="n2_guyd" name="title" xy="400,36" pivot="0.5,0.5" anchor="true" size="162,44" font="ui://z7qisvfxlzh25" fontSize="26" align="center" vAlign="middle" autoSize="none" text="带上补给"/>
-    <image id="n4_guyd" name="Img_Bag" src="guydp" fileName="PickUpSupport/袋子.png" xy="400,296" pivot="0.5,0.5" anchor="true" size="367,368"/>
+    <text id="n2_guyd" name="title" xy="400,95" pivot="0.5,0.5" anchor="true" size="162,44" font="ui://z7qisvfxlzh25" fontSize="26" align="center" vAlign="middle" autoSize="none" text="带上补给"/>
+    <image id="n4_guyd" name="Img_Bag" src="guydp" fileName="PickUpSupport/袋子.png" xy="400,296" pivot="0.5,0.5" anchor="true" size="275,275"/>
     <graph id="n5_guyd" name="Success_TextBG" xy="400,296" pivot="0.5,0.5" anchor="true" size="460,150" visible="false" type="rect"/>
     <text id="n6_guyd" name="Success_Text" xy="400,296" pivot="0.5,0.5" anchor="true" size="461,147" visible="false" font="ui://z7qisvfxlzh25" fontSize="79" align="center" vAlign="middle" autoSize="none" text="任务完成"/>
-    <loader id="n7_guyd" name="support1" xy="90,142" pivot="0.5,0.5" anchor="true" size="166,188" scale="0.5,0.5" url="ui://djj8vne8guydq" autoSize="true"/>
-    <loader id="n8_guyd" name="support2" xy="695,194" pivot="0.5,0.5" anchor="true" size="166,188" scale="0.5,0.5" url="ui://djj8vne8guydq" autoSize="true"/>
-    <loader id="n9_guyd" name="support3" xy="165,500" pivot="0.5,0.5" anchor="true" size="166,188" scale="0.5,0.5" url="ui://djj8vne8guydq" autoSize="true"/>
+    <loader id="n7_guyd" name="support1" xy="136,142" pivot="0.5,0.5" anchor="true" size="822,553" scale="0.2,0.2" url="ui://djj8vne8dr9x17" autoSize="true"/>
+    <loader id="n8_guyd" name="support2" xy="676,268" pivot="0.5,0.5" anchor="true" size="481,658" scale="0.2,0.2" url="ui://djj8vne8dr9x16" autoSize="true"/>
+    <loader id="n9_guyd" name="support3" xy="165,500" pivot="0.5,0.5" anchor="true" size="805,669" scale="0.2,0.2" url="ui://djj8vne8dr9x15" autoSize="true"/>
   </displayList>
 </component>

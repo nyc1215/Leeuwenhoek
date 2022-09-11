@@ -2,6 +2,7 @@
 <packageDescription id="9fq7aqsb">
   <resources>
     <component id="s5wk0" name="EndCom.xml" path="/" exported="true"/>
+    <image id="dr9x1" name="15.png" path="/"/>
   </resources>
   <publish name=""/>
 </packageDescription>

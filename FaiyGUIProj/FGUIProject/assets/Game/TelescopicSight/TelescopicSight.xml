@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component size="800,600">
   <displayList>
-    <graph id="n0_guyd" name="bg" xy="0,0" size="800,600" type="rect" fillColor="#ffcccccc"/>
-    <component id="n1_guyd" name="Button_Back" src="e0xw3" fileName="ButtonCom.xml" pkg="z7qisvfx" xy="713,22" size="59,26">
+    <image id="n0_guyd" name="bg" src="ga3711" fileName="图片/Panel背景.png" xy="-20,-20" size="820,620"/>
+    <component id="n1_guyd" name="Button_Back" src="e0xw3" fileName="ButtonCom.xml" pkg="z7qisvfx" xy="670,70" size="59,26">
       <Button title="退出" titleFontSize="20"/>
     </component>
-    <text id="n2_guyd" name="title" xy="400,40" pivot="0.5,0.5" anchor="true" size="162,44" font="ui://z7qisvfxlzh25" fontSize="26" align="center" vAlign="middle" autoSize="none" text="测试瞄准镜"/>
-    <image id="n5_guyd" name="Img_Target" src="guydi" fileName="TelescopicSight/靶子8.png" xy="400,300" pivot="0.5,0.5" anchor="true" size="367,368"/>
+    <text id="n2_guyd" name="title" xy="393,85" pivot="0.5,0.5" anchor="true" size="162,44" font="ui://z7qisvfxlzh25" fontSize="26" color="#ffffff" align="center" vAlign="middle" autoSize="none" text="测试瞄准镜"/>
+    <image id="n5_guyd" name="Img_Target" src="guydi" fileName="TelescopicSight/靶子8.png" xy="397,300" pivot="0.5,0.5" anchor="true" size="367,368"/>
     <graph id="n7_guyd" name="Success_TextBG" xy="400,300" pivot="0.5,0.5" anchor="true" size="460,150" visible="false" type="rect"/>
     <text id="n4_guyd" name="Success_Text" xy="400,300" pivot="0.5,0.5" anchor="true" size="461,147" visible="false" font="ui://z7qisvfxlzh25" fontSize="79" align="center" vAlign="middle" autoSize="none" text="任务完成"/>
-    <loader id="n6_guyd" name="cross1" xy="90,146" pivot="0.5,0.5" anchor="true" size="150,150" scale="0.25,0.25" url="ui://djj8vne8guydj" autoSize="true"/>
-    <loader id="n8_guyd" name="cross2" xy="695,198" pivot="0.5,0.5" anchor="true" size="150,150" scale="0.25,0.25" url="ui://djj8vne8guydj" autoSize="true"/>
-    <loader id="n9_guyd" name="cross3" xy="165,504" pivot="0.5,0.5" anchor="true" size="150,150" scale="0.25,0.25" url="ui://djj8vne8guydj" autoSize="true"/>
+    <loader id="n6_guyd" name="cross1" xy="90,146" pivot="0.5,0.5" anchor="true" size="150,150" scale="0.25,0.25" filter="color" filterData="0,0,0,0" url="ui://djj8vne8guydj" autoSize="true"/>
+    <loader id="n8_guyd" name="cross2" xy="695,198" pivot="0.5,0.5" anchor="true" size="150,150" scale="0.25,0.25" filter="color" filterData="0,0,0,0" url="ui://djj8vne8guydj" autoSize="true"/>
+    <loader id="n9_guyd" name="cross3" xy="165,504" pivot="0.5,0.5" anchor="true" size="150,150" scale="0.25,0.25" filter="color" filterData="0,0,0,0" url="ui://djj8vne8guydj" autoSize="true"/>
   </displayList>
 </component>
