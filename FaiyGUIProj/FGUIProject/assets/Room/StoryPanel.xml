@@ -5,6 +5,6 @@
     <loader id="n2_s5wk" name="Loader_Img" xy="0,0" size="1920,1080" align="center" vAlign="middle" fill="scale"/>
     <text id="n3_s5wk" name="Text_Letter" xy="960,396" pivot="0.5,0.5" anchor="true" size="1749,622" visible="false" font="ui://z7qisvfxlzh28" fontSize="48" color="#ffffff" vAlign="middle" ubb="true" vars="true" autoSize="height" text="——：&#xA;        请不要太过惊讶，但这的确是一道任务命令，尽管我们的卫队已经解散。&#xA;       我们得到情报，“侍从”系统已经觉醒了自我意识，出现了反叛迹象。它正在酝酿使所有人类变成被控制的奴隶，而碍于梦境公司的强大势力，如果在没有确切证据的情况下公开这一讯息，不仅舆论会被控制，我们也将永远输掉这场战争。&#xA;      因此，[color=#FF0000]你们[/color]需要[color=#FF0000]组成小队[/color]，分别潜入梦境公司分散于各大城市的[color=#FF0000]数据中心[/color]，直接连接数据存储系统，[color=#FF0000]寻找“侍从”叛变的证据[/color]。&#xA;       所幸，卫队的黑客可以暂时破坏基地的安保系统，但这最多只能维持20分钟，你们必须争分夺秒地行动。&#xA;        你有选择的权利，但我更希望你们能为职责而战。"/>
     <text id="n0_s5wk" name="Text_Story" xy="960,910" pivot="0.5,0.5" anchor="true" size="1734,79" font="ui://z7qisvfxlzh27" fontSize="60" color="#ffffff" align="center" vAlign="middle" ubb="true" autoSize="height" text="TEXT"/>
-    <text id="n5_s5wk" name="Text_LetterName" xy="1396,728" size="400,64" visible="false" font="ui://z7qisvfxlzh28" fontSize="48" color="#ffffff" align="right" vAlign="middle" text="卫队指挥官 罗杰斯"/>
+    <text id="n5_s5wk" name="Text_LetterName" xy="1396,728" size="400,64" visible="false" font="ui://z7qisvfxlzh28" fontSize="48" color="#ffffff" align="right" vAlign="middle" text="卫队指挥官 罗伯特"/>
   </displayList>
 </component>
