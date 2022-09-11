@@ -12,10 +12,8 @@
     <image id="guydg" name="火箭机器人.png" path="/FixRobot/"/>
     <component id="guydh" name="TelescopicSight.xml" path="/TelescopicSight/" exported="true"/>
     <image id="guydi" name="靶子8.png" path="/TelescopicSight/"/>
-    <image id="guydj" name="添加.png" path="/TelescopicSight/" scale9grid="0,0,-50,-50"/>
     <component id="guydk" name="Flashlight.xml" path="/Flashlight/" exported="true"/>
     <image id="guydl" name="电池.png" path="/Flashlight/" scale9grid="0,0,-48,-48"/>
-    <image id="guydm" name="手电筒.png" path="/Flashlight/" scale9grid="0,0,-55,-12" duplicatePadding="true"/>
     <component id="guydn" name="ClickFireFly.xml" path="/ClickFireFly/" exported="true"/>
     <component id="guydo" name="PickUpSupport.xml" path="/PickUpSupport/" exported="true"/>
     <image id="guydp" name="袋子.png" path="/PickUpSupport/" scale9grid="0,0,-14,0"/>
@@ -34,6 +32,8 @@
     <image id="dr9x17" name="5.png" path="/PickUpSupport/" scale9grid="0,0,-1304,-1573"/>
     <image id="dr9x18" name="投票界面玩家节点底图.png" path="/投票界面/" scale9grid="0,0,-1480,-919"/>
     <image id="dr9x19" name="7.png" path="/投票界面/"/>
+    <image id="dr9x1a" name="瞄准.png" path="/TelescopicSight/"/>
+    <image id="dr9x1c" name="手电筒.png" path="/Flashlight/" scale9grid="0,0,-881,-263"/>
   </resources>
   <publish name=""/>
 </packageDescription>
