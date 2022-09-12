@@ -113,39 +113,46 @@ namespace Manager
         [ServerRpc(RequireOwnership = false)]
         private void ChooseCharacterServerRpc(FixedString32Bytes accountName, Characters character)
         {
+            var listIndex = -1;
             for (var i = 0; i < NetLobbyPlayersCharacterStates.Count; i++)
             {
-                var aPlayersCharacterState = NetLobbyPlayersCharacterStates[i];
-                if (aPlayersCharacterState.AccountName == accountName)
+                if (NetLobbyPlayersCharacterStates[i].AccountName != accountName)
                 {
-                    aPlayersCharacterState.CharacterToChoose = Characters.None;
-                    NetLobbyPlayersCharacterStates[i] = aPlayersCharacterState;
+                    continue;
                 }
+
+                listIndex = i;
+                break;
             }
 
+
+            if (listIndex == -1)
+            {
+                NetLobbyPlayersCharacterStates.Add(CheckChooseCharacter(accountName, character)
+                    ? new LobbyPlayerCharacterState(accountName, character)
+                    : new LobbyPlayerCharacterState(accountName, Characters.None));
+            }
+            else
+            {
+                NetLobbyPlayersCharacterStates[listIndex] = new LobbyPlayerCharacterState(accountName,
+                    CheckChooseCharacter(accountName, character) ? character : Characters.None);
+            }
+        }
+
+        private bool CheckChooseCharacter(FixedString32Bytes accountName, Characters character)
+        {
             for (var i = 0; i < NetLobbyPlayersCharacterStates.Count; i++)
             {
-                var aPlayersCharacterState = NetLobbyPlayersCharacterStates[i];
-                if (aPlayersCharacterState.CharacterToChoose == character)
+                if (NetLobbyPlayersCharacterStates[i].CharacterToChoose == character)
                 {
-                    if (aPlayersCharacterState.AccountName != accountName)
+                    if (NetLobbyPlayersCharacterStates[i].AccountName != accountName)
                     {
-                        return;
+                        return false;
                     }
                 }
-
-                if (aPlayersCharacterState.AccountName == accountName)
-                {
-                    aPlayersCharacterState.CharacterToChoose = character;
-                    NetLobbyPlayersCharacterStates[i] = aPlayersCharacterState;
-                    return;
-                }
             }
 
-
-            var newPlayersCharacterState =
-                new LobbyPlayerCharacterState(accountName, character);
-            NetLobbyPlayersCharacterStates.Add(newPlayersCharacterState);
+            return true;
         }
 
         private static void OnLobbyPlayerStateChanged(NetworkListEvent<LobbyPlayerCharacterState> changeEvent)
