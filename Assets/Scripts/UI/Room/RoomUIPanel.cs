@@ -17,7 +17,6 @@ namespace UI.Room
         public RoomReadyStory roomReadyStory;
 
         private GComponent _storyCom;
-        private GComponent _characterCom;
         private GTextField _storyText;
         private GTextField _storyLetter;
         private GTextField _storyLetterName;
@@ -29,6 +28,8 @@ namespace UI.Room
         private GButton _readyButton;
         private GButton _voiceButton;
 
+        public CharacterPanel CharacterPanel;
+
         private int _localPlayerIndex;
 
         protected override void Awake()
@@ -38,7 +39,7 @@ namespace UI.Room
             _joystick.onMove.Add(JoystickMove);
             _joystick.onEnd.Add(JoystickMove);
 
-            _characterCom = UIPackage.CreateObject("Room", "CharacterPanel").asCom;
+            CharacterPanel = new CharacterPanel(UIRoot);
 
             _storyIndex = 0;
             _storyCom = UIRoot.AddChild(UIPackage.CreateObject("Room", "StoryPanel")).asCom;
@@ -65,8 +66,6 @@ namespace UI.Room
 
             _storyCom.onClick.Add(OnStoryClicked);
             _storyText.text = roomReadyStory.storyText[_storyIndex];
-
-            _characterCom.onClick.Add(() => { _characterCom.Dispose(); });
         }
 
         public void ListUpdate()
@@ -206,7 +205,7 @@ namespace UI.Room
             }
             else if (_storyIndex == 12)
             {
-                UIRoot.AddChild(_characterCom);
+                CharacterPanel.Show();
             }
             else if (_storyIndex is >= 13 and <= 18)
             {

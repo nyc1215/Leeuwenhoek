@@ -3,6 +3,7 @@ using TMPro;
 using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
+using NetworkBehaviour = Unity.Netcode.NetworkBehaviour;
 using Random = UnityEngine.Random;
 
 namespace Player

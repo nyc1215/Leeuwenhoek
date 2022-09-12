@@ -2,18 +2,21 @@
 <component size="1920,1080">
   <displayList>
     <image id="n0_lzh2" name="BG" src="dr9xw" fileName="选角色图片/17.png" xy="0,0" size="1920,1080"/>
-    <text id="n1_lzh2" name="n1" xy="960,120" pivot="0.5,0.5" anchor="true" size="364,79" font="ui://z7qisvfxlzh25" fontSize="60" color="#ffffff" text="本次人物队员"/>
-    <text id="n2_lzh2" name="n2" xy="470,345" pivot="0.5,0.5" anchor="true" size="124,79" font="ui://z7qisvfxlzh25" fontSize="60" color="#ffffff" text="洛维"/>
-    <text id="n4_lzh2" name="n4" xy="470,600" pivot="0.5,0.5" anchor="true" size="64,79" font="ui://z7qisvfxlzh25" fontSize="60" color="#ffffff" text="扬"/>
-    <text id="n6_lzh2" name="n6" xy="470,870" pivot="0.5,0.5" anchor="true" size="124,79" font="ui://z7qisvfxlzh25" fontSize="60" color="#ffffff" text="保罗"/>
+    <text id="n1_lzh2" name="n1" xy="960,120" pivot="0.5,0.5" anchor="true" size="604,79" font="ui://z7qisvfxlzh25" fontSize="60" color="#ffffff" text="本次任务的队员有……"/>
+    <text id="n2_lzh2" name="Text_luowei" xy="470,345" pivot="0.5,0.5" anchor="true" size="124,79" font="ui://z7qisvfxlzh25" fontSize="60" color="#ffffff" vars="true" text="洛维{account=}"/>
+    <text id="n4_lzh2" name="Text_yang" xy="470,600" pivot="0.5,0.5" anchor="true" size="64,79" font="ui://z7qisvfxlzh25" fontSize="60" color="#ffffff" vars="true" text="扬{account=}"/>
+    <text id="n6_lzh2" name="Text_polo" xy="470,870" pivot="0.5,0.5" anchor="true" size="124,79" font="ui://z7qisvfxlzh25" fontSize="60" color="#ffffff" vars="true" text="保罗{account=}"/>
     <loader id="n8_lzh2" name="Button_luowei" xy="700,345" pivot="0.5,0.5" anchor="true" size="236,183" url="ui://o5dbpgr6dr9xx" autoSize="true"/>
     <loader id="n9_lzh2" name="Button_yang" xy="700,600" pivot="0.5,0.5" anchor="true" size="236,183" url="ui://o5dbpgr6dr9xx" autoSize="true"/>
     <loader id="n10_lzh2" name="Button_polo" xy="700,870" pivot="0.5,0.5" anchor="true" size="236,183" url="ui://o5dbpgr6dr9xx" autoSize="true"/>
-    <text id="n14_lzh2" name="n14" xy="1450,345" pivot="0.5,0.5" anchor="true" size="124,79" font="ui://z7qisvfxlzh25" fontSize="60" color="#ffffff" text="小安"/>
-    <text id="n15_lzh2" name="n15" xy="1450,600" pivot="0.5,0.5" anchor="true" size="124,79" font="ui://z7qisvfxlzh25" fontSize="60" color="#ffffff" text="丽莉"/>
-    <text id="n16_lzh2" name="n16" xy="1450,870" pivot="0.5,0.5" anchor="true" size="124,79" font="ui://z7qisvfxlzh25" fontSize="60" color="#ffffff" text="雪拉"/>
+    <text id="n14_lzh2" name="Text_xiaoan" xy="1450,345" pivot="0.5,0.5" anchor="true" size="124,79" font="ui://z7qisvfxlzh25" fontSize="60" color="#ffffff" vars="true" text="小安{account=}"/>
+    <text id="n15_lzh2" name="Text_lily" xy="1450,600" pivot="0.5,0.5" anchor="true" size="124,79" font="ui://z7qisvfxlzh25" fontSize="60" color="#ffffff" vars="true" text="丽莉{account=}"/>
+    <text id="n16_lzh2" name="Text_xuela" xy="1450,870" pivot="0.5,0.5" anchor="true" size="124,79" font="ui://z7qisvfxlzh25" fontSize="60" color="#ffffff" vars="true" text="雪拉{account=}"/>
     <loader id="n17_lzh2" name="Button_xiaoan" xy="1220,345" pivot="0.5,0.5" anchor="true" size="236,183" url="ui://o5dbpgr6dr9xx" autoSize="true"/>
     <loader id="n18_lzh2" name="Button_lily" xy="1220,600" pivot="0.5,0.5" anchor="true" size="236,183" url="ui://o5dbpgr6dr9xx" autoSize="true"/>
     <loader id="n19_lzh2" name="Button_xuela" xy="1220,870" pivot="0.5,0.5" anchor="true" size="236,183" url="ui://o5dbpgr6dr9xx" autoSize="true"/>
+    <component id="n20_hqoz" name="Button_Continue" src="e0xw3" fileName="ButtonCom.xml" pkg="z7qisvfx" xy="1700,100" size="137,61" visible="false">
+      <Button title="确定"/>
+    </component>
   </displayList>
 </component>

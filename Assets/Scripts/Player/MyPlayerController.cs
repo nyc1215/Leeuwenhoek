@@ -41,6 +41,7 @@ namespace Player
         [Tooltip("角色尸体预制体")] public GameObject bodyPrefab;
         public TaskUtil nowTask;
         public SewerForImposter nowSewer;
+        public Characters nowCharacter;
 
         #endregion
 
@@ -465,7 +466,6 @@ namespace Player
             foreach (var objRenderer in objsToHide.Where(objRenderer => objRenderer != null))
             {
                 objRenderer.enabled = isShow;
-                Debug.Log($"obj: {objRenderer.name} show: {isShow}");
             }
         }
     }
