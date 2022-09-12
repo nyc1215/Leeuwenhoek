@@ -54,7 +54,11 @@ namespace UI.Game
         {
             _miniMapLoader.texture = new NTexture(miniMapRenderTexture);
             _reportButton.onClick.Add(MyGameManager.Instance.localPlayerController.Report);
-            _killButton.onClick.Add(() => { StartCoroutine(ButtonCold(_killButton, 25f, MyGameManager.Instance.localPlayerController.KillTarget)); });
+            _killButton.onClick.Add(() =>
+            {
+                StartCoroutine(
+                    ButtonCold(_killButton, 25f, MyGameManager.Instance.localPlayerController.KillTarget));
+            });
             _taskButton.onClick.Add(MyGameManager.Instance.localPlayerController.DoTask);
             _sewerButton.onClick.Add(() =>
             {
@@ -62,19 +66,18 @@ namespace UI.Game
                     .localPlayerController);
             });
 
-            if (MyGameManager.Instance.localPlayerController.GetComponent<NetworkObject>().IsLocalPlayer)
+
+            if (MyGameManager.Instance.localPlayerController.isImposter)
             {
-                if (MyGameManager.Instance.localPlayerController.isImposter)
-                {
-                    _sewerButton.visible = false;
-                    _killButton.visible = true;
-                }
-                else
-                {
-                    _sewerButton.visible = false;
-                    _killButton.visible = false;
-                }
+                _sewerButton.visible = false;
+                _killButton.visible = true;
             }
+            else
+            {
+                _sewerButton.visible = false;
+                _killButton.visible = false;
+            }
+
 
             StartCoroutine(TimeCountDown());
         }
@@ -97,7 +100,7 @@ namespace UI.Game
 
         private static IEnumerator ButtonCold(GButton button, float coldTime, Action buttonDo)
         {
-            var buttonIconImage = button.GetChild(button.icon).asImage;
+            var buttonIconImage = button.GetChild("icon").asImage;
             if (buttonIconImage.fillAmount >= 0.99f)
             {
                 button.touchable = false;
@@ -124,8 +127,11 @@ namespace UI.Game
         {
             while (MyGameManager.Instance.allTime > 0)
             {
-                _timer.SetVar("Min", Math.Floor(MyGameManager.Instance.allTime / 60f).ToString(CultureInfo.InvariantCulture))
-                    .SetVar("Sec", Math.Floor(MyGameManager.Instance.allTime % 60f).ToString("00",CultureInfo.InvariantCulture)).FlushVars();
+                _timer.SetVar("Min",
+                        Math.Floor(MyGameManager.Instance.allTime / 60f).ToString(CultureInfo.InvariantCulture))
+                    .SetVar("Sec",
+                        Math.Floor(MyGameManager.Instance.allTime % 60f).ToString("00", CultureInfo.InvariantCulture))
+                    .FlushVars();
                 yield return _waitForASecond;
                 MyGameManager.Instance.allTime--;
             }

@@ -16,3 +16,4 @@ MonoBehaviour:
   roomMenu: Assets/Scenes/Room.unity
   loadMenu: Assets/Scenes/Load.unity
   gameMenu: Assets/Scenes/Game.unity
+  endMenu: Assets/Scenes/End.unity

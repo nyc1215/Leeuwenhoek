@@ -21,7 +21,7 @@ namespace Tasks
             
             for (var i = 1; i <= AllPointsNum; i++)
             {
-                var pointGraph = TaskUI.GetChild($"p{i}").asGraph;
+                var pointGraph = TaskUI.GetChild($"p{i}").asLoader;
                 pointGraph.onClick.Add(() =>
                 {
                     PointBeClicked(pointGraph);
@@ -40,9 +40,9 @@ namespace Tasks
             _successTextBg.visible = false;
         }
 
-        private void PointBeClicked(GGraph point)
+        private void PointBeClicked(GLoader point)
         {
-            point.color = Color.red;
+            point.color = Color.green;
             _clickNum++;
             point.onClick.Clear();
 

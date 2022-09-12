@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using FairyGUI;
 using Player;
 using UI.Room;
@@ -164,8 +165,40 @@ namespace Manager
 
         private void EndGame()
         {
+            if (IsClient)
+            {
+                CommitGameEndServerRpc();
+            }
+            else
+            {
+                UIOperationUtil.GoToScene(MyGameManager.Instance.uiJumpData.endMenu);
+                SyncGoToEndGameClientRpc();
+            }
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        private void CommitGameEndServerRpc()
+        {
+            SyncGoToEndGameClientRpc();
             StopAllCoroutines();
-            MyGameManager.Instance.localPlayerController.OnDisable();
+            foreach (var playerController in MyGameManager.Instance.allPlayers)
+            {
+                playerController.OnDisable();
+                playerController.OnNetworkDespawn();
+            }
+        }
+
+
+        [ClientRpc]
+        private void SyncGoToEndGameClientRpc()
+        {
+            StopAllCoroutines();
+            foreach (var playerController in MyGameManager.Instance.allPlayers)
+            {
+                playerController.OnDisable();
+                Destroy(playerController.gameObject);
+            }
+
             UIOperationUtil.GoToScene(MyGameManager.Instance.uiJumpData.endMenu);
         }
     }

@@ -17,6 +17,11 @@ namespace UI.Util
 
         private void LateUpdate()
         {
+            if (MyGameManager.Instance.localPlayerController == null)
+            {
+                return;
+            }
+
             var localPlayerPos = MyGameManager.Instance.localPlayerController.transform.position;
             var miniMapPosition = _miniMapCameraTransform.position;
             miniMapPosition = new Vector3(localPlayerPos.x, miniMapPosition.y, miniMapPosition.z);

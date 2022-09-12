@@ -44,8 +44,8 @@ namespace Player
             _netTopTextColor.Value = color;
         }
 
-        [ServerRpc]
-        private void CommitTopTextServerRpc(string text)
+        [ServerRpc(RequireOwnership = false)]
+        public void CommitTopTextServerRpc(string text)
         {
             _netTopText.Value = text;
         }
@@ -147,8 +147,8 @@ namespace Player
             {
                 CommitTopTextColorServerRpc(isReady ? Color.green : Color.white);
                 CommitTopTextServerRpc(isReady
-                    ? MyGameManager.Instance.LocalPlayerInfo.AccountName + "√"
-                    : MyGameManager.Instance.LocalPlayerInfo.AccountName);
+                    ? $"{MyGameManager.Instance.localPlayerController.nowCharacterName}({MyGameManager.Instance.LocalPlayerInfo.AccountName})√"
+                    : $"{MyGameManager.Instance.localPlayerController.nowCharacterName}({MyGameManager.Instance.LocalPlayerInfo.AccountName})");
             }
         }
 

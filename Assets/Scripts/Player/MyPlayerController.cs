@@ -42,6 +42,7 @@ namespace Player
         public TaskUtil nowTask;
         public SewerForImposter nowSewer;
         public Characters nowCharacter;
+        public string nowCharacterName;
 
         #endregion
 
@@ -63,7 +64,6 @@ namespace Player
         private Animator _animator;
         private Collider _collider;
         private static readonly int AnimatorParamSpeed = Animator.StringToHash("speed");
-        private static readonly int AnimatorParamIsDead = Animator.StringToHash("isDead");
 
         private List<MyPlayerController> _targets;
         private Vector2 _moveInput;
@@ -85,7 +85,6 @@ namespace Player
             _bodiesFound = new List<Transform>();
             _playerLight2D = transform.GetChild(1).GetComponent<Light2D>();
 
-            MyGameManager.Instance.localPlayerController = this;
             playerAccountName = MyGameManager.Instance.LocalPlayerInfo.AccountName;
             DontDestroyOnLoad(this);
         }
@@ -99,14 +98,6 @@ namespace Player
 
         public override void OnDestroy()
         {
-            if (IsServer || IsHost)
-            {
-                foreach (var playerController in MyGameManager.Instance.allPlayers)
-                {
-                    Destroy(playerController.gameObject);
-                }
-            }
-
             base.OnDestroy();
         }
 
@@ -127,7 +118,7 @@ namespace Player
 
         private void Update()
         {
-            if (!IsLocalPlayer)
+            if (!IsLocalPlayer || MyGameNetWorkManager.Instance.GameIsEnd.Value)
             {
                 return;
             }
@@ -203,6 +194,11 @@ namespace Player
 
         private void LateUpdate()
         {
+            if (gameObject == null)
+            {
+                return;
+            }
+            
             if (IsOwner)
             {
                 if (MyGameManager.CompareScene(MyGameManager.Instance.uiJumpData.gameMenu))
@@ -233,6 +229,7 @@ namespace Player
             }
             else
             {
+                MyGameManager.Instance.localPlayerController = this;
                 if (MyGameManager.CompareScene(MyGameManager.Instance.uiJumpData.roomMenu))
                 {
                     _playerLight2D.shadowIntensity = 0.7f;
@@ -274,6 +271,31 @@ namespace Player
                     playerController.isImposter = beImposter;
                     Debug.Log($"networkObjectId: {networkObjectId} beImposter: {beImposter}");
                 }
+            }
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        private void CommitOnePlayerIsDiedServerRpc(ulong networkObjectId)
+        {
+            foreach (var playerController in MyGameManager.Instance.allPlayers.Where(playerController =>
+                         playerController.NetworkObject.NetworkObjectId == networkObjectId))
+            {
+                playerController.Die();
+            }
+
+            if (IsServer || IsHost)
+            {
+                SyncOnePlayerIsDiedClientRpc(networkObjectId);
+            }
+        }
+
+        [ClientRpc]
+        private void SyncOnePlayerIsDiedClientRpc(ulong networkObjectId)
+        {
+            foreach (var playerController in MyGameManager.Instance.allPlayers.Where(playerController =>
+                         playerController.NetworkObject.NetworkObjectId == networkObjectId))
+            {
+                playerController.Die();
             }
         }
 
@@ -350,8 +372,7 @@ namespace Player
                 return;
             }
 
-            //transform.position = _targets[^1].transform.position;
-            _targets[^1].Die();
+            _targets[^1].CommitOnePlayerIsDiedServerRpc(_targets[^1].NetworkObject.NetworkObjectId);
             _targets.RemoveAt(_targets.Count - 1);
         }
 
@@ -367,8 +388,7 @@ namespace Player
                 return;
             }
 
-            //transform.position = _targets[^1].transform.position;
-            _targets[^1].Die();
+            _targets[^1].CommitOnePlayerIsDiedServerRpc(_targets[^1].NetworkObject.NetworkObjectId);
             _targets.RemoveAt(_targets.Count - 1);
         }
 
@@ -376,7 +396,6 @@ namespace Player
         private void Die()
         {
             isDead = true;
-            _animator.SetBool(AnimatorParamIsDead, true);
             _collider.enabled = false;
 
             gameObject.layer = LayerMask.NameToLayer("Ghost") == -1 ? 9 : LayerMask.NameToLayer("Ghost");

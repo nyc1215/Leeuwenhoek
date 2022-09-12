@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using FairyGUI;
 using Manager;
+using Player;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -26,6 +27,8 @@ namespace UI.Room
         private GTextField _textXuela;
 
         private GButton _buttonContinue;
+
+        private string _nowCharacterName;
 
         public CharacterPanel(GComponent uiRoot)
         {
@@ -55,7 +58,12 @@ namespace UI.Room
             _buttonXuela.onClick.Add((() => { ChooseCharacter(Characters.Xuela); }));
 
             _buttonContinue = _characterCom.GetChild("Button_Continue").asButton;
-            _buttonContinue.onClick.Add(() => { _characterCom.visible = false; });
+            _buttonContinue.onClick.Add(() =>
+            {
+                MyGameManager.Instance.localPlayerController.gameObject.GetComponent<MyPlayerNetwork>()
+                    .CommitTopTextServerRpc($"{_nowCharacterName}({MyGameManager.Instance.LocalPlayerInfo.AccountName})");
+                _characterCom.visible = false;
+            });
         }
 
         public void Show()
@@ -73,41 +81,69 @@ namespace UI.Room
         {
             InitCharactersText();
             InitCharactersTextColor();
-            
+
             foreach (var characterChooseListNode in MyGameNetWorkManager.Instance.NetLobbyPlayersCharacterStates)
             {
                 var textToSet = $"({characterChooseListNode.AccountName.ToString()})";
-                foreach (var playerController in MyGameManager.Instance.allPlayers.Where(playerController =>
-                             playerController.playerAccountName == characterChooseListNode.AccountName))
+                if (characterChooseListNode.AccountName == MyGameManager.Instance.LocalPlayerInfo.AccountName)
                 {
-                    playerController.nowCharacter = characterChooseListNode.CharacterToChoose;
+                    MyGameManager.Instance.localPlayerController.nowCharacter =
+                        characterChooseListNode.CharacterToChoose;
+                    switch (characterChooseListNode.CharacterToChoose)
+                    {
+                        case Characters.Lily:
+                            _textLily.color = Color.green;
+                            _nowCharacterName = _textLily.data.ToString();
+                            break;
+                        case Characters.Polo:
+                            _textPolo.color = Color.green;
+                            _nowCharacterName = _textPolo.data.ToString();
+                            break;
+                        case Characters.Xuela:
+                            _textXuela.color = Color.green;
+                            _nowCharacterName = _textXuela.data.ToString();
+                            break;
+                        case Characters.Yang:
+                            _textYang.color = Color.green;
+                            _nowCharacterName = _textYang.data.ToString();
+                            break;
+                        case Characters.LuoWei:
+                            _textLuowei.color = Color.green;
+                            _nowCharacterName = _textLuowei.data.ToString();
+                            break;
+                        case Characters.XiaoAn:
+                            _textXiaoan.color = Color.green;
+                            _nowCharacterName = _textXiaoan.data.ToString();
+                            break;
+                        case Characters.None:
+                        default:
+                            _nowCharacterName = "None";
+                            break;
+                    }
+
+                    MyGameManager.Instance.localPlayerController.nowCharacterName = _nowCharacterName;
                 }
+
 
                 switch (characterChooseListNode.CharacterToChoose)
                 {
                     case Characters.Lily:
                         _textLily.SetVar("account", textToSet).FlushVars();
-                        _textLily.color = Color.green;
                         break;
                     case Characters.Polo:
                         _textPolo.SetVar("account", textToSet).FlushVars();
-                        _textPolo.color = Color.green;
                         break;
                     case Characters.Xuela:
                         _textXuela.SetVar("account", textToSet).FlushVars();
-                        _textXuela.color = Color.green;
                         break;
                     case Characters.Yang:
                         _textYang.SetVar("account", textToSet).FlushVars();
-                        _textYang.color = Color.green;
                         break;
                     case Characters.LuoWei:
                         _textLuowei.SetVar("account", textToSet).FlushVars();
-                        _textLuowei.color = Color.green;
                         break;
                     case Characters.XiaoAn:
                         _textXiaoan.SetVar("account", textToSet).FlushVars();
-                        _textXiaoan.color = Color.green;
                         break;
                     case Characters.None:
                     default:
