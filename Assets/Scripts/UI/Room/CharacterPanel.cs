@@ -2,6 +2,7 @@
 using FairyGUI;
 using Manager;
 using Unity.Netcode;
+using UnityEngine;
 
 namespace UI.Room
 {
@@ -70,13 +71,9 @@ namespace UI.Room
 
         public void UpdateCharacterChooseState()
         {
-            _textLily.SetVar("account", "").FlushVars();
-            _textPolo.SetVar("account", "").FlushVars();
-            _textXuela.SetVar("account", "").FlushVars();
-            _textYang.SetVar("account", "").FlushVars();
-            _textLuowei.SetVar("account", "").FlushVars();
-            _textXiaoan.SetVar("account", "").FlushVars();
-
+            InitCharactersText();
+            InitCharactersTextColor();
+            
             foreach (var characterChooseListNode in MyGameNetWorkManager.Instance.NetLobbyPlayersCharacterStates)
             {
                 var textToSet = $"({characterChooseListNode.AccountName.ToString()})";
@@ -90,21 +87,27 @@ namespace UI.Room
                 {
                     case Characters.Lily:
                         _textLily.SetVar("account", textToSet).FlushVars();
+                        _textLily.color = Color.green;
                         break;
                     case Characters.Polo:
                         _textPolo.SetVar("account", textToSet).FlushVars();
+                        _textPolo.color = Color.green;
                         break;
                     case Characters.Xuela:
                         _textXuela.SetVar("account", textToSet).FlushVars();
+                        _textXuela.color = Color.green;
                         break;
                     case Characters.Yang:
                         _textYang.SetVar("account", textToSet).FlushVars();
+                        _textYang.color = Color.green;
                         break;
                     case Characters.LuoWei:
                         _textLuowei.SetVar("account", textToSet).FlushVars();
+                        _textLuowei.color = Color.green;
                         break;
                     case Characters.XiaoAn:
                         _textXiaoan.SetVar("account", textToSet).FlushVars();
+                        _textXiaoan.color = Color.green;
                         break;
                     case Characters.None:
                     default:
@@ -117,6 +120,26 @@ namespace UI.Room
                     playerController.nowCharacter != Characters.None) &&
                 MyGameNetWorkManager.Instance.NetLobbyPlayersCharacterStates.Count ==
                 MyGameManager.Instance.allPlayers.Count;
+        }
+
+        private void InitCharactersTextColor()
+        {
+            _textLily.color = Color.white;
+            _textPolo.color = Color.white;
+            _textXuela.color = Color.white;
+            _textYang.color = Color.white;
+            _textLuowei.color = Color.white;
+            _textXiaoan.color = Color.white;
+        }
+
+        private void InitCharactersText()
+        {
+            _textLily.SetVar("account", "").FlushVars();
+            _textPolo.SetVar("account", "").FlushVars();
+            _textXuela.SetVar("account", "").FlushVars();
+            _textYang.SetVar("account", "").FlushVars();
+            _textLuowei.SetVar("account", "").FlushVars();
+            _textXiaoan.SetVar("account", "").FlushVars();
         }
     }
 }
