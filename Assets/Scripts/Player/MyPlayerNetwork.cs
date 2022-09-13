@@ -1,5 +1,6 @@
 using Manager;
 using TMPro;
+using UI.Game;
 using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
@@ -54,6 +55,24 @@ namespace Player
         private void CommitVoiceIconServerRpc(bool isShow)
         {
             _networkShowVoiceIcon.Value = isShow;
+        }
+
+        [ServerRpc]
+        private void CommitReportServerRpc()
+        {
+            if (IsOwner && IsServer)
+            {
+                SyncReportClientRpc();
+            }
+        }
+
+        [ClientRpc]
+        private void SyncReportClientRpc()
+        {
+            if (IsClient)
+            {
+                FindObjectOfType<GameUIPanel>().KickUIPanel.ShowPanel();
+            }
         }
 
         #endregion

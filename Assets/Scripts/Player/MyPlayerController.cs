@@ -104,16 +104,16 @@ namespace Player
 
         public void OnEnable()
         {
-            inputWasd.Enable();
-            inputReport.Enable();
-            inputKill.Enable();
+            inputWasd?.Enable();
+            inputReport?.Enable();
+            inputKill?.Enable();
         }
 
         public void OnDisable()
         {
-            inputWasd.Disable();
-            inputReport.Disable();
-            inputKill.Disable();
+            inputWasd?.Disable();
+            inputReport?.Disable();
+            inputKill?.Disable();
         }
 
         private void Update()
@@ -198,7 +198,7 @@ namespace Player
             {
                 return;
             }
-            
+
             if (IsOwner)
             {
                 if (MyGameManager.CompareScene(MyGameManager.Instance.uiJumpData.gameMenu))
@@ -321,8 +321,7 @@ namespace Player
 
                     if (Physics.Raycast(ray, out var hit, 1000f, ~ignoreForHide))
                     {
-                        otherPlayerController.ChangeAllComponentsNeedToHide(hit.transform ==
-                                                                            otherPlayerController.transform);
+                        otherPlayerController.ChangeAllComponentsNeedToHide(hit.collider.CompareTag("Player"));
                     }
                 }
             }

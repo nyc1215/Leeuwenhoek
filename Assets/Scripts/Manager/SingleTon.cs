@@ -20,6 +20,7 @@ namespace Manager
         {
             if (Instance != null)
             {
+                Destroy(gameObject);
                 return;
             }
 

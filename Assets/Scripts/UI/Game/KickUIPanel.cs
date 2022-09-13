@@ -10,6 +10,7 @@ namespace UI.Game
 
         private GComponent _kickPanelCom;
         private readonly GButton _talkButton;
+        private GButton _voteButton;
         private GList _listPlayer;
 
         public KickUIPanel()
@@ -22,6 +23,7 @@ namespace UI.Game
             };
 
             _talkButton = _kickPanelCom.GetChild("Button_Talk").asButton;
+            _voteButton = _kickPanelCom.GetChild("Button_Vote").asButton;
             _listPlayer = _kickPanelCom.GetChild("List_Player").asList;
             _talkButton.onTouchBegin.Add(StartVoice);
             _talkButton.onTouchEnd.Add(EndVoice);

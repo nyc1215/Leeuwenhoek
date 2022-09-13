@@ -180,26 +180,27 @@ namespace Manager
         private void CommitGameEndServerRpc()
         {
             SyncGoToEndGameClientRpc();
-            StopAllCoroutines();
-            foreach (var playerController in MyGameManager.Instance.allPlayers)
-            {
-                playerController.OnDisable();
-                playerController.OnNetworkDespawn();
-            }
         }
 
 
         [ClientRpc]
         private void SyncGoToEndGameClientRpc()
         {
-            StopAllCoroutines();
-            foreach (var playerController in MyGameManager.Instance.allPlayers)
+            if (IsClient)
             {
-                playerController.OnDisable();
-                Destroy(playerController.gameObject);
-            }
+                StopAllCoroutines();
+                foreach (var playerController in MyGameManager.Instance.allPlayers)
+                {
+                    playerController.OnDisable();
+                    Destroy(playerController.gameObject);
+                }
 
-            UIOperationUtil.GoToScene(MyGameManager.Instance.uiJumpData.endMenu);
+                MyGameManager.Instance.allPlayers.Clear();
+                MyGameManager.Instance.localPlayerController = null;
+                MyGameManager.Instance.localPlayerNetwork = null;
+
+                UIOperationUtil.GoToScene(MyGameManager.Instance.uiJumpData.endMenu);
+            }
         }
     }
 

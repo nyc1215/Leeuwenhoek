@@ -26,7 +26,7 @@ namespace UI.Game
 
         private WaitForSeconds _waitForASecond;
 
-        private KickUIPanel _kickUIPanel;
+        public KickUIPanel KickUIPanel;
 
         protected override void Awake()
         {
@@ -47,7 +47,7 @@ namespace UI.Game
 
             MyGameNetWorkManager.Instance.GameProgressBar = _gameProgress;
 
-            _kickUIPanel = new KickUIPanel();
+            KickUIPanel = new KickUIPanel();
         }
 
         private void Start()
@@ -103,6 +103,7 @@ namespace UI.Game
             var buttonIconImage = button.GetChild("icon").asImage;
             if (buttonIconImage.fillAmount >= 0.99f)
             {
+                buttonDo.Invoke();
                 button.touchable = false;
                 buttonIconImage.fillAmount = 0f;
                 var nowTime = coldTime;
@@ -114,10 +115,6 @@ namespace UI.Game
                 }
 
                 button.touchable = true;
-            }
-            else
-            {
-                buttonDo.Invoke();
             }
 
             yield return null;
