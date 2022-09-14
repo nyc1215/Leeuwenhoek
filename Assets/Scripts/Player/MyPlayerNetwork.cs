@@ -21,20 +21,15 @@ namespace Player
 
         [Tooltip("角色头顶文字")] public TextMeshPro playerTopText;
         private readonly NetworkVariable<Color> _netTopTextColor = new();
-        private readonly NetworkVariable<FixedString64Bytes> _netTopText = new();
+        public readonly NetworkVariable<FixedString64Bytes> NetTopText = new();
 
         [Tooltip("角色头顶语音图标")] public SpriteRenderer playerVoiceIcon;
         private readonly NetworkVariable<bool> _networkShowVoiceIcon = new();
 
-        private readonly Color[] _playerRandomColors =
-        {
-            new(128, 0, 128), new(128, 64, 0), new(217, 217, 25), new(255, 192, 203), Color.red, Color.white
-        };
-
         #region Rpc
 
         [ServerRpc]
-        private void CommitSpriteColorServerRpc(Color color)
+        public void CommitSpriteColorServerRpc(Color color)
         {
             _netSpriteColor.Value = color;
         }
@@ -48,7 +43,7 @@ namespace Player
         [ServerRpc(RequireOwnership = false)]
         public void CommitTopTextServerRpc(string text)
         {
-            _netTopText.Value = text;
+            NetTopText.Value = text;
         }
 
         [ServerRpc]
@@ -90,7 +85,7 @@ namespace Player
 
             if (IsOwner)
             {
-                CommitSpriteColorServerRpc(_playerRandomColors[Random.Range(0, _playerRandomColors.Length)]);
+                CommitSpriteColorServerRpc(Color.white);
                 CommitTopTextServerRpc(MyGameManager.Instance.LocalPlayerInfo.AccountName);
                 ChangeTopTextColor(false);
                 CommitVoiceIconServerRpc(false);
@@ -98,7 +93,7 @@ namespace Player
             else
             {
                 playerPartSpriteRenderer.color = _netSpriteColor.Value;
-                playerTopText.text = _netTopText.Value.ToString();
+                playerTopText.text = NetTopText.Value.ToString();
                 playerVoiceIcon.enabled = _networkShowVoiceIcon.Value;
             }
         }
@@ -108,7 +103,7 @@ namespace Player
             _spriteTransform = transform.GetChild(0);
             _netSpriteColor.OnValueChanged += (value, newValue) => { playerPartSpriteRenderer.color = newValue; };
             _netTopTextColor.OnValueChanged += (value, newValue) => { playerTopText.color = newValue; };
-            _netTopText.OnValueChanged += (value, newValue) => { playerTopText.text = newValue.ToString(); };
+            NetTopText.OnValueChanged += (value, newValue) => { playerTopText.text = newValue.ToString(); };
             _networkShowVoiceIcon.OnValueChanged += (value, newValue) =>
             {
                 playerVoiceIcon.color = newValue ? Color.white : Color.clear;
@@ -119,7 +114,7 @@ namespace Player
         {
             _netSpriteColor.OnValueChanged = null;
             _netTopTextColor.OnValueChanged = null;
-            _netTopText.OnValueChanged = null;
+            NetTopText.OnValueChanged = null;
             _networkShowVoiceIcon.OnValueChanged = null;
         }
 

@@ -78,14 +78,7 @@ namespace Manager
         public MyPlayerController localPlayerController;
         public MyPlayerNetwork localPlayerNetwork;
         [Header("玩家列表")] public List<MyPlayerController> allPlayers = new();
-        public int goodPlayerNum;
-        public bool isImposterWin;
         public int allTime = 1200;
-
-        private readonly Dictionary<int, int> _playerNumToImposterNum = new()
-        {
-            { 1, 0 }, { 2, 1 }, { 3, 1 }, { 4, 1 }, { 5, 2 }, { 6, 2 }
-        };
 
         #endregion
 
@@ -116,25 +109,6 @@ namespace Manager
                 }
 
                 playerController.JoyStickOutput = outputXY;
-            }
-        }
-
-        public void RandomSetImposter()
-        {
-            Assert.IsTrue(_playerNumToImposterNum.ContainsKey(allPlayers.Count));
-            Debug.Log($"imposterNum = {_playerNumToImposterNum[allPlayers.Count]}");
-            goodPlayerNum = allPlayers.Count - _playerNumToImposterNum[allPlayers.Count];
-            isImposterWin = false;
-            var imposterNum = 0;
-            while (imposterNum < _playerNumToImposterNum[allPlayers.Count])
-            {
-                var playerToBeImposter = allPlayers[Random.Range(0, allPlayers.Count)];
-                if (!playerToBeImposter.isImposter)
-                {
-                    playerToBeImposter.isImposter = true;
-                    Debug.Log($"NetworkObjectId: {playerToBeImposter.NetworkObject.NetworkObjectId} become imposter");
-                    imposterNum++;
-                }
             }
         }
 
@@ -184,11 +158,13 @@ namespace Manager
 #endif
             if (CompareScene(uiJumpData.gameMenu))
             {
-                if (goodPlayerNum <= 0 || allTime <= 0)
+                if (allTime > 0)
                 {
-                    isImposterWin = true;
-                    MyGameNetWorkManager.Instance.CommitGameEndServerRpc(true);
+                    return;
                 }
+
+                MyGameNetWorkManager.Instance.CommitImposterWinServerRpc(true);
+                MyGameNetWorkManager.Instance.CommitGameEndServerRpc(true);
             }
         }
 

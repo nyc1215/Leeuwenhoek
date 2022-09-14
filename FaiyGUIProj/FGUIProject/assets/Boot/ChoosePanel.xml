@@ -7,7 +7,7 @@
       <relation target="" sidePair="center-center,middle-middle"/>
     </text>
     <component id="n2_pr3a" name="Button_Info" src="pr3a7" fileName="ButtonScript.xml" xy="960,540" pivot="0.5,0.5" anchor="true">
-      <Button title="序章：XXX"/>
+      <Button title="序章：门扉"/>
     </component>
     <component id="n3_pr3a" name="Button_Back" src="e0xw3" fileName="ButtonCom.xml" pkg="z7qisvfx" xy="1657,117" size="130,58">
       <Button title="返回"/>

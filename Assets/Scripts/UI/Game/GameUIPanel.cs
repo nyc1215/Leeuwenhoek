@@ -105,15 +105,16 @@ namespace UI.Game
             {
                 buttonDo.Invoke();
                 button.touchable = false;
+                MyGameManager.Instance.localPlayerController.inKillCold = true;
                 buttonIconImage.fillAmount = 0f;
-                var nowTime = coldTime;
+                var nowTime = 0f;
                 while (nowTime < coldTime)
                 {
                     nowTime += Time.deltaTime;
                     buttonIconImage.fillAmount = nowTime / coldTime;
                     yield return null;
                 }
-
+                MyGameManager.Instance.localPlayerController.inKillCold = false;
                 button.touchable = true;
             }
 

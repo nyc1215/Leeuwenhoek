@@ -6,6 +6,8 @@ using System.Linq;
 using InteractiveObj;
 using Manager;
 using Tasks;
+using UI.Game;
+using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -25,6 +27,7 @@ namespace Player
         [Tooltip("摇杆移动操控")] public JoyStickOutputXY JoyStickOutput;
 
         [Tooltip("击杀")] public InputAction inputKill;
+        public bool inKillCold;
 
         [Tooltip("报告")] public InputAction inputReport;
         public static List<Transform> AllBodies;
@@ -48,10 +51,10 @@ namespace Player
 
         #region 角色显示
 
-        [Space(10)] [Header("角色显示相关")] [Tooltip("角色身体精灵渲染器")]
-        public SpriteRenderer playerSpriteRenderer;
+        [Space(10)] [Header("角色显示相关")] [Tooltip("角色主摄像机")]
+        public Camera playerMainCamera;
 
-        [Tooltip("角色主摄像机")] public Camera playerMainCamera;
+        [Tooltip("角色精灵渲染器")] public SpriteRenderer playerSpriteRenderer;
         [Tooltip("角色在阴影下需要隐藏的物体")] public List<Renderer> objsToHide = new();
         [Tooltip("隐藏物体时候忽略的层")] public LayerMask ignoreForHide;
         public string playerAccountName;
@@ -85,7 +88,8 @@ namespace Player
             _bodiesFound = new List<Transform>();
             _playerLight2D = transform.GetChild(1).GetComponent<Light2D>();
 
-            playerAccountName = MyGameManager.Instance.LocalPlayerInfo.AccountName;
+            inKillCold = false;
+
             DontDestroyOnLoad(this);
         }
 
@@ -95,12 +99,6 @@ namespace Player
             inputReport.performed += Report;
             ChangeSceneCallBack += OnGameSceneInit;
         }
-
-        public override void OnDestroy()
-        {
-            base.OnDestroy();
-        }
-
 
         public void OnEnable()
         {
@@ -118,6 +116,11 @@ namespace Player
 
         private void Update()
         {
+            if (ReferenceEquals(gameObject, null))
+            {
+                return;
+            }
+
             if (!IsLocalPlayer || MyGameNetWorkManager.Instance.GameIsEnd.Value)
             {
                 return;
@@ -146,6 +149,11 @@ namespace Player
 
         private void FixedUpdate()
         {
+            if (ReferenceEquals(gameObject, null))
+            {
+                return;
+            }
+
             _playerRigidbody.velocity = _moveInput * moveSpeed;
         }
 
@@ -194,7 +202,7 @@ namespace Player
 
         private void LateUpdate()
         {
-            if (gameObject == null)
+            if (ReferenceEquals(gameObject, null))
             {
                 return;
             }
@@ -230,6 +238,7 @@ namespace Player
             else
             {
                 MyGameManager.Instance.localPlayerController = this;
+                playerAccountName = MyGameManager.Instance.LocalPlayerInfo.AccountName;
                 if (MyGameManager.CompareScene(MyGameManager.Instance.uiJumpData.roomMenu))
                 {
                     _playerLight2D.shadowIntensity = 0.7f;
@@ -251,36 +260,38 @@ namespace Player
                 yield return null;
             }
 
-            MyGameManager.Instance.RandomSetImposter();
+            yield return new WaitForSeconds(0.75f);
+            MyGameNetWorkManager.Instance.CommitGoodPlayerNumServerRpc(MyGameManager.Instance.PlayerListData.PlayerList
+                .Count - 1);
+            MyGameNetWorkManager.Instance.RandomSetImposterServerRpc();
+        }
 
-            foreach (var playerController in MyGameManager.Instance.allPlayers)
-            {
-                ChangePlayerImposterClientRpc(playerController.NetworkObject.NetworkObjectId,
-                    playerController.isImposter);
-            }
+        [ServerRpc]
+        private void SpawnPlayerBodyServerRpc(FixedString32Bytes bodyName, Vector3 pos)
+        {
+            SyncPlayerBodyClientRpc(bodyName, pos);
         }
 
         [ClientRpc]
-        private void ChangePlayerImposterClientRpc(ulong networkObjectId, bool beImposter)
+        private void SyncPlayerBodyClientRpc(FixedString32Bytes bodyName, Vector3 pos)
         {
-            if (!IsServer)
-            {
-                foreach (var playerController in MyGameManager.Instance.allPlayers.Where(playerController =>
-                             playerController.NetworkObject.NetworkObjectId == networkObjectId))
-                {
-                    playerController.isImposter = beImposter;
-                    Debug.Log($"networkObjectId: {networkObjectId} beImposter: {beImposter}");
-                }
-            }
+            var temPlayerBodyGameObject = Instantiate(bodyPrefab, pos, Quaternion.Euler(0, 0, 0));
+            var temPlayerBody = temPlayerBodyGameObject.GetComponent<MyPlayerBody>();
+            temPlayerBody.SetColor(Color.gray);
+            temPlayerBody.SetText(bodyName.ToString());
         }
 
         [ServerRpc(RequireOwnership = false)]
         private void CommitOnePlayerIsDiedServerRpc(ulong networkObjectId)
         {
-            foreach (var playerController in MyGameManager.Instance.allPlayers.Where(playerController =>
-                         playerController.NetworkObject.NetworkObjectId == networkObjectId))
+            for (var i = 0; i < MyGameManager.Instance.allPlayers.Count; i++)
             {
-                playerController.Die();
+                var nowPlayerController = MyGameManager.Instance.allPlayers[i];
+                if (nowPlayerController.NetworkObject.NetworkObjectId == networkObjectId &&
+                    !nowPlayerController.isDead)
+                {
+                    MyGameManager.Instance.allPlayers[i].Die();
+                }
             }
 
             if (IsServer || IsHost)
@@ -292,10 +303,14 @@ namespace Player
         [ClientRpc]
         private void SyncOnePlayerIsDiedClientRpc(ulong networkObjectId)
         {
-            foreach (var playerController in MyGameManager.Instance.allPlayers.Where(playerController =>
-                         playerController.NetworkObject.NetworkObjectId == networkObjectId))
+            for (var i = 0; i < MyGameManager.Instance.allPlayers.Count; i++)
             {
-                playerController.Die();
+                var nowPlayerController = MyGameManager.Instance.allPlayers[i];
+                if (nowPlayerController.NetworkObject.NetworkObjectId == networkObjectId &&
+                    !nowPlayerController.isDead)
+                {
+                    MyGameManager.Instance.allPlayers[i].Die();
+                }
             }
         }
 
@@ -309,7 +324,7 @@ namespace Player
             {
                 foreach (var otherPlayerController in MyGameManager.Instance.allPlayers)
                 {
-                    if (otherPlayerController == this)
+                    if (otherPlayerController == this || otherPlayerController.isDead)
                     {
                         continue;
                     }
@@ -321,7 +336,9 @@ namespace Player
 
                     if (Physics.Raycast(ray, out var hit, 1000f, ~ignoreForHide))
                     {
-                        otherPlayerController.ChangeAllComponentsNeedToHide(hit.collider.CompareTag("Player"));
+                        otherPlayerController.ChangeAllComponentsNeedToHide(
+                            hit.collider.CompareTag("Player")
+                        );
                     }
                 }
             }
@@ -329,7 +346,6 @@ namespace Player
 
         private void BodySearch()
         {
-            //Debug.Log($"AllBodies :{AllBodies.Count}");
             foreach (var body in AllBodies)
             {
                 var playerPos = transform.position;
@@ -341,8 +357,7 @@ namespace Player
                 {
                     if (hit.transform == body)
                     {
-                        //Debug.Log(hit.transform.name);
-                        //Debug.Log($"_bodiesFound :{_bodiesFound.Count}");
+                        body.gameObject.GetComponent<MyPlayerBody>().SetBodyHide(false);
                         if (_bodiesFound.Contains(body.transform))
                         {
                             return;
@@ -352,6 +367,7 @@ namespace Player
                     }
                     else
                     {
+                        body.gameObject.GetComponent<MyPlayerBody>().SetBodyHide(true);
                         _bodiesFound.Remove(body.transform);
                     }
                 }
@@ -361,6 +377,11 @@ namespace Player
 
         private void KillTarget(InputAction.CallbackContext context)
         {
+            if (inKillCold)
+            {
+                return;
+            }
+
             if (_targets.Count == 0)
             {
                 return;
@@ -371,12 +392,18 @@ namespace Player
                 return;
             }
 
+
             _targets[^1].CommitOnePlayerIsDiedServerRpc(_targets[^1].NetworkObject.NetworkObjectId);
             _targets.RemoveAt(_targets.Count - 1);
         }
 
         public void KillTarget()
         {
+            if (inKillCold)
+            {
+                return;
+            }
+
             if (_targets.Count == 0)
             {
                 return;
@@ -394,20 +421,41 @@ namespace Player
 
         private void Die()
         {
+            if (isDead)
+            {
+                return;
+            }
+
             isDead = true;
             _collider.enabled = false;
 
             gameObject.layer = LayerMask.NameToLayer("Ghost") == -1 ? 9 : LayerMask.NameToLayer("Ghost");
 
-            if (!isImposter)
-            {
-                MyGameManager.Instance.goodPlayerNum--;
-            }
+            var newColor = playerSpriteRenderer.color;
+            newColor = new Color(newColor.r, newColor.g, newColor.b, 0.5f);
+            playerSpriteRenderer.color = newColor;
 
-            var trans = transform;
-            var temPlayerBody = Instantiate(bodyPrefab, trans.position, trans.rotation)
-                .GetComponent<MyPlayerBody>();
+            if (IsOwner)
+            {
+                if (!isImposter)
+                {
+                    MyGameNetWorkManager.Instance.CommitGoodPlayerNumServerRpc(
+                        MyGameNetWorkManager.Instance.NetGoodPlayerNum.Value - 1);
+                }
+
+                var trans = transform;
+                SpawnPlayerBodyServerRpc($"{nowCharacterName}({MyGameManager.Instance.LocalPlayerInfo.AccountName})",
+                    trans.position);
+                CreateABody();
+            }
+        }
+
+        private void CreateABody()
+        {
+            var temPlayerBodyGameObject = Instantiate(bodyPrefab, transform.position, Quaternion.Euler(0, 0, 0));
+            var temPlayerBody = temPlayerBodyGameObject.GetComponent<MyPlayerBody>();
             temPlayerBody.SetColor(Color.gray);
+            temPlayerBody.SetText($"{nowCharacterName}({MyGameManager.Instance.LocalPlayerInfo.AccountName})");
         }
 
         private void Report(InputAction.CallbackContext context)

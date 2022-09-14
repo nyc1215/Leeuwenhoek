@@ -617,6 +617,7 @@ MonoBehaviour:
       m_Action: Input Kill
       m_Flags: 0
     m_Flags: 0
+  inKillCold: 0
   inputReport:
     m_Name: Input Report
     m_Type: 0
@@ -644,15 +645,15 @@ MonoBehaviour:
   nowSewer: {fileID: 0}
   nowCharacter: 0
   nowCharacterName: 
-  playerSpriteRenderer: {fileID: 1142689203342683541}
   playerMainCamera: {fileID: 0}
+  playerSpriteRenderer: {fileID: 1142689203342683541}
   objsToHide:
   - {fileID: 6067932544281133267}
   - {fileID: 1142689203342683541}
   - {fileID: 1055369250183806422}
   ignoreForHide:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 4608
   playerAccountName: 
 --- !u!114 &8460458793590721624
 MonoBehaviour:
@@ -730,7 +731,7 @@ MonoBehaviour:
   RotAngleThreshold: 0.01
   ScaleThreshold: 0.01
   InLocalSpace: 0
-  Interpolate: 0
+  Interpolate: 1
 --- !u!114 &136395507378096855
 MonoBehaviour:
   m_ObjectHideFlags: 0

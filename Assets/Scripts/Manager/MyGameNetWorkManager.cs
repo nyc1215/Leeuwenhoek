@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Security.Cryptography;
+using System.Linq;
 using FairyGUI;
 using Player;
 using UI.Room;
@@ -8,6 +8,7 @@ using UI.Util;
 using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Manager
 {
@@ -28,6 +29,10 @@ namespace Manager
         public readonly NetworkVariable<bool> GameIsEnd = new();
 
         public NetworkList<LobbyPlayerCharacterState> NetLobbyPlayersCharacterStates;
+
+        private readonly NetworkVariable<bool> _netIsAlreadyChooseImposter = new();
+        public readonly NetworkVariable<int> NetGoodPlayerNum = new();
+        private readonly NetworkVariable<bool> _netImposterIsWin = new();
 
         public GProgressBar GameProgressBar;
 
@@ -81,7 +86,59 @@ namespace Manager
             };
 
             NetLobbyPlayersCharacterStates.OnListChanged += OnLobbyPlayerStateChanged;
+            _netIsAlreadyChooseImposter.Value = false;
+            NetGoodPlayerNum.Value = 0;
+            _netImposterIsWin.Value = false;
+            NetGoodPlayerNum.OnValueChanged += (value, newValue) =>
+            {
+                if (MyGameManager.CompareScene(MyGameManager.Instance.uiJumpData.gameMenu))
+                {
+                    if (newValue <= 0)
+                    {
+                        CommitImposterWinServerRpc(true);
+                        CommitGameEndServerRpc(true);
+                    }
+                }
+            };
         }
+
+        [ServerRpc(RequireOwnership = false)]
+        public void RandomSetImposterServerRpc()
+        {
+            if (IsServer || IsHost)
+            {
+                if (_netIsAlreadyChooseImposter.Value)
+                {
+                    return;
+                }
+
+                if (NetworkManager.Singleton.ConnectedClientsList.Count ==
+                    MyGameManager.Instance.PlayerListData.PlayerList.Count)
+                {
+                    _netIsAlreadyChooseImposter.Value = true;
+
+                    SyncImposterClientRpc(MyGameManager.Instance.PlayerListData
+                        .PlayerList[Random.Range(0, MyGameManager.Instance.PlayerListData.PlayerList.Count)]
+                        .AccountName);
+                }
+            }
+        }
+
+        [ClientRpc]
+        private void SyncImposterClientRpc(FixedString32Bytes accountName)
+        {
+            foreach (var myPlayerController in MyGameManager.Instance.allPlayers)
+            {
+                var text = myPlayerController.gameObject.GetComponent<MyPlayerNetwork>().NetTopText.Value;
+                if (text.Contains(accountName))
+                {
+                    myPlayerController.isImposter = true;
+                }
+            }
+
+            Debug.Log($"accountName: {accountName} become imposter");
+        }
+
 
         [ServerRpc(RequireOwnership = false)]
         private void CommitGameProgressServerRpc(int progress)
@@ -93,12 +150,35 @@ namespace Manager
         }
 
         [ServerRpc(RequireOwnership = false)]
+        public void CommitGoodPlayerNumServerRpc(int num)
+        {
+            if (IsServer || IsHost)
+            {
+                NetGoodPlayerNum.Value = num;
+            }
+        }
+
+        [ServerRpc(RequireOwnership = false)]
         public void CommitGameEndServerRpc(bool isEnd)
         {
             if (IsServer || IsHost)
             {
                 GameIsEnd.Value = isEnd;
             }
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        public void CommitImposterWinServerRpc(bool isImposterWin)
+        {
+            if (IsServer || IsHost)
+            {
+                _netImposterIsWin.Value = isImposterWin;
+            }
+        }
+
+        public override void OnDestroy()
+        {
+            NetLobbyPlayersCharacterStates.Dispose();
         }
 
         public void AddGameProgress(int addProgress)
@@ -165,15 +245,7 @@ namespace Manager
 
         private void EndGame()
         {
-            if (IsClient)
-            {
-                CommitGameEndServerRpc();
-            }
-            else
-            {
-                UIOperationUtil.GoToScene(MyGameManager.Instance.uiJumpData.endMenu);
-                SyncGoToEndGameClientRpc();
-            }
+            CommitGameEndServerRpc();
         }
 
         [ServerRpc(RequireOwnership = false)]
@@ -195,11 +267,10 @@ namespace Manager
                     Destroy(playerController.gameObject);
                 }
 
+                UIOperationUtil.GoToScene(MyGameManager.Instance.uiJumpData.endMenu);
                 MyGameManager.Instance.allPlayers.Clear();
                 MyGameManager.Instance.localPlayerController = null;
                 MyGameManager.Instance.localPlayerNetwork = null;
-
-                UIOperationUtil.GoToScene(MyGameManager.Instance.uiJumpData.endMenu);
             }
         }
     }

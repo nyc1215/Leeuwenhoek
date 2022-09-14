@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1245788785491104054}
   - component: {fileID: 5882213752037508740}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: BodySprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 9095396786824430191}
   - component: {fileID: 4769264781971436402}
   - component: {fileID: 5009263598492101974}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Name (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -268,7 +268,8 @@ GameObject:
   - component: {fileID: 7315623105547578489}
   - component: {fileID: 7682700424511611298}
   - component: {fileID: 5875775491017975639}
-  m_Layer: 0
+  - component: {fileID: 6401108687562462798}
+  m_Layer: 12
   m_Name: PlayerBody
   m_TagString: Body
   m_Icon: {fileID: 0}
@@ -334,3 +335,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bodySprite: {fileID: 5882213752037508740}
+  textMeshPro: {fileID: 5009263598492101974}
+--- !u!114 &6401108687562462798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6540672241139089927}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 951099334
+  AlwaysReplicateAsRoot: 0
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1

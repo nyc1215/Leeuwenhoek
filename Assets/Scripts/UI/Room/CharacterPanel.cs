@@ -61,7 +61,8 @@ namespace UI.Room
             _buttonContinue.onClick.Add(() =>
             {
                 MyGameManager.Instance.localPlayerController.gameObject.GetComponent<MyPlayerNetwork>()
-                    .CommitTopTextServerRpc($"{_nowCharacterName}({MyGameManager.Instance.LocalPlayerInfo.AccountName})");
+                    .CommitTopTextServerRpc(
+                        $"{_nowCharacterName}({MyGameManager.Instance.LocalPlayerInfo.AccountName})");
                 _characterCom.visible = false;
             });
         }
@@ -89,35 +90,43 @@ namespace UI.Room
                 {
                     MyGameManager.Instance.localPlayerController.nowCharacter =
                         characterChooseListNode.CharacterToChoose;
+                    var nowPlayerNetwork = MyGameManager.Instance.localPlayerNetwork;
                     switch (characterChooseListNode.CharacterToChoose)
                     {
                         case Characters.Lily:
                             _textLily.color = Color.green;
                             _nowCharacterName = _textLily.data.ToString();
+                            nowPlayerNetwork.CommitSpriteColorServerRpc(Color.red);
                             break;
                         case Characters.Polo:
                             _textPolo.color = Color.green;
                             _nowCharacterName = _textPolo.data.ToString();
+                            nowPlayerNetwork.CommitSpriteColorServerRpc(new Color(217, 217, 25));
                             break;
                         case Characters.Xuela:
                             _textXuela.color = Color.green;
                             _nowCharacterName = _textXuela.data.ToString();
+                            nowPlayerNetwork.CommitSpriteColorServerRpc(Color.white);
                             break;
                         case Characters.Yang:
                             _textYang.color = Color.green;
                             _nowCharacterName = _textYang.data.ToString();
+                            nowPlayerNetwork.CommitSpriteColorServerRpc(new Color(128, 64, 0));
                             break;
                         case Characters.LuoWei:
                             _textLuowei.color = Color.green;
                             _nowCharacterName = _textLuowei.data.ToString();
+                            nowPlayerNetwork.CommitSpriteColorServerRpc(new Color(128, 0, 128));
                             break;
                         case Characters.XiaoAn:
                             _textXiaoan.color = Color.green;
                             _nowCharacterName = _textXiaoan.data.ToString();
+                            nowPlayerNetwork.CommitSpriteColorServerRpc(new Color(255, 192, 203));
                             break;
                         case Characters.None:
                         default:
                             _nowCharacterName = "None";
+                            nowPlayerNetwork.CommitSpriteColorServerRpc(Color.white);
                             break;
                     }
 

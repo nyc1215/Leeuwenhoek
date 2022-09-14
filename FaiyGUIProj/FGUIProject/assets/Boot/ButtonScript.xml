@@ -18,13 +18,10 @@
       <gearDisplay controller="button" pages="3"/>
       <relation target="" sidePair="width-width,height-height"/>
     </image>
-    <text id="n4_e0xw" name="title" xy="372,127" pivot="0.5,0.5" anchor="true" size="129,83" font="ui://z7qisvfxlzh25" fontSize="63" color="#ffffff" align="center" vAlign="middle" singleLine="true" text="按钮">
+    <text id="n4_e0xw" name="title" xy="372,127" pivot="0.5,0.5" anchor="true" size="130,83" font="ui://z7qisvfxlzh25" fontSize="63" color="#ffffff" align="center" vAlign="middle" bold="true" singleLine="true" text="按钮">
       <relation target="" sidePair="center-center,middle-middle"/>
     </text>
-    <text id="n5_pr3a" name="title2" xy="374,220" pivot="0.5,0.5" anchor="true" size="418,83" fontSize="63" color="#ffffff" align="center" vAlign="middle" singleLine="true" text="建议人数：6人">
-      <relation target="" sidePair="center-center,middle-middle"/>
-    </text>
-    <text id="n6_pr3a" name="title3" xy="371,315" pivot="0.5,0.5" anchor="true" size="503,83" font="ui://z7qisvfxlzh25" fontSize="63" color="#ffffff" align="center" vAlign="middle" singleLine="true" text="关键词：侍从危机">
+    <text id="n5_pr3a" name="title2" xy="372,294" pivot="0.5,0.5" anchor="true" size="279,92" fontSize="35" color="#ffffff" vAlign="middle" text="建议人数：6人&#xA;关键词：侍从危机">
       <relation target="" sidePair="center-center,middle-middle"/>
     </text>
   </displayList>
