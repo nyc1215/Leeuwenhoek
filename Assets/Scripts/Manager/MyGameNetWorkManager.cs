@@ -302,7 +302,7 @@ namespace Manager
         }
         
         [ServerRpc(RequireOwnership = false)]
-        public void ChangeVoteTextRpc(Characters character,bool isTalking)
+        public void ChangeVoteTextServerRpc(Characters character,bool isTalking)
         {
             for (var i = 0; i < NetLobbyPlayersCharacterStates.Count; i++)
             {

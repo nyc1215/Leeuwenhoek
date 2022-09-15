@@ -73,14 +73,14 @@ namespace UI.Game
         private void StartVoice()
         {
             _talkButton.title = "语音中";
-            MyGameNetWorkManager.Instance.ChangeVoteTextRpc(MyGameManager.Instance.localPlayerController.nowCharacter, true);
+            MyGameNetWorkManager.Instance.ChangeVoteTextServerRpc(MyGameManager.Instance.localPlayerController.nowCharacter, true);
             MyGameManager.Instance.VoiceStartTalk();
         }
 
         private void EndVoice()
         {
             _talkButton.title = "按住语音";
-            MyGameNetWorkManager.Instance.ChangeVoteTextRpc(MyGameManager.Instance.localPlayerController.nowCharacter, false);
+            MyGameNetWorkManager.Instance.ChangeVoteTextServerRpc(MyGameManager.Instance.localPlayerController.nowCharacter, false);
             MyGameManager.Instance.VoiceEndTalk();
         }
 
