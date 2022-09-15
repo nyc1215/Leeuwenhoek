@@ -364,7 +364,7 @@ MonoBehaviour:
   allTime: 1200
   rtcAppId: 977d278672b24ea085b4caf9e8c1987c
   rtcToken: 15d8e5cec0c4479ebd6e886e3cc57394
-  rtcChannelName: test
+  rtcChannelName: 
 --- !u!82 &1230632247
 AudioSource:
   m_ObjectHideFlags: 0
@@ -623,7 +623,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dontDestroyOnLoad: 1
-  uri: ws://localhost:8899/game
+  uri: ws://120.26.85.13:8899/game
 --- !u!4 &1360432570
 Transform:
   m_ObjectHideFlags: 0
