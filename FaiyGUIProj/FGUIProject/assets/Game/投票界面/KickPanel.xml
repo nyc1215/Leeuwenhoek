@@ -16,8 +16,8 @@
     <component id="n4_j5ug" name="Button_Talk" src="e0xw3" fileName="ButtonCom.xml" pkg="z7qisvfx" xy="1310,973" size="198,70">
       <Button title="按住语音"/>
     </component>
-    <component id="n6_dr9x" name="Button_Vote" src="e0xw3" fileName="ButtonCom.xml" pkg="z7qisvfx" xy="410,969" size="198,70">
-      <Button title="投票"/>
+    <component id="n6_dr9x" name="Button_AbandonVote" src="e0xw3" fileName="ButtonCom.xml" pkg="z7qisvfx" xy="410,969" size="198,70">
+      <Button title="放弃投票"/>
     </component>
   </displayList>
 </component>

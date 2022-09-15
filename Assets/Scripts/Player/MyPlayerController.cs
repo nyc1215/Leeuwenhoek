@@ -267,9 +267,18 @@ namespace Player
         }
 
         [ServerRpc]
-        private void SpawnPlayerBodyServerRpc(FixedString32Bytes bodyName, Vector3 pos)
+        private void SpawnPlayerBodyServerRpc(Characters character, FixedString32Bytes bodyName, Vector3 pos)
         {
             SyncPlayerBodyClientRpc(bodyName, pos);
+            for (var i = 0; i < MyGameNetWorkManager.Instance.NetLobbyPlayersCharacterStates.Count; i++)
+            {
+                var newNode = MyGameNetWorkManager.Instance.NetLobbyPlayersCharacterStates[i];
+                if (newNode.CharacterToChoose == character)
+                {
+                    newNode.IsDead = true;
+                    MyGameNetWorkManager.Instance.NetLobbyPlayersCharacterStates[i] = newNode;
+                }
+            }
         }
 
         [ClientRpc]
@@ -444,7 +453,7 @@ namespace Player
                 }
 
                 var trans = transform;
-                SpawnPlayerBodyServerRpc($"{nowCharacterName}({MyGameManager.Instance.LocalPlayerInfo.AccountName})",
+                SpawnPlayerBodyServerRpc(nowCharacter, $"{nowCharacterName}({MyGameManager.Instance.LocalPlayerInfo.AccountName})",
                     trans.position);
                 CreateABody();
             }
@@ -474,6 +483,8 @@ namespace Player
             AllBodies.Remove(tempBody);
             _bodiesFound.Remove(tempBody);
             tempBody.GetComponent<MyPlayerBody>().Report();
+            MyGameManager.Instance.localPlayerNetwork.CommitReportServerRpc();
+            OnDisable();
         }
 
         public void Report()
@@ -492,6 +503,8 @@ namespace Player
             AllBodies.Remove(tempBody);
             _bodiesFound.Remove(tempBody);
             tempBody.GetComponent<MyPlayerBody>().Report();
+            MyGameManager.Instance.localPlayerNetwork.CommitReportServerRpc();
+            OnDisable();
         }
 
         public void DoTask()

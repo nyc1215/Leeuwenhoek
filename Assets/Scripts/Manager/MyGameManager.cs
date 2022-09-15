@@ -190,6 +190,14 @@ namespace Manager
             }
         }
 
+        public void StopBGM()
+        {
+            if (gameObject.TryGetComponent<AudioSource>(out var bgm))
+            {
+                bgm.Stop();
+            }
+        }
+
         #endregion
 
         #region 权限

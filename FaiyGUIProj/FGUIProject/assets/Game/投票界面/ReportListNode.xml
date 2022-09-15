@@ -2,8 +2,8 @@
 <component size="440,160">
   <displayList>
     <image id="n0_j5ug" name="bg" src="dr9x18" fileName="投票界面/投票界面玩家节点底图.png" xy="219,78" pivot="0.5,0.5" anchor="true" size="473,198"/>
-    <text id="n1_j5ug" name="Text_User" xy="200,8" size="189,41" font="ui://z7qisvfxlzh25" fontSize="25" color="#ffffff" vars="true" autoSize="none" text="{accountName=user}"/>
-    <text id="n2_j5ug" name="Text_Talk" xy="336,116" size="78,35" visible="false" font="ui://z7qisvfxlzh25" fontSize="25" color="#ffffff" vars="true" text="说话中"/>
-    <loader id="n3_dr9x" name="Loader_head" xy="20,8" size="146,137"/>
+    <text id="n1_j5ug" name="Text_User" xy="200,8" size="95,68" font="ui://z7qisvfxlzh25" fontSize="25" color="#ffffff" vars="true" text="{accountName=user}&#xA;票数：{vote=0}"/>
+    <text id="n2_j5ug" name="Text_Talk" xy="336,116" size="79,35" visible="false" font="ui://z7qisvfxlzh25" fontSize="25" color="#ffffff" vars="true" text="说话中"/>
+    <loader id="n3_dr9x" name="Loader_head" xy="20,8" size="146,137" fill="scale"/>
   </displayList>
 </component>

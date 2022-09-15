@@ -52,13 +52,10 @@ namespace Player
             _networkShowVoiceIcon.Value = isShow;
         }
 
-        [ServerRpc]
-        private void CommitReportServerRpc()
+        [ServerRpc(RequireOwnership = false)]
+        public void CommitReportServerRpc()
         {
-            if (IsOwner && IsServer)
-            {
-                SyncReportClientRpc();
-            }
+            SyncReportClientRpc();
         }
 
         [ClientRpc]
@@ -104,10 +101,7 @@ namespace Player
             _netSpriteColor.OnValueChanged += (value, newValue) => { playerPartSpriteRenderer.color = newValue; };
             _netTopTextColor.OnValueChanged += (value, newValue) => { playerTopText.color = newValue; };
             NetTopText.OnValueChanged += (value, newValue) => { playerTopText.text = newValue.ToString(); };
-            _networkShowVoiceIcon.OnValueChanged += (value, newValue) =>
-            {
-                playerVoiceIcon.color = newValue ? Color.white : Color.clear;
-            };
+            _networkShowVoiceIcon.OnValueChanged += (value, newValue) => { playerVoiceIcon.color = newValue ? Color.white : Color.clear; };
         }
 
         public override void OnDestroy()

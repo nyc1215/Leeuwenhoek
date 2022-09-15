@@ -10,6 +10,12 @@
     <component id="lzh2v" name="CharacterPanel.xml" path="/" exported="true"/>
     <image id="dr9xw" name="17.png" path="/选角色图片/"/>
     <image id="dr9xx" name="18.png" path="/选角色图片/" scale9grid="0,0,-1684,-897"/>
+    <image id="di36y" name="baoluo.png" path="/选角色图片/角色头像/" exported="true"/>
+    <image id="di36z" name="xiaoan.png" path="/选角色图片/角色头像/" exported="true"/>
+    <image id="di3610" name="xuela.png" path="/选角色图片/角色头像/" exported="true"/>
+    <image id="rqoe11" name="lili.png" path="/选角色图片/角色头像/" exported="true"/>
+    <image id="rqoe12" name="weinuo.png" path="/选角色图片/角色头像/" exported="true"/>
+    <image id="rqoe13" name="yang.png" path="/选角色图片/角色头像/" exported="true"/>
   </resources>
   <publish name=""/>
 </packageDescription>

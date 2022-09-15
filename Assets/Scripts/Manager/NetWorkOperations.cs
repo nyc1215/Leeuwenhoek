@@ -102,6 +102,7 @@ namespace Manager
                 {
                     BootUIPanel.ChoosePanelComponent.visible = false;
                     BootUIPanel.InfoPanelComponent.visible = false;
+                    MyGameManager.Instance.StopBGM();
                     UIOperationUtil.GoToScene(MyGameManager.Instance.uiJumpData.roomMenu);
                 }
                 else

@@ -361,11 +361,9 @@ MonoBehaviour:
   localPlayerController: {fileID: 0}
   localPlayerNetwork: {fileID: 0}
   allPlayers: []
-  goodPlayerNum: 0
-  isImposterWin: 0
   allTime: 1200
   rtcAppId: 977d278672b24ea085b4caf9e8c1987c
-  rtcToken: 007eJxTYEgs5HS4qOhQ61hubPR03p1nmr2cX7Jnr/nolpz2QTZ44TQFBktz8xQjcwszc6MkI5PURAML0yST5MQ0y1SLZENLC/PkkDae5CvXeZOd2nqYGBkgEMRnYShJLS5hYAAAISAgsQ==
+  rtcToken: 15d8e5cec0c4479ebd6e886e3cc57394
   rtcChannelName: test
 --- !u!82 &1230632247
 AudioSource:

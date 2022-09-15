@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FairyGUI;
 using Player;
+using UI.Game;
 using UI.Room;
 using UI.Util;
 using Unity.Collections;
@@ -130,6 +131,7 @@ namespace Manager
             foreach (var myPlayerController in MyGameManager.Instance.allPlayers)
             {
                 var text = myPlayerController.gameObject.GetComponent<MyPlayerNetwork>().NetTopText.Value;
+                myPlayerController.playerAccountName = text.ToString();
                 if (text.Contains(accountName))
                 {
                     myPlayerController.isImposter = true;
@@ -238,7 +240,79 @@ namespace Manager
 
         private static void OnLobbyPlayerStateChanged(NetworkListEvent<LobbyPlayerCharacterState> changeEvent)
         {
-            FindObjectOfType<RoomUIPanel>().CharacterPanel?.UpdateCharacterChooseState();
+            if (MyGameManager.CompareScene(MyGameManager.Instance.uiJumpData.roomMenu))
+            {
+                FindObjectOfType<RoomUIPanel>().CharacterPanel?.UpdateCharacterChooseState();
+            }
+
+            if (MyGameManager.CompareScene(MyGameManager.Instance.uiJumpData.gameMenu))
+            {
+                var kickPanel = FindObjectOfType<GameUIPanel>().KickUIPanel;
+                if (kickPanel == null)
+                {
+                    return;
+                }
+                if (kickPanel.KickUIPanelWindow.isShowing)
+                {
+                    kickPanel.UpdateVoteState();
+                }
+            }
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        public void InitVoteServerRpc()
+        {
+            var needToInit = false;
+            foreach (var lobbyPlayersCharacterState in NetLobbyPlayersCharacterStates)
+            {
+                if (lobbyPlayersCharacterState.Vote == 0)
+                {
+                    continue;
+                }
+
+                needToInit = true;
+                break;
+            }
+
+            if (!needToInit)
+            {
+                return;
+            }
+
+            for (var i = 0; i < NetLobbyPlayersCharacterStates.Count; i++)
+            {
+                var netLobbyPlayersCharacterState = NetLobbyPlayersCharacterStates[i];
+                netLobbyPlayersCharacterState.Vote = 0;
+                NetLobbyPlayersCharacterStates[i] = netLobbyPlayersCharacterState;
+            }
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        public void ChangeVoteServerRpc(Characters character, bool isAdd)
+        {
+            for (var i = 0; i < NetLobbyPlayersCharacterStates.Count; i++)
+            {
+                if (NetLobbyPlayersCharacterStates[i].CharacterToChoose == character)
+                {
+                    var newNode = NetLobbyPlayersCharacterStates[i];
+                    newNode.Vote = isAdd ? ++newNode.Vote : --newNode.Vote;
+                    NetLobbyPlayersCharacterStates[i] = newNode;
+                }
+            }
+        }
+        
+        [ServerRpc(RequireOwnership = false)]
+        public void ChangeVoteTextRpc(Characters character,bool isTalking)
+        {
+            for (var i = 0; i < NetLobbyPlayersCharacterStates.Count; i++)
+            {
+                if (NetLobbyPlayersCharacterStates[i].CharacterToChoose == character)
+                {
+                    var newNode = NetLobbyPlayersCharacterStates[i];
+                    newNode.IsTalking = isTalking;
+                    NetLobbyPlayersCharacterStates[i] = newNode;
+                }
+            }
         }
 
         #endregion
@@ -281,17 +355,29 @@ namespace Manager
 
         public Characters CharacterToChoose;
 
+        public int Vote;
 
-        public LobbyPlayerCharacterState(FixedString32Bytes accountName, Characters characterToChoose)
+        public bool IsDead;
+
+        public bool IsTalking;
+
+
+        public LobbyPlayerCharacterState(FixedString32Bytes accountName, Characters characterToChoose, int vote = 0, bool isDead = false,bool isTalking = false)
         {
             AccountName = accountName;
             CharacterToChoose = characterToChoose;
+            Vote = vote;
+            IsDead = false;
+            IsTalking = false;
         }
 
         public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
         {
             serializer.SerializeValue(ref AccountName);
             serializer.SerializeValue(ref CharacterToChoose);
+            serializer.SerializeValue(ref Vote);
+            serializer.SerializeValue(ref IsDead);
+            serializer.SerializeValue(ref IsTalking);
         }
 
         public bool Equals(LobbyPlayerCharacterState other)
