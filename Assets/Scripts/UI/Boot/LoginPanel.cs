@@ -84,6 +84,7 @@ namespace UI.Boot
                 }
 
                 BootUIPanel.ChoosePanelComponent.visible = true;
+                BootUIPanel.ChoosePanelComponent.Center();
             };
             requestLogin.RequestFail += () => { BootUIPanel.TipPanel.Show("用户账号不存在，请先注册"); };
 

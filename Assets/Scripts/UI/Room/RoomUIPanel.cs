@@ -6,6 +6,8 @@ using MyWebSocket.Request;
 using MyWebSocket.Response;
 using UI.Game;
 using UI.Util;
+using Unity.Netcode.Transports.UTP;
+using Unity.Networking.Transport;
 using UnityEngine;
 using UnityEngine.Serialization;
 using NetworkManager = Unity.Netcode.NetworkManager;

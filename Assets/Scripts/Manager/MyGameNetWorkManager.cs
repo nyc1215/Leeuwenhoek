@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using FairyGUI;
@@ -9,6 +10,7 @@ using UI.Util;
 using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace Manager
@@ -26,14 +28,20 @@ namespace Manager
 
     public class MyGameNetWorkManager : NetworkBehaviour
     {
+        [Header("报告时间")] [Min(1)] public int time = 60;
+        private Coroutine _reportTimeCoroutine;
+
         [Header("游戏总进度")] [Range(0, 100)] private readonly NetworkVariable<int> _gameTotalProgress = new();
         public readonly NetworkVariable<bool> GameIsEnd = new();
 
         public NetworkList<LobbyPlayerCharacterState> NetLobbyPlayersCharacterStates;
+        public NetworkVariable<int> whoWillBeKicked = new();
 
         private readonly NetworkVariable<bool> _netIsAlreadyChooseImposter = new();
         public readonly NetworkVariable<int> NetGoodPlayerNum = new();
         private readonly NetworkVariable<bool> _netImposterIsWin = new();
+        private readonly NetworkVariable<bool> _netGoodIsWin = new();
+
 
         public GProgressBar GameProgressBar;
 
@@ -86,6 +94,7 @@ namespace Manager
                 }
             };
 
+            whoWillBeKicked.Value = -1;
             NetLobbyPlayersCharacterStates.OnListChanged += OnLobbyPlayerStateChanged;
             _netIsAlreadyChooseImposter.Value = false;
             NetGoodPlayerNum.Value = 0;
@@ -178,6 +187,15 @@ namespace Manager
             }
         }
 
+        [ServerRpc(RequireOwnership = false)]
+        public void CommitGoodPlayerWinServerRpc(bool isWin)
+        {
+            if (IsServer || IsHost)
+            {
+                _netGoodIsWin.Value = isWin;
+            }
+        }
+
         public override void OnDestroy()
         {
             NetLobbyPlayersCharacterStates.Dispose();
@@ -252,6 +270,7 @@ namespace Manager
                 {
                     return;
                 }
+
                 if (kickPanel.KickUIPanelWindow.isShowing)
                 {
                     kickPanel.UpdateVoteState();
@@ -297,12 +316,13 @@ namespace Manager
                     var newNode = NetLobbyPlayersCharacterStates[i];
                     newNode.Vote = isAdd ? ++newNode.Vote : --newNode.Vote;
                     NetLobbyPlayersCharacterStates[i] = newNode;
+                    CalculateWhoWillBekKicked();
                 }
             }
         }
-        
+
         [ServerRpc(RequireOwnership = false)]
-        public void ChangeVoteTextServerRpc(Characters character,bool isTalking)
+        public void ChangeVoteTextServerRpc(Characters character, bool isTalking)
         {
             for (var i = 0; i < NetLobbyPlayersCharacterStates.Count; i++)
             {
@@ -312,6 +332,64 @@ namespace Manager
                     newNode.IsTalking = isTalking;
                     NetLobbyPlayersCharacterStates[i] = newNode;
                 }
+            }
+        }
+
+        public void KickSomeOne()
+        {
+            if (whoWillBeKicked.Value == -1)
+            {
+                return;
+            }
+
+            KickPlayerServerRpc();
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        private void KickPlayerServerRpc()
+        {
+            var newNode = NetLobbyPlayersCharacterStates[whoWillBeKicked.Value];
+            newNode.IsKicked = true;
+            NetLobbyPlayersCharacterStates[whoWillBeKicked.Value] = newNode;
+            KickPlayerClientRpc(NetLobbyPlayersCharacterStates[whoWillBeKicked.Value].AccountName);
+        }
+
+        [ClientRpc]
+        private void KickPlayerClientRpc(FixedString32Bytes playerName)
+        {
+            foreach (var playerController in MyGameManager.Instance.allPlayers.Where(
+                         playerController => playerController.playerAccountName == playerName &&
+                                             !playerController.isDead && !playerController.isKicked))
+            {
+                playerController.BeKick();
+            }
+        }
+
+        private void CalculateWhoWillBekKicked()
+        {
+            if (IsServer || IsHost)
+            {
+                var voteList = new List<int>();
+                for (var i = 0; i < NetLobbyPlayersCharacterStates.Count; i++)
+                {
+                    voteList.Add(NetLobbyPlayersCharacterStates[i].Vote);
+                }
+
+
+                var result = voteList.Select((value, index) => new { Value = value, Index = index }).OrderByDescending(node => node.Value).Take(2).ToArray();
+                if (!result.Any())
+                {
+                    whoWillBeKicked.Value = -1;
+                    return;
+                }
+
+                if (result.First().Value == result.Last().Value)
+                {
+                    whoWillBeKicked.Value = -1;
+                    return;
+                }
+
+                whoWillBeKicked.Value = result.First().Index;
             }
         }
 
@@ -347,6 +425,42 @@ namespace Manager
                 MyGameManager.Instance.localPlayerNetwork = null;
             }
         }
+
+        public void StartReportCountDown()
+        {
+            if (_reportTimeCoroutine != null)
+            {
+                StopReportCountDown();
+            }
+
+            _reportTimeCoroutine = StartCoroutine(ReportCountDown());
+        }
+
+        public void StopReportCountDown()
+        {
+            if (_reportTimeCoroutine == null)
+            {
+                return;
+            }
+
+            StopCoroutine(_reportTimeCoroutine);
+            _reportTimeCoroutine = null;
+        }
+
+        private IEnumerator ReportCountDown()
+        {
+            var allTime = time;
+            var waitASec = new WaitForSeconds(1);
+            var kickPanel = FindObjectOfType<GameUIPanel>().KickUIPanel;
+            while (allTime >= 0)
+            {
+                kickPanel.UpdateCountDown(allTime);
+                yield return waitASec;
+                allTime--;
+            }
+
+            kickPanel.CountDownFinish();
+        }
     }
 
     public struct LobbyPlayerCharacterState : INetworkSerializable, IEquatable<LobbyPlayerCharacterState>
@@ -361,14 +475,17 @@ namespace Manager
 
         public bool IsTalking;
 
+        public bool IsKicked;
 
-        public LobbyPlayerCharacterState(FixedString32Bytes accountName, Characters characterToChoose, int vote = 0, bool isDead = false,bool isTalking = false)
+
+        public LobbyPlayerCharacterState(FixedString32Bytes accountName, Characters characterToChoose, int vote = 0, bool isDead = false, bool isTalking = false, bool isKicked = false)
         {
             AccountName = accountName;
             CharacterToChoose = characterToChoose;
             Vote = vote;
-            IsDead = false;
-            IsTalking = false;
+            IsDead = isDead;
+            IsTalking = isTalking;
+            IsKicked = isKicked;
         }
 
         public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
@@ -378,6 +495,7 @@ namespace Manager
             serializer.SerializeValue(ref Vote);
             serializer.SerializeValue(ref IsDead);
             serializer.SerializeValue(ref IsTalking);
+            serializer.SerializeValue(ref IsKicked);
         }
 
         public bool Equals(LobbyPlayerCharacterState other)

@@ -60,6 +60,12 @@ namespace Tasks
             if (other.CompareTag("Player") &&
                 other.gameObject.GetComponent<NetworkObject>().IsLocalPlayer)
             {
+                if (other.gameObject.GetComponent<MyPlayerController>().isDead ||
+                    other.gameObject.GetComponent<MyPlayerController>().isKicked)
+                {
+                    return;
+                }
+
                 MyGameManager.Instance.localPlayerController.nowTask = this;
                 _gameUIPanel.ChangeTaskButtonVisible(true);
             }
@@ -70,6 +76,12 @@ namespace Tasks
             if (other.CompareTag("Player") &&
                 other.gameObject.GetComponent<NetworkObject>().IsLocalPlayer)
             {
+                if (other.gameObject.GetComponent<MyPlayerController>().isDead ||
+                    other.gameObject.GetComponent<MyPlayerController>().isKicked)
+                {
+                    return;
+                }
+
                 MyGameManager.Instance.localPlayerController.nowTask = null;
                 _gameUIPanel.ChangeTaskButtonVisible(false);
             }

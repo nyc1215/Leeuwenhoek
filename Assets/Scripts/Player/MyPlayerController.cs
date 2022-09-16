@@ -41,6 +41,7 @@ namespace Player
         public float moveSpeed;
 
         [Tooltip("是否死亡")] public bool isDead;
+        [Tooltip("是否被踢出")] public bool isKicked;
         [Tooltip("角色尸体预制体")] public GameObject bodyPrefab;
         public TaskUtil nowTask;
         public SewerForImposter nowSewer;
@@ -282,6 +283,12 @@ namespace Player
         }
 
         [ClientRpc]
+        private void SyncOnePlayerIsKickedClientRpc(ulong networkObjectId)
+        {
+        }
+
+
+        [ClientRpc]
         private void SyncPlayerBodyClientRpc(FixedString32Bytes bodyName, Vector3 pos)
         {
             var temPlayerBodyGameObject = Instantiate(bodyPrefab, pos, Quaternion.Euler(0, 0, 0));
@@ -345,9 +352,16 @@ namespace Player
 
                     if (Physics.Raycast(ray, out var hit, 1000f, ~ignoreForHide))
                     {
-                        otherPlayerController.ChangeAllComponentsNeedToHide(
-                            hit.collider.CompareTag("Player")
-                        );
+                        if (otherPlayerController.isDead || otherPlayerController.isKicked)
+                        {
+                            otherPlayerController.ChangeAllComponentsNeedToHide(true);
+                        }
+                        else
+                        {
+                            otherPlayerController.ChangeAllComponentsNeedToHide(
+                                hit.collider.CompareTag("Player")
+                            );
+                        }
                     }
                 }
             }
@@ -436,7 +450,7 @@ namespace Player
             }
 
             isDead = true;
-            _collider.enabled = false;
+            //_collider.enabled = false;
 
             gameObject.layer = LayerMask.NameToLayer("Ghost") == -1 ? 9 : LayerMask.NameToLayer("Ghost");
 
@@ -456,6 +470,7 @@ namespace Player
                 SpawnPlayerBodyServerRpc(nowCharacter, $"{nowCharacterName}({MyGameManager.Instance.LocalPlayerInfo.AccountName})",
                     trans.position);
                 CreateABody();
+                FindObjectOfType<GameUIPanel>().HideAllButtons();
             }
         }
 
@@ -512,6 +527,39 @@ namespace Player
             if (nowTask != null)
             {
                 nowTask.StartTask();
+            }
+        }
+
+        public void BeKick()
+        {
+            if (isDead || isKicked)
+            {
+                return;
+            }
+
+            isKicked = true;
+            //_collider.enabled = false;
+
+            gameObject.layer = LayerMask.NameToLayer("Ghost") == -1 ? 9 : LayerMask.NameToLayer("Ghost");
+
+            var newColor = playerSpriteRenderer.color;
+            newColor = new Color(newColor.r, newColor.g, newColor.b, 0.5f);
+            playerSpriteRenderer.color = newColor;
+
+            if (IsOwner)
+            {
+                FindObjectOfType<GameUIPanel>().HideAllButtons();
+
+                if (!isImposter)
+                {
+                    MyGameNetWorkManager.Instance.CommitGoodPlayerNumServerRpc(
+                        MyGameNetWorkManager.Instance.NetGoodPlayerNum.Value - 1);
+                }
+                else
+                {
+                    MyGameNetWorkManager.Instance.CommitGoodPlayerWinServerRpc(true);
+                    MyGameNetWorkManager.Instance.CommitGameEndServerRpc(true);
+                }
             }
         }
 

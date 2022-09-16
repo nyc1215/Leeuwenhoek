@@ -11,6 +11,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 #if UNITY_2018_3_OR_NEWER
 using UnityEngine.Android;
@@ -58,6 +59,12 @@ namespace Manager
         }
     }
 
+    public enum NetOrLocal
+    {
+        Online,
+        Local
+    }
+
     /// <summary>
     /// 游戏管理单例类
     /// </summary>
@@ -85,8 +92,10 @@ namespace Manager
 
         #region 网络操作
 
+        [Header("联网/本地运行")]public NetOrLocal netOrLocal;
+        
         public readonly NetWorkOperations NetWorkOperations = new();
-
+        
         //安卓权限列表
         private readonly List<string> _permissionList = new();
 

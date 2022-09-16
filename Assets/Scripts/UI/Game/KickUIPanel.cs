@@ -17,6 +17,7 @@ namespace UI.Game
         private readonly GButton _abandonVoteButton;
         private readonly GList _listPlayer;
         private readonly GTextField _timer;
+        private readonly GTextField _selectWho;
 
         private Characters _lastVoteCharacter;
 
@@ -39,6 +40,7 @@ namespace UI.Game
             _listPlayer = _kickPanelCom.GetChild("List_Player").asList;
 
             _timer = _kickPanelCom.GetChild("title").asTextField;
+            _selectWho = _kickPanelCom.GetChild("Text_selectWho").asTextField;
 
             _characterImgURL = new Dictionary<Characters, string>
             {
@@ -61,9 +63,10 @@ namespace UI.Game
             AddPlayerNodeToList();
             MyGameNetWorkManager.Instance.InitVoteServerRpc();
             KickUIPanelWindow.Show();
+            MyGameNetWorkManager.Instance.StartReportCountDown();
         }
 
-        public void ClosePanel()
+        private void ClosePanel()
         {
             MyGameManager.Instance.VoiceEndTalk();
             KickUIPanelWindow.Hide();
@@ -72,6 +75,11 @@ namespace UI.Game
 
         private void StartVoice()
         {
+            if (MyGameManager.Instance.localPlayerController.isDead || MyGameManager.Instance.localPlayerController.isKicked)
+            {
+                return;
+            }
+
             _talkButton.title = "语音中";
             MyGameNetWorkManager.Instance.ChangeVoteTextServerRpc(MyGameManager.Instance.localPlayerController.nowCharacter, true);
             MyGameManager.Instance.VoiceStartTalk();
@@ -79,6 +87,11 @@ namespace UI.Game
 
         private void EndVoice()
         {
+            if (MyGameManager.Instance.localPlayerController.isDead || MyGameManager.Instance.localPlayerController.isKicked)
+            {
+                return;
+            }
+
             _talkButton.title = "按住语音";
             MyGameNetWorkManager.Instance.ChangeVoteTextServerRpc(MyGameManager.Instance.localPlayerController.nowCharacter, false);
             MyGameManager.Instance.VoiceEndTalk();
@@ -90,9 +103,9 @@ namespace UI.Game
             {
                 var node = _listPlayer.AddChild(UIPackage.CreateObject("Game", "ReportListNode").asCom).asCom;
                 node.GetChild("Loader_head").asLoader.url = _characterImgURL[playerState.CharacterToChoose];
-                
+
                 var nodeText = node.GetChild("Text_User").asTextField;
-                if (playerState.IsDead)
+                if (playerState.IsDead || playerState.IsKicked)
                 {
                     node.touchable = false;
                     nodeText.text = "{accountName=user} ×";
@@ -100,8 +113,9 @@ namespace UI.Game
                     nodeText.SetVar("accountName", playerState.AccountName.ToString()).FlushVars();
                     continue;
                 }
+
                 nodeText.SetVar("accountName", playerState.AccountName.ToString()).SetVar("vote", playerState.Vote.ToString()).FlushVars();
-                node.onClick.Add(() => { Vote(playerState.CharacterToChoose); });
+                node.onClick.Add(() => { Vote(playerState.CharacterToChoose,nodeText.templateVars["accountName"]); });
             }
         }
 
@@ -114,17 +128,40 @@ namespace UI.Game
             }
         }
 
+        public void UpdateCountDown(int nowTime)
+        {
+            _timer.SetVar("state", nowTime.ToString()).FlushVars();
+        }
+
+        public void CountDownFinish()
+        {
+            MyGameNetWorkManager.Instance.KickSomeOne();
+            MyGameNetWorkManager.Instance.StopReportCountDown();
+            ClosePanel();
+        }
+
         private void AbandonVote()
         {
+            if (MyGameManager.Instance.localPlayerController.isDead || MyGameManager.Instance.localPlayerController.isKicked)
+            {
+                return;
+            }
+
             if (_lastVoteCharacter != Characters.None && _lastVoteCharacter != MyGameManager.Instance.localPlayerController.nowCharacter)
             {
                 MyGameNetWorkManager.Instance.ChangeVoteServerRpc(_lastVoteCharacter, false);
                 _lastVoteCharacter = Characters.None;
+                _selectWho.text = "放弃投票";
             }
         }
 
-        private void Vote(Characters character)
+        private void Vote(Characters character, string accountName)
         {
+            if (MyGameManager.Instance.localPlayerController.isDead || MyGameManager.Instance.localPlayerController.isKicked)
+            {
+                return;
+            }
+
             if (_lastVoteCharacter != Characters.None)
             {
                 MyGameNetWorkManager.Instance.ChangeVoteServerRpc(_lastVoteCharacter, false);
@@ -133,11 +170,14 @@ namespace UI.Game
             if (character == MyGameManager.Instance.localPlayerController.nowCharacter)
             {
                 _lastVoteCharacter = Characters.None;
+                _selectWho.text = "放弃投票";
                 return;
             }
 
             MyGameNetWorkManager.Instance.ChangeVoteServerRpc(character, true);
             _lastVoteCharacter = character;
+            _selectWho.text = "你把票投给了:{who=}";
+            _selectWho.SetVar("who", accountName);
         }
     }
 }

@@ -134,5 +134,14 @@ namespace UI.Game
                 MyGameManager.Instance.allTime--;
             }
         }
+
+        public void HideAllButtons()
+        {
+            _reportButton.visible = false;
+            _killButton.visible = false;
+            _taskButton.visible = false;
+            _sewerButton.visible = false;
+        }
+        
     }
 }

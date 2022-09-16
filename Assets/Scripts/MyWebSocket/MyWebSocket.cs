@@ -10,7 +10,7 @@ namespace MyWebSocket
 {
     public class MyWebSocket : SingleTon<MyWebSocket>
     {
-        public string uri = "webSocket://localhost:8080/web1/webSocket";
+        public string uri;
 
         public static WebSocket WebSocket;
 
@@ -18,7 +18,7 @@ namespace MyWebSocket
 
         private void Init()
         {
-            //HTTPManager.Logger.Level = BestHTTP.Logger.Loglevels.All;
+            uri = MyGameManager.Instance.netOrLocal == NetOrLocal.Local ? "ws://localhost:8899/game" : "ws://120.26.85.13:8899/game";
             WebSocket = new WebSocket(new Uri(uri));
 #if !UNITY_WEBGL || UNITY_EDITOR
             WebSocket.StartPingThread = true;
@@ -83,6 +83,7 @@ namespace MyWebSocket
             base.Awake();
 
             //HTTPManager.Logger.Level = BestHTTP.Logger.Loglevels.All;
+            
             if (WebSocket == null)
             {
                 Init();
