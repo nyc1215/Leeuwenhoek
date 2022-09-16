@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Manager;
 using TMPro;
 using UI.Game;
 using Unity.Netcode;
@@ -35,7 +36,8 @@ namespace Player
         public void Report()
         {
             Debug.Log("Reported");
-            Destroy(gameObject);
+            //Destroy(gameObject);
+            MyGameManager.Instance.localPlayerController.DestroyBodyServerRpc(NetworkObject.NetworkObjectId);
         }
 
         public void SetBodyHide(bool isHide)

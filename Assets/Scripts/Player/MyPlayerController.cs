@@ -162,6 +162,11 @@ namespace Player
         {
             if (other.CompareTag("Player"))
             {
+                if (other.gameObject.GetComponent<MyPlayerController>().isDead ||
+                    other.gameObject.GetComponent<MyPlayerController>().isKicked)
+                {
+                    return;
+                }
                 var targetPlayer = other.GetComponent<MyPlayerController>();
                 if (isImposter)
                 {
@@ -179,6 +184,11 @@ namespace Player
         {
             if (other.CompareTag("Player"))
             {
+                if (other.gameObject.GetComponent<MyPlayerController>().isDead ||
+                    other.gameObject.GetComponent<MyPlayerController>().isKicked)
+                {
+                    return;
+                }
                 var targetPlayer = other.GetComponent<MyPlayerController>();
                 if (_targets.Contains(targetPlayer))
                 {
@@ -191,6 +201,11 @@ namespace Player
         {
             if (other.CompareTag("Player"))
             {
+                if (other.gameObject.GetComponent<MyPlayerController>().isDead ||
+                    other.gameObject.GetComponent<MyPlayerController>().isKicked)
+                {
+                    return;
+                }
                 _targets.Sort((player1, player2) =>
                 {
                     var localPlayerPosition = transform.position;
@@ -270,31 +285,53 @@ namespace Player
         [ServerRpc]
         private void SpawnPlayerBodyServerRpc(Characters character, FixedString32Bytes bodyName, Vector3 pos)
         {
-            SyncPlayerBodyClientRpc(bodyName, pos);
-            for (var i = 0; i < MyGameNetWorkManager.Instance.NetLobbyPlayersCharacterStates.Count; i++)
+            if (IsServer)
             {
-                var newNode = MyGameNetWorkManager.Instance.NetLobbyPlayersCharacterStates[i];
-                if (newNode.CharacterToChoose == character)
+                var temPlayerBodyGameObject = Instantiate(bodyPrefab, pos, Quaternion.Euler(0, 0, 0));
+                var temPlayerBody = temPlayerBodyGameObject.GetComponent<MyPlayerBody>();
+                temPlayerBody.transform.position = pos;
+                temPlayerBody.SetColor(Color.gray);
+                temPlayerBody.SetText(bodyName.ToString());
+
+                temPlayerBodyGameObject.GetComponent<NetworkObject>().Spawn(true);
+
+
+                //var bodyNetID = temPlayerBodyGameObject.GetComponent<NetworkObject>().NetworkObjectId;
+                //SyncPlayerBodyClientRpc(bodyName, pos, bodyNetID);
+
+                for (var i = 0; i < MyGameNetWorkManager.Instance.NetLobbyPlayersCharacterStates.Count; i++)
                 {
-                    newNode.IsDead = true;
-                    MyGameNetWorkManager.Instance.NetLobbyPlayersCharacterStates[i] = newNode;
+                    var newNode = MyGameNetWorkManager.Instance.NetLobbyPlayersCharacterStates[i];
+                    if (newNode.CharacterToChoose == character)
+                    {
+                        newNode.IsDead = true;
+                        MyGameNetWorkManager.Instance.NetLobbyPlayersCharacterStates[i] = newNode;
+                    }
                 }
             }
         }
 
-        [ClientRpc]
-        private void SyncOnePlayerIsKickedClientRpc(ulong networkObjectId)
-        {
-        }
+        // [ServerRpc(RequireOwnership = false)]
+        // public void CommitSyncPlayerBodyServerRpc(ulong bodyNetID)
+        // {
+        //     SyncPlayerBodyClientRpc(null, Vector3.zero, bodyNetID);
+        // }
+        //
+        // [ClientRpc]
+        // private void SyncPlayerBodyClientRpc(FixedString32Bytes bodyName, Vector3 pos, ulong bodyNetID)
+        // {
+        //     var netBodyObj = NetworkManager.Singleton.SpawnManager.SpawnedObjects[bodyNetID];
+        //     // var temPlayerBody = netBodyObj.gameObject.GetComponent<MyPlayerBody>();
+        //     // temPlayerBody.transform.position = pos;
+        //     // temPlayerBody.SetColor(Color.gray);
+        //     // temPlayerBody.SetText(bodyName.ToString());
+        // }
 
-
-        [ClientRpc]
-        private void SyncPlayerBodyClientRpc(FixedString32Bytes bodyName, Vector3 pos)
+        [ServerRpc(RequireOwnership = false)]
+        public void DestroyBodyServerRpc(ulong bodyItemID)
         {
-            var temPlayerBodyGameObject = Instantiate(bodyPrefab, pos, Quaternion.Euler(0, 0, 0));
-            var temPlayerBody = temPlayerBodyGameObject.GetComponent<MyPlayerBody>();
-            temPlayerBody.SetColor(Color.gray);
-            temPlayerBody.SetText(bodyName.ToString());
+            var bodyToDestroy = NetworkManager.Singleton.SpawnManager.SpawnedObjects[bodyItemID];
+            bodyToDestroy.Despawn(true);
         }
 
         [ServerRpc(RequireOwnership = false)]
@@ -450,7 +487,7 @@ namespace Player
             }
 
             isDead = true;
-            //_collider.enabled = false;
+            _collider.enabled = false;
 
             gameObject.layer = LayerMask.NameToLayer("Ghost") == -1 ? 9 : LayerMask.NameToLayer("Ghost");
 
@@ -469,7 +506,7 @@ namespace Player
                 var trans = transform;
                 SpawnPlayerBodyServerRpc(nowCharacter, $"{nowCharacterName}({MyGameManager.Instance.LocalPlayerInfo.AccountName})",
                     trans.position);
-                CreateABody();
+                //CreateABody();
                 FindObjectOfType<GameUIPanel>().HideAllButtons();
             }
         }
@@ -538,7 +575,7 @@ namespace Player
             }
 
             isKicked = true;
-            //_collider.enabled = false;
+            _collider.enabled = false;
 
             gameObject.layer = LayerMask.NameToLayer("Ghost") == -1 ? 9 : LayerMask.NameToLayer("Ghost");
 

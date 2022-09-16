@@ -177,7 +177,7 @@ namespace UI.Game
             MyGameNetWorkManager.Instance.ChangeVoteServerRpc(character, true);
             _lastVoteCharacter = character;
             _selectWho.text = "你把票投给了:{who=}";
-            _selectWho.SetVar("who", accountName);
+            _selectWho.SetVar("who", accountName).FlushVars();
         }
     }
 }

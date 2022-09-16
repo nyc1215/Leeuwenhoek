@@ -29,6 +29,11 @@ namespace InteractiveObj
                 if (other.gameObject.GetComponent<MyPlayerController>().isImposter &&
                     other.gameObject.GetComponent<NetworkObject>().IsLocalPlayer)
                 {
+                    if (other.gameObject.GetComponent<MyPlayerController>().isDead ||
+                        other.gameObject.GetComponent<MyPlayerController>().isKicked)
+                    {
+                        return;
+                    }
                     _spriteRenderer.color = Color.yellow;
                     MyGameManager.Instance.localPlayerController.nowSewer = this;
                     FindObjectOfType<GameUIPanel>().ChangeSewerButtonVisible(true);
@@ -43,6 +48,11 @@ namespace InteractiveObj
                 if (other.gameObject.GetComponent<MyPlayerController>().isImposter &&
                     other.gameObject.GetComponent<NetworkObject>().IsLocalPlayer)
                 {
+                    if (other.gameObject.GetComponent<MyPlayerController>().isDead ||
+                        other.gameObject.GetComponent<MyPlayerController>().isKicked)
+                    {
+                        return;
+                    }
                     _spriteRenderer.color = Color.white;
                     MyGameManager.Instance.localPlayerController.nowSewer = null;
                     FindObjectOfType<GameUIPanel>().ChangeSewerButtonVisible(false);
