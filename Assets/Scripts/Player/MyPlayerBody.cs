@@ -36,7 +36,10 @@ namespace Player
         public void Report()
         {
             Debug.Log("Reported");
-            //Destroy(gameObject);
+            if (MyPlayerController.AllBodies != null)
+            {
+                MyPlayerController.AllBodies.Remove(transform);
+            }
             MyGameManager.Instance.localPlayerController.DestroyBodyServerRpc(NetworkObject.NetworkObjectId);
         }
 

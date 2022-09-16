@@ -167,6 +167,7 @@ namespace Player
                 {
                     return;
                 }
+
                 var targetPlayer = other.GetComponent<MyPlayerController>();
                 if (isImposter)
                 {
@@ -189,6 +190,7 @@ namespace Player
                 {
                     return;
                 }
+
                 var targetPlayer = other.GetComponent<MyPlayerController>();
                 if (_targets.Contains(targetPlayer))
                 {
@@ -206,6 +208,7 @@ namespace Player
                 {
                     return;
                 }
+
                 _targets.Sort((player1, player2) =>
                 {
                     var localPlayerPosition = transform.position;
@@ -282,7 +285,7 @@ namespace Player
             MyGameNetWorkManager.Instance.RandomSetImposterServerRpc();
         }
 
-        [ServerRpc]
+        [ServerRpc(RequireOwnership = false)]
         private void SpawnPlayerBodyServerRpc(Characters character, FixedString32Bytes bodyName, Vector3 pos)
         {
             if (IsServer)
@@ -294,10 +297,6 @@ namespace Player
                 temPlayerBody.SetText(bodyName.ToString());
 
                 temPlayerBodyGameObject.GetComponent<NetworkObject>().Spawn(true);
-
-
-                //var bodyNetID = temPlayerBodyGameObject.GetComponent<NetworkObject>().NetworkObjectId;
-                //SyncPlayerBodyClientRpc(bodyName, pos, bodyNetID);
 
                 for (var i = 0; i < MyGameNetWorkManager.Instance.NetLobbyPlayersCharacterStates.Count; i++)
                 {
@@ -311,21 +310,6 @@ namespace Player
             }
         }
 
-        // [ServerRpc(RequireOwnership = false)]
-        // public void CommitSyncPlayerBodyServerRpc(ulong bodyNetID)
-        // {
-        //     SyncPlayerBodyClientRpc(null, Vector3.zero, bodyNetID);
-        // }
-        //
-        // [ClientRpc]
-        // private void SyncPlayerBodyClientRpc(FixedString32Bytes bodyName, Vector3 pos, ulong bodyNetID)
-        // {
-        //     var netBodyObj = NetworkManager.Singleton.SpawnManager.SpawnedObjects[bodyNetID];
-        //     // var temPlayerBody = netBodyObj.gameObject.GetComponent<MyPlayerBody>();
-        //     // temPlayerBody.transform.position = pos;
-        //     // temPlayerBody.SetColor(Color.gray);
-        //     // temPlayerBody.SetText(bodyName.ToString());
-        // }
 
         [ServerRpc(RequireOwnership = false)]
         public void DestroyBodyServerRpc(ulong bodyItemID)
@@ -408,6 +392,11 @@ namespace Player
         {
             foreach (var body in AllBodies)
             {
+                if (body == null)
+                {
+                    return;
+                }
+
                 var playerPos = transform.position;
                 var bodyPos = body.position;
                 var ray = new Ray(playerPos, bodyPos - playerPos);
@@ -504,9 +493,9 @@ namespace Player
                 }
 
                 var trans = transform;
-                SpawnPlayerBodyServerRpc(nowCharacter, $"{nowCharacterName}({MyGameManager.Instance.LocalPlayerInfo.AccountName})",
+                SpawnPlayerBodyServerRpc(nowCharacter,
+                    $"{nowCharacterName}({MyGameManager.Instance.LocalPlayerInfo.AccountName})",
                     trans.position);
-                //CreateABody();
                 FindObjectOfType<GameUIPanel>().HideAllButtons();
             }
         }

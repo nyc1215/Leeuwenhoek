@@ -362,7 +362,7 @@ MonoBehaviour:
   localPlayerNetwork: {fileID: 0}
   allPlayers: []
   allTime: 1200
-  netOrLocal: 1
+  netOrLocal: 0
   rtcAppId: 977d278672b24ea085b4caf9e8c1987c
   rtcToken: 15d8e5cec0c4479ebd6e886e3cc57394
   rtcChannelName: 
