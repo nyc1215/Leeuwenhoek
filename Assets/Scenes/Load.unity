@@ -254,7 +254,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   packageName: Load
   componentName: LoadPanel
-  fitScreen: 0
+  fitScreen: 3
   sortingOrder: 0
   packagePath: FairyGUIOutPut/Load
   renderMode: 0

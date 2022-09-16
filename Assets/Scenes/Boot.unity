@@ -224,7 +224,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   packageName: Boot
   componentName: BootPanel
-  fitScreen: 0
+  fitScreen: 3
   sortingOrder: 0
   packagePath: FairyGUIOutPut/Boot
   renderMode: 1

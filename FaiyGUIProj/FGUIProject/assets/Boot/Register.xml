@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<component size="800,600" pivot="0.5,0.5" anchor="true" extention="Label">
+<component size="800,600" anchor="true" extention="Label">
   <displayList>
     <graph id="n9_pwzh" name="n9" xy="33,46" size="734,471" type="rect" lineSize="0" fillColor="#7f000000"/>
     <image id="n0_9v6e" name="bg" src="pwzh9" fileName="图片/弹出面板背景.png" xy="400,300" pivot="0.5,0.5" anchor="true" size="800,600"/>

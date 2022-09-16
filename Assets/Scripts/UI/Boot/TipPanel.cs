@@ -20,7 +20,6 @@ namespace UI.Boot
         public TipPanel()
         {
             _tipUIComponent = UIPackage.CreateObject("Boot", "Tip").asCom;
-            _tipUIComponent.Center();
             Assert.IsNotNull(_tipUIComponent);
 
             _tipUIBackButton = _tipUIComponent.GetChild("Button_Back").asButton;
@@ -34,6 +33,8 @@ namespace UI.Boot
             {
                 contentPane = _tipUIComponent,
                 closeButton = _tipUIBackButton,
+                pivot = Vector2.zero,
+                pivotAsAnchor = true,
                 modal = true
             };
         }
@@ -59,6 +60,7 @@ namespace UI.Boot
             }
 
             _window.Show();
+            _window.Center();
             _window.BringToFront();
         }
 
@@ -71,6 +73,7 @@ namespace UI.Boot
             
             _tipUIText.text = tips;
             _window.Show();
+            _window.Center();
             _window.BringToFront();
         }
 

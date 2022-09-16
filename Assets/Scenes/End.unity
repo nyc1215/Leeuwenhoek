@@ -289,7 +289,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   packageName: End
   componentName: EndCom
-  fitScreen: 0
+  fitScreen: 3
   sortingOrder: 0
   packagePath: FairyGUIOutPut/End
   renderMode: 1

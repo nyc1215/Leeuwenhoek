@@ -22,7 +22,6 @@ namespace UI.Boot
         public MatchingPanel()
         {
             _matchingUIComponent = UIPackage.CreateObject("Boot", "Matching").asCom;
-            _matchingUIComponent.Center();
             Assert.IsNotNull(_matchingUIComponent);
 
             _matchingUIBackButton = _matchingUIComponent.GetChild("Button_Back").asButton;
@@ -37,6 +36,8 @@ namespace UI.Boot
             {
                 contentPane = _matchingUIComponent,
                 closeButton = _matchingUIBackButton,
+                pivot = Vector2.zero,
+                pivotAsAnchor = true,
                 modal = true
             };
 
@@ -49,6 +50,7 @@ namespace UI.Boot
             MyGameManager.Instance.NetWorkOperations.SendRequest(requestMatching);
 
             _window.Show();
+            _window.Center();
             _matchingTextAnimate.Play(-1, 0, null);
             _window.BringToFront();
         }

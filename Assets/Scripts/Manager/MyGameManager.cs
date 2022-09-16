@@ -7,6 +7,7 @@ using MyWebSocket.Response;
 using Player;
 using UI.Util;
 using Unity.Netcode;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.SceneManagement;
@@ -136,6 +137,7 @@ namespace Manager
 
         private void Start()
         {
+            Screen.sleepTimeout = SleepTimeout.NeverSleep;
 #if UNITY_2018_3_OR_NEWER
             _permissionList.Add(Permission.Microphone);
 #endif

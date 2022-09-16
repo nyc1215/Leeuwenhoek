@@ -26,7 +26,6 @@ namespace UI.Boot
         public LoginPanel(GComponent uiRoot)
         {
             _loginUIComponent = UIPackage.CreateObject("Boot", "Login").asCom;
-            _loginUIComponent.Center();
             Assert.IsNotNull(_loginUIComponent);
 
             _loginUIBackButton = _loginUIComponent.GetChild("Button_Back").asButton;
@@ -41,20 +40,20 @@ namespace UI.Boot
             {
                 contentPane = _loginUIComponent,
                 closeButton = _loginUIBackButton,
+                pivot = Vector2.zero,
+                pivotAsAnchor = true,
                 modal = true
             };
             _loginButton.onClick.Add(Login);
             _loginUITextInput.onFocusIn.Add(() => { _loginUITextInput.promptText = string.Empty; });
-            _loginUIBackButton.onClick.Add(() =>
-            {
-                uiRoot.filter = null;
-            });
+            _loginUIBackButton.onClick.Add(() => { uiRoot.filter = null; });
         }
 
         public void Show()
         {
             _loginUITextInput.promptText = "请输入账号";
             _window.Show();
+            _window.Center();
             MyWebSocket.MyWebSocket.Instance.Connect();
         }
 
@@ -83,6 +82,7 @@ namespace UI.Boot
                 {
                     GRoot.inst.AddChild(BootUIPanel.ChoosePanelComponent);
                 }
+
                 BootUIPanel.ChoosePanelComponent.visible = true;
             };
             requestLogin.RequestFail += () => { BootUIPanel.TipPanel.Show("用户账号不存在，请先注册"); };

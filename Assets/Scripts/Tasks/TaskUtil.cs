@@ -42,6 +42,8 @@ namespace Tasks
                 contentPane = TaskUI,
                 modal = true,
                 closeButton = _taskQuitButton,
+                pivot = Vector2.zero,
+                pivotAsAnchor = true,
                 gameObjectName = "UIPanel"
             };
             TaskWindow.closeButton.onClick.Add(EndTask);

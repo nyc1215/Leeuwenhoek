@@ -25,7 +25,6 @@ namespace UI.Boot
         public RegisterPanel(GComponent uiRoot)
         {
             _registerUIComponent = UIPackage.CreateObject("Boot", "Register").asCom;
-            _registerUIComponent.Center();
             Assert.IsNotNull(_registerUIComponent);
 
             _registerUIBackButton = _registerUIComponent.GetChild("Button_Back").asButton;
@@ -41,6 +40,8 @@ namespace UI.Boot
             {
                 contentPane = _registerUIComponent,
                 closeButton = _registerUIBackButton,
+                pivot = Vector2.zero,
+                pivotAsAnchor = true,
                 modal = true
             };
 
@@ -56,6 +57,7 @@ namespace UI.Boot
         public void Show()
         {
             _window.Show();
+            _window.Center();
             _registerAccountInput.promptText = "请输入账号";
             _registerAccountInput.text = string.Empty;
             _registerAccountNameInput.promptText = "请输入昵称";
