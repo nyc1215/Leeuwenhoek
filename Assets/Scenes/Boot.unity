@@ -362,6 +362,7 @@ MonoBehaviour:
   localPlayerNetwork: {fileID: 0}
   allPlayers: []
   allTime: 1200
+  netOrLocal: 1
   rtcAppId: 977d278672b24ea085b4caf9e8c1987c
   rtcToken: 15d8e5cec0c4479ebd6e886e3cc57394
   rtcChannelName: 
@@ -685,6 +686,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 236c762d76104a8ab323ed19749ba0fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  time: 60
+  whoWillBeKicked:
+    m_InternalValue: 0
 --- !u!4 &1615572383
 Transform:
   m_ObjectHideFlags: 0
