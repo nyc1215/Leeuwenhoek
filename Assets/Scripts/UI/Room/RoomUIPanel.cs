@@ -6,6 +6,7 @@ using MyWebSocket.Request;
 using MyWebSocket.Response;
 using UI.Game;
 using UI.Util;
+using Unity.Netcode.Transports.UNET;
 using Unity.Netcode.Transports.UTP;
 using Unity.Networking.Transport;
 using UnityEngine;
@@ -55,7 +56,6 @@ namespace UI.Room
         private void Start()
         {
             ListUpdate();
-            CreatePlayer();
 
             _readyButton = GetButton("Button_Ready");
             _voiceButton = GetButton("Button_Voice");
@@ -68,6 +68,8 @@ namespace UI.Room
 
             _storyCom.onClick.Add(OnStoryClicked);
             _storyText.text = roomReadyStory.storyText[_storyIndex];
+            
+            CreatePlayer();
         }
 
         public void ListUpdate()
@@ -132,12 +134,20 @@ namespace UI.Room
 
         private void CreatePlayer()
         {
-            var utpTransport = (UnityTransport)NetworkManager.Singleton.NetworkConfig.NetworkTransport;
-            if (utpTransport)
+            // var utpTransport = (UnityTransport)NetworkManager.Singleton.NetworkConfig.NetworkTransport;
+            // if (utpTransport)
+            // {
+            //     utpTransport.SetConnectionData(
+            //         MyGameManager.Instance.netOrLocal == NetOrLocal.Local ? "127.0.0.1" : "120.26.85.13"
+            //         , 6699,"0.0.0.0");
+            // }
+            var unetSet = (UNetTransport)NetworkManager.Singleton.NetworkConfig.NetworkTransport;
+            if (unetSet)
             {
-                utpTransport.SetConnectionData(
-                    MyGameManager.Instance.netOrLocal == NetOrLocal.Local ? "127.0.0.1" : "120.26.85.13"
-                    , 6699);
+                unetSet.ConnectAddress =
+                    MyGameManager.Instance.netOrLocal == NetOrLocal.Local ? "127.0.0.1" : "120.26.85.13";
+                unetSet.ConnectPort = 6699;
+                unetSet.ServerListenPort = 6699;
             }
 
             if (_localPlayerIndex == 0)

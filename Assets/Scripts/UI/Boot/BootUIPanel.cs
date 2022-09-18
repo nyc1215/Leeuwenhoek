@@ -1,7 +1,10 @@
 ﻿using System.Collections;
 using BestHTTP.WebSocket;
 using FairyGUI;
+using Manager;
 using UI.Util;
+using Unity.Netcode;
+using Unity.Netcode.Transports.UNET;
 using UnityEngine;
 using UnityEngine.Serialization;
 

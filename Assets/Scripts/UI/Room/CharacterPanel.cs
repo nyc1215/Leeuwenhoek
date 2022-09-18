@@ -75,7 +75,6 @@ namespace UI.Room
         private static void ChooseCharacter(Characters character)
         {
             MyGameNetWorkManager.Instance.CallChooseCharacter(character);
-            MyGameManager.Instance.localPlayerController.nowCharacter = character;
         }
 
         public void UpdateCharacterChooseState()
@@ -131,6 +130,7 @@ namespace UI.Room
                     }
 
                     MyGameManager.Instance.localPlayerController.nowCharacterName = _nowCharacterName;
+                    MyGameManager.Instance.localPlayerController.nowCharacter = characterChooseListNode.CharacterToChoose;
                 }
 
 
