@@ -18,6 +18,7 @@ namespace UI.Room
     public class RoomUIPanel : UIPanelUtil
     {
         public RoomReadyStory roomReadyStory;
+        public AudioClip knockDoorMusic;
 
         private GComponent _storyCom;
         private GTextField _storyText;
@@ -67,6 +68,10 @@ namespace UI.Room
             MyGameManager.Instance.VoiceChangeRemoteVoice(false);
 
             _storyCom.onClick.Add(OnStoryClicked);
+            if (MyGameManager.Instance.gameObject.TryGetComponent<AudioSource>(out var bgm))
+            {
+                bgm.PlayOneShot(knockDoorMusic);
+            }
             _storyText.text = roomReadyStory.storyText[_storyIndex];
             
             CreatePlayer();
