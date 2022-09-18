@@ -34,6 +34,7 @@
     <image id="dr9x19" name="7.png" path="/投票界面/"/>
     <image id="dr9x1a" name="瞄准.png" path="/TelescopicSight/"/>
     <image id="dr9x1c" name="手电筒.png" path="/Flashlight/" scale9grid="0,0,-881,-263"/>
+    <component id="oajo1d" name="Story.xml" path="/Story/" exported="true"/>
   </resources>
   <publish name=""/>
 </packageDescription>

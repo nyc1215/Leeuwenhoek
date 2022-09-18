@@ -48,7 +48,7 @@ namespace Tasks
 
             if (_clickNum == AllPointsNum)
             {
-                IsSuccess = true;
+                isSuccess = true;
                 ShowSuccessText();
             }
         }

@@ -44,6 +44,7 @@ namespace Player
         [Tooltip("是否被踢出")] public bool isKicked;
         [Tooltip("角色尸体预制体")] public GameObject bodyPrefab;
         public TaskUtil nowTask;
+        public StoryWithProgress nowStory;
         public SewerForImposter nowSewer;
         public Characters nowCharacter;
         public string nowCharacterName;
@@ -500,14 +501,6 @@ namespace Player
             }
         }
 
-        private void CreateABody()
-        {
-            var temPlayerBodyGameObject = Instantiate(bodyPrefab, transform.position, Quaternion.Euler(0, 0, 0));
-            var temPlayerBody = temPlayerBodyGameObject.GetComponent<MyPlayerBody>();
-            temPlayerBody.SetColor(Color.gray);
-            temPlayerBody.SetText($"{nowCharacterName}({MyGameManager.Instance.LocalPlayerInfo.AccountName})");
-        }
-
         private void Report(InputAction.CallbackContext context)
         {
             if (_bodiesFound == null)
@@ -553,6 +546,14 @@ namespace Player
             if (nowTask != null)
             {
                 nowTask.StartTask();
+            }
+        }
+        
+        public void ShowStory()
+        {
+            if (nowStory != null)
+            {
+                nowStory.OpenStoryUI();
             }
         }
 

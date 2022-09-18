@@ -47,7 +47,7 @@ namespace Tasks
         {
             if (_telescopeBinocular.x >= _endPoint.x - _endPoint.width / 2f)
             {
-                IsSuccess = true;
+                isSuccess = true;
                 _telescopeBinocular.draggable = false;
                 _successText.visible = true;
                 _successTextBg.visible = true;

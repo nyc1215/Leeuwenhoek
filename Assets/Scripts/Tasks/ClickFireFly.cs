@@ -50,7 +50,7 @@ namespace Tasks
         {
             yield return null;
 
-            while (!IsSuccess && TaskWindow.isShowing)
+            while (!isSuccess && TaskWindow.isShowing)
             {
                 var aInstanceOfFirefly = TaskWindow.AddChild(UIPackage.CreateObject("Game", "Com_FireFly").asCom).asCom;
                 aInstanceOfFirefly.xy = RandomPos(aInstanceOfFirefly);
@@ -74,7 +74,7 @@ namespace Tasks
                 _title2.SetVar("now", _successNum.ToString()).FlushVars();
                 if (_successNum == SuccessNum)
                 {
-                    IsSuccess = true;
+                    isSuccess = true;
                     ShowSuccessText();
                 }
 

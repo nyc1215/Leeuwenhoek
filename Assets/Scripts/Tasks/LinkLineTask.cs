@@ -115,7 +115,7 @@ namespace Tasks
 
             if (_lineNum == _points.Count - 1)
             {
-                IsSuccess = true;
+                isSuccess = true;
                 ShowSuccessText();
             }
         }

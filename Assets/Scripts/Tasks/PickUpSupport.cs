@@ -77,7 +77,7 @@ namespace Tasks
 
             if (_successNum == _supportList.Count)
             {
-                IsSuccess = true;
+                isSuccess = true;
                 ShowSuccessText();
             }
         }

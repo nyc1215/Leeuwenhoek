@@ -15,7 +15,7 @@ namespace Tasks
         protected string TaskPanelName;
         public int addProgress = 5;
 
-        protected bool IsSuccess;
+        public bool isSuccess;
 
         public Window TaskWindow;
         protected GComponent TaskUI;
@@ -51,7 +51,7 @@ namespace Tasks
 
         private void Start()
         {
-            IsSuccess = false;
+            isSuccess = false;
             _gameUIPanel = FindObjectOfType<GameUIPanel>();
         }
 
@@ -62,6 +62,11 @@ namespace Tasks
             {
                 if (other.gameObject.GetComponent<MyPlayerController>().isDead ||
                     other.gameObject.GetComponent<MyPlayerController>().isKicked)
+                {
+                    return;
+                }
+
+                if (isSuccess)
                 {
                     return;
                 }
@@ -81,6 +86,11 @@ namespace Tasks
                 {
                     return;
                 }
+                
+                if (isSuccess)
+                {
+                    return;
+                }
 
                 MyGameManager.Instance.localPlayerController.nowTask = null;
                 _gameUIPanel.ChangeTaskButtonVisible(false);
@@ -90,7 +100,7 @@ namespace Tasks
 
         public void StartTask()
         {
-            if (IsSuccess == false)
+            if (isSuccess == false)
             {
                 InitTask();
                 OpenTaskUI();
@@ -99,7 +109,6 @@ namespace Tasks
 
         protected virtual void InitTask()
         {
-            IsSuccess = false;
             Awake();
         }
 
@@ -112,7 +121,7 @@ namespace Tasks
 
         public void EndTask()
         {
-            if (IsSuccess)
+            if (isSuccess)
             {
                 MyGameNetWorkManager.Instance.AddGameProgress(addProgress);
                 TaskWindow.Hide();

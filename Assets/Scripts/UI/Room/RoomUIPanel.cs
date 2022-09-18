@@ -55,6 +55,7 @@ namespace UI.Room
         private void Start()
         {
             ListUpdate();
+            CreatePlayer();
 
             _readyButton = GetButton("Button_Ready");
             _voiceButton = GetButton("Button_Voice");
@@ -63,7 +64,6 @@ namespace UI.Room
             _voiceButton.onTouchBegin.Add(StartVoice);
             _voiceButton.onTouchEnd.Add(EndVoice);
 
-            CreatePlayer();
             MyGameManager.Instance.VoiceChangeRemoteVoice(false);
 
             _storyCom.onClick.Add(OnStoryClicked);
@@ -132,6 +132,14 @@ namespace UI.Room
 
         private void CreatePlayer()
         {
+            var utpTransport = (UnityTransport)NetworkManager.Singleton.NetworkConfig.NetworkTransport;
+            if (utpTransport)
+            {
+                utpTransport.SetConnectionData(
+                    MyGameManager.Instance.netOrLocal == NetOrLocal.Local ? "127.0.0.1" : "120.26.85.13"
+                    , 6699);
+            }
+
             if (_localPlayerIndex == 0)
             {
                 NetworkManager.Singleton.StartHost();

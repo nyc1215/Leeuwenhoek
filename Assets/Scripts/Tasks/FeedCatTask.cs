@@ -77,7 +77,7 @@ namespace Tasks
 
             if (_feedNum == _catFoodsList.Count)
             {
-                IsSuccess = true;
+                isSuccess = true;
                 ShowSuccessText();
             }
         }

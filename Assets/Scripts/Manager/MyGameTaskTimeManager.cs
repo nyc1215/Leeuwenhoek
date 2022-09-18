@@ -66,6 +66,7 @@ namespace Manager
                     }
 
                     task.gameObject.SetActive(true);
+                    task.isSuccess = false;
                     openTaskNum++;
                 }
 

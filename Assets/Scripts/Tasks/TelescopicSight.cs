@@ -80,7 +80,7 @@ namespace Tasks
 
             if (_successNum == _crossList.Count)
             {
-                IsSuccess = true;
+                isSuccess = true;
                 ShowSuccessText();
             }
         }

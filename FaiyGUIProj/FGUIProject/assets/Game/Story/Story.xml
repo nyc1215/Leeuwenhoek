@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="800,600">
+  <displayList>
+    <image id="n0_y8ni" name="bg" src="ga3711" fileName="图片/Panel背景.png" xy="-20,-20" size="820,620"/>
+    <component id="n1_y8ni" name="Button_Back" src="e0xw3" fileName="ButtonCom.xml" pkg="z7qisvfx" xy="660,70" size="59,26">
+      <Button title="退出" titleFontSize="20"/>
+    </component>
+    <text id="n2_y8ni" name="title" xy="397,97" pivot="0.5,0.5" anchor="true" size="162,44" font="ui://z7qisvfxlzh25" fontSize="26" color="#ffffff" align="center" vAlign="middle" autoSize="none" text="线索"/>
+    <text id="n3_oajo" name="Text_Story" xy="404,314" pivot="0.5,0.5" anchor="true" size="656,338" font="ui://z7qisvfxlzh26" fontSize="40" color="#ffffff" vAlign="middle" leading="5" letterSpacing="4" ubb="true" autoSize="none" autoClearText="true" text="[align=center]0701内部报告[/align]&#x9;关于R先生提出的侍从系统可能产生自我意识的观点，我并不认同，侍从系统仅仅从过往的数据中进行提炼，绝不会产生“情感”与“意识”。对于这一点，我们有十足的把握。"/>
+  </displayList>
+</component>

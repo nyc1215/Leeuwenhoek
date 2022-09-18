@@ -1,19 +1,28 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using FairyGUI;
+using FairyGUI.Utils;
+using InteractiveObj;
 using Manager;
 using UI.Util;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.OnScreen;
+using UnityEngine.Serialization;
 
 namespace UI.Game
 {
     public class GameUIPanel : UIPanelUtil
     {
         [Header("小地图渲染器纹理")] public Texture miniMapRenderTexture;
+        [Header("%25开启线索")] public List<StoryWithProgress> storyWith25Progress = new();
+        [Header("%40开启线索")] public List<StoryWithProgress> storyWith40Progress = new();
+        [Header("%75开启线索")] public List<StoryWithProgress> storyWith75Progress = new();
+
 
         private JoyStickModule _joystick;
         private GLoader _miniMapLoader;
@@ -21,6 +30,7 @@ namespace UI.Game
         private GButton _killButton;
         private GButton _taskButton;
         private GButton _sewerButton;
+        private GButton _storyButton;
         private GProgressBar _gameProgress;
         private GTextField _timer;
 
@@ -40,6 +50,7 @@ namespace UI.Game
             _killButton = GetButton("Button_Kill");
             _taskButton = GetButton("Button_Task");
             _sewerButton = GetButton("Button_Sewer");
+            _storyButton = GetButton("Button_Log");
 
             _gameProgress = UIRoot.GetChild("ProgressBar_Game").asProgress;
             _timer = UIRoot.GetChild("Text_Timer").asTextField;
@@ -60,6 +71,7 @@ namespace UI.Game
                     ButtonCold(_killButton, 25f, MyGameManager.Instance.localPlayerController.KillTarget));
             });
             _taskButton.onClick.Add(MyGameManager.Instance.localPlayerController.DoTask);
+            _storyButton.onClick.Add(MyGameManager.Instance.localPlayerController.ShowStory);
             _sewerButton.onClick.Add(() =>
             {
                 MyGameManager.Instance.localPlayerController.nowSewer.GoOtherSewer(MyGameManager.Instance
@@ -78,7 +90,7 @@ namespace UI.Game
                 _killButton.visible = false;
             }
 
-
+            HideAllStories();
             StartCoroutine(TimeCountDown());
         }
 
@@ -95,6 +107,11 @@ namespace UI.Game
         public void ChangeTaskButtonVisible(bool isVisible)
         {
             _taskButton.visible = isVisible;
+        }
+
+        public void ChangeStoryButtonVisible(bool isVisible)
+        {
+            _storyButton.visible = isVisible;
         }
 
 
@@ -114,6 +131,7 @@ namespace UI.Game
                     buttonIconImage.fillAmount = nowTime / coldTime;
                     yield return null;
                 }
+
                 MyGameManager.Instance.localPlayerController.inKillCold = false;
                 button.touchable = true;
             }
@@ -142,6 +160,48 @@ namespace UI.Game
             _taskButton.visible = false;
             _sewerButton.visible = false;
         }
-        
+
+        private void HideAllStories()
+        {
+            foreach (var story in storyWith25Progress.Where(story => story != null))
+            {
+                story.gameObject.SetActive(false);
+            }
+
+            foreach (var story in storyWith40Progress.Where(story => story != null))
+            {
+                story.gameObject.SetActive(false);
+            }
+
+            foreach (var story in storyWith75Progress.Where(story => story != null))
+            {
+                story.gameObject.SetActive(false);
+            }
+        }
+
+        public void ShowStories()
+        {
+            if (_gameProgress.value >= 25)
+            {
+                foreach (var story in storyWith25Progress.Where(story => story != null))
+                {
+                    story.gameObject.SetActive(true);
+                }
+            }
+            else if (_gameProgress.value >= 40)
+            {
+                foreach (var story in storyWith40Progress.Where(story => story != null))
+                {
+                    story.gameObject.SetActive(true);
+                }
+            }
+            else if (_gameProgress.value >= 75)
+            {
+                foreach (var story in storyWith75Progress.Where(story => story != null))
+                {
+                    story.gameObject.SetActive(true);
+                }
+            }
+        }
     }
 }

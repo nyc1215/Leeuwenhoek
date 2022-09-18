@@ -86,6 +86,7 @@ namespace Manager
                 if (GameProgressBar != null)
                 {
                     GameProgressBar.value = newValue;
+                    FindObjectOfType<GameUIPanel>().ShowStories();
                 }
 
                 if (newValue >= 100)
