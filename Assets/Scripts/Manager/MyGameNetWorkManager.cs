@@ -42,6 +42,7 @@ namespace Manager
         private readonly NetworkVariable<bool> _netImposterIsWin = new();
         private readonly NetworkVariable<bool> _netGoodIsWin = new();
         public readonly NetworkVariable<FixedString32Bytes> NetImposterName = new();
+        public NetworkList<ulong> NetBodyId;
 
 
         public GProgressBar GameProgressBar;
@@ -65,6 +66,7 @@ namespace Manager
             }
 
             NetLobbyPlayersCharacterStates = new NetworkList<LobbyPlayerCharacterState>();
+            NetBodyId = new NetworkList<ulong>();
         }
 
         #endregion
@@ -200,9 +202,25 @@ namespace Manager
             }
         }
 
+        [ServerRpc(RequireOwnership = false)]
+        public void CommitAddBodyIdServerRpc(ulong id)
+        {
+            NetBodyId.Add(id);
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        public void CommitDesBodyIdServerRpc(ulong id)
+        {
+            if (NetBodyId.Contains(id))
+            {
+                NetBodyId.Remove(id);
+            }
+        }
+
         public override void OnDestroy()
         {
             NetLobbyPlayersCharacterStates.Dispose();
+            NetBodyId.Dispose();
         }
 
         public void AddGameProgress(int addProgress)
@@ -405,8 +423,32 @@ namespace Manager
         }
 
         [ServerRpc(RequireOwnership = false)]
+        public void CommitDestroyAllPlayersServerRpc()
+        {
+            if (IsServer || IsHost)
+            {
+                foreach (var playerController in MyGameManager.Instance.allPlayers.Where(playerController => playerController != null))
+                {
+                    playerController.OnDisable();
+                    if (playerController.gameObject != null)
+                    {
+                        Destroy(playerController.gameObject);
+                    }
+                }
+            }
+        }
+
+        [ServerRpc(RequireOwnership = false)]
         private void CommitGameEndServerRpc()
         {
+            foreach (var id in NetBodyId)
+            {
+                if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.ContainsKey(id))
+                {
+                    NetworkManager.Singleton.SpawnManager.SpawnedObjects[id].Despawn(true);
+                }
+            }
+            
             SyncGoToEndGameClientRpc();
         }
 
@@ -425,16 +467,7 @@ namespace Manager
             if (IsClient)
             {
                 StopAllCoroutines();
-                foreach (var playerController in MyGameManager.Instance.allPlayers)
-                {
-                    playerController.OnDisable();
-                    Destroy(playerController.gameObject);
-                }
-
-                UIOperationUtil.GoToScene(MyGameManager.Instance.uiJumpData.endMenu);
-                MyGameManager.Instance.allPlayers.Clear();
-                MyGameManager.Instance.localPlayerController = null;
-                MyGameManager.Instance.localPlayerNetwork = null;
+                StartCoroutine(Wait(0.5f));
             }
         }
 
@@ -472,6 +505,12 @@ namespace Manager
             }
 
             kickPanel.CountDownFinish();
+        }
+
+        private static IEnumerator Wait(float waitTime)
+        {
+            yield return new WaitForSeconds(waitTime);
+            UIOperationUtil.GoToScene(MyGameManager.Instance.uiJumpData.endMenu);
         }
     }
 

@@ -22,7 +22,7 @@ namespace UI.End
         {
             base.Awake();
 
-            _storyCom = UIRoot.AddChild(UIPackage.CreateObject("Room", "StoryPanel")).asCom;
+            _storyCom = UIRoot.AddChild(UIPackage.CreateObject("End", "EndStoryPanel")).asCom;
             _storyTextField = _storyCom.GetChild("Text_Letter").asTextField;
             _closeStory = _storyCom.GetChild("Button_Back").asButton;
 
@@ -31,6 +31,15 @@ namespace UI.End
 
         private void Start()
         {
+
+            _quitButton.onClick.Add(() => { UIOperationUtil.GoToScene(MyGameManager.Instance.uiJumpData.bootMenu); });
+            _closeStory.onClick.Add(() =>
+            {
+                _storyCom.Dispose();
+                MyGameNetWorkManager.Instance.CommitDestroyAllPlayersServerRpc();
+            });
+            
+            Debug.Log(MyGameManager.Instance.whoIsImposter.ToString());
             switch (MyGameManager.Instance.whoIsImposter)
             {
                 case Characters.LuoWei:
@@ -55,9 +64,6 @@ namespace UI.End
                 default:
                     break;
             }
-
-            _quitButton.onClick.Add(() => { UIOperationUtil.GoToScene(MyGameManager.Instance.uiJumpData.bootMenu); });
-            _closeStory.onClick.Add(() => { _storyCom.Dispose(); });
         }
     }
 }

@@ -9,6 +9,7 @@ using UI.Util;
 using Unity.Netcode.Transports.UNET;
 using Unity.Netcode.Transports.UTP;
 using Unity.Networking.Transport;
+using Unity.Tutorials.Core.Editor;
 using UnityEngine;
 using UnityEngine.Serialization;
 using NetworkManager = Unity.Netcode.NetworkManager;
@@ -138,13 +139,14 @@ namespace UI.Room
             MyGameManager.Instance.SendJoyStickDegreeToPlayers((JoyStickOutputXY)context.data);
         }
 
-        private void CreatePlayer()
+        private static void CreatePlayer()
         {
             if (MyGameManager.Instance.isServer)
             {
                 var utpTransport = (UnityTransport)NetworkManager.Singleton.NetworkConfig.NetworkTransport;
                 if (utpTransport)
                 {
+                    utpTransport.ConnectionData.Address = MyGameManager.Instance.serverIP;
                     utpTransport.ConnectionData.ServerListenAddress = "0.0.0.0";
                 }
 
@@ -157,10 +159,15 @@ namespace UI.Room
             else
             {
                 var utpTransport = (UnityTransport)NetworkManager.Singleton.NetworkConfig.NetworkTransport;
+                if (utpTransport)
+                {
+                    utpTransport.ConnectionData.Address = MyGameManager.Instance.serverIP;
+                    utpTransport.ConnectionData.ServerListenAddress = MyGameManager.Instance.serverIP;
+                }
+
                 NetworkManager.Singleton.StartClient();
                 if (utpTransport)
                 {
-                    utpTransport.ConnectionData.ServerListenAddress = "10.24.11.135";
                     Debug.Log($"client connect info: {utpTransport.ConnectionData.Address} {utpTransport.ConnectionData.Port} {utpTransport.ConnectionData.ServerListenAddress}");
                 }
             }

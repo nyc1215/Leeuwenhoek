@@ -315,6 +315,7 @@ namespace Player
         [ServerRpc(RequireOwnership = false)]
         public void DestroyBodyServerRpc(ulong bodyItemID)
         {
+            MyGameNetWorkManager.Instance.CommitDesBodyIdServerRpc(bodyItemID);
             var bodyToDestroy = NetworkManager.Singleton.SpawnManager.SpawnedObjects[bodyItemID];
             bodyToDestroy.Despawn(true);
         }

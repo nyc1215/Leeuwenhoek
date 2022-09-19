@@ -15,6 +15,12 @@ namespace Player
         public SpriteRenderer bodySprite;
         public TextMeshPro textMeshPro;
 
+        public override void OnNetworkSpawn()
+        {
+            base.OnNetworkSpawn();
+            MyGameNetWorkManager.Instance.CommitAddBodyIdServerRpc(NetworkObject.NetworkObjectId);
+        }
+
         public void SetText(string text)
         {
             textMeshPro.text = text;

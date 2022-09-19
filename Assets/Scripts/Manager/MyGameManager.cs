@@ -77,7 +77,6 @@ namespace Manager
 
         [Header("UI跳转信息存储")] public UIJumpData uiJumpData;
 
-        public bool isServer;
 
         #endregion
 
@@ -95,7 +94,9 @@ namespace Manager
 
         #region 网络操作
 
-        [Header("联网/本地运行")]public NetOrLocal netOrLocal;
+        [Header("登录匹配系统联网/本地运行")]public NetOrLocal netOrLocal;
+        [Header("局内是否作为主机")]public bool isServer;
+        [Header("局内主机ip地址")] public string serverIP;
         
         public readonly NetWorkOperations NetWorkOperations = new();
         

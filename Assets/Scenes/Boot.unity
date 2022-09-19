@@ -358,13 +358,14 @@ MonoBehaviour:
   dontDestroyOnLoad: 1
   nextSceneToLoadAsync: 
   uiJumpData: {fileID: 11400000, guid: e713263045c02b54aaf779744c31f650, type: 2}
-  isServer: 1
   localPlayerController: {fileID: 0}
   localPlayerNetwork: {fileID: 0}
   allPlayers: []
   allTime: 1200
   whoIsImposter: 0
   netOrLocal: 0
+  isServer: 1
+  serverIP: 10.24.11.135
   rtcAppId: 977d278672b24ea085b4caf9e8c1987c
   rtcToken: 15d8e5cec0c4479ebd6e886e3cc57394
   rtcChannelName: 
