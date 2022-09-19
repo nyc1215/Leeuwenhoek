@@ -219,8 +219,8 @@ namespace Manager
 
         public override void OnDestroy()
         {
-            NetLobbyPlayersCharacterStates.Dispose();
-            NetBodyId.Dispose();
+            NetLobbyPlayersCharacterStates?.Dispose();
+            NetBodyId?.Dispose();
         }
 
         public void AddGameProgress(int addProgress)
@@ -338,7 +338,7 @@ namespace Manager
                     var newNode = NetLobbyPlayersCharacterStates[i];
                     newNode.Vote = isAdd ? ++newNode.Vote : --newNode.Vote;
                     NetLobbyPlayersCharacterStates[i] = newNode;
-                    CalculateWhoWillBekKicked();
+                    CalculateWhoWillBekKickedServerRpc();
                 }
             }
         }
@@ -386,33 +386,36 @@ namespace Manager
                 playerController.BeKick();
             }
         }
-
-        private void CalculateWhoWillBekKicked()
+        
+        [ServerRpc]
+        private void CalculateWhoWillBekKickedServerRpc()
         {
-            if (IsServer || IsHost)
+            if (!IsServer && !IsHost)
             {
-                var voteList = new List<int>();
-                for (var i = 0; i < NetLobbyPlayersCharacterStates.Count; i++)
-                {
-                    voteList.Add(NetLobbyPlayersCharacterStates[i].Vote);
-                }
-
-
-                var result = voteList.Select((value, index) => new { Value = value, Index = index }).OrderByDescending(node => node.Value).Take(2).ToArray();
-                if (!result.Any())
-                {
-                    whoWillBeKicked.Value = -1;
-                    return;
-                }
-
-                if (result.First().Value == result.Last().Value)
-                {
-                    whoWillBeKicked.Value = -1;
-                    return;
-                }
-
-                whoWillBeKicked.Value = result.First().Index;
+                return;
             }
+            var voteList = new List<int>();
+            for (var i = 0; i < NetLobbyPlayersCharacterStates.Count; i++)
+            {
+                voteList.Add(NetLobbyPlayersCharacterStates[i].Vote);
+            }
+
+
+            var result = voteList.Select((value, index) => new { Value = value, Index = index }).OrderByDescending(node => node.Value).Take(2).ToArray();
+            if (!result.Any())
+            {
+                whoWillBeKicked.Value = -1;
+                return;
+            }
+
+            if (result.First().Value == result.Last().Value)
+            {
+                whoWillBeKicked.Value = -1;
+                return;
+            }
+
+            whoWillBeKicked.Value = result.First().Index;
+            Debug.Log(whoWillBeKicked.Value.ToString());
         }
 
         #endregion

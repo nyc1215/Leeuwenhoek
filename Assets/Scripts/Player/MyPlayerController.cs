@@ -292,12 +292,8 @@ namespace Player
             if (IsServer)
             {
                 var temPlayerBodyGameObject = Instantiate(bodyPrefab, pos, Quaternion.Euler(0, 0, 0));
-                var temPlayerBody = temPlayerBodyGameObject.GetComponent<MyPlayerBody>();
-                temPlayerBody.transform.position = pos;
-                temPlayerBody.SetColor(Color.gray);
-                temPlayerBody.SetText(bodyName.ToString());
-
                 temPlayerBodyGameObject.GetComponent<NetworkObject>().Spawn(true);
+                SetBodyClientRpc(temPlayerBodyGameObject, bodyName, pos);
 
                 for (var i = 0; i < MyGameNetWorkManager.Instance.NetLobbyPlayersCharacterStates.Count; i++)
                 {
@@ -309,6 +305,14 @@ namespace Player
                     }
                 }
             }
+        }
+
+        [ClientRpc]
+        private void SetBodyClientRpc(NetworkObjectReference body, FixedString32Bytes bodyName, Vector3 pos)
+        {
+            ((GameObject)body).transform.position = pos;
+            ((GameObject)body).GetComponent<MyPlayerBody>().SetColor(Color.gray);
+            ((GameObject)body).GetComponent<MyPlayerBody>().SetText(bodyName.ToString());
         }
 
 

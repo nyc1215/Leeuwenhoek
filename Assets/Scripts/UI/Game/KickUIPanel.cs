@@ -159,6 +159,7 @@ namespace UI.Game
         {
             if (MyGameManager.Instance.localPlayerController.isDead || MyGameManager.Instance.localPlayerController.isKicked)
             {
+                _selectWho.text = "无法投票";
                 return;
             }
 

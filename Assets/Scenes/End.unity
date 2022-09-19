@@ -366,4 +366,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buttonNames:
   - Button_Back
-  roomReadyStory: {fileID: 11400000, guid: 12e834b3e1a907e45b9de6100018c93a, type: 2}
+  endStory: {fileID: 11400000, guid: 29f988ca922e2e34ba19f7e1592c2723, type: 2}
