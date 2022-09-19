@@ -2,7 +2,7 @@
 <component size="1920,1080" bgColor="#000000">
   <displayList>
     <graph id="n4_s5wk" name="BG" xy="0,0" size="1920,1080" type="rect" lineSize="0" fillColor="#ff000000"/>
-    <text id="n3_s5wk" name="Text_Letter" xy="960,518" pivot="0.5,0.5" anchor="true" size="1749,250" font="ui://z7qisvfxlzh28" fontSize="48" color="#ffffff" vAlign="middle" autoSize="height" autoClearText="true" text="卫队的情况不容乐观。至少丽莉是这么认为的。 街道的巡逻都由人工智能代替，这样对卫队来说一点都不酷......直到收到罗伯特的信件，她才觉得事情又好玩了起来。 一个念头突然在心底升起—— 既然“侍从”希望诱惑我们成为信徒，停止对事件的追查，那将计就计是否能救下更多的人？ 这样，真的很酷啊！ "/>
+    <text id="n3_s5wk" name="Text_Letter" xy="960,518" pivot="0.5,0.5" anchor="true" size="1749,79" font="ui://z7qisvfxlzh27" fontSize="60" color="#ffffff" align="center" vAlign="middle" autoSize="height" autoClearText="true" text="卫队的情况不容乐观。"/>
     <component id="n5_rcy9" name="Button_Back" src="e0xw3" fileName="ButtonCom.xml" pkg="z7qisvfx" xy="1729,42" size="134,60">
       <Button title="继续"/>
     </component>

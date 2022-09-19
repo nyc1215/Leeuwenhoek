@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<component size="800,600" anchor="true" extention="Label">
+<component size="800,600" extention="Label">
   <displayList>
     <graph id="n5_pwzh" name="n5" xy="33,45" size="734,471" type="rect" lineSize="0" fillColor="#7f000000"/>
     <image id="n0_9v6e" name="bg" src="pwzh9" fileName="图片/弹出面板背景.png" xy="400,300" pivot="0.5,0.5" anchor="true" size="800,600"/>
@@ -7,7 +7,7 @@
       <relation target="" sidePair="center-center,bottom-bottom"/>
       <Button title="返回" titleFontSize="40"/>
     </component>
-    <text id="n3_9v6e" name="Title" xy="400,150" pivot="0.5,0.5" anchor="true" size="10,66" font="ui://z7qisvfxlzh25" fontSize="50" color="#ffffff" text="">
+    <text id="n3_9v6e" name="Title" xy="400,150" pivot="0.5,0.5" anchor="true" size="10,66" font="ui://z7qisvfxlzh27" fontSize="50" color="#ffffff" text="">
       <relation target="" sidePair="center-center,top-top"/>
     </text>
   </displayList>

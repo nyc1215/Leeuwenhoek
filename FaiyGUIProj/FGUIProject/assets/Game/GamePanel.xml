@@ -23,7 +23,7 @@
     <component id="n13_tlqf" name="Button_Sewer" src="e0xw3" fileName="ButtonCom.xml" pkg="z7qisvfx" xy="1430,589" size="180,180" visible="false" alpha="0.8">
       <Button title="传送"/>
     </component>
-    <text id="n14_guyd" name="Text_Timer" xy="960,75" pivot="0.5,0.5" anchor="true" size="319,54" font="ui://z7qisvfxlzh25" fontSize="40" color="#ffffff" vars="true" text="本轮时间：{Min=20}:{Sec=00}"/>
+    <text id="n14_guyd" name="Text_Timer" xy="960,75" pivot="0.5,0.5" anchor="true" size="352,54" font="ui://z7qisvfxlzh27" fontSize="40" color="#ffffff" vars="true" text="本轮时间：{Min=20}:{Sec=00}"/>
     <component id="n15_vj8j" name="Button_Log" src="e0xw3" fileName="ButtonCom.xml" pkg="z7qisvfx" xy="103,431" size="180,180" visible="false" alpha="0.8">
       <Button title="读取数据"/>
     </component>

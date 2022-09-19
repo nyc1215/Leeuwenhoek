@@ -5,7 +5,7 @@
     <component id="n1_guyd" name="Button_Back" src="e0xw3" fileName="ButtonCom.xml" pkg="z7qisvfx" xy="670,70" size="59,26">
       <Button title="退出" titleFontSize="20"/>
     </component>
-    <text id="n2_guyd" name="title" xy="400,96" pivot="0.5,0.5" anchor="true" size="162,44" font="ui://z7qisvfxlzh25" fontSize="26" color="#ffffff" align="center" vAlign="middle" autoSize="none" text="修理机器人"/>
+    <text id="n2_guyd" name="title" xy="400,96" pivot="0.5,0.5" anchor="true" size="162,44" font="ui://z7qisvfxlzh27" fontSize="26" color="#ffffff" align="center" vAlign="middle" autoSize="none" text="修理机器人"/>
     <image id="n22_guyd" name="n22" src="guydg" fileName="FixRobot/火箭机器人.png" xy="400,300" pivot="0.5,0.5" anchor="true" size="491,491"/>
     <loader id="n4_guyd" name="p1" xy="497,273" size="574,574" scale="0.05,0.05" url="ui://djj8vne8dr9x14" autoSize="true"/>
     <loader id="n5_guyd" name="p2" xy="413,292" size="574,574" scale="0.05,0.05" url="ui://djj8vne8dr9x14" autoSize="true"/>
@@ -18,6 +18,6 @@
     <loader id="n19_guyd" name="p9" xy="427,192" size="574,574" scale="0.05,0.05" url="ui://djj8vne8dr9x14" autoSize="true"/>
     <loader id="n20_guyd" name="p10" xy="341,296" size="574,574" scale="0.05,0.05" url="ui://djj8vne8dr9x14" autoSize="true"/>
     <graph id="n23_guyd" name="Success_TextBG" xy="400,300" pivot="0.5,0.5" anchor="true" size="460,150" visible="false" type="rect"/>
-    <text id="n13_guyd" name="Success_Text" xy="400,300" pivot="0.5,0.5" anchor="true" size="461,147" visible="false" font="ui://z7qisvfxlzh25" fontSize="79" align="center" vAlign="middle" autoSize="none" text="任务完成"/>
+    <text id="n13_guyd" name="Success_Text" xy="400,300" pivot="0.5,0.5" anchor="true" size="461,147" visible="false" font="ui://z7qisvfxlzh27" fontSize="79" align="center" vAlign="middle" autoSize="none" text="任务完成"/>
   </displayList>
 </component>

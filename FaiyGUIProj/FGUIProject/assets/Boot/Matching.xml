@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<component size="800,600" anchor="true" extention="Label">
+<component size="800,600" extention="Label">
   <displayList>
     <image id="n0_9v6e" name="bg" src="pwzhe" fileName="图片/InfoPanel背景.png" xy="400,291" pivot="0.5,0.5" anchor="true" size="800,600"/>
     <component id="n2_9v6e" name="Button_Back" src="e0xw3" fileName="ButtonCom.xml" pkg="z7qisvfx" xy="400,456" pivot="0.5,0.5" anchor="true" size="180,80" aspect="true">
       <relation target="" sidePair="center-center,bottom-bottom"/>
       <Button title="取消匹配" titleFontSize="40"/>
     </component>
-    <text id="n3_9v6e" name="Title" xy="400,133" pivot="0.5,0.5" anchor="true" size="217,66" font="ui://z7qisvfxlzh25" fontSize="50" color="#ffffff" text="匹配中....">
+    <text id="n3_9v6e" name="Title" xy="400,133" pivot="0.5,0.5" anchor="true" size="211,66" font="ui://z7qisvfxlzh27" fontSize="50" color="#ffffff" text="匹配中....">
       <relation target="" sidePair="center-center,top-top"/>
     </text>
   </displayList>

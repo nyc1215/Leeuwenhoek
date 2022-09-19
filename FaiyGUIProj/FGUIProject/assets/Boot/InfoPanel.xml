@@ -2,7 +2,7 @@
 <component size="1300,650">
   <displayList>
     <image id="n0_pr3a" name="bg" src="pwzhe" fileName="图片/InfoPanel背景.png" xy="649,310" pivot="0.5,0.5" anchor="true" size="1300,650"/>
-    <text id="n2_pr3a" name="n2" xy="649,114" pivot="0.5,0.5" anchor="true" size="204,54" font="ui://z7qisvfxlzh25" fontSize="40" color="#ffffff" align="center" vAlign="middle" text="序章：门扉"/>
+    <text id="n2_pr3a" name="n2" xy="649,114" pivot="0.5,0.5" anchor="true" size="204,54" font="ui://z7qisvfxlzh27" fontSize="40" color="#ffffff" align="center" vAlign="middle" text="序章：门扉"/>
     <component id="n5_pr3a" name="Button_Match" src="e0xw3" fileName="ButtonCom.xml" pkg="z7qisvfx" xy="649,534" pivot="0.5,0.5" anchor="true" size="153,55">
       <Button title="开始匹配" titleFontSize="30"/>
     </component>

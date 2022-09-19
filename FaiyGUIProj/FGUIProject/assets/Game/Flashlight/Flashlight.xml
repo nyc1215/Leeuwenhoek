@@ -5,12 +5,12 @@
     <component id="n1_guyd" name="Button_Back" src="e0xw3" fileName="ButtonCom.xml" pkg="z7qisvfx" xy="670,70" size="59,26">
       <Button title="退出" titleFontSize="20"/>
     </component>
-    <text id="n2_guyd" name="title" xy="400,92" pivot="0.5,0.5" anchor="true" size="162,44" font="ui://z7qisvfxlzh25" fontSize="26" color="#ffffff" align="center" vAlign="middle" autoSize="none" text="点亮手电筒"/>
+    <text id="n2_guyd" name="title" xy="400,92" pivot="0.5,0.5" anchor="true" size="162,44" font="ui://z7qisvfxlzh27" fontSize="26" color="#ffffff" align="center" vAlign="middle" autoSize="none" text="点亮手电筒"/>
     <image id="n4_guyd" name="Img_Flashlight" src="dr9x1c" fileName="Flashlight/手电筒.png" xy="400,300" pivot="0.5,0.5" anchor="true" size="230,293"/>
     <loader id="n7_guyd" name="battery1" xy="90,146" pivot="0.5,0.5" anchor="true" size="152,152" scale="0.5,0.5" url="ui://djj8vne8guydl" autoSize="true"/>
     <loader id="n8_guyd" name="battery2" xy="695,198" pivot="0.5,0.5" anchor="true" size="152,152" scale="0.5,0.5" url="ui://djj8vne8guydl" autoSize="true"/>
     <loader id="n9_guyd" name="battery3" xy="165,504" pivot="0.5,0.5" anchor="true" size="152,152" scale="0.5,0.5" url="ui://djj8vne8guydl" autoSize="true"/>
     <graph id="n5_guyd" name="Success_TextBG" xy="400,300" pivot="0.5,0.5" anchor="true" size="460,150" visible="false" type="rect"/>
-    <text id="n6_guyd" name="Success_Text" xy="400,300" pivot="0.5,0.5" anchor="true" size="461,147" visible="false" font="ui://z7qisvfxlzh25" fontSize="79" align="center" vAlign="middle" autoSize="none" text="任务完成"/>
+    <text id="n6_guyd" name="Success_Text" xy="400,300" pivot="0.5,0.5" anchor="true" size="461,147" visible="false" font="ui://z7qisvfxlzh27" fontSize="79" align="center" vAlign="middle" autoSize="none" text="任务完成"/>
   </displayList>
 </component>

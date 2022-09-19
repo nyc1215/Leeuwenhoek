@@ -5,12 +5,12 @@
     <component id="n1_guyd" name="Button_Back" src="e0xw3" fileName="ButtonCom.xml" pkg="z7qisvfx" xy="660,70" size="59,26">
       <Button title="退出" titleFontSize="20"/>
     </component>
-    <text id="n2_guyd" name="title" xy="393,97" pivot="0.5,0.5" anchor="true" size="162,44" font="ui://z7qisvfxlzh25" fontSize="26" color="#ffffff" align="center" vAlign="middle" autoSize="none" text="喂猫"/>
+    <text id="n2_guyd" name="title" xy="393,97" pivot="0.5,0.5" anchor="true" size="162,44" font="ui://z7qisvfxlzh27" fontSize="26" color="#ffffff" align="center" vAlign="middle" autoSize="none" text="喂猫"/>
     <image id="n4_guyd" name="Img_Cat" src="dr9x13" fileName="FeedCat/6.png" xy="636,310" pivot="0.5,0.5" anchor="true" size="200,200"/>
     <loader id="n6_guyd" name="Img_CatFood1" xy="165,171" pivot="0.5,0.5" anchor="true" size="822,553" scale="0.2,0.2" url="ui://djj8vne8dr9x12" autoSize="true"/>
     <loader id="n8_guyd" name="Img_CatFood3" xy="146,448" pivot="0.5,0.5" anchor="true" size="822,553" scale="0.2,0.2" url="ui://djj8vne8dr9x12" autoSize="true"/>
     <loader id="n9_guyd" name="Img_CatFood2" xy="303,318" pivot="0.5,0.5" anchor="true" size="822,553" scale="0.2,0.2" url="ui://djj8vne8dr9x12" autoSize="true"/>
     <graph id="n11_guyd" name="Success_TextBG" xy="400,300" pivot="0.5,0.5" anchor="true" size="460,150" visible="false" type="rect"/>
-    <text id="n10_guyd" name="Success_Text" xy="400,300" pivot="0.5,0.5" anchor="true" size="461,147" visible="false" font="ui://z7qisvfxlzh25" fontSize="79" align="center" vAlign="middle" autoSize="none" text="任务完成"/>
+    <text id="n10_guyd" name="Success_Text" xy="400,300" pivot="0.5,0.5" anchor="true" size="461,147" visible="false" font="ui://z7qisvfxlzh27" fontSize="79" align="center" vAlign="middle" autoSize="none" text="任务完成"/>
   </displayList>
 </component>
