@@ -18,7 +18,6 @@
     <text id="n5_9v6e" name="connect" xy="1626,37" size="221,43" font="ui://z7qisvfxe6cd4" fontSize="31" color="#ffffff" vars="true" text="服务器：{isConnect=未连接}">
       <relation target="" sidePair="right-right,top-top"/>
     </text>
-    <image id="n11_dvwh" name="n11" pkg="zjgkafkh" src="dvwhh" fileName="微信图片_20220919141351.png" xy="-1283,-642"/>
     <image id="n13_dvwh" name="n13" src="dvwhj" fileName="图片/标题.png" xy="980,250" pivot="0.5,0.5" anchor="true" size="919,451"/>
   </displayList>
 </component>

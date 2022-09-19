@@ -548,7 +548,7 @@ namespace Player
                 nowTask.StartTask();
             }
         }
-        
+
         public void ShowStory()
         {
             if (nowStory != null)
@@ -573,20 +573,18 @@ namespace Player
             newColor = new Color(newColor.r, newColor.g, newColor.b, 0.5f);
             playerSpriteRenderer.color = newColor;
 
-            if (IsOwner)
-            {
-                FindObjectOfType<GameUIPanel>().HideAllButtons();
 
-                if (!isImposter)
-                {
-                    MyGameNetWorkManager.Instance.CommitGoodPlayerNumServerRpc(
-                        MyGameNetWorkManager.Instance.NetGoodPlayerNum.Value - 1);
-                }
-                else
-                {
-                    MyGameNetWorkManager.Instance.CommitGoodPlayerWinServerRpc(true);
-                    MyGameNetWorkManager.Instance.CommitGameEndServerRpc(true);
-                }
+            FindObjectOfType<GameUIPanel>().HideAllButtons();
+
+            if (!isImposter)
+            {
+                MyGameNetWorkManager.Instance.CommitGoodPlayerNumServerRpc(
+                    MyGameNetWorkManager.Instance.NetGoodPlayerNum.Value - 1);
+            }
+            else
+            {
+                MyGameNetWorkManager.Instance.CommitGoodPlayerWinServerRpc(true);
+                MyGameNetWorkManager.Instance.CommitGameEndServerRpc(true);
             }
         }
 

@@ -41,6 +41,7 @@ namespace Manager
         public readonly NetworkVariable<int> NetGoodPlayerNum = new();
         private readonly NetworkVariable<bool> _netImposterIsWin = new();
         private readonly NetworkVariable<bool> _netGoodIsWin = new();
+        public readonly NetworkVariable<FixedString32Bytes> NetImposterName = new();
 
 
         public GProgressBar GameProgressBar;
@@ -128,9 +129,11 @@ namespace Manager
                 {
                     _netIsAlreadyChooseImposter.Value = true;
 
-                    SyncImposterClientRpc(MyGameManager.Instance.PlayerListData
+                    var imposterName = MyGameManager.Instance.PlayerListData
                         .PlayerList[Random.Range(0, MyGameManager.Instance.PlayerListData.PlayerList.Count)]
-                        .AccountName);
+                        .AccountName;
+                    SyncImposterClientRpc(imposterName);
+                    NetImposterName.Value = imposterName;
                 }
             }
         }
@@ -253,7 +256,7 @@ namespace Manager
                     }
                 }
             }
-            
+
             return true;
         }
 
@@ -411,6 +414,14 @@ namespace Manager
         [ClientRpc]
         private void SyncGoToEndGameClientRpc()
         {
+            foreach (var lobbyPlayersCharacterState in NetLobbyPlayersCharacterStates)
+            {
+                if (lobbyPlayersCharacterState.AccountName == NetImposterName.Value)
+                {
+                    MyGameManager.Instance.whoIsImposter = lobbyPlayersCharacterState.CharacterToChoose;
+                }
+            }
+
             if (IsClient)
             {
                 StopAllCoroutines();

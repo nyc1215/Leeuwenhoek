@@ -9,7 +9,7 @@
     </graph>
     <loader id="n7_opeb" name="Loader_MiniMap" xy="1920,0" pivot="1,0" anchor="true" size="256,256"/>
     <component id="n8_nx98" name="Button_Kill" src="e0xw3" fileName="ButtonCom.xml" pkg="z7qisvfx" xy="1430,821" size="180,180" alpha="0.8">
-      <Button title="刀人"/>
+      <Button title="击杀"/>
     </component>
     <component id="n9_nx98" name="Button_Report" src="e0xw3" fileName="ButtonCom.xml" pkg="z7qisvfx" xy="1669,821" size="180,180" alpha="0.8">
       <Button title="报告"/>
