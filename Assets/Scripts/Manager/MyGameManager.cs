@@ -77,6 +77,8 @@ namespace Manager
 
         [Header("UI跳转信息存储")] public UIJumpData uiJumpData;
 
+        public bool isServer;
+
         #endregion
 
         #region 玩家相关变量
@@ -87,6 +89,7 @@ namespace Manager
         public MyPlayerNetwork localPlayerNetwork;
         [Header("玩家列表")] public List<MyPlayerController> allPlayers = new();
         public int allTime = 1200;
+        public Characters whoIsImposter;
 
         #endregion
 
