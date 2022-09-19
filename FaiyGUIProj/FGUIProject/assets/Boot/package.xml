@@ -15,6 +15,7 @@
     <image id="pwzhc" name="章节选择背景.png" path="/图片/"/>
     <image id="pwzhd" name="序章按钮.png" path="/图片/" scale9grid="0,0,-1171,-653"/>
     <image id="pwzhe" name="InfoPanel背景.png" path="/图片/" scale9grid="0,0,-1513,-861"/>
+    <image id="dvwhj" name="标题.png" path="/图片/" scale9grid="0,0,-1388,-4271"/>
   </resources>
   <publish name=""/>
 </packageDescription>
