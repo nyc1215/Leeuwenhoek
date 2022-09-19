@@ -21,6 +21,8 @@ namespace UI.Boot
         private GButton _quitButton;
         private GButton _registerButton;
         private GButton _loginButton;
+        private GButton _serverButton;
+        private GTextInput _ipInput;
         private GTextField _severState;
 
         public static TipPanel TipPanel;
@@ -42,7 +44,7 @@ namespace UI.Boot
             ChoosePanelComponent ??= UIPackage.CreateObject("Boot", "ChoosePanel").asCom;
             InfoPanelComponent ??= UIPackage.CreateObject("Boot", "InfoPanel").asCom;
 
-            ChoosePanel ??= new ChoosePanel(ChoosePanelComponent,UIRoot);
+            ChoosePanel ??= new ChoosePanel(ChoosePanelComponent, UIRoot);
             InfoPanel ??= new InfoPanel(InfoPanelComponent);
 
             TipPanel ??= new TipPanel();
@@ -61,6 +63,8 @@ namespace UI.Boot
             _quitButton = GetButton("Button_Quit");
             _registerButton = GetButton("Button_Register");
             _loginButton = GetButton("Button_Login");
+            _serverButton = GetButton("Button_server");
+            _ipInput = UIRoot.GetChild("Input_ip").asTextInput;
             _severState = UIRoot.GetChild("connect").asTextField;
             _videoLoader = UIRoot.GetChild("bg").asLoader;
             _videoLoader.texture = new NTexture(bootVideoRenderTexture);
@@ -75,6 +79,15 @@ namespace UI.Boot
             {
                 _loginPanel.Show();
                 UIRoot.filter = _blur;
+                MyGameManager.Instance.serverIP = _ipInput.text;
+            });
+
+            _ipInput.text = MyGameManager.Instance.serverIP;
+            _serverButton.title = MyGameManager.Instance.isServer ? "主机" : "客户端";
+            _serverButton.onClick.Add(() =>
+            {
+                MyGameManager.Instance.isServer = !MyGameManager.Instance.isServer;
+                _serverButton.title = MyGameManager.Instance.isServer ? "主机" : "客户端";
             });
         }
 

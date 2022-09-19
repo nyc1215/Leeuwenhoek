@@ -15,9 +15,13 @@
       <relation target="" sidePair="center-center,middle-middle"/>
       <Button title="注册"/>
     </component>
-    <text id="n5_9v6e" name="connect" xy="1626,37" size="221,43" font="ui://z7qisvfxe6cd4" fontSize="31" color="#ffffff" vars="true" text="服务器：{isConnect=未连接}">
+    <text id="n5_9v6e" name="connect" xy="1626,37" size="217,42" font="ui://z7qisvfxe6cd4" fontSize="31" color="#ffffff" vars="true" text="服务器：{isConnect=未连接}">
       <relation target="" sidePair="right-right,top-top"/>
     </text>
     <image id="n13_dvwh" name="n13" src="dvwhj" fileName="图片/标题.png" xy="980,250" pivot="0.5,0.5" anchor="true" size="919,451"/>
+    <text id="n15_n9f8" name="Input_ip" xy="29,16" size="202,42" font="ui://z7qisvfxlzh25" fontSize="30" color="#ffffff" autoSize="height" singleLine="true" text="127.0.0.1" input="true" prompt="主机ip地址" maxLength="9" keyboardType="2"/>
+    <component id="n16_n9f8" name="Button_server" src="e0xw3" fileName="ButtonCom.xml" pkg="z7qisvfx" xy="254,11" size="89,50">
+      <Button title="主机" titleFontSize="30"/>
+    </component>
   </displayList>
 </component>
