@@ -10,7 +10,6 @@ using UI.Util;
 using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace Manager
@@ -35,14 +34,15 @@ namespace Manager
         public readonly NetworkVariable<bool> GameIsEnd = new();
 
         public NetworkList<LobbyPlayerCharacterState> NetLobbyPlayersCharacterStates;
+
         public NetworkVariable<int> whoWillBeKicked = new();
 
         private readonly NetworkVariable<bool> _netIsAlreadyChooseImposter = new();
         public readonly NetworkVariable<int> NetGoodPlayerNum = new();
         private readonly NetworkVariable<bool> _netImposterIsWin = new();
         private readonly NetworkVariable<bool> _netGoodIsWin = new();
-        public readonly NetworkVariable<FixedString32Bytes> NetImposterName = new();
-        public NetworkList<ulong> NetBodyId;
+        private readonly NetworkVariable<FixedString32Bytes> _netImposterName = new();
+        private NetworkList<ulong> _netBodyId;
 
 
         public GProgressBar GameProgressBar;
@@ -66,7 +66,7 @@ namespace Manager
             }
 
             NetLobbyPlayersCharacterStates = new NetworkList<LobbyPlayerCharacterState>();
-            NetBodyId = new NetworkList<ulong>();
+            _netBodyId = new NetworkList<ulong>();
         }
 
         #endregion
@@ -76,7 +76,7 @@ namespace Manager
         public override void OnNetworkSpawn()
         {
             GameIsEnd.Value = false;
-            GameIsEnd.OnValueChanged += (value, newValue) =>
+            GameIsEnd.OnValueChanged += (_, newValue) =>
             {
                 if (newValue)
                 {
@@ -84,7 +84,7 @@ namespace Manager
                 }
             };
             _gameTotalProgress.Value = 0;
-            _gameTotalProgress.OnValueChanged += (value, newValue) =>
+            _gameTotalProgress.OnValueChanged += (_, newValue) =>
             {
                 if (GameProgressBar != null)
                 {
@@ -103,7 +103,7 @@ namespace Manager
             _netIsAlreadyChooseImposter.Value = false;
             NetGoodPlayerNum.Value = 0;
             _netImposterIsWin.Value = false;
-            NetGoodPlayerNum.OnValueChanged += (value, newValue) =>
+            NetGoodPlayerNum.OnValueChanged += (_, newValue) =>
             {
                 if (MyGameManager.CompareScene(MyGameManager.Instance.uiJumpData.gameMenu))
                 {
@@ -121,10 +121,12 @@ namespace Manager
         {
             if (IsServer || IsHost)
             {
+                NetGoodPlayerNum.Value = MyGameManager.Instance.PlayerListData.PlayerList.Count - 1;
                 if (_netIsAlreadyChooseImposter.Value)
                 {
                     return;
                 }
+
 
                 if (NetworkManager.Singleton.ConnectedClientsList.Count ==
                     MyGameManager.Instance.PlayerListData.PlayerList.Count)
@@ -135,7 +137,7 @@ namespace Manager
                         .PlayerList[Random.Range(0, MyGameManager.Instance.PlayerListData.PlayerList.Count)]
                         .AccountName;
                     SyncImposterClientRpc(imposterName);
-                    NetImposterName.Value = imposterName;
+                    _netImposterName.Value = imposterName;
                 }
             }
         }
@@ -205,22 +207,22 @@ namespace Manager
         [ServerRpc(RequireOwnership = false)]
         public void CommitAddBodyIdServerRpc(ulong id)
         {
-            NetBodyId.Add(id);
+            _netBodyId.Add(id);
         }
 
         [ServerRpc(RequireOwnership = false)]
         public void CommitDesBodyIdServerRpc(ulong id)
         {
-            if (NetBodyId.Contains(id))
+            if (_netBodyId.Contains(id))
             {
-                NetBodyId.Remove(id);
+                _netBodyId.Remove(id);
             }
         }
 
         public override void OnDestroy()
         {
             NetLobbyPlayersCharacterStates?.Dispose();
-            NetBodyId?.Dispose();
+            _netBodyId?.Dispose();
         }
 
         public void AddGameProgress(int addProgress)
@@ -364,6 +366,7 @@ namespace Manager
                 return;
             }
 
+            Debug.Log($"kickSomeOne:{whoWillBeKicked.Value}");
             KickPlayerServerRpc();
         }
 
@@ -380,42 +383,45 @@ namespace Manager
         private void KickPlayerClientRpc(FixedString32Bytes playerName)
         {
             foreach (var playerController in MyGameManager.Instance.allPlayers.Where(
-                         playerController => playerController.playerAccountName == playerName &&
+                         playerController => playerController.playerAccountName.Contains($"({playerName.ToString()})") &&
                                              !playerController.isDead && !playerController.isKicked))
             {
+                Debug.Log($"{playerController.playerAccountName} kicked");
                 playerController.BeKick();
             }
         }
-        
+
         [ServerRpc]
         private void CalculateWhoWillBekKickedServerRpc()
         {
-            if (!IsServer && !IsHost)
-            {
-                return;
-            }
             var voteList = new List<int>();
             for (var i = 0; i < NetLobbyPlayersCharacterStates.Count; i++)
             {
                 voteList.Add(NetLobbyPlayersCharacterStates[i].Vote);
             }
 
-
-            var result = voteList.Select((value, index) => new { Value = value, Index = index }).OrderByDescending(node => node.Value).Take(2).ToArray();
-            if (!result.Any())
+            if (voteList.Count == 0)
             {
                 whoWillBeKicked.Value = -1;
                 return;
             }
 
-            if (result.First().Value == result.Last().Value)
+            var voteListSorted = new List<int>(voteList);
+            voteListSorted.Sort((x, y) => -x.CompareTo(y));
+            if (voteListSorted.First() == voteListSorted.Last())
             {
                 whoWillBeKicked.Value = -1;
                 return;
             }
 
-            whoWillBeKicked.Value = result.First().Index;
+            whoWillBeKicked.Value = voteList.FindIndex(maxVote => maxVote == voteListSorted.First());
+
+            var result = voteList.Aggregate("voteList:", (current, varInt) => current + (varInt + ","));
+            Debug.Log(result);
+            var result2 = voteListSorted.Aggregate("voteListSorted:", (current, varInt) => current + (varInt + ","));
+            Debug.Log(result2);
             Debug.Log(whoWillBeKicked.Value.ToString());
+            Debug.Log(NetLobbyPlayersCharacterStates[whoWillBeKicked.Value].AccountName);
         }
 
         #endregion
@@ -444,14 +450,14 @@ namespace Manager
         [ServerRpc(RequireOwnership = false)]
         private void CommitGameEndServerRpc()
         {
-            foreach (var id in NetBodyId)
+            foreach (var id in _netBodyId)
             {
                 if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.ContainsKey(id))
                 {
-                    NetworkManager.Singleton.SpawnManager.SpawnedObjects[id].Despawn(true);
+                    NetworkManager.Singleton.SpawnManager.SpawnedObjects[id].Despawn();
                 }
             }
-            
+
             SyncGoToEndGameClientRpc();
         }
 
@@ -461,7 +467,7 @@ namespace Manager
         {
             foreach (var lobbyPlayersCharacterState in NetLobbyPlayersCharacterStates)
             {
-                if (lobbyPlayersCharacterState.AccountName == NetImposterName.Value)
+                if (lobbyPlayersCharacterState.AccountName == _netImposterName.Value)
                 {
                     MyGameManager.Instance.whoIsImposter = lobbyPlayersCharacterState.CharacterToChoose;
                 }

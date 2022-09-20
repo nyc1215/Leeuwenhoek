@@ -111,11 +111,12 @@ namespace UI.Game
                     nodeText.text = "{accountName=user} ×";
                     nodeText.color = Color.red;
                     nodeText.SetVar("accountName", playerState.AccountName.ToString()).FlushVars();
-                    continue;
                 }
-
-                nodeText.SetVar("accountName", playerState.AccountName.ToString()).SetVar("vote", playerState.Vote.ToString()).FlushVars();
-                node.onClick.Add(() => { Vote(playerState.CharacterToChoose,nodeText.templateVars["accountName"]); });
+                else
+                {
+                    nodeText.SetVar("accountName", playerState.AccountName.ToString()).SetVar("vote", playerState.Vote.ToString()).FlushVars();
+                    node.onClick.Add(() => { Vote(playerState.CharacterToChoose, nodeText.templateVars["accountName"]); });
+                }
             }
         }
 

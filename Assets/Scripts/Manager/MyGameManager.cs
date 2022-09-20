@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using agora_gaming_rtc;
@@ -6,13 +5,8 @@ using Mirror;
 using MyWebSocket.Response;
 using Player;
 using UI.Util;
-using Unity.Netcode;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.Assertions;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
-using Random = UnityEngine.Random;
 #if UNITY_2018_3_OR_NEWER
 using UnityEngine.Android;
 #endif
@@ -77,7 +71,6 @@ namespace Manager
 
         [Header("UI跳转信息存储")] public UIJumpData uiJumpData;
 
-
         #endregion
 
         #region 玩家相关变量
@@ -94,12 +87,12 @@ namespace Manager
 
         #region 网络操作
 
-        [Header("登录匹配系统联网/本地运行")]public NetOrLocal netOrLocal;
-        [Header("局内是否作为主机")]public bool isServer;
+        [Header("登录匹配系统联网/本地运行")] public NetOrLocal netOrLocal;
+        [Header("局内是否作为主机")] public bool isServer;
         [Header("局内主机ip地址")] public string serverIP;
-        
+
         public readonly NetWorkOperations NetWorkOperations = new();
-        
+
         //安卓权限列表
         private readonly List<string> _permissionList = new();
 

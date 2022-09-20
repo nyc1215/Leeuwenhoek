@@ -5,7 +5,6 @@ using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
 using NetworkBehaviour = Unity.Netcode.NetworkBehaviour;
-using Random = UnityEngine.Random;
 
 namespace Player
 {
@@ -98,10 +97,10 @@ namespace Player
         private void Awake()
         {
             _spriteTransform = transform.GetChild(0);
-            _netSpriteColor.OnValueChanged += (value, newValue) => { playerPartSpriteRenderer.color = newValue; };
-            _netTopTextColor.OnValueChanged += (value, newValue) => { playerTopText.color = newValue; };
-            NetTopText.OnValueChanged += (value, newValue) => { playerTopText.text = newValue.ToString(); };
-            _networkShowVoiceIcon.OnValueChanged += (value, newValue) => { playerVoiceIcon.color = newValue ? Color.white : Color.clear; };
+            _netSpriteColor.OnValueChanged += (_, newValue) => { playerPartSpriteRenderer.color = newValue; };
+            _netTopTextColor.OnValueChanged += (_, newValue) => { playerTopText.color = newValue; };
+            NetTopText.OnValueChanged += (_, newValue) => { playerTopText.text = newValue.ToString(); };
+            _networkShowVoiceIcon.OnValueChanged += (_, newValue) => { playerVoiceIcon.color = newValue ? Color.white : Color.clear; };
         }
 
         public override void OnDestroy()

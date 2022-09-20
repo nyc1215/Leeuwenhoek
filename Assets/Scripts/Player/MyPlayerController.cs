@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using InteractiveObj;
 using Manager;
@@ -321,7 +320,7 @@ namespace Player
         {
             MyGameNetWorkManager.Instance.CommitDesBodyIdServerRpc(bodyItemID);
             var bodyToDestroy = NetworkManager.Singleton.SpawnManager.SpawnedObjects[bodyItemID];
-            bodyToDestroy.Despawn(true);
+            bodyToDestroy.Despawn();
         }
 
         [ServerRpc(RequireOwnership = false)]
@@ -564,7 +563,7 @@ namespace Player
 
         public void BeKick()
         {
-            if (isDead || isKicked)
+            if (isDead)
             {
                 return;
             }

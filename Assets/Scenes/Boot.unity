@@ -693,6 +693,7 @@ MonoBehaviour:
   time: 60
   whoWillBeKicked:
     m_InternalValue: 0
+  whoWillBeKickedForClient: 0
 --- !u!4 &1615572383
 Transform:
   m_ObjectHideFlags: 0

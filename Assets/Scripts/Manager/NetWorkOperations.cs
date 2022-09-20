@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using MyWebSocket.Request;
@@ -9,7 +8,6 @@ using UI.Boot;
 using UI.Room;
 using UI.Util;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace Manager
 {
@@ -128,7 +126,7 @@ namespace Manager
 
         public void ResponseErrorWork(ResponseUtil responseError)
         {
-            if (!_requestPool.TryGetValue(responseError.RequestID, out var requestUtil))
+            if (!_requestPool.TryGetValue(responseError.RequestID, out _))
             {
                 return;
             }
