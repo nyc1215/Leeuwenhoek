@@ -30,7 +30,7 @@ namespace UI.Room
 
         public CharacterPanel CharacterPanel;
 
-        private int _localPlayerIndex;
+        private TypingEffect _typingEffect;
 
         protected override void Awake()
         {
@@ -69,22 +69,20 @@ namespace UI.Room
                 bgm.PlayOneShot(knockDoorMusic);
             }
 
+            _typingEffect = new TypingEffect(_storyText);
             _storyText.text = roomReadyStory.storyText[_storyIndex];
+            _typingEffect.Start();
+            Timers.inst.StartCoroutine(_typingEffect.Print(0.050f));
 
             CreatePlayer();
         }
 
         public void ListUpdate()
         {
-            for (var i = 0; i < MyGameManager.Instance.PlayerListData.PlayerList.Count; i++)
+            foreach (var playerListNode in MyGameManager.Instance.PlayerListData.PlayerList.Where(playerListNode =>
+                         playerListNode.Account == MyGameManager.Instance.LocalPlayerInfo.Account))
             {
-                var playerListNode = MyGameManager.Instance.PlayerListData.PlayerList[i];
-
-                if (playerListNode.Account == MyGameManager.Instance.LocalPlayerInfo.Account)
-                {
-                    _localPlayerIndex = i;
-                    MyGameManager.Instance.LocalPlayerInfo.AccountName = playerListNode.AccountName;
-                }
+                MyGameManager.Instance.LocalPlayerInfo.AccountName = playerListNode.AccountName;
             }
         }
 
@@ -148,7 +146,8 @@ namespace UI.Room
                 NetworkManager.Singleton.StartHost();
                 if (utpTransport)
                 {
-                    Debug.Log($"host connect info: {utpTransport.ConnectionData.Address} {utpTransport.ConnectionData.Port} {utpTransport.ConnectionData.ServerListenAddress}");
+                    Debug.Log(
+                        $"host connect info: {utpTransport.ConnectionData.Address} {utpTransport.ConnectionData.Port} {utpTransport.ConnectionData.ServerListenAddress}");
                 }
             }
             else
@@ -163,7 +162,8 @@ namespace UI.Room
                 NetworkManager.Singleton.StartClient();
                 if (utpTransport)
                 {
-                    Debug.Log($"client connect info: {utpTransport.ConnectionData.Address} {utpTransport.ConnectionData.Port} {utpTransport.ConnectionData.ServerListenAddress}");
+                    Debug.Log(
+                        $"client connect info: {utpTransport.ConnectionData.Address} {utpTransport.ConnectionData.Port} {utpTransport.ConnectionData.ServerListenAddress}");
                 }
             }
         }
@@ -213,8 +213,10 @@ namespace UI.Room
                     return;
                 }
             }
-
+            
             _storyText.text = roomReadyStory.storyText[_storyIndex];
+            _typingEffect.Start();
+            Timers.inst.StartCoroutine(_typingEffect.Print(0.050f));
 
             if (_storyIndex is >= 1 and <= 2)
             {

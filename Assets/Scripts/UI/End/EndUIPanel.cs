@@ -23,6 +23,7 @@ namespace UI.End
         private int _endStoryTotalNum;
         private List<string> _nowStoryList;
 
+        private TypingEffect _typingEffect;
 
         protected override void Awake()
         {
@@ -40,6 +41,7 @@ namespace UI.End
 
         private void Start()
         {
+            _typingEffect = new TypingEffect(_storyTextField);
             _quitButton.onClick.Add(() => { UIOperationUtil.GoToScene(MyGameManager.Instance.uiJumpData.bootMenu); });
             _closeStory.onClick.Add(() =>
             {
@@ -50,7 +52,10 @@ namespace UI.End
                     MyGameNetWorkManager.Instance.CommitDestroyAllPlayersServerRpc();
                     return;
                 }
+
                 _storyTextField.text = _nowStoryList[_endStoryIndex];
+                _typingEffect.Start();
+                Timers.inst.StartCoroutine(_typingEffect.Print(0.050f));
             });
 
             Debug.Log(MyGameManager.Instance.whoIsImposter.ToString());
@@ -84,6 +89,7 @@ namespace UI.End
                 default:
                     break;
             }
+
             _storyTextField.text = _nowStoryList[_endStoryIndex];
         }
     }
