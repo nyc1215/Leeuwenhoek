@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using FairyGUI;
 using Manager;
 using Player;
@@ -43,14 +44,15 @@ namespace Tasks
 
         protected override void InitTask()
         {
+            base.InitTask();
             _firstPoint = null;
             _secondPoint = null;
             
             foreach (var line in _lines)
             {
                 TaskUI.RemoveChild(line);
-                _lines.Remove(line);
             }
+            _lines.Clear();
 
             _lineNum = 0;
             

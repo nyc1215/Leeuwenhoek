@@ -47,11 +47,11 @@ namespace Manager
             {
                 foreach (var taskUtil in allTasks)
                 {
-                    taskUtil.gameObject.SetActive(false);
                     if (taskUtil.TaskWindow.isShowing)
                     {
                         taskUtil.EndTask();
                     }
+                    taskUtil.gameObject.SetActive(false);
                 }
 
                 var openTaskNum = 0;

@@ -71,8 +71,8 @@ namespace UI.Room
 
             _typingEffect = new TypingEffect(_storyText);
             _storyText.text = roomReadyStory.storyText[_storyIndex];
-            _typingEffect.Start();
-            Timers.inst.StartCoroutine(_typingEffect.Print(0.050f));
+            // _typingEffect.Start();
+            // Timers.inst.StartCoroutine(_typingEffect.Print(0.050f));
 
             CreatePlayer();
         }
@@ -215,8 +215,8 @@ namespace UI.Room
             }
             
             _storyText.text = roomReadyStory.storyText[_storyIndex];
-            _typingEffect.Start();
-            Timers.inst.StartCoroutine(_typingEffect.Print(0.050f));
+            // _typingEffect.Start();
+            // Timers.inst.StartCoroutine(_typingEffect.Print(0.050f));
 
             if (_storyIndex is >= 1 and <= 2)
             {

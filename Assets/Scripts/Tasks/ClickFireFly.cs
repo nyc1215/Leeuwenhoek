@@ -1,8 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using BestHTTP.SecureProtocol.Org.BouncyCastle.Asn1.X509;
 using FairyGUI;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Tasks
 {
@@ -17,6 +19,8 @@ namespace Tasks
 
         private int _successNum;
         private WaitForSeconds _createFireFlyWaitForSeconds;
+
+        private Coroutine _createFireFlyCoroutine;
 
         protected override void Awake()
         {
@@ -43,7 +47,13 @@ namespace Tasks
         protected override void OpenTaskUI()
         {
             base.OpenTaskUI();
-            StartCoroutine(CreateFireFly());
+            if (_createFireFlyCoroutine != null)
+            {
+                StopCoroutine(_createFireFlyCoroutine);
+                _createFireFlyCoroutine = null;
+            }
+
+            _createFireFlyCoroutine = StartCoroutine(CreateFireFly());
         }
 
         private IEnumerator CreateFireFly()
@@ -53,6 +63,7 @@ namespace Tasks
             while (!isSuccess && TaskWindow.isShowing)
             {
                 var aInstanceOfFirefly = TaskWindow.AddChild(UIPackage.CreateObject("Game", "Com_FireFly").asCom).asCom;
+                Debug.Log("aInstanceOfFirefly add in");
                 aInstanceOfFirefly.xy = RandomPos(aInstanceOfFirefly);
                 aInstanceOfFirefly.onClick.Add(() => { AInstanceOfFireflyBeClicked(aInstanceOfFirefly); });
                 aInstanceOfFirefly.GetTransition("变透明").Play(() =>

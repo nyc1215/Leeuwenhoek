@@ -327,7 +327,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
+  m_DynamicOccludee: 0
   m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
@@ -355,9 +355,9 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: 114676291
+  m_SortingLayer: 1
+  m_SortingOrder: 1
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &5945721136508183690
 MonoBehaviour:
@@ -640,8 +640,10 @@ MonoBehaviour:
     m_Bits: 768
   moveSpeed: 5
   isDead: 0
+  isKicked: 0
   bodyPrefab: {fileID: 6540672241139089927, guid: 2401f236d44709f469ffbe2326ad9f3e, type: 3}
   nowTask: {fileID: 0}
+  nowStory: {fileID: 0}
   nowSewer: {fileID: 0}
   nowCharacter: 0
   nowCharacterName: 
