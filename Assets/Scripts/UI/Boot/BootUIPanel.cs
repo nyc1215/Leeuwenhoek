@@ -118,7 +118,7 @@ namespace UI.Boot
             switch (MyWebSocket.MyWebSocket.WebSocket.State)
             {
                 case WebSocketStates.Connecting:
-                    _severState.SetVar("isConnect", "连接中").FlushVars();
+                    _severState.SetVar("isConnect", "未连接").FlushVars();
                     break;
                 case WebSocketStates.Open:
                     _severState.SetVar("isConnect", "已连接").FlushVars();
