@@ -2,8 +2,8 @@
 <component size="800,600">
   <displayList>
     <image id="n0_y8ni" name="bg" src="ga3711" fileName="图片/Panel背景.png" xy="-20,-20" size="820,620"/>
-    <component id="n1_y8ni" name="Button_Back" src="e0xw3" fileName="ButtonCom.xml" pkg="z7qisvfx" xy="670,70" size="59,26">
-      <Button title="退出" titleFontSize="20"/>
+    <component id="n1_y8ni" name="Button_Back" src="e0xw3" fileName="ButtonCom.xml" pkg="z7qisvfx" xy="630,60" size="100,50">
+      <Button title="退出" titleFontSize="30"/>
     </component>
     <text id="n2_y8ni" name="title" xy="397,97" pivot="0.5,0.5" anchor="true" size="162,44" font="ui://z7qisvfxlzh27" fontSize="26" color="#ffffff" align="center" vAlign="middle" autoSize="none" text="警戒敌人"/>
     <loader id="n3_y8ni" name="StartPoint" xy="130,300" pivot="0.5,0.5" anchor="true" size="574,574" scale="0.1,0.1" url="ui://djj8vne8dr9x14" autoSize="true"/>

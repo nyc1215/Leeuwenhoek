@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bootMenu: Assets/Scenes/Boot.unity
   roomMenu: Assets/Scenes/Room.unity
-  loadMenu: Assets/Scenes/Load.unity
+  loadMenu: 
   gameMenu: Assets/Scenes/Game.unity
   endMenu: Assets/Scenes/End.unity

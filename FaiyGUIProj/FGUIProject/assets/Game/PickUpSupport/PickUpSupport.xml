@@ -2,8 +2,8 @@
 <component size="800,600">
   <displayList>
     <image id="n0_guyd" name="bg" src="ga3711" fileName="图片/Panel背景.png" xy="-20,-20" size="820,620"/>
-    <component id="n1_guyd" name="Button_Back" src="e0xw3" fileName="ButtonCom.xml" pkg="z7qisvfx" xy="660,70" size="59,26">
-      <Button title="退出" titleFontSize="20"/>
+    <component id="n1_guyd" name="Button_Back" src="e0xw3" fileName="ButtonCom.xml" pkg="z7qisvfx" xy="630,60" size="100,50">
+      <Button title="退出" titleFontSize="30"/>
     </component>
     <text id="n2_guyd" name="title" xy="400,95" pivot="0.5,0.5" anchor="true" size="162,44" font="ui://z7qisvfxlzh27" fontSize="26" align="center" vAlign="middle" autoSize="none" text="带上补给"/>
     <image id="n4_guyd" name="Img_Bag" src="guydp" fileName="PickUpSupport/袋子.png" xy="400,296" pivot="0.5,0.5" anchor="true" size="275,275"/>
