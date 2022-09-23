@@ -71,8 +71,32 @@ namespace Tasks
                     return;
                 }
 
-                MyGameManager.Instance.localPlayerController.nowTask = this;
                 _gameUIPanel.ChangeTaskButtonVisible(true);
+                MyGameManager.Instance.localPlayerController.nowTask = this;
+            }
+        }
+
+        protected void OnTriggerStay(Collider other)
+        {
+            if (other.CompareTag("Player") &&
+                other.gameObject.GetComponent<NetworkObject>().IsLocalPlayer)
+            {
+                if (other.gameObject.GetComponent<MyPlayerController>().isDead ||
+                    other.gameObject.GetComponent<MyPlayerController>().isKicked)
+                {
+                    return;
+                }
+
+                if (isSuccess)
+                {
+                    _gameUIPanel.ChangeTaskButtonVisible(false);
+                    MyGameManager.Instance.localPlayerController.nowTask = null;
+                }
+                else
+                {
+                    _gameUIPanel.ChangeTaskButtonVisible(true);
+                    MyGameManager.Instance.localPlayerController.nowTask = this;
+                }
             }
         }
 
@@ -86,14 +110,14 @@ namespace Tasks
                 {
                     return;
                 }
-                
+
                 if (isSuccess)
                 {
                     return;
                 }
 
-                MyGameManager.Instance.localPlayerController.nowTask = null;
                 _gameUIPanel.ChangeTaskButtonVisible(false);
+                MyGameManager.Instance.localPlayerController.nowTask = null;
             }
         }
 
