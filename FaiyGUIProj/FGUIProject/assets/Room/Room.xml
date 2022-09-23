@@ -2,18 +2,20 @@
 <component size="1920,1080">
   <displayList>
     <text id="n2_lxz0" name="title" xy="960,100" pivot="0.5,0.5" anchor="true" size="244,79" font="ui://z7qisvfxlzh27" fontSize="60" color="#ffffff" align="center" vAlign="middle" text="准备阶段">
-      <relation target="" sidePair="center-center"/>
+      <relation target="" sidePair="center-center,top-top"/>
     </text>
     <component id="n7_di5g" name="Button_Ready" src="e0xw3" fileName="ButtonCom.xml" pkg="z7qisvfx" xy="1700,899" size="120,50">
+      <relation target="" sidePair="right-right,bottom-bottom"/>
       <Button title="准备" titleFontSize="30"/>
     </component>
     <component id="n8_wkv9" name="joystick" src="mv3z2" fileName="JoyStick.xml" pkg="z7qisvfx" xy="200,900">
-      <relation target="" sidePair="bottom-bottom"/>
+      <relation target="" sidePair="left-left,bottom-bottom"/>
     </component>
     <graph id="n9_wkv9" name="joystick_touch" xy="200,900" pivot="0.5,0.5" anchor="true" size="250,250" type="eclipse" lineSize="0" fillColor="#7fffffff">
-      <relation target="" sidePair="bottom-bottom"/>
+      <relation target="" sidePair="left-left,bottom-bottom"/>
     </graph>
     <component id="n10_jqc1" name="Button_Voice" src="e0xw3" fileName="ButtonCom.xml" pkg="z7qisvfx" xy="1700,400" size="120,50">
+      <relation target="" sidePair="right-right,top-top"/>
       <Button title="按住语音" titleFontSize="30" selectedTitle="语音中"/>
     </component>
   </displayList>
