@@ -2,8 +2,11 @@
 <component size="1920,1080" bgColor="#000000">
   <displayList>
     <graph id="n4_s5wk" name="BG" xy="0,0" size="1920,1080" type="rect" lineSize="0" fillColor="#ff000000"/>
-    <text id="n3_s5wk" name="Text_Letter" xy="960,518" pivot="0.5,0.5" anchor="true" size="1749,79" font="ui://z7qisvfxlzh27" fontSize="60" color="#ffffff" align="center" vAlign="middle" autoSize="height" autoClearText="true" text="卫队的情况不容乐观。"/>
+    <text id="n3_s5wk" name="Text_Letter" xy="960,518" pivot="0.5,0.5" anchor="true" size="1749,79" font="ui://z7qisvfxlzh27" fontSize="60" color="#ffffff" align="center" vAlign="middle" autoSize="height" autoClearText="true" text="卫队的情况不容乐观。">
+      <relation target="" sidePair="center-center,middle-middle"/>
+    </text>
     <component id="n5_rcy9" name="Button_Back" src="e0xw3" fileName="ButtonCom.xml" pkg="z7qisvfx" xy="1729,42" size="134,60">
+      <relation target="" sidePair="right-right,top-top"/>
       <Button title="继续"/>
     </component>
   </displayList>

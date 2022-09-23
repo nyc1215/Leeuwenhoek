@@ -2,29 +2,39 @@
 <component size="1920,1080">
   <displayList>
     <component id="n3_mv3z" name="joystick" src="mv3z2" fileName="JoyStick.xml" pkg="z7qisvfx" xy="200,900">
-      <relation target="" sidePair="bottom-bottom"/>
+      <relation target="" sidePair="left-left,bottom-bottom"/>
     </component>
     <graph id="n6_mw5q" name="joystick_touch" xy="200,900" pivot="0.5,0.5" anchor="true" size="250,250" type="eclipse" lineSize="0" fillColor="#7fffffff">
-      <relation target="" sidePair="bottom-bottom"/>
+      <relation target="" sidePair="left-left,bottom-bottom"/>
     </graph>
-    <loader id="n7_opeb" name="Loader_MiniMap" xy="1920,0" pivot="1,0" anchor="true" size="256,256"/>
+    <loader id="n7_opeb" name="Loader_MiniMap" xy="1920,0" pivot="1,0" anchor="true" size="256,256">
+      <relation target="" sidePair="right-right,top-top"/>
+    </loader>
     <component id="n8_nx98" name="Button_Kill" src="e0xw3" fileName="ButtonCom.xml" pkg="z7qisvfx" xy="1430,821" size="180,180" alpha="0.8">
+      <relation target="" sidePair="right-right,bottom-bottom"/>
       <Button title="击杀"/>
     </component>
     <component id="n9_nx98" name="Button_Report" src="e0xw3" fileName="ButtonCom.xml" pkg="z7qisvfx" xy="1669,821" size="180,180" alpha="0.8">
+      <relation target="" sidePair="right-right,bottom-bottom"/>
       <Button title="报告"/>
     </component>
     <component id="n10_l60n" name="ProgressBar_Game" src="l60n1" fileName="GameProgressBar.xml" xy="75,37">
+      <relation target="" sidePair="left-left,top-top"/>
       <ProgressBar max="100"/>
     </component>
     <component id="n12_escu" name="Button_Task" src="e0xw3" fileName="ButtonCom.xml" pkg="z7qisvfx" xy="1669,589" size="180,180" visible="false" alpha="0.8">
+      <relation target="" sidePair="right-right,bottom-bottom"/>
       <Button title="做任务"/>
     </component>
     <component id="n13_tlqf" name="Button_Sewer" src="e0xw3" fileName="ButtonCom.xml" pkg="z7qisvfx" xy="1430,589" size="180,180" visible="false" alpha="0.8">
+      <relation target="" sidePair="right-right,bottom-bottom"/>
       <Button title="传送"/>
     </component>
-    <text id="n14_guyd" name="Text_Timer" xy="960,75" pivot="0.5,0.5" anchor="true" size="352,54" font="ui://z7qisvfxlzh27" fontSize="40" color="#ffffff" vars="true" text="本轮时间：{Min=20}:{Sec=00}"/>
+    <text id="n14_guyd" name="Text_Timer" xy="960,75" pivot="0.5,0.5" anchor="true" size="352,54" font="ui://z7qisvfxlzh27" fontSize="40" color="#ffffff" vars="true" text="本轮时间：{Min=20}:{Sec=00}">
+      <relation target="" sidePair="center-center,top-top"/>
+    </text>
     <component id="n15_vj8j" name="Button_Log" src="e0xw3" fileName="ButtonCom.xml" pkg="z7qisvfx" xy="103,431" size="180,180" visible="false" alpha="0.8">
+      <relation target="" sidePair="left-left"/>
       <Button title="读取数据"/>
     </component>
   </displayList>

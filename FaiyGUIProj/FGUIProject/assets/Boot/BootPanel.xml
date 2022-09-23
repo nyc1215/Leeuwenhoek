@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component size="1920,1080">
   <displayList>
+    <graph id="n6_e6cd" name="basic2" xy="0,0" size="1920,1080" visible="false" type="rect" lineSize="0" fillColor="#ff000000"/>
     <loader id="n1_e0xw" name="bg" xy="0,0" size="1920,1080"/>
-    <graph id="n6_e6cd" name="basic2" xy="0,0" size="1920,1080" visible="false" alpha="0.5" type="rect" lineSize="0" fillColor="#ff000000"/>
     <component id="n2_e0xw" name="Button_Quit" src="e0xw3" fileName="ButtonCom.xml" pkg="z7qisvfx" xy="960,940" pivot="0.5,0.5" anchor="true" size="180,80" aspect="true">
       <relation target="" sidePair="center-center,middle-middle"/>
       <Button title="退出"/>
@@ -18,9 +18,14 @@
     <text id="n5_9v6e" name="connect" xy="1626,37" size="221,43" font="ui://z7qisvfxe6cd4" fontSize="31" color="#ffffff" vars="true" text="服务器：{isConnect=未连接}">
       <relation target="" sidePair="right-right,top-top"/>
     </text>
-    <image id="n13_dvwh" name="n13" src="dvwhj" fileName="图片/标题.png" xy="980,250" pivot="0.5,0.5" anchor="true" size="919,451"/>
-    <text id="n15_n9f8" name="Input_ip" xy="29,16" size="251,42" font="ui://z7qisvfxlzh25" fontSize="30" color="#ffffff" autoSize="none" singleLine="true" text="127.0.0.1" input="true" prompt="主机ip地址" maxLength="15" keyboardType="2"/>
+    <image id="n13_dvwh" name="n13" src="dvwhj" fileName="图片/标题.png" xy="980,250" pivot="0.5,0.5" anchor="true" size="919,451">
+      <relation target="" sidePair="center-center,top-top"/>
+    </image>
+    <text id="n15_n9f8" name="Input_ip" xy="29,16" size="251,42" font="ui://z7qisvfxlzh25" fontSize="30" color="#ffffff" autoSize="none" singleLine="true" text="127.0.0.1" input="true" prompt="主机ip地址" maxLength="15" keyboardType="2">
+      <relation target="" sidePair="left-left,top-top"/>
+    </text>
     <component id="n16_n9f8" name="Button_server" src="e0xw3" fileName="ButtonCom.xml" pkg="z7qisvfx" xy="333,11" size="89,50">
+      <relation target="" sidePair="left-left,top-top"/>
       <Button title="主机" titleFontSize="30"/>
     </component>
   </displayList>

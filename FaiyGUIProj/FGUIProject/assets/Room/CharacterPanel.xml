@@ -2,7 +2,9 @@
 <component size="1920,1080">
   <displayList>
     <image id="n0_lzh2" name="BG" src="dr9xw" fileName="选角色图片/17.png" xy="0,0" size="1920,1080"/>
-    <text id="n1_lzh2" name="n1" xy="960,120" pivot="0.5,0.5" anchor="true" size="604,79" font="ui://z7qisvfxlzh27" fontSize="60" color="#ffffff" text="本次任务的队员有……"/>
+    <text id="n1_lzh2" name="n1" xy="960,120" pivot="0.5,0.5" anchor="true" size="604,79" font="ui://z7qisvfxlzh27" fontSize="60" color="#ffffff" text="本次任务的队员有……">
+      <relation target="" sidePair="center-center,top-top"/>
+    </text>
     <text id="n2_lzh2" name="Text_luowei" xy="470,345" pivot="0.5,0.5" anchor="true" size="124,79" customData="洛维" font="ui://z7qisvfxlzh27" fontSize="60" color="#ffffff" vars="true" text="洛维{account=}"/>
     <text id="n4_lzh2" name="Text_yang" xy="470,600" pivot="0.5,0.5" anchor="true" size="64,79" customData="杨" font="ui://z7qisvfxlzh27" fontSize="60" color="#ffffff" vars="true" text="扬{account=}"/>
     <text id="n6_lzh2" name="Text_polo" xy="470,870" pivot="0.5,0.5" anchor="true" size="124,79" customData="保罗" font="ui://z7qisvfxlzh27" fontSize="60" color="#ffffff" vars="true" text="保罗{account=}"/>
@@ -16,6 +18,7 @@
     <image id="n18_lzh2" name="n18" src="dr9xx" fileName="选角色图片/18.png" xy="1220,600" pivot="0.5,0.5" anchor="true" size="236,183"/>
     <image id="n19_lzh2" name="n19" src="dr9xx" fileName="选角色图片/18.png" xy="1220,870" pivot="0.5,0.5" anchor="true" size="236,183"/>
     <component id="n20_hqoz" name="Button_Continue" src="e0xw3" fileName="ButtonCom.xml" pkg="z7qisvfx" xy="1700,100" size="137,61" visible="false">
+      <relation target="" sidePair="right-right,top-top"/>
       <Button title="确定"/>
     </component>
     <loader id="n21_di36" name="Button_polo" xy="700,869" pivot="0.5,0.5" anchor="true" size="184,179" url="ui://o5dbpgr6di36y" fill="scale"/>
