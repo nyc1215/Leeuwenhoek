@@ -86,7 +86,7 @@ namespace UI.Boot
                 BootUIPanel.ChoosePanelComponent.visible = true;
                 BootUIPanel.ChoosePanelComponent.Center();
             };
-            requestLogin.RequestFail += () => { BootUIPanel.TipPanel.Show("用户账号不存在，请先注册"); };
+            requestLogin.RequestFail += () => { BootUIPanel.TipPanel.Show("该用户账号已登录或不存在，请先注册"); };
 
             MyGameManager.Instance.NetWorkOperations.SendRequest(requestLogin);
         }
