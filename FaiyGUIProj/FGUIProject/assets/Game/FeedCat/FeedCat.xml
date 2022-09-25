@@ -8,6 +8,9 @@
     <text id="n2_guyd" name="title" xy="393,97" pivot="0.5,0.5" anchor="true" size="162,44" font="ui://z7qisvfxlzh27" fontSize="26" color="#ffffff" align="center" vAlign="middle" autoSize="none" text="喂猫">
       <relation target="" sidePair="center-center,top-top"/>
     </text>
+    <text id="n12_nki0" name="title2" xy="395,124" pivot="0.5,0.5" anchor="true" size="162,44" font="ui://z7qisvfxlzh27" fontSize="20" color="#ffffff" align="center" vAlign="middle" autoSize="none" text="拖拽食物">
+      <relation target="" sidePair="center-center,top-top"/>
+    </text>
     <image id="n4_guyd" name="Img_Cat" src="dr9x13" fileName="FeedCat/6.png" xy="636,310" pivot="0.5,0.5" anchor="true" size="200,200"/>
     <loader id="n6_guyd" name="Img_CatFood1" xy="165,171" pivot="0.5,0.5" anchor="true" size="822,553" scale="0.2,0.2" url="ui://djj8vne8dr9x12" autoSize="true"/>
     <loader id="n8_guyd" name="Img_CatFood3" xy="146,448" pivot="0.5,0.5" anchor="true" size="822,553" scale="0.2,0.2" url="ui://djj8vne8dr9x12" autoSize="true"/>

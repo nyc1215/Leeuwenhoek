@@ -6,17 +6,18 @@
       <Button title="退出" titleFontSize="30"/>
     </component>
     <text id="n2_guyd" name="title" xy="400,96" pivot="0.5,0.5" anchor="true" size="162,44" font="ui://z7qisvfxlzh27" fontSize="26" color="#ffffff" align="center" vAlign="middle" autoSize="none" text="修理机器人"/>
-    <image id="n22_guyd" name="n22" src="guydg" fileName="FixRobot/火箭机器人.png" xy="400,300" pivot="0.5,0.5" anchor="true" size="491,491"/>
-    <loader id="n4_guyd" name="p1" xy="497,273" size="574,574" scale="0.05,0.05" url="ui://djj8vne8dr9x14" autoSize="true"/>
-    <loader id="n5_guyd" name="p2" xy="413,292" size="574,574" scale="0.05,0.05" url="ui://djj8vne8dr9x14" autoSize="true"/>
-    <loader id="n6_guyd" name="p3" xy="263,399" size="574,574" scale="0.05,0.05" url="ui://djj8vne8dr9x14" autoSize="true"/>
-    <loader id="n14_guyd" name="p4" xy="272,272" size="574,574" scale="0.05,0.05" url="ui://djj8vne8dr9x14" autoSize="true"/>
-    <loader id="n15_guyd" name="p5" xy="349,193" size="574,574" scale="0.05,0.05" url="ui://djj8vne8dr9x14" autoSize="true"/>
-    <loader id="n16_guyd" name="p6" xy="514,404" size="574,574" scale="0.05,0.05" url="ui://djj8vne8dr9x14" autoSize="true"/>
-    <loader id="n17_guyd" name="p7" xy="447,355" size="574,574" scale="0.05,0.05" url="ui://djj8vne8dr9x14" autoSize="true"/>
-    <loader id="n18_guyd" name="p8" xy="351,367" size="574,574" scale="0.05,0.05" url="ui://djj8vne8dr9x14" autoSize="true"/>
-    <loader id="n19_guyd" name="p9" xy="427,192" size="574,574" scale="0.05,0.05" url="ui://djj8vne8dr9x14" autoSize="true"/>
-    <loader id="n20_guyd" name="p10" xy="341,296" size="574,574" scale="0.05,0.05" url="ui://djj8vne8dr9x14" autoSize="true"/>
+    <text id="n24_nki0" name="title2" xy="396,120" pivot="0.5,0.5" anchor="true" size="84,29" font="ui://z7qisvfxlzh27" fontSize="20" color="#ffffff" align="center" vAlign="middle" text="点击红点"/>
+    <image id="n22_guyd" name="n22" src="guydg" fileName="FixRobot/火箭机器人.png" xy="399,337" pivot="0.5,0.5" anchor="true" size="491,491"/>
+    <loader id="n4_guyd" name="p1" xy="497,310" size="574,574" scale="0.05,0.05" url="ui://djj8vne8dr9x14" autoSize="true"/>
+    <loader id="n5_guyd" name="p2" xy="413,329" size="574,574" scale="0.05,0.05" url="ui://djj8vne8dr9x14" autoSize="true"/>
+    <loader id="n6_guyd" name="p3" xy="263,436" size="574,574" scale="0.05,0.05" url="ui://djj8vne8dr9x14" autoSize="true"/>
+    <loader id="n14_guyd" name="p4" xy="272,309" size="574,574" scale="0.05,0.05" url="ui://djj8vne8dr9x14" autoSize="true"/>
+    <loader id="n15_guyd" name="p5" xy="349,230" size="574,574" scale="0.05,0.05" url="ui://djj8vne8dr9x14" autoSize="true"/>
+    <loader id="n16_guyd" name="p6" xy="514,441" size="574,574" scale="0.05,0.05" url="ui://djj8vne8dr9x14" autoSize="true"/>
+    <loader id="n17_guyd" name="p7" xy="447,392" size="574,574" scale="0.05,0.05" url="ui://djj8vne8dr9x14" autoSize="true"/>
+    <loader id="n18_guyd" name="p8" xy="351,404" size="574,574" scale="0.05,0.05" url="ui://djj8vne8dr9x14" autoSize="true"/>
+    <loader id="n19_guyd" name="p9" xy="427,229" size="574,574" scale="0.05,0.05" url="ui://djj8vne8dr9x14" autoSize="true"/>
+    <loader id="n20_guyd" name="p10" xy="341,333" size="574,574" scale="0.05,0.05" url="ui://djj8vne8dr9x14" autoSize="true"/>
     <graph id="n23_guyd" name="Success_TextBG" xy="400,300" pivot="0.5,0.5" anchor="true" size="460,150" visible="false" type="rect"/>
     <text id="n13_guyd" name="Success_Text" xy="400,300" pivot="0.5,0.5" anchor="true" size="461,147" visible="false" font="ui://z7qisvfxlzh27" fontSize="79" align="center" vAlign="middle" autoSize="none" text="任务完成"/>
   </displayList>

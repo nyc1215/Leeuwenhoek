@@ -20,8 +20,8 @@ namespace Tasks
         public Window TaskWindow;
         protected GComponent TaskUI;
         private GButton _taskQuitButton;
-        private SpriteRenderer _spriteRenderer;
-        private GameUIPanel _gameUIPanel;
+        protected SpriteRenderer _spriteRenderer;
+        protected GameUIPanel _gameUIPanel;
 
         protected virtual void Awake()
         {
@@ -143,7 +143,7 @@ namespace Tasks
             MyGameManager.Instance.localPlayerController.OnDisable();
         }
 
-        public void EndTask()
+        public virtual void EndTask()
         {
             if (isSuccess)
             {

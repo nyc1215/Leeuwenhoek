@@ -6,6 +6,7 @@
       <Button title="退出" titleFontSize="30"/>
     </component>
     <text id="n2_y8ni" name="title" xy="397,97" pivot="0.5,0.5" anchor="true" size="162,44" font="ui://z7qisvfxlzh27" fontSize="26" color="#ffffff" align="center" vAlign="middle" autoSize="none" text="警戒敌人"/>
+    <text id="n16_nki0" name="title2" xy="397,127" pivot="0.5,0.5" anchor="true" size="104,29" font="ui://z7qisvfxlzh27" fontSize="20" color="#ffffff" align="center" vAlign="middle" text="移动望远镜"/>
     <loader id="n3_y8ni" name="StartPoint" xy="130,300" pivot="0.5,0.5" anchor="true" size="574,574" scale="0.1,0.1" url="ui://djj8vne8dr9x14" autoSize="true"/>
     <loader id="n5_y8ni" name="EndPoint" xy="673,300" pivot="0.5,0.5" anchor="true" size="574,574" scale="0.1,0.1" url="ui://djj8vne8dr9x14" autoSize="true"/>
     <graph id="n10_y8ni" name="line" xy="400,300" pivot="0.5,0.5" anchor="true" size="474,12" type="rect" lineSize="0" fillColor="#ff999999"/>

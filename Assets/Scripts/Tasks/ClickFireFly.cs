@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using BestHTTP.SecureProtocol.Org.BouncyCastle.Asn1.X509;
 using FairyGUI;
+using Manager;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -105,6 +106,29 @@ namespace Tasks
         {
             _successText.visible = true;
             _successTextBg.visible = true;
+        }
+
+        public override void EndTask()
+        {
+            if (isSuccess)
+            {
+                MyGameNetWorkManager.Instance.AddGameProgress(addProgress);
+                TaskWindow.Hide();
+                _spriteRenderer.color = Color.white;
+                MyGameManager.Instance.localPlayerController.nowTask = null;
+                _gameUIPanel.ChangeTaskButtonVisible(false);
+            }
+            else
+            {
+                if (_createFireFlyCoroutine != null)
+                {
+                    StopCoroutine(_createFireFlyCoroutine);
+                    _createFireFlyCoroutine = null;
+                }
+                TaskWindow.Hide();
+            }
+
+            MyGameManager.Instance.localPlayerController.OnEnable();
         }
     }
 }

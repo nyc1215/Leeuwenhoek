@@ -183,6 +183,7 @@ namespace Manager
             if (IsServer || IsHost)
             {
                 GameIsEnd.Value = isEnd;
+                NetLobbyPlayersCharacterStates.Clear();
             }
         }
 
@@ -383,8 +384,9 @@ namespace Manager
         private void KickPlayerClientRpc(FixedString32Bytes playerName)
         {
             foreach (var playerController in MyGameManager.Instance.allPlayers.Where(
-                         playerController => playerController.playerAccountName.Contains($"({playerName.ToString()})") &&
-                                             !playerController.isDead && !playerController.isKicked))
+                         playerController =>
+                             playerController.playerAccountName.Contains($"({playerName.ToString()})") &&
+                             !playerController.isDead && !playerController.isKicked))
             {
                 Debug.Log($"{playerController.playerAccountName} kicked");
                 playerController.BeKick();
@@ -436,7 +438,8 @@ namespace Manager
         {
             if (IsServer || IsHost)
             {
-                foreach (var playerController in MyGameManager.Instance.allPlayers.Where(playerController => playerController != null))
+                foreach (var playerController in MyGameManager.Instance.allPlayers.Where(playerController =>
+                             playerController != null))
                 {
                     playerController.OnDisable();
                     if (playerController.gameObject != null)
@@ -538,7 +541,8 @@ namespace Manager
         public bool IsKicked;
 
 
-        public LobbyPlayerCharacterState(FixedString32Bytes accountName, Characters characterToChoose, int vote = 0, bool isDead = false, bool isTalking = false, bool isKicked = false)
+        public LobbyPlayerCharacterState(FixedString32Bytes accountName, Characters characterToChoose, int vote = 0,
+            bool isDead = false, bool isTalking = false, bool isKicked = false)
         {
             AccountName = accountName;
             CharacterToChoose = characterToChoose;

@@ -156,6 +156,8 @@ namespace Manager
             {
                 Debug.LogWarning("Please fill in your appId in Canvas!!!!!");
             }
+
+            allTime = 1200;
         }
 
         private void Update()

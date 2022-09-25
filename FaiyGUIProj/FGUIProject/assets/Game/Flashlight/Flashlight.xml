@@ -6,6 +6,7 @@
       <Button title="退出" titleFontSize="30"/>
     </component>
     <text id="n2_guyd" name="title" xy="400,92" pivot="0.5,0.5" anchor="true" size="162,44" font="ui://z7qisvfxlzh27" fontSize="26" color="#ffffff" align="center" vAlign="middle" autoSize="none" text="点亮手电筒"/>
+    <text id="n10_nki0" name="title2" xy="400,125" pivot="0.5,0.5" anchor="true" size="84,29" font="ui://z7qisvfxlzh27" fontSize="20" color="#ffffff" align="center" vAlign="middle" text="拖拽电池"/>
     <image id="n4_guyd" name="Img_Flashlight" src="dr9x1c" fileName="Flashlight/手电筒.png" xy="400,300" pivot="0.5,0.5" anchor="true" size="230,293"/>
     <loader id="n7_guyd" name="battery1" xy="90,146" pivot="0.5,0.5" anchor="true" size="152,152" scale="0.5,0.5" url="ui://djj8vne8guydl" autoSize="true"/>
     <loader id="n8_guyd" name="battery2" xy="695,198" pivot="0.5,0.5" anchor="true" size="152,152" scale="0.5,0.5" url="ui://djj8vne8guydl" autoSize="true"/>

@@ -15,6 +15,8 @@ namespace Manager
 
         public int changeTaskSecond;
 
+        private Coroutine _changeTaskCoroutine;
+
         private WaitForSeconds _changeTaskWaitForSeconds;
 
         #region MonoBehavior
@@ -32,13 +34,13 @@ namespace Manager
                 transform.SetParent(null);
                 DontDestroyOnLoad(gameObject);
             }
-
-            _changeTaskWaitForSeconds = new WaitForSeconds(changeTaskSecond);
         }
 
         private void Start()
         {
-            StartCoroutine(TaskRandomOpen());
+            changeTaskSecond = 45;
+            _changeTaskWaitForSeconds = new WaitForSeconds(changeTaskSecond);
+            _changeTaskCoroutine ??= StartCoroutine(TaskRandomOpen());
         }
 
         private IEnumerator TaskRandomOpen()
@@ -51,6 +53,7 @@ namespace Manager
                     {
                         taskUtil.EndTask();
                     }
+
                     taskUtil.gameObject.SetActive(false);
                 }
 
