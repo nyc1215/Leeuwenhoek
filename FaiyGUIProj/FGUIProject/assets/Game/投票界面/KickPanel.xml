@@ -17,7 +17,7 @@
       <Button title="按住语音"/>
     </component>
     <component id="n6_dr9x" name="Button_AbandonVote" src="e0xw3" fileName="ButtonCom.xml" pkg="z7qisvfx" xy="410,969" size="198,70">
-      <Button title="放弃投票"/>
+      <Button title="取消投票"/>
     </component>
     <text id="n7_lvxa" name="Text_selectWho" xy="626,111" pivot="0.5,0.5" anchor="true" size="10,54" font="ui://z7qisvfxlzh25" fontSize="40" color="#ffffff" align="center" vAlign="middle" vars="true" text=""/>
   </displayList>

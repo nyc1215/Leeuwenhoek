@@ -5,27 +5,27 @@
     <text id="n1_lzh2" name="n1" xy="960,120" pivot="0.5,0.5" anchor="true" size="604,79" font="ui://z7qisvfxlzh27" fontSize="60" color="#ffffff" text="本次任务的队员有……">
       <relation target="" sidePair="center-center,top-top"/>
     </text>
-    <text id="n2_lzh2" name="Text_luowei" xy="470,345" pivot="0.5,0.5" anchor="true" size="124,79" customData="洛维" font="ui://z7qisvfxlzh27" fontSize="60" color="#ffffff" vars="true" text="洛维{account=}"/>
-    <text id="n4_lzh2" name="Text_yang" xy="470,600" pivot="0.5,0.5" anchor="true" size="64,79" customData="杨" font="ui://z7qisvfxlzh27" fontSize="60" color="#ffffff" vars="true" text="扬{account=}"/>
-    <text id="n6_lzh2" name="Text_polo" xy="470,870" pivot="0.5,0.5" anchor="true" size="124,79" customData="保罗" font="ui://z7qisvfxlzh27" fontSize="60" color="#ffffff" vars="true" text="保罗{account=}"/>
+    <text id="n2_lzh2" name="Text_luowei" xy="400,345" pivot="0.5,0.5" anchor="true" size="330,79" customData="洛维" font="ui://z7qisvfxlzh27" fontSize="60" color="#ffffff" align="center" vAlign="middle" vars="true" autoSize="height" text="洛维{account=}"/>
+    <text id="n4_lzh2" name="Text_yang" xy="400,600" pivot="0.5,0.5" anchor="true" size="330,79" customData="杨" font="ui://z7qisvfxlzh27" fontSize="60" color="#ffffff" align="center" vAlign="middle" vars="true" autoSize="height" text="扬{account=}"/>
+    <text id="n6_lzh2" name="Text_polo" xy="400,863" pivot="0.5,0.5" anchor="true" size="330,79" customData="保罗" font="ui://z7qisvfxlzh27" fontSize="60" color="#ffffff" align="center" vAlign="middle" vars="true" autoSize="height" text="保罗{account=}"/>
     <image id="n8_lzh2" name="n8" src="dr9xx" fileName="选角色图片/18.png" xy="700,345" pivot="0.5,0.5" anchor="true" size="236,183"/>
     <image id="n9_lzh2" name="n9" src="dr9xx" fileName="选角色图片/18.png" xy="700,600" pivot="0.5,0.5" anchor="true" size="236,183"/>
     <image id="n10_lzh2" name="n10" src="dr9xx" fileName="选角色图片/18.png" xy="700,870" pivot="0.5,0.5" anchor="true" size="236,183"/>
-    <text id="n14_lzh2" name="Text_xiaoan" xy="1450,345" pivot="0.5,0.5" anchor="true" size="124,79" customData="小安" font="ui://z7qisvfxlzh27" fontSize="60" color="#ffffff" vars="true" text="小安{account=}"/>
-    <text id="n15_lzh2" name="Text_lily" xy="1450,600" pivot="0.5,0.5" anchor="true" size="124,79" customData="丽莉" font="ui://z7qisvfxlzh27" fontSize="60" color="#ffffff" vars="true" text="丽莉{account=}"/>
-    <text id="n16_lzh2" name="Text_xuela" xy="1450,870" pivot="0.5,0.5" anchor="true" size="124,79" customData="雪拉" font="ui://z7qisvfxlzh27" fontSize="60" color="#ffffff" vars="true" text="雪拉{account=}"/>
-    <image id="n17_lzh2" name="n17" src="dr9xx" fileName="选角色图片/18.png" xy="1220,345" pivot="0.5,0.5" anchor="true" size="236,183"/>
-    <image id="n18_lzh2" name="n18" src="dr9xx" fileName="选角色图片/18.png" xy="1220,600" pivot="0.5,0.5" anchor="true" size="236,183"/>
-    <image id="n19_lzh2" name="n19" src="dr9xx" fileName="选角色图片/18.png" xy="1220,870" pivot="0.5,0.5" anchor="true" size="236,183"/>
+    <text id="n14_lzh2" name="Text_xiaoan" xy="1485,345" pivot="0.5,0.5" anchor="true" size="330,79" customData="小安" font="ui://z7qisvfxlzh27" fontSize="60" color="#ffffff" align="center" vAlign="middle" vars="true" autoSize="height" text="小安{account=}"/>
+    <text id="n15_lzh2" name="Text_lily" xy="1485,600" pivot="0.5,0.5" anchor="true" size="330,79" customData="丽莉" font="ui://z7qisvfxlzh27" fontSize="60" color="#ffffff" align="center" vAlign="middle" vars="true" autoSize="height" text="丽莉{account=}"/>
+    <text id="n16_lzh2" name="Text_xuela" xy="1485,870" pivot="0.5,0.5" anchor="true" size="330,79" customData="雪拉" font="ui://z7qisvfxlzh27" fontSize="60" color="#ffffff" align="center" vAlign="middle" vars="true" autoSize="height" text="雪拉{account=}"/>
+    <image id="n17_lzh2" name="n17" src="dr9xx" fileName="选角色图片/18.png" xy="1174,345" pivot="0.5,0.5" anchor="true" size="236,183"/>
+    <image id="n18_lzh2" name="n18" src="dr9xx" fileName="选角色图片/18.png" xy="1174,600" pivot="0.5,0.5" anchor="true" size="236,183"/>
+    <image id="n19_lzh2" name="n19" src="dr9xx" fileName="选角色图片/18.png" xy="1174,870" pivot="0.5,0.5" anchor="true" size="236,183"/>
     <component id="n20_hqoz" name="Button_Continue" src="e0xw3" fileName="ButtonCom.xml" pkg="z7qisvfx" xy="1700,100" size="137,61" visible="false">
       <relation target="" sidePair="right-right,top-top"/>
       <Button title="确定"/>
     </component>
     <loader id="n21_di36" name="Button_polo" xy="700,869" pivot="0.5,0.5" anchor="true" size="184,179" url="ui://o5dbpgr6di36y" fill="scale"/>
-    <loader id="n22_di36" name="Button_xuela" xy="1220,870" pivot="0.5,0.5" anchor="true" size="184,179" url="ui://o5dbpgr6di3610" fill="scale"/>
-    <loader id="n24_di36" name="Button_xiaoan" xy="1220,345" pivot="0.5,0.5" anchor="true" size="184,179" url="ui://o5dbpgr6di36z" fill="scale"/>
+    <loader id="n22_di36" name="Button_xuela" xy="1175,870" pivot="0.5,0.5" anchor="true" size="184,179" url="ui://o5dbpgr6di3610" fill="scale"/>
+    <loader id="n24_di36" name="Button_xiaoan" xy="1175,345" pivot="0.5,0.5" anchor="true" size="184,179" url="ui://o5dbpgr6di36z" fill="scale"/>
     <loader id="n25_di36" name="Button_luowei" xy="700,345" pivot="0.5,0.5" anchor="true" size="184,179" url="ui://o5dbpgr6rqoe12" fill="scale"/>
     <loader id="n26_di36" name="Button_yang" xy="700,600" pivot="0.5,0.5" anchor="true" size="184,179" url="ui://o5dbpgr6rqoe13" fill="scale"/>
-    <loader id="n27_di36" name="Button_lily" xy="1220,600" pivot="0.5,0.5" anchor="true" size="184,179" url="ui://o5dbpgr6rqoe11" fill="scale"/>
+    <loader id="n27_di36" name="Button_lily" xy="1175,600" pivot="0.5,0.5" anchor="true" size="184,179" url="ui://o5dbpgr6rqoe11" fill="scale"/>
   </displayList>
 </component>

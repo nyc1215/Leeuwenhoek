@@ -71,11 +71,15 @@ namespace Manager
 
         [Header("UI跳转信息存储")] public UIJumpData uiJumpData;
 
+        //安卓后台暂停时间计算
+        private int _gamePauseTime;
+        private int _startPauseTime;
+
         #endregion
 
         #region 玩家相关变量
 
-        public LocalPlayerInfo LocalPlayerInfo = new("", "", "", "剧本杀", false);
+        public LocalPlayerInfo LocalPlayerInfo;
         public PlayerListData PlayerListData;
         public MyPlayerController localPlayerController;
         public MyPlayerNetwork localPlayerNetwork;
@@ -138,7 +142,7 @@ namespace Manager
         {
             base.Awake();
 
-            Debug.unityLogger.logEnabled = true;
+            Debug.unityLogger.logEnabled = false;
         }
 
         private void Start()
@@ -158,6 +162,7 @@ namespace Manager
             }
 
             allTime = 1200;
+            LocalPlayerInfo = new LocalPlayerInfo("", "", "", "剧本杀", false);
         }
 
         private void Update()
@@ -177,6 +182,24 @@ namespace Manager
                 MyGameNetWorkManager.Instance.CommitGameEndServerRpc(true);
             }
         }
+
+#if UNITY_ANDROID
+        private void OnApplicationPause(bool isPause)
+        {
+            if (isPause)
+            {
+                _startPauseTime = ((int)Time.realtimeSinceStartup);
+            }
+            else
+            {
+                _gamePauseTime = ((int)Time.realtimeSinceStartup) - _startPauseTime;
+                if (CompareScene(uiJumpData.gameMenu))
+                {
+                    allTime -= _gamePauseTime;
+                }
+            }
+        }
+#endif
 
         #endregion
 

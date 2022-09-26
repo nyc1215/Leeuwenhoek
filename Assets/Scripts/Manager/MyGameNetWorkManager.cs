@@ -402,7 +402,7 @@ namespace Manager
                 voteList.Add(NetLobbyPlayersCharacterStates[i].Vote);
             }
 
-            if (voteList.Count == 0)
+            if (voteList.Count <= 1)
             {
                 whoWillBeKicked.Value = -1;
                 return;
@@ -410,7 +410,14 @@ namespace Manager
 
             var voteListSorted = new List<int>(voteList);
             voteListSorted.Sort((x, y) => -x.CompareTo(y));
-            if (voteListSorted.First() == voteListSorted.Last())
+            
+            if (voteListSorted.Count <= 1)
+            {
+                whoWillBeKicked.Value = -1;
+                return;
+            }
+            
+            if (voteListSorted[0] == voteListSorted[1])
             {
                 whoWillBeKicked.Value = -1;
                 return;
