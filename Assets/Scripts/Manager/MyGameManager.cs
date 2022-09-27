@@ -6,6 +6,7 @@ using MyWebSocket.Response;
 using Player;
 using UI.Util;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 #if UNITY_2018_3_OR_NEWER
 using UnityEngine.Android;
@@ -142,7 +143,8 @@ namespace Manager
         {
             base.Awake();
 
-            Debug.unityLogger.logEnabled = false;
+            Debug.unityLogger.logEnabled = true;
+            DebugManager.instance.enableRuntimeUI = false;
         }
 
         private void Start()
