@@ -364,7 +364,7 @@ MonoBehaviour:
   allPlayers: []
   allTime: 480
   whoIsImposter: 0
-  netOrLocal: 1
+  netOrLocal: 0
   isServer: 1
   serverIP: 127.0.0.1
   rtcAppId: 977d278672b24ea085b4caf9e8c1987c
