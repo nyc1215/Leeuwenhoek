@@ -142,7 +142,7 @@ namespace Manager
         {
             base.Awake();
 
-            Debug.unityLogger.logEnabled = true;
+            Debug.unityLogger.logEnabled = false;
         }
 
         private void Start()
