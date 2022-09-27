@@ -95,32 +95,32 @@ namespace UI.Room
                         case Characters.Lily:
                             _textLily.color = Color.green;
                             _nowCharacterName = _textLily.data.ToString();
-                            nowPlayerNetwork.CommitSpriteColorServerRpc(new Color(255, 74, 74));
+                            nowPlayerNetwork.CommitSpriteColorServerRpc(new Color(255 / 255f, 74 / 255f, 74 / 255f));
                             break;
                         case Characters.Polo:
                             _textPolo.color = Color.green;
                             _nowCharacterName = _textPolo.data.ToString();
-                            nowPlayerNetwork.CommitSpriteColorServerRpc(new Color(255, 230, 74));
+                            nowPlayerNetwork.CommitSpriteColorServerRpc(new Color(255 / 255f, 230 / 255f, 74 / 255f));
                             break;
                         case Characters.Xuela:
                             _textXuela.color = Color.green;
                             _nowCharacterName = _textXuela.data.ToString();
-                            nowPlayerNetwork.CommitSpriteColorServerRpc(new Color(74, 183, 255));
+                            nowPlayerNetwork.CommitSpriteColorServerRpc(new Color(74 / 255f, 183 / 255f, 255 / 255f));
                             break;
                         case Characters.Yang:
                             _textYang.color = Color.green;
                             _nowCharacterName = _textYang.data.ToString();
-                            nowPlayerNetwork.CommitSpriteColorServerRpc(new Color(255, 119, 0));
+                            nowPlayerNetwork.CommitSpriteColorServerRpc(new Color(255 / 255f, 119 / 255f, 0));
                             break;
                         case Characters.LuoWei:
                             _textLuowei.color = Color.green;
                             _nowCharacterName = _textLuowei.data.ToString();
-                            nowPlayerNetwork.CommitSpriteColorServerRpc(new Color(27, 192, 25));
+                            nowPlayerNetwork.CommitSpriteColorServerRpc(new Color(27 / 255f, 192 / 255f, 25 / 255f));
                             break;
                         case Characters.XiaoAn:
                             _textXiaoan.color = Color.green;
                             _nowCharacterName = _textXiaoan.data.ToString();
-                            nowPlayerNetwork.CommitSpriteColorServerRpc(new Color(255, 93, 187));
+                            nowPlayerNetwork.CommitSpriteColorServerRpc(new Color(255 / 255f, 93 / 255f, 187 / 255f));
                             break;
                         case Characters.None:
                         default:

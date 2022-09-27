@@ -142,7 +142,7 @@ namespace Manager
         {
             base.Awake();
 
-            Debug.unityLogger.logEnabled = false;
+            Debug.unityLogger.logEnabled = true;
         }
 
         private void Start()
@@ -161,7 +161,7 @@ namespace Manager
                 Debug.LogWarning("Please fill in your appId in Canvas!!!!!");
             }
 
-            allTime = 1200;
+            allTime = 480;
             LocalPlayerInfo = new LocalPlayerInfo("", "", "", "剧本杀", false);
         }
 

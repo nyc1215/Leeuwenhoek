@@ -97,10 +97,14 @@ namespace Player
         private void Awake()
         {
             _spriteTransform = transform.GetChild(0);
-            _netSpriteColor.OnValueChanged += (_, newValue) => { playerPartSpriteRenderer.color = newValue; };
-            _netTopTextColor.OnValueChanged += (_, newValue) => { playerTopText.color = newValue; };
-            NetTopText.OnValueChanged += (_, newValue) => { playerTopText.text = newValue.ToString(); };
-            _networkShowVoiceIcon.OnValueChanged += (_, newValue) => { playerVoiceIcon.color = newValue ? Color.white : Color.clear; };
+            _netSpriteColor.OnValueChanged += (oldValue, newValue) =>
+            {
+                playerPartSpriteRenderer.color = newValue;
+                Debug.Log($"newValue color : {newValue}");
+            };
+            _netTopTextColor.OnValueChanged += (oldValue, newValue) => { playerTopText.color = newValue; };
+            NetTopText.OnValueChanged += (oldValue, newValue) => { playerTopText.text = newValue.ToString(); };
+            _networkShowVoiceIcon.OnValueChanged += (oldValue, newValue) => { playerVoiceIcon.color = newValue ? Color.white : Color.clear; };
         }
 
         public override void OnDestroy()
@@ -124,6 +128,8 @@ namespace Player
             {
                 _spriteTransform.localScale = _netSpriteScale.Value.spriteScale;
             }
+
+            playerPartSpriteRenderer.color = _netSpriteColor.Value;
         }
 
         #endregion
