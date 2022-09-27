@@ -34,7 +34,7 @@ namespace Player
         }
 
         [ServerRpc]
-        private void CommitTopTextColorServerRpc(Color color)
+        public void CommitTopTextColorServerRpc(Color color)
         {
             _netTopTextColor.Value = color;
         }

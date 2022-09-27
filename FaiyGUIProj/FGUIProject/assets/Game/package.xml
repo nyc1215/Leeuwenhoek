@@ -35,6 +35,8 @@
     <image id="dr9x1a" name="瞄准.png" path="/TelescopicSight/"/>
     <image id="dr9x1c" name="手电筒.png" path="/Flashlight/" scale9grid="0,0,-881,-263"/>
     <component id="oajo1d" name="Story.xml" path="/Story/" exported="true"/>
+    <component id="u6lw1e" name="Tip.xml" path="/" exported="true"/>
+    <image id="u6lw1f" name="弹出面板背景.png" path="/图片/" scale9grid="0,0,-778,-1253"/>
   </resources>
   <publish name=""/>
 </packageDescription>

@@ -378,6 +378,12 @@ namespace Player
 
                     if (Physics.Raycast(ray, out var hit, 1000f, ~ignoreForHide))
                     {
+                        if (isDead || isKicked)
+                        {
+                            otherPlayerController.ChangeAllComponentsNeedToHide(true);
+                            return;
+                        }
+                        
                         if (otherPlayerController.isDead || otherPlayerController.isKicked)
                         {
                             otherPlayerController.ChangeAllComponentsNeedToHide(true);
@@ -481,13 +487,17 @@ namespace Player
             }
 
             isDead = true;
-            _collider.enabled = false;
+            _playerLight2D.shadowsEnabled = false;
+            //_collider.enabled = false;
 
             gameObject.layer = LayerMask.NameToLayer("Ghost") == -1 ? 9 : LayerMask.NameToLayer("Ghost");
 
-            var newColor = playerSpriteRenderer.color;
-            newColor = new Color(newColor.r, newColor.g, newColor.b, 0.5f);
-            playerSpriteRenderer.color = newColor;
+            if (IsOwner)
+            {
+                var newColor = playerSpriteRenderer.color;
+                MyGameManager.Instance.localPlayerNetwork.CommitSpriteColorServerRpc(new Color(newColor.r, newColor.g, newColor.b, 0.1f));
+                MyGameManager.Instance.localPlayerNetwork.CommitTopTextColorServerRpc(new Color(1f, 1f, 1f, 0f));
+            }
 
             if (IsOwner)
             {
@@ -507,6 +517,7 @@ namespace Player
                     $"{nowCharacterName}({MyGameManager.Instance.LocalPlayerInfo.AccountName})",
                     trans.position);
                 FindObjectOfType<GameUIPanel>().HideAllButtons();
+                FindObjectOfType<GameUIPanel>().GameTipPanel.Show("您已被信徒背叛");
             }
         }
 
@@ -574,21 +585,29 @@ namespace Player
             }
 
             isKicked = true;
-            _collider.enabled = false;
+            _playerLight2D.shadowsEnabled = false;
+            //_collider.enabled = false;
 
             gameObject.layer = LayerMask.NameToLayer("Ghost") == -1 ? 9 : LayerMask.NameToLayer("Ghost");
-            
+
             if (nowTask != null)
             {
                 nowTask.EndTask();
             }
 
-            var newColor = playerSpriteRenderer.color;
-            newColor = new Color(newColor.r, newColor.g, newColor.b, 0.5f);
-            playerSpriteRenderer.color = newColor;
+            if (IsOwner)
+            {
+                var newColor = playerSpriteRenderer.color;
+                MyGameManager.Instance.localPlayerNetwork.CommitSpriteColorServerRpc(new Color(newColor.r, newColor.g, newColor.b, 0.1f));
+                MyGameManager.Instance.localPlayerNetwork.CommitTopTextColorServerRpc(new Color(1f, 1f, 1f, 0f));
+            }
 
 
             FindObjectOfType<GameUIPanel>().HideAllButtons();
+            if (IsOwner)
+            {
+                FindObjectOfType<GameUIPanel>().GameTipPanel.Show(isImposter ? "任务失败" : "你已被队伍驱逐");
+            }
 
             if (!isImposter)
             {

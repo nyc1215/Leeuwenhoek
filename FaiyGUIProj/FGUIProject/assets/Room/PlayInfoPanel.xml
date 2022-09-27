@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="1920,1080">
+  <displayList>
+    <image id="n0_lzh2" name="BG" src="dr9xw" fileName="选角色图片/17.png" xy="0,0" size="1920,1080"/>
+    <text id="n28_u6lw" name="n28" xy="960,150" pivot="0.5,0.5" anchor="true" size="244,79" font="ui://z7qisvfxlzh27" fontSize="60" color="#ffffff" align="center" vAlign="middle" text="任务目标">
+      <relation target="" sidePair="center-center,top-top"/>
+    </text>
+    <component id="n29_u6lw" name="Button_Continue" src="e0xw3" fileName="ButtonCom.xml" pkg="z7qisvfx" xy="1700,100" size="137,61">
+      <relation target="" sidePair="right-right,top-top"/>
+      <Button title="确定"/>
+    </component>
+    <text id="n30_u6lw" name="infoImposter_Text" xy="960,600" pivot="0.5,0.5" anchor="true" size="1229,266" visible="false" font="ui://z7qisvfxlzh27" fontSize="60" color="#ffffff" vAlign="middle" autoSize="none" text="你的身份：侍从信徒&#xA;你的任务：破坏其他卫队队员完成任务，并尝试干掉他们！记住，隐藏身份，不要被发现！">
+      <relation target="" sidePair="center-center,top-top"/>
+    </text>
+    <text id="n1_lzh2" name="infoGood_Text" xy="960,600" pivot="0.5,0.5" anchor="true" size="1229,240" visible="false" font="ui://z7qisvfxlzh27" fontSize="60" color="#ffffff" vAlign="middle" autoSize="none" text="你的身份：卫队队员&#xA;你的任务：搜索地图完成任务，查找侍从背叛的证据，并找出潜伏的侍从信徒！">
+      <relation target="" sidePair="center-center,top-top"/>
+    </text>
+  </displayList>
+</component>

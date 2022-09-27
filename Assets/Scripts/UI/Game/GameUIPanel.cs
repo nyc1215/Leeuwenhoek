@@ -33,10 +33,12 @@ namespace UI.Game
         private GButton _storyButton;
         private GProgressBar _gameProgress;
         private GTextField _timer;
+        private GTextField _playerNum;
 
         private WaitForSeconds _waitForASecond;
 
         public KickUIPanel KickUIPanel;
+        public GameTipPanel GameTipPanel;
 
         protected override void Awake()
         {
@@ -54,16 +56,20 @@ namespace UI.Game
 
             _gameProgress = UIRoot.GetChild("ProgressBar_Game").asProgress;
             _timer = UIRoot.GetChild("Text_Timer").asTextField;
+            _playerNum = UIRoot.GetChild("Text_PlayerNum").asTextField;
             _waitForASecond = new WaitForSeconds(1);
 
             MyGameNetWorkManager.Instance.GameProgressBar = _gameProgress;
 
             KickUIPanel = new KickUIPanel();
+            GameTipPanel = new GameTipPanel();
         }
 
         private void Start()
         {
             _miniMapLoader.texture = new NTexture(miniMapRenderTexture);
+            SetPlayerNumText(MyGameManager.Instance.PlayerListData.PlayerList.Count);
+
             _reportButton.onClick.Add(MyGameManager.Instance.localPlayerController.Report);
             _killButton.onClick.Add(() =>
             {
@@ -202,6 +208,11 @@ namespace UI.Game
                     story.gameObject.SetActive(true);
                 }
             }
+        }
+
+        public void SetPlayerNumText(int num)
+        {
+            _playerNum.SetVar("num", num.ToString()).FlushVars();
         }
     }
 }

@@ -37,5 +37,8 @@
       <relation target="" sidePair="left-left"/>
       <Button title="读取数据"/>
     </component>
+    <text id="n16_u6lw" name="Text_PlayerNum" xy="1333,75" pivot="0.5,0.5" anchor="true" size="240,54" font="ui://z7qisvfxlzh27" fontSize="40" color="#ffffff" vars="true" text="剩余人数：{num=6}">
+      <relation target="" sidePair="center-center,top-top"/>
+    </text>
   </displayList>
 </component>

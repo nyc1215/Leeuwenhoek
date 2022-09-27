@@ -11,6 +11,12 @@ namespace UI.Room
     {
         private readonly GComponent _characterCom;
         private readonly GComponent _uiRoot;
+        
+        private readonly GComponent _playerInfoCom;
+        private GButton _playerInfoComButton;
+        private GTextField _playerGoodInfoText;
+        private GTextField _playerImposterInfoText;
+
 
         private GLoader _buttonLuowei;
         private GLoader _buttonYang;
@@ -64,12 +70,35 @@ namespace UI.Room
                     .CommitTopTextServerRpc(
                         $"{_nowCharacterName}({MyGameManager.Instance.LocalPlayerInfo.AccountName})");
                 _characterCom.visible = false;
+                ShowPlayerInfoCom();
             });
+            
+            _playerInfoCom = UIPackage.CreateObject("Room", "PlayInfoPanel").asCom;
+            _playerInfoComButton = _playerInfoCom.GetChild("Button_Continue").asButton;
+            _playerInfoComButton.onClick.Add(() =>
+            {
+                _playerInfoCom.visible = false;
+            });
+            _playerGoodInfoText = _playerInfoCom.GetChild("infoGood_Text").asTextField;
+            _playerImposterInfoText = _playerInfoCom.GetChild("infoImposter_Text").asTextField;
         }
 
         public void Show()
         {
             _uiRoot.AddChild(_characterCom);
+        }
+
+        private void ShowPlayerInfoCom()
+        {
+            _uiRoot.AddChild(_playerInfoCom);
+            if (MyGameManager.Instance.localPlayerController.isImposter)
+            {
+                _playerImposterInfoText.visible = true;
+            }
+            else
+            {
+                _playerGoodInfoText.visible = true;
+            }
         }
 
         private static void ChooseCharacter(Characters character)

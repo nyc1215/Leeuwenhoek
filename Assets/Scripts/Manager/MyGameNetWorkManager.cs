@@ -108,6 +108,7 @@ namespace Manager
             {
                 if (MyGameManager.CompareScene(MyGameManager.Instance.uiJumpData.gameMenu))
                 {
+                    FindObjectOfType<GameUIPanel>().SetPlayerNumText(newValue + 1);
                     if (newValue <= 0)
                     {
                         CommitImposterWinServerRpc(true);
@@ -411,13 +412,13 @@ namespace Manager
 
             var voteListSorted = new List<int>(voteList);
             voteListSorted.Sort((x, y) => -x.CompareTo(y));
-            
+
             if (voteListSorted.Count <= 1)
             {
                 whoWillBeKicked.Value = -1;
                 return;
             }
-            
+
             if (voteListSorted[0] == voteListSorted[1])
             {
                 whoWillBeKicked.Value = -1;
