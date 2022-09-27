@@ -20,6 +20,7 @@ namespace UI.End
         private GTextField _storyTextField;
         private GButton _closeStory;
 
+        private GTextField _endWhoWinText;
         private int _endStoryIndex;
         private int _endStoryTotalNum;
         private List<string> _nowStoryList;
@@ -31,6 +32,7 @@ namespace UI.End
             _storyCom = UIRoot.AddChild(UIPackage.CreateObject("End", "EndStoryPanel")).asCom;
             _storyTextField = _storyCom.GetChild("Text_Letter").asTextField;
             _closeStory = _storyCom.GetChild("Button_Back").asButton;
+            _endWhoWinText = UIRoot.GetChild("title2").asTextField;
 
             _quitButton = GetButton("Button_Back");
 
@@ -40,6 +42,15 @@ namespace UI.End
 
         private void Start()
         {
+            if (MyGameNetWorkManager.Instance.NetGoodIsWin.Value)
+            {
+                _endWhoWinText.text = "任务完成";
+            }
+            else if (MyGameNetWorkManager.Instance.NetImposterIsWin.Value)
+            {
+                _endWhoWinText.text = "任务失败";
+            }
+            
             _quitButton.onClick.Add(() =>
             {
                 NetworkManager.Singleton.Shutdown();

@@ -47,7 +47,6 @@ namespace Tasks
                 gameObjectName = "UIPanel"
             };
             TaskWindow.closeButton.onClick.Add(EndTask);
-            isSuccess = false;
         }
 
         private void Start()

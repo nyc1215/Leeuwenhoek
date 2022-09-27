@@ -5,6 +5,9 @@
     <text id="n1_s5wk" name="title" xy="944,540" pivot="0.5,0.5" anchor="true" size="412,132" font="ui://z7qisvfxlzh27" fontSize="102" color="#ffffff" align="center" vAlign="middle" text="游戏结束">
       <relation target="" sidePair="center-center,middle-middle"/>
     </text>
+    <text id="n4_ko78" name="title2" xy="945,238" pivot="0.5,0.5" anchor="true" size="339,132" font="ui://z7qisvfxlzh27" fontSize="102" color="#ffffff" align="center" vAlign="middle" text="TEXT">
+      <relation target="" sidePair="center-center,middle-middle"/>
+    </text>
     <component id="n2_s5wk" name="Button_Back" src="e0xw3" fileName="ButtonCom.xml" pkg="z7qisvfx" xy="960,940" pivot="0.5,0.5" anchor="true" size="240,106" aspect="true">
       <relation target="" sidePair="center-center,bottom-bottom"/>
       <Button title="回到主界面"/>

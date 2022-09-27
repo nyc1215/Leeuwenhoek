@@ -39,8 +39,8 @@ namespace Manager
 
         private readonly NetworkVariable<bool> _netIsAlreadyChooseImposter = new();
         public readonly NetworkVariable<int> NetGoodPlayerNum = new();
-        private readonly NetworkVariable<bool> _netImposterIsWin = new();
-        private readonly NetworkVariable<bool> _netGoodIsWin = new();
+        public readonly NetworkVariable<bool> NetImposterIsWin = new();
+        public readonly NetworkVariable<bool> NetGoodIsWin = new();
         private readonly NetworkVariable<FixedString32Bytes> _netImposterName = new();
         private NetworkList<ulong> _netBodyId;
 
@@ -94,6 +94,7 @@ namespace Manager
 
                 if (newValue >= 100)
                 {
+                    CommitGoodPlayerWinServerRpc(true);
                     CommitGameEndServerRpc(true);
                 }
             };
@@ -102,7 +103,7 @@ namespace Manager
             NetLobbyPlayersCharacterStates.OnListChanged += OnLobbyPlayerStateChanged;
             _netIsAlreadyChooseImposter.Value = false;
             NetGoodPlayerNum.Value = 0;
-            _netImposterIsWin.Value = false;
+            NetImposterIsWin.Value = false;
             NetGoodPlayerNum.OnValueChanged += (_, newValue) =>
             {
                 if (MyGameManager.CompareScene(MyGameManager.Instance.uiJumpData.gameMenu))
@@ -192,7 +193,7 @@ namespace Manager
         {
             if (IsServer || IsHost)
             {
-                _netImposterIsWin.Value = isImposterWin;
+                NetImposterIsWin.Value = isImposterWin;
             }
         }
 
@@ -201,7 +202,7 @@ namespace Manager
         {
             if (IsServer || IsHost)
             {
-                _netGoodIsWin.Value = isWin;
+                NetGoodIsWin.Value = isWin;
             }
         }
 

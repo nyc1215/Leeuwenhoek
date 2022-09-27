@@ -2,7 +2,6 @@
 <packageDescription id="o5dbpgr6">
   <resources>
     <component id="lxz00" name="Room.xml" path="/" exported="true"/>
-    <component id="lxz01" name="PlayerListItem.xml" path="/" exported="true"/>
     <image id="s5wk2" name="序章剧本3.png" path="/剧情图片/" exported="true"/>
     <image id="s5wk3" name="序章剧本1.png" path="/剧情图片/" exported="true"/>
     <image id="s5wk4" name="序章剧本2.png" path="/剧情图片/" exported="true"/>
@@ -16,6 +15,7 @@
     <image id="rqoe12" name="weinuo.png" path="/选角色图片/角色头像/" exported="true"/>
     <image id="rqoe13" name="yang.png" path="/选角色图片/角色头像/" exported="true"/>
     <component id="rcy92" name="StoryPanel.xml" path="/" exported="true"/>
+    <component id="u6lw14" name="PlayInfoPanel.xml" path="/" exported="true"/>
   </resources>
   <publish name=""/>
 </packageDescription>

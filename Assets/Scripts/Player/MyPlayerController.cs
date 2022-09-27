@@ -497,6 +497,11 @@ namespace Player
                         MyGameNetWorkManager.Instance.NetGoodPlayerNum.Value - 1);
                 }
 
+                if (nowTask != null)
+                {
+                    nowTask.EndTask();
+                }
+
                 var trans = transform;
                 SpawnPlayerBodyServerRpc(nowCharacter,
                     $"{nowCharacterName}({MyGameManager.Instance.LocalPlayerInfo.AccountName})",
@@ -572,6 +577,11 @@ namespace Player
             _collider.enabled = false;
 
             gameObject.layer = LayerMask.NameToLayer("Ghost") == -1 ? 9 : LayerMask.NameToLayer("Ghost");
+            
+            if (nowTask != null)
+            {
+                nowTask.EndTask();
+            }
 
             var newColor = playerSpriteRenderer.color;
             newColor = new Color(newColor.r, newColor.g, newColor.b, 0.5f);
